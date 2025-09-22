@@ -8,8 +8,15 @@ import LineTitle from "@/components/modules/p-admin/LineTitle";
 import { apiRequest } from "@/libs/api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
+import dynamic from "next/dynamic";
+
+const CKEditor = dynamic(
+  () => import("@ckeditor/ckeditor5-react").then((mod) => mod.CKEditor),
+  { ssr: false }
+);
+
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+
 import { FaTimes } from "react-icons/fa";
 import CustomUploadAdapterPlugin from "@/components/Ui/Modals/p-admin/blog/CustomUploadAdapterPlugin";
 import CategoryDropdown from "@/components/Ui/Modals/p-admin/blog/CategoryDropDown";
@@ -130,68 +137,67 @@ export default function EditBlogDetailPage() {
     JSON.stringify({ ...formData, image: null }) !==
       JSON.stringify({ ...initialData, image: null });
 
- const handleSave = async () => {
-  if (!isFormValid || !isDirty || isPending) return;
-  setIsPending(true);
+  const handleSave = async () => {
+    if (!isFormValid || !isDirty || isPending) return;
+    setIsPending(true);
 
-  const url = `${process.env.NEXT_PUBLIC_API_URL}/v1/admin/updateBlogs/${blogId}`;
-  const body = new FormData();
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/v1/admin/updateBlogs/${blogId}`;
+    const body = new FormData();
 
-  const fields: (keyof BlogData)[] = [
-    "title",
-    "short_description",
-    "references",
-    "author",
-    "blog_category_id",
-    "long_description",
-  ];
+    const fields: (keyof BlogData)[] = [
+      "title",
+      "short_description",
+      "references",
+      "author",
+      "blog_category_id",
+      "long_description",
+    ];
 
-  fields.forEach((field) => {
-    if (formData[field] !== initialData?.[field]) {
-      body.append(field, formData[field] as string);
-    }
-  });
-
-  if (formData.image && formData.image !== initialData?.image) {
-    body.append("image", formData.image as File);
-  }
-
-  const initialTags = initialData?.tags || [];
-  if (JSON.stringify(formData.tags) !== JSON.stringify(initialTags)) {
-    formData.tags.forEach((tag, index) => body.append(`tags[${index}]`, tag));
-  }
-
-  const token = loadEncryptedData()?.token;
-
-  try {
-    const response = await apiRequest<any>(url, "POST", body, {
-      Authorization: `Bearer ${token}`,
+    fields.forEach((field) => {
+      if (formData[field] !== initialData?.[field]) {
+        body.append(field, formData[field] as string);
+      }
     });
 
-    if (response.success) {
-      toast.success(response.message || "Blog updated successfully ✅", {
-        position: "top-right",
-      });
-      setInitialData(formData);
-    } else {
-      toast.error(`Error: ${response.error?.message}`, {
-        position: "top-right",
-      });
+    if (formData.image && formData.image !== initialData?.image) {
+      body.append("image", formData.image as File);
     }
-  } catch (error: any) {
-    toast.error(`Request failed: ${error.message}`, {
-      position: "top-right",
-    });
-  } finally {
-    setIsPending(false);
-  }
-};
 
+    const initialTags = initialData?.tags || [];
+    if (JSON.stringify(formData.tags) !== JSON.stringify(initialTags)) {
+      formData.tags.forEach((tag, index) => body.append(`tags[${index}]`, tag));
+    }
+
+    const token = loadEncryptedData()?.token;
+
+    try {
+      const response = await apiRequest<any>(url, "POST", body, {
+        Authorization: `Bearer ${token}`,
+      });
+
+      if (response.success) {
+        toast.success(response.message || "Blog updated successfully ✅", {
+          position: "top-right",
+        });
+        setInitialData(formData);
+      } else {
+        toast.error(`Error: ${response.error?.message}`, {
+          position: "top-right",
+        });
+      }
+    } catch (error: any) {
+      toast.error(`Request failed: ${error.message}`, {
+        position: "top-right",
+      });
+    } finally {
+      setIsPending(false);
+    }
+  };
 
   const formattedDescription = formData?.long_description.replace(
-  /src="\/uploads\/([^"]+)"/g,
-  `src="${process.env.NEXT_PUBLIC_API_URL_STORAGE}/$1"`
-);
+    /src="\/uploads\/([^"]+)"/g,
+    `src="${process.env.NEXT_PUBLIC_API_URL_STORAGE}/$1"`
+  );
 
   if (loading) return <EditBlogSkeleton />;
 
@@ -342,13 +348,18 @@ export default function EditBlogDetailPage() {
               },
               mediaEmbed: { previewsInData: true },
             }}
-            onChange={(_, editor) =>
-            {
-
-              handleChange("long_description", editor.getData())
-            }
-            }
+            onChange={(_, editor) => {
+              handleChange("long_description", editor.getData());
+            }}
           />
+          {/* <textarea
+            name=""
+            id=""
+            value={formData.long_description}
+            onChange={() => {
+              handleChange("long_description", editor.getData());
+            }}
+          ></textarea> */}
         </div>
         <button
           onClick={handleSave}

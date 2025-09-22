@@ -14,7 +14,7 @@ export default function TeamBuilderTournoments() {
   useEffect(() => {
     const fetchStatus = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/v1/client/contracts/1/tournamentStatus`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/v1/client/contracts/tournamentStatus`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
