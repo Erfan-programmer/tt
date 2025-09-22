@@ -47,6 +47,7 @@ export default function RootLayout({
       <body
         className={`${geistJakarta.variable} ${geistClash.variable} antialiased`}
       >
+
         <LayoutWrapper>{children}</LayoutWrapper>
       </body>
     </html>

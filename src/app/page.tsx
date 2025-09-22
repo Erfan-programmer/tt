@@ -9,7 +9,7 @@ export default function page() {
     <div className="static w-full flex flex-col justify-evenly items-center mt-[7rem]  gap-10 h-auto md:h-[80vh] md:mt-[15vh] ">
       
       <motion.h1
-        className={`text-[1.6rem] sm:text-[2rem] lg:text-4xl xl:text-5xl font-clash titan-header  sm:leading-2 md:w-[80%] w-[90%] lg:w-[60%] xl:w-[50%] text-white text-center ${Style.option_header}`}
+        className={`text-[1.6rem] sm:text-[2rem] lg:text-4xl xl:text-5xl font-clash titan-header md:w-[80%] w-[90%] lg:w-[60%] xl:w-[50%] text-white text-center ${Style.option_header}`}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 3 }}

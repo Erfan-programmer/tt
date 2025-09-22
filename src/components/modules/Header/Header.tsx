@@ -53,7 +53,7 @@ useEffect(() => {
   const isLoging = false;
   return (
     <nav
-      className={`header-custom bg-transparent top-0  md:fixed left-0 opacity-1 mx-auto w-[100%] mx-auto sm:w-[100vw] border-gray-200 transition duration-150 ${
+      className={`header-custom bg-transparent top-0  md:fixed left-0 opacity-100 mx-auto w-[100%] mx-auto sm:w-[100vw] border-gray-200 transition duration-150 ${
         isScrolled ? "relative md:fixed top-0 left-0 w-full" : "md:fixed"
       }`}
     >
