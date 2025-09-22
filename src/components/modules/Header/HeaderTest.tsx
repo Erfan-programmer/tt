@@ -86,7 +86,6 @@ function HeaderTest() {
   useEffect(() => {
     if (typeof window === "undefined") return;
     const savedUser = localStorage.getItem("user");
-    const token = localStorage.getItem("access_token");
     if (savedUser && savedUser !== "undefined") setUser(JSON.parse(savedUser));
   }, []);
 
