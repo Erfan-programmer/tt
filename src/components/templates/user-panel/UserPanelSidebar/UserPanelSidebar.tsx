@@ -175,7 +175,7 @@ export default function UserPanelSidebar() {
         <Image
           width={400}
           height={400}
-          onClick={() => router.push("/dashboard")}
+          onClick={() => router.push("/")}
           src="/titan.main-avatar.png"
           className="w-[40%]"
           alt="logo"
