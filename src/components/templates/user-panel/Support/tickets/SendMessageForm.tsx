@@ -7,11 +7,17 @@ import "react-toastify/dist/ReactToastify.css";
 import { FaTimes } from "react-icons/fa";
 import CustomSelect, { CustomSelectOption } from "./CustomSelect";
 import { apiRequest, ApiResponse } from "@/libs/api";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import dynamic from "next/dynamic";
+
+const CKEditor = dynamic(
+  () => import("@ckeditor/ckeditor5-react").then((mod) => mod.CKEditor),
+  { ssr: false }
+);
+
 import "@/styles/p-admin/CkEditor.css";
 import CustomUploadAdapterPlugin from "@/components/Ui/Modals/p-admin/blog/CustomUploadAdapterPlugin";
 import { loadUserData } from "@/components/modules/EncryptData/SavedEncryptData";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 interface Department {
   id: string;

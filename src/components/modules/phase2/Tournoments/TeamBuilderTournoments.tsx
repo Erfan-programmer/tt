@@ -48,13 +48,19 @@ export default function TeamBuilderTournoments() {
   if (loading || !status) return null;
 
   return (
-    <div className="border-[#383C47] border-[1px] p-6 bg-[#090D23] sm:bg-[linear-gradient(to_right,_#090D23,_#1651C6)] rounded-xl relative">
-      <div className="text-white font-bold text-2xl">
+    <div
+      className="border border-[#383C47] dark:border-[#383C47] border-gray-300 
+                p-6 
+                bg-white dark:bg-[#090D23] 
+                sm:bg-[linear-gradient(to_right,_#ffffff,_#cfe2ff)] dark:sm:bg-[linear-gradient(to_right,_#090D23,_#1651C6)] 
+                rounded-xl relative"
+    >
+      <div className="font-bold text-2xl text-gray-900 dark:text-white">
         <p>Team Builders Tournament</p>
       </div>
 
       <div className="team-tournoment-description mt-2 w-[100%] sm:w-[80%]">
-        <span className="text-white text-sm">
+        <span className="text-gray-700 dark:text-white text-sm">
           A special challenge for those determined to build a powerful team or
           organization. As you progress through building your team and reach
           Bronze, Silver, and Gold ranks, you’ll earn increasing valuable
@@ -72,7 +78,13 @@ export default function TeamBuilderTournoments() {
             }
             toast.success("Challenge started!");
           }}
-          className="flex items-center justify-center gap-4 text-white px-6 py-2 rounded-2xl bg-[#004ADA] tournoment-btn transition-all duration-300 hover:drop-shadow-[0_0_px_#1A68FF4D] py-2"
+          className="flex items-center justify-center gap-4 
+                 text-white dark:text-white text-gray-900 
+                 px-6 py-2 rounded-2xl 
+                 bg-blue-600 dark:bg-[#004ADA] 
+                 tournoment-btn 
+                 transition-all duration-300 
+                 hover:drop-shadow-[0_0_px_#1A68FF4D]"
         >
           <svg
             width="18"
