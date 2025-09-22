@@ -86,7 +86,7 @@ export default function Login() {
 
       toast.success(response.message || "Login successful");
       setTimeout(() => {
-        location.href = "/dashbboard"
+        location.href = "/dashboard"
         // router.replace("/dashboard");
       }, 200);
 
