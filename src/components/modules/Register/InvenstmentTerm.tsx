@@ -107,7 +107,7 @@ export default function InvestmentTerm({
                       {isSelected && (
                         <span className="check-icon absolute inset-0 flex items-center justify-center">
                           <svg
-                            className="w-5 h-5 text-[#275edf] dark:text-white"
+                            className="w-5 h-5 text-white"
                             viewBox="0 0 12 12"
                             fill="none"
                             xmlns="http://www.w3.org/2000/svg"

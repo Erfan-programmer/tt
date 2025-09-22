@@ -58,7 +58,7 @@ const ProfitItem = ({ index, isActive, label, value }: ProfitItemProps) => (
     <span className="flex-1 flex">
       {index}.{" "}
       <p>
-        {label}: <span className="text-white font-bold">{value}</span>
+        {label}: <span className="text-[var(--sidebar-bg)] dark:text-white font-bold">{value}</span>
       </p>
     </span>
   </div>
