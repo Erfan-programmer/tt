@@ -17,6 +17,7 @@ interface DepositWalletForm {
   title: string;
   address: string;
   description: string;
+  symbol: string;
   icon?: File | null;
   preview?: string;
 }
@@ -27,6 +28,7 @@ interface WithdrawWalletForm {
   network: string;
   address?: string;
   description: string;
+  symbol: string;
   icon?: File | null;
   preview?: string;
 }
@@ -36,6 +38,7 @@ export interface wallet {
   title: string;
   address: string;
   description: string;
+  symbol: string;
   icon_path: string;
   is_active: number;
   created_at: string;
@@ -63,7 +66,7 @@ export interface CryptoListResponse {
 export default function InternalWalletSection() {
   // ----------------- Deposit -----------------
   const [depositWallets, setDepositWallets] = useState<DepositWalletForm[]>([
-    { id: 1, title: "", address: "", description: "", icon: null, preview: "" },
+    { id: 1, title: "", address: "", description: "", icon: null, preview: "" , symbol:"" },
   ]);
 
   const handleDepositChange = (
@@ -95,6 +98,7 @@ export default function InternalWalletSection() {
         title: "",
         address: "",
         description: "",
+        symbol: "",
         icon: null,
         preview: "",
       },
@@ -114,7 +118,8 @@ export default function InternalWalletSection() {
       formData.append(`wallets[${i}][title]`, w.title);
       formData.append(`wallets[${i}][address]`, w.address);
       formData.append(`wallets[${i}][description]`, w.description);
-      if (w.icon) formData.append(`wallets[${i}][symbol]`, w.icon);
+      formData.append(`wallets[${i}][symbol]`, w.symbol);
+      if (w.icon) formData.append(`wallets[${i}][icon]`, w.icon);
     });
 
     const res = await apiRequest<WalletListResponse>(
@@ -133,7 +138,8 @@ export default function InternalWalletSection() {
           id: 1,
           title: "",
           address: "",
-          description: "",
+          description: "", 
+          symbol: "", 
           icon: null,
           preview: "",
         },
@@ -153,6 +159,7 @@ export default function InternalWalletSection() {
       network: "",
       address: "",
       description: "",
+      symbol: "",
       icon: null,
       preview: "",
     },
@@ -185,6 +192,7 @@ export default function InternalWalletSection() {
         id: `withdraw-${Date.now()}`,
         title: "",
         network: "",
+        symbol: "",
         address: "",
         description: "",
         icon: null,
@@ -238,6 +246,7 @@ export default function InternalWalletSection() {
           title: "",
           network: "",
           address: "",
+          symbol: "",
           description: "",
           icon: null,
           preview: "",
@@ -393,6 +402,13 @@ export default function InternalWalletSection() {
                     value={wallet.description}
                     onChange={(val) =>
                       handleDepositChange(wallet.id, "description", val)
+                    }
+                  />
+                  <CustomAdminInput
+                    title="Symbol"
+                    value={wallet.symbol}
+                    onChange={(val) =>
+                      handleDepositChange(wallet.id, "symbol", val)
                     }
                   />
 
