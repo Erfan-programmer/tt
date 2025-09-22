@@ -216,7 +216,7 @@ const MobileMenu = () => {
                   : "text-zinc-500 opacity-40"
               }`}
             >
-              ashboard
+              Dashboard
             </span>
             {isActive("/dashboard") && <ActiveIndicator />}
           </Link>

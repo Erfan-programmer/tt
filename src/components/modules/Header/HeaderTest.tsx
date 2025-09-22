@@ -187,7 +187,7 @@ function HeaderTest() {
                           }
                         >
                           <Link
-                            href={`/titan-algotrade#${item.toLowerCase()}`}
+                            href={item.toLowerCase() === "login" ? "/login" : `/titan-algotrade#${item.toLowerCase()}`}
                             className={`block p-1 px-3 xm:px-1 text-gray-200 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:px-3 md:py-2  md:hover:text-blue-500  dark:hover:text-white md:dark:hover:bg-transparent`}
                           >
                             {item}
