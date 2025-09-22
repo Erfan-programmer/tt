@@ -144,7 +144,7 @@ export default function PhoneInput({
                   placeholder="Search code..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-3 py-2 border-b border-gray-300 bg-gray-200 dark:bg-gray-800 text-white dark:border-gray-700 outline-none text-sm rounded-sm"
+                  className="w-full pl-10 pr-3 py-2 border-b border-gray-300 bg-gray-200 dark:bg-gray-800 text-dark-700 dark:border-gray-700 outline-none text-sm rounded-sm"
                 />
               </div>
 
