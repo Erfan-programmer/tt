@@ -80,13 +80,12 @@ function HeaderTest() {
   });
   const methods = useForm({ mode: "onChange" });
   const router = useRouter();
-  const [user, setUser] = useState<{
-    name: string;
-  }>({ name: "" });
+  const [user, setUser] = useState<boolean>(false);
   useEffect(() => {
     if (typeof window === "undefined") return;
     const savedUser = localStorage.getItem("user");
-    if (savedUser && savedUser !== "undefined") setUser(JSON.parse(savedUser));
+    console.log("saved User >=", user)
+    if (savedUser && savedUser !== "undefined") setUser(true);
   }, []);
 
   const handleMenuItemClick = (item: string) => {

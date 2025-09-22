@@ -29,9 +29,7 @@ interface MobileSidebarProps {
   menuItemsList: string[];
   handleMenuItemClick: (item: string) => void;
   isScrolled: boolean;
-  user: {
-    name:string
-  };
+  user: boolean;
   router: AppRouterInstance;
 }
 
