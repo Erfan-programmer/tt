@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { loadEncryptedData } from "../EncryptData/SavedEncryptData";
 import DepositWalletsTable from "./DepositWalletsTable";
 import DepositCryptosTable from "./DepositCryptosTable";
-import { Crypto, Wallet } from "@/types/p-admin/Message";
+import { Crypto } from "@/types/p-admin/Message";
 import Pagination from "../UserPanel/Pagination/Pagination";
 import Image from "next/image";
 
@@ -33,22 +33,23 @@ interface WithdrawWalletForm {
   preview?: string;
 }
 
-export interface wallet {
-  id: number;
-  title: string;
-  address: string;
-  description: string;
-  symbol: string;
-  icon_path: string;
-  is_active: number;
-  created_at: string;
-  updated_at: string;
-}
 
 export interface WalletListResponse {
   success: boolean;
   message: string;
   data: Wallet[];
+}
+
+export type Wallet  = {
+  id: number;
+  title: string;
+  address: string;
+  symbol: string;
+  description: string;
+  icon_path?: string | File;
+  is_active?: number;
+  created_at?: string;
+  updated_at?: string;
 }
 
 export interface CryptoListResponse {

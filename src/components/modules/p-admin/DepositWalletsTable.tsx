@@ -9,10 +9,11 @@ import { loadEncryptedData } from "../EncryptData/SavedEncryptData";
 import CustomAdminInput from "./CustomAdminInput";
 import Image from "next/image";
 
-interface Wallet {
+export type Wallet  = {
   id: number;
   title: string;
   address: string;
+  symbol: string;
   description: string;
   icon_path?: string | File;
   is_active?: number;
@@ -184,7 +185,7 @@ export default function DepositWalletsTable({
   const columns: TableColumn<Wallet>[] = [
     { title: "ID", field: "id" },
     { title: "Title", field: "title" },
-    { title: "Address", field: "address" },
+    { title: "Symbol", field: "symbol" },
     { title: "Description", field: "description" },
     {
       title: "Icon",
@@ -267,6 +268,11 @@ export default function DepositWalletsTable({
                 title="Description"
                 value={editData.description || ""}
                 onChange={(val) => handleEditChange("description", val)}
+              />
+              <CustomAdminInput
+                title="Description"
+                value={editData.symbol || ""}
+                onChange={(val) => handleEditChange("symbol", val)}
               />
               <CircleUploader
                 id={editId}
