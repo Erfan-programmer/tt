@@ -262,7 +262,7 @@ export default function AdminSidebar() {
           onClick={() => {
             router.push("/");
           }}
-          src="/titan-main-avatar.png.png"
+          src="/titan-main-avatar.png"
           className="w-[40%]"
           alt="logo"
         />

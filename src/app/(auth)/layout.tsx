@@ -105,7 +105,7 @@ export default function FormLayout({ children, subtitle }: FormLayoutProps) {
                             pathKey === "forgot-password" ||
                             pathKey === "reset-password"
                               ? "/3c3fa8f9fb03e29bb146ad74ebfdf102.jpg"
-                              : "/titan-main-avatar.png.png"
+                              : "/titan-main-avatar.png"
                           }  `}
                           alt="Titan Avatar"
                         />

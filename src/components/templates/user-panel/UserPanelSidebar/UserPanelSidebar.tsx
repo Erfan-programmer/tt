@@ -176,7 +176,7 @@ export default function UserPanelSidebar() {
           width={400}
           height={400}
           onClick={() => router.push("/")}
-          src="/titan-main-avatar.png.png"
+          src="/titan-main-avatar.png"
           className="w-[40%]"
           alt="logo"
         />

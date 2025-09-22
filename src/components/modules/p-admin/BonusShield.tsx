@@ -113,7 +113,7 @@ export default function BonusShield() {
       </div>
       <div className="absolute right-4 bottom-4 hidden sm:block">
         <Image
-          src="/titan-main-avatar.png.png"
+          src="/titan-main-avatar.png"
           alt=""
           className="w-32"
           width={1500}
