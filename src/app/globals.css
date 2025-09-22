@@ -11,7 +11,7 @@
   --sidebar-bg: #090d23;
   --admin-border-color: #383c47;
   --admin-bg-main: #0d111d;
-  --main-background: #080A1D;
+  --main-background: #080a1d;
   --light-color: #1b2972;
   --success: #00cb08;
   --sidebar-bg: #090d23;
@@ -92,13 +92,25 @@ a {
   color: #fff;
 }
 
+.dark input:-webkit-autofill,
+.dark input:-webkit-autofill:hover,
+.dark input:-webkit-autofill:focus,
+.dark input:-webkit-autofill:active {
+  -webkit-text-fill-color: #fff !important;
+  -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
+  box-shadow: 0 0 0px 1000px transparent inset !important;
+  background: transparent !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-  -webkit-text-fill-color: #fff !important;
+  -webkit-text-fill-color: var(--main-background) !important;
+  -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
+  box-shadow: 0 0 0px 1000px transparent inset !important;
   background: transparent !important;
-  color: white !important;
   transition: background-color 5000s ease-in-out 0s;
 }
 
@@ -143,7 +155,7 @@ html {
   --mui-text-color: #666666;
 }
 
-.sponsor-label span{
+.sponsor-label span {
   font-size: 1rem !important;
 }
 /* * {
@@ -387,8 +399,8 @@ input[type="number"] {
   color: var(--main-background);
 } */
 .support-tutorial-content {
- transition: all 0.2s;
-} 
+  transition: all 0.2s;
+}
 .support-tutorial-content {
   box-shadow: inset 0px 0px 20px #275edf;
 }
