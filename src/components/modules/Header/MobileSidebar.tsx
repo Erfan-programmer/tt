@@ -29,7 +29,9 @@ interface MobileSidebarProps {
   menuItemsList: string[];
   handleMenuItemClick: (item: string) => void;
   isScrolled: boolean;
-  isLoging: boolean;
+  user: {
+    name:string
+  };
   router: AppRouterInstance;
 }
 
@@ -39,7 +41,7 @@ const MobileSidebar: React.FC<MobileSidebarProps> = ({
   menuItemsList,
   handleMenuItemClick,
   isScrolled,
-  isLoging,
+  user,
 }) => {
   // 1. Add state to control the visibility of the modal
   const [showRegistrationModal, setShowRegistrationModal] = useState(false);
@@ -91,7 +93,7 @@ const MobileSidebar: React.FC<MobileSidebarProps> = ({
                   </li>
                 ))}
                 <li className="mt-4 pt-4 border-t border-gray-700">
-                  {isLoging ? (
+                  {user ? (
                     <Accordion
                       sx={{
                         bgcolor: "#363848",

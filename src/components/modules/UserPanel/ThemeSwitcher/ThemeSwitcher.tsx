@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import "./ThemeSwitcher.css";
 
 const ThemeSwitcher = () => {
-  const [isDark, setIsDark] = useState(true);
+  const [isDark, setIsDark] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {

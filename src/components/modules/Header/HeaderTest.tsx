@@ -20,7 +20,6 @@ import "./Header.css";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { FaUser } from "react-icons/fa";
 import UserMenu, { menuItems } from "./MenuItem";
 import TitanModal from "@/components/Ui/Modals/TitanModal";
 import TitanModalField from "@/components/Ui/Modals/TitanModalField";
@@ -81,7 +80,15 @@ function HeaderTest() {
   });
   const methods = useForm({ mode: "onChange" });
   const router = useRouter();
-  const isLoging = false;
+  const [user, setUser] = useState<{
+    name: string;
+  }>({ name: "" });
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const savedUser = localStorage.getItem("user");
+    const token = localStorage.getItem("access_token");
+    if (savedUser && savedUser !== "undefined") setUser(JSON.parse(savedUser));
+  }, []);
 
   const handleMenuItemClick = (item: string) => {
     if (item.toLowerCase() === "withdraw") {
@@ -100,7 +107,7 @@ function HeaderTest() {
     "Blog",
     "About",
     "FAQs",
-    `${isLoging ? "Dashboard" : "Withdraw"}`,
+    ...(!user ? ["Login"] : []),
   ];
 
   return (
@@ -162,7 +169,7 @@ function HeaderTest() {
                         "Blog",
                         "About",
                         "FAQs",
-                        `${isLoging ? "Dashboard" : "Withdraw"}`,
+                        ...(user ? [] : ["Login"]),
                       ].map((item, index) => (
                         <motion.li
                           key={index}
@@ -203,7 +210,7 @@ function HeaderTest() {
                             isScrolled ? "hidden xl:block" : "hidden"
                           } `}
                         ></div>
-                        {isLoging ? (
+                        {user ? (
                           <UserMenu />
                         ) : (
                           <button
@@ -216,7 +223,7 @@ function HeaderTest() {
                               //   newInvestment: !formModal.newInvestment,
                               // }));
                               // setIsOpen(true);
-                              router.push("/register")
+                              router.push("/register");
                             }}
                           >
                             <span>Register</span>
@@ -238,7 +245,7 @@ function HeaderTest() {
                               <ExpandMoreIcon sx={{ color: "#fff" }} />
                             }
                           >
-                            <FaUser style={{ marginRight: 8, color: "#fff" }} />
+                            <span>Dashboard</span>
                             <Typography fontWeight="bold" color="#fff">
                               Account
                             </Typography>
@@ -283,7 +290,7 @@ function HeaderTest() {
                         isScrolled ? "hidden md:block" : "hidden"
                       } `}
                     ></div>
-                    {isLoging ? (
+                    {user ? (
                       <UserMenu />
                     ) : (
                       <button
@@ -348,7 +355,7 @@ function HeaderTest() {
           menuItemsList={menuItemsList}
           handleMenuItemClick={handleMenuItemClick}
           isScrolled={isScrolled}
-          isLoging={isLoging}
+          user={user}
           router={router}
         />
       )}

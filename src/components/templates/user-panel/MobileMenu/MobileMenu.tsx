@@ -143,7 +143,6 @@ const MobileMenu = () => {
           <button
             onClick={() => router.push("/financial/withdraw")}
             className="flex flex-col items-center group relative"
-            disabled={true}
           >
             <div
               className={`p-2 rounded-lg transition-colors duration-300 ${
@@ -172,11 +171,11 @@ const MobileMenu = () => {
             <span
               className={`text-[.8rem] mt-1 transition-all duration-300 ${
                 isActive("/financial/withdraw")
-                  ? "text-[var(--main-background)] dark:text-white -translate-y-1"
-                  : "text-zinc-500"
+                  ? "text-[var(--main-background)] opacity-100 dark:text-white -translate-y-1"
+                  : "text-zinc-500 opacity-40"
               }`}
             >
-              {isActive("/financial/withdraw") && "Withdraw"}
+              Withdraw
             </span>
             {isActive("/financial/withdraw") && <ActiveIndicator />}
           </button>
@@ -213,18 +212,18 @@ const MobileMenu = () => {
             <span
               className={`text-[.8rem] mt-1 transition-all duration-300 ${
                 isActive("/dashboard")
-                  ? "text-[var(--main-background)] dark:text-white -translate-y-1"
-                  : "text-zinc-500"
+                  ? "text-[var(--main-background)] opacity-100 dark:text-white -translate-y-1"
+                  : "text-zinc-500 opacity-40"
               }`}
             >
-              {isActive("/dashboard") && "Dashboard"}
+              ashboard
             </span>
             {isActive("/dashboard") && <ActiveIndicator />}
           </Link>
 
           {/* T-wallet Link */}
           <Link
-            href="/t-wallet/action"
+            href="/dashboard/t-wallet/action"
             className="flex flex-col items-center group relative"
           >
             <div
@@ -254,11 +253,11 @@ const MobileMenu = () => {
             <span
               className={`text-[.8rem] mt-1 transition-all duration-300 ${
                 isActive("/t-wallet")
-                  ? "text-[var(--main-background)] dark:text-white -translate-y-1"
-                  : "text-zinc-500"
+                  ? "text-[var(--main-background)] opacity-100 dark:text-white -translate-y-1"
+                  : "text-zinc-500 opacity-40"
               }`}
             >
-              {isActive("/t-wallet") && "Twallet"}
+              Twallet
             </span>
             {isActive("/t-wallet") && <ActiveIndicator />}
           </Link>
@@ -310,11 +309,11 @@ const MobileMenu = () => {
             <span
               className={`text-[.8rem] mt-1 transition-all duration-300 ${
                 isSidebarOpen
-                  ? "text-[var(--main-background)] dark:text-white -translate-y-1"
-                  : "text-zinc-500"
+                  ? "text-[var(--main-background)] dark:text-white opacity-100 -translate-y-1"
+                  : "text-zinc-500 opacity-40"
               }`}
             >
-              {isSidebarOpen && "Menu"}
+              Menu
             </span>
             {isSidebarOpen && <ActiveIndicator />}
           </button>

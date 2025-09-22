@@ -17,8 +17,8 @@ export default function LayoutWrapper({
 
   return (
     <>
-      {!isHidden && <HeaderTest />}
-      {!isHidden && <Stars />}ِِِِِِ{!isHidden && <Stars />}ِِِِِِ
+      {!isHidden ? <HeaderTest /> : null}
+      {!isHidden ? <Stars /> : null}
       <div style={{ position: "relative", zIndex: 1 }}>{children}</div>
     </>
   );

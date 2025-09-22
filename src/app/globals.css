@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities; */
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   /* --main-background: ##080A1D; */
   --box-background: #0d2968;
@@ -36,7 +38,6 @@ body {
   margin: 0;
   box-sizing: border-box;
   font-family: var(--font-clash);
-  background-color: var(--main-background);
   overflow-x: hidden !important;
 }
 

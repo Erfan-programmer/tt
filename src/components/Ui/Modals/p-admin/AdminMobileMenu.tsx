@@ -232,7 +232,7 @@ const toggleTheme = () => {
 
           {/* T-wallet Link */}
           <Link
-            href="/t-wallet/action"
+            href="/dashboard/t-wallet/action"
             className="flex flex-col items-center group relative"
           >
             <div

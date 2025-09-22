@@ -96,7 +96,7 @@ export default function ProfitAndLoss() {
       <div
         className={`h-[4rem] border border-1 relative overflow-hidden flex justify-center items-center rounded-lg ${
           data === null
-            ? "bg-[#393939] border-white"
+            ? " bg-gray-500 dark:bg-[#393939] border-white"
             : data?.value > 0
             ? "shadow-[inset_0_0_10px_#00CB08] bg-transparent border-[#00CB08]"
             : "shadow-[inset_0_0_10px_#FF6060] border-[#FF6060] bg-transparent"
