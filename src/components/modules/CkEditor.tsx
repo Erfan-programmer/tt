@@ -14,7 +14,7 @@ type Props = {
 export default function CkEditorClient({ data, onChange, disabled }: Props) {
   return (
     <CKEditor
-      editor={ClassicEditor}
+      editor={ClassicEditor as any}
       data={data}
       disabled={disabled}
       config={{
