@@ -285,7 +285,7 @@ export default function MessageDetailPage() {
 
       {/* Message Content */}
       <CKEditor
-        editor={ClassicEditor as any}
+        editor={ClassicEditor}
         data={editData.message_content || ""}
         config={editorConfig}
         onChange={(_, editor) =>

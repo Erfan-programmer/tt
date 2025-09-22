@@ -208,7 +208,7 @@ export default function SendMessageForm({handleReload}:{handleReload: (stauts:bo
             Message <span className="text-red-500">*</span>
           </label>
           <CKEditor
-            editor={ClassicEditor as any}
+            editor={ClassicEditor}
             data={formData.message}
             config={{
               extraPlugins: [CustomUploadAdapterPlugin],
