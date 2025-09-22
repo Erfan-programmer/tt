@@ -308,7 +308,7 @@ export default function EditBlogDetailPage() {
             Long Description
           </label>
           <CKEditor
-            editor={ClassicEditor}
+            editor={ClassicEditor as any}
             data={formattedDescription}
             config={{
               extraPlugins: [CustomUploadAdapterPlugin],
