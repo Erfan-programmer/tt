@@ -114,7 +114,7 @@ export default function InternalWalletSection() {
       formData.append(`wallets[${i}][title]`, w.title);
       formData.append(`wallets[${i}][address]`, w.address);
       formData.append(`wallets[${i}][description]`, w.description);
-      if (w.icon) formData.append(`wallets[${i}][icon]`, w.icon);
+      if (w.icon) formData.append(`wallets[${i}][symbol]`, w.icon);
     });
 
     const res = await apiRequest<WalletListResponse>(
