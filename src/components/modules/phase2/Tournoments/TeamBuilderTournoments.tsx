@@ -1,10 +1,16 @@
 "use client";
+import { apiRequest } from "@/libs/api";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
+import { loadUserData } from "../../EncryptData/SavedEncryptData";
+import { toast } from "react-toastify";
 
-interface TournamentResponse {
-  status: string;
-  [key: string]: any;
+interface TournamentStatusResponse {
+  status: number;
+  data: {
+    status: string;
+    message?: string;
+  };
 }
 
 export default function TeamBuilderTournoments() {
@@ -13,22 +19,22 @@ export default function TeamBuilderTournoments() {
 
   useEffect(() => {
     const fetchStatus = async () => {
+      const token = loadUserData()?.access_token;
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/v1/client/contracts/tournamentStatus`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const res = await apiRequest<TournamentStatusResponse>(
+          `${process.env.NEXT_PUBLIC_API_URL}/v1/client/contracts/tournamentStatus`,
+          "GET",
+          undefined,
+          {
+            Authorization: `Bearer ${token}`,
+          }
+        );
 
-        if (!res.ok) {
+        if (res.status !== 200) {
           throw new Error(`Request failed with status ${res.status}`);
         }
 
-        const data: TournamentResponse = await res.json();
-        if (data?.status) {
-          setStatus(data.status);
-        }
+        setStatus(res?.data.data.status);
       } catch (error) {
         console.error("Failed to fetch tournament status:", error);
       } finally {
@@ -58,7 +64,16 @@ export default function TeamBuilderTournoments() {
       </div>
 
       <div className="team-tournoment-btn mt-8 flex justify-center sm:justify-start">
-        <button className="flex items-center justify-center gap-4 text-white px-6 py-2 rounded-2xl bg-[#004ADA] tournoment-btn transition-all duration-300 hover:drop-shadow-[0_0_px_#1A68FF4D] py-2">
+        <button
+          onClick={() => {
+            if (status === "not_eligible") {
+              toast.error("You are not eligible to start this challenge.");
+              return;
+            }
+            toast.success("Challenge started!");
+          }}
+          className="flex items-center justify-center gap-4 text-white px-6 py-2 rounded-2xl bg-[#004ADA] tournoment-btn transition-all duration-300 hover:drop-shadow-[0_0_px_#1A68FF4D] py-2"
+        >
           <svg
             width="18"
             height="21"
