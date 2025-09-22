@@ -118,7 +118,7 @@ console.log("qrcode" ,formData.qrcode)
         {/* 2FA Section */}
         <div className={`${twoFactore ? "blur-0" : "blur-[10px]"}`}>
           <div className="mt-4 sm:mt-8">
-            <span className="text-sm sm:text-base text-white">
+            <span className="text-sm sm:text-base text-[var(--box-background)] dark:text-white">
               To complete your account setup, enabling two-factor authentication
               (2FA) is mandatory. Before you activate your 2FA, please ensure
               that you have backed up your QR code and secret key. Resetting 2FA
