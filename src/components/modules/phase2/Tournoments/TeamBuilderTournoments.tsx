@@ -49,7 +49,7 @@ export default function TeamBuilderTournoments() {
 
   return (
     <>
-      {status === "not_eligible" && (
+      {status !== "not_eligible" && (
         <div
           className="border border-[#383C47] dark:border-[#383C47] border-gray-300 
             p-6 
