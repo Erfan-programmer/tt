@@ -72,11 +72,11 @@ export default function TeamBuilderTournoments() {
       <div className="team-tournoment-btn mt-8 flex justify-center sm:justify-start">
         <button
           onClick={() => {
-            if (status === "not_eligible") {
-              toast.error("You are not eligible to start this challenge.");
-              return;
-            }
-            toast.success("Challenge started!");
+            // if (status === "not_eligible") {
+            //   toast.error("You are not eligible to start this challenge.");
+            //   return;
+            // }
+            toast.success("Challenge tournoment will added soon : ))");
           }}
           className="flex items-center justify-center gap-4 
                  text-white dark:text-white text-gray-900 
