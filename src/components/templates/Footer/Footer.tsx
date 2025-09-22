@@ -50,7 +50,7 @@ export default function Footer() {
 
         <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-10 mt-16 md:mt-20 text-sm">
           <Image
-            src="/titan.main-avatar.png"
+            src="/titan-main-avatar.png.png"
             width={1200}
             height={1500}
             alt="Titan main avatar"
