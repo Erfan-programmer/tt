@@ -1,0 +1,20 @@
+.swiper-slide{
+    display: flex;
+    justify-content: center;
+}
+
+@media screen and (max-width:480px) {
+    .swiper-slide .latest-new-box {
+        width: 19rem;
+    }
+
+    .latest-news-items .swiper-slide .last-new-box{
+        width:  70%;
+    }
+    .latest-news-items .swiper-slide-next{
+         transform: translateX(-1rem) !important;
+    }
+    .latest-news-items .swiper-slide-prev{
+         transform: translateX(1rem) !important;
+    }
+}

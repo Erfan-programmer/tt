@@ -1,0 +1,48 @@
+.last-main-section {
+  background: linear-gradient(360deg, #11398e 0%, #080a1d 100%);
+  border-radius: 48px;
+}
+.last-main-section-wrapper svg {
+  /* position: absolute; */
+  right: 50%;
+  top: 50%;
+  mix-blend-mode: color-dodge;
+
+}
+
+.last-main-section-wrapper::after{
+  content: "";
+  height: 10rem;
+  position: absolute;
+  top:70%;
+  width: 100%;
+} 
+.last-main-section-wrapper img {
+  /* iPhone */
+  position: relative;
+  z-index: 2;
+  width: 12rem;
+  height: 20rem;
+}
+
+@media screen and (min-width:630px){
+
+.last-main-section-wrapper img {
+  /* iPhone */
+  position: relative;
+  z-index: 2;
+  top: 7rem;
+  width: 14rem;
+  height: 28rem;
+}
+
+}
+
+.mobile_shadow{
+  top: 84%;
+  width: 11rem;
+  background: #000;
+  box-shadow: 0 0 55px #33E;
+  filter: blur(22px);
+
+}

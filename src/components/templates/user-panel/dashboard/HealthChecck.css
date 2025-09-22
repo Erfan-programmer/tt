@@ -1,0 +1,24 @@
+.progress-bar-label{
+    top: 50%;
+    transform: translateY(-50%);
+    left: 16px;
+
+}
+
+.time-spend span:first-child{
+    font-size: 1.2rem;
+}
+.time-spend span:last-child{
+    font-size: .9rem;
+}
+
+.progress-time-spend-title span{
+    font-size: 1.4rem;
+}
+
+.health-check{
+    transition: all .3s;
+}
+.health-check:hover{
+    box-shadow: 0 0 11px #034cda;
+}

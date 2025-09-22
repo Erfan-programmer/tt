@@ -1,0 +1,99 @@
+.sliderLottie .swiper-slide{
+  display: flex;
+  justify-content: center;
+transition: all .3s;
+}
+.sliderLottie .swiper-slide-prev{
+  transform:  translateX(
+    10rem) !important;
+  opacity: .5;
+  filter: blur(2px);
+}
+.sliderLottie .slider-container{
+  height: 50vh;
+}
+.sliderLottie .swiper-slide-next{
+  opacity: .5;
+  filter: blur(2px);
+  transform: translateX(-10rem) !important;
+}
+.sliderLottie .swiper-slide-active{
+  transform: scale(1) translateY(-2rem) !important ;
+  z-index: 2;
+}
+
+.sliderLottie .slider-wrapper{
+  padding-bottom: 4rem;
+  display: flex !important;
+  justify-content: center !important;
+}
+
+.sliderLottie .swiper{
+  padding-top: 4rem;
+}
+.sliderLottie .swiper-button-prev:after , .sliderLottie .swiper-button-next:after{
+  content:"" !important;
+  display:none !important
+}
+.sliderLottie .swiper-button-prev , .sliderLottie .swiper-button-next{
+  top: 25%;
+  background: transparent;
+  border: 1px solid #24263f;
+  padding: .8rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  transition: all .8s;
+
+  border-radius: 50%;
+}
+.sliderLottie .swiper-button-prev:hover , .sliderLottie .swiper-button-next:hover{
+  box-shadow: 0 4px 6px #24263f;
+}
+
+.sliderLottie .swiper-button-prev svg , .sliderLottie .swiper-button-next svg{
+  font-size: .9rem;
+  fill: white;
+}
+
+.lottie_mobile div{
+  width: 80% !important;
+}
+
+@media screen and (min-width:500px) {
+  .lottie_mobile div{
+    width: 80% !important;
+    margin: auto;
+  } 
+}
+
+
+.lottie_mobile .dotlottie-container {
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.lottie-image{
+  position: absolute;
+  opacity: 0;
+  border-radius: 10%;
+  width: 94%;
+  height: 89%;
+  left: 13px;
+  right: 12px;
+  top: 1rem;
+}
+
+.swiper-slide-active .lottie-image{
+  opacity: 0;
+}
+
+.swiper-slide-prev .lottie-image , .swiper-slide-next .lottie-image {
+  opacity: 1;
+}
+
+.swiper-slide .dotlottie-container svg g  , .swiper-slide-active .dotlottie-container svg g g:last-child{
+  clip-path: unset !important; 
+}

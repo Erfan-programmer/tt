@@ -1,0 +1,58 @@
+.pagination-container .MuiPagination-ul {
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.pagination-container .MuiPaginationItem-root {
+  min-width: 42px;
+  height: 42px;
+  background-color: var(--sidebar-bg);
+  color: #fff;
+  border: 1px solid #585966;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.pagination-container .MuiPaginationItem-root:hover {
+  background-color: var(--hover-color);
+  border-color: #004ada;
+}
+
+.pagination-container .MuiPaginationItem-root.Mui-selected {
+  background-color: #004ada;
+  color: white;
+  border-color: #004ada;
+}
+
+.pagination-container .MuiPaginationItem-root.Mui-selected:hover {
+  background-color: #004ada;
+}
+
+.pagination-container .MuiPaginationItem-root.Mui-disabled {
+  background-color: var(--sidebar-bg);
+  color: #fff;
+  opacity: 0.5;
+  border-color: #585966;
+}
+
+.pagination-btn {
+  min-width: 100px !important;
+  background-color: var(--sidebar-bg) !important;
+  color: #fff !important;
+  border: 1px solid #585966 !important;
+  border-radius: 8px !important;
+  padding: 10px 0px !important;
+  transition: all 0.3s ease !important;
+}
+
+.pagination-btn:hover {
+  border-color: #004ada !important;
+}
+
+.pagination-btn.Mui-disabled {
+  background-color: var(--sidebar-bg) !important;
+  opacity: 0.5 !important;
+  border-color: #585966 !important;
+  color: #fff !important;
+} 

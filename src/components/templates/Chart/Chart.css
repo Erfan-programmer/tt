@@ -1,0 +1,87 @@
+.chartbox-chart {
+  width: 10rem;
+  height: 10rem;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.chartbox-chart p , .chartbox-chart span{
+  font-family: var(--font-clash);
+}
+
+.second-graph-svg{
+  position: relative;
+  left: -20%;
+}
+.first-graph-svg{
+  position: relative;
+  right: -20%;
+}
+
+.titan-chart-wrapper h3 span{
+ font-family: var(--font-clash);
+}
+
+.first-graph {
+  position: relative;
+  left: 0.82rem;
+}
+.investment_box{
+  background: linear-gradient(180deg, #080A1D 0%, #18192C 100%) !important;
+
+border: 1px solid #18192C;
+}
+.chartbox-chart:nth-child(2){
+  border: 1px solid #18192c;
+background: linear-gradient(180deg, #18192C 0%, #080A1D 100%);
+
+
+}
+.second-graph {
+  position: relative;
+  left: -2.18rem;
+}
+
+@media screen and (max-width:648px){
+  .first-graph {
+    position: relative;
+    left: 0.6rem;
+}
+.second-graph {
+  position: relative;
+  left: -1.5rem;
+}
+.chartbox-chart {
+  /* Ellipse 168 */
+
+  width: 9rem;
+
+  height: 9rem;
+}
+}
+@media screen and (max-width:400px){
+.chartbox-chart {
+  /* Ellipse 168 */
+
+  width: 7.5rem;
+
+  height: 7.5rem;
+}
+.second-graph-svg{
+  position: relative;
+  left: -16%;
+}
+.first-graph-svg{
+  position: relative;
+  right: -16%;
+}
+}
+
+.chartbox-chart svg{
+  background: linear-gradient(180deg, #18192C 0%, #18192C 100%);
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: .2rem;
+  border-radius: 100%;
+}

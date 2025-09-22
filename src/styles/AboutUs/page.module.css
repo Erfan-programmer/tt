@@ -1,0 +1,45 @@
+.about_us_wrapper {
+  width: 90%;
+  margin: auto;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.about_us_wrapper h2 {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+}
+
+.about_us_info {
+  background: linear-gradient(259.75deg, #080a1d 0%, #252738 100%);
+  border: 1px solid #18192c;
+  border-radius: 2rem;
+  padding: 1.5rem;
+  width: 100%;
+}
+.about_us_description{
+    margin-left:1rem ;
+    font-size: .8rem;
+    color: #888;
+}
+
+
+@media screen and (min-width:640px) {
+  .about_us_wrapper {
+    width: 60%;
+    
+  }
+  .about_us_info {
+    padding: 2rem;
+  } 
+  .about_us_wrapper h2 {
+    font-size: 1.7rem;
+  }
+  .about_us_description{
+    font-size: 1rem;
+}
+}

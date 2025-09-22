@@ -1,0 +1,263 @@
+.theme-switcher {
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.toggle-circle {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.toggle-circle::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.8) 0%,
+    rgba(255, 255, 255, 0.1) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.theme-switcher:hover .toggle-circle::before {
+  opacity: 1;
+}
+
+/* Stars animation for dark mode */
+.theme-switcher[style*="0f172a"] {
+  background-image: radial-gradient(
+      circle at 10% 20%,
+      rgba(255, 255, 255, 0.1) 1px,
+      transparent 1px
+    ),
+    radial-gradient(
+      circle at 90% 40%,
+      rgba(255, 255, 255, 0.1) 1px,
+      transparent 1px
+    ),
+    radial-gradient(
+      circle at 40% 60%,
+      rgba(255, 255, 255, 0.1) 1px,
+      transparent 1px
+    ),
+    radial-gradient(
+      circle at 70% 80%,
+      rgba(255, 255, 255, 0.1) 1px,
+      transparent 1px
+    );
+  background-size: 100px 100px;
+}
+
+/* Clouds animation for light mode */
+.theme-switcher[style*="60a5fa"] {
+  background-image: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.2) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.2) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Theme Switch */
+/* The switch - the box around the slider */
+.switch {
+  font-size: 17px;
+  position: relative;
+  width: 5.5em;
+  height: 1.8em;
+  border-radius: 30px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #090d23; /* Match dark theme */
+  transition: 0.4s;
+  border-radius: 30px;
+  overflow: hidden;
+}
+
+/* Moon */
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 1.7em;
+  width: 1.7em;
+  border-radius: 50%;
+  right: 2px;
+  bottom: 2px;
+  transition: 0.4s;
+  transition-timing-function: cubic-bezier(0.81, -0.04, 0.38, 1.5);
+  background: radial-gradient(circle at center, #ffffff 0%, #e6e6e6 100%);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
+    inset 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+/* Sun */
+.switch input:checked + .slider {
+  background-color: #27a1d4;
+  box-shadow: inset 0 0 15px rgba(39, 161, 212, 0.5);
+}
+
+.switch input:checked + .slider:before {
+  transform: translateX(-3.4em);
+  background: radial-gradient(circle at center, #ffcf48 0%, #ff9f00 100%);
+  box-shadow: 0 0 25px rgba(255, 207, 72, 0.8),
+  inset 0 0 15px rgba(255, 166, 0, 0.3);
+}
+@media screen and (min-width: 992px) {
+  .switch input:checked + .slider:before {
+    transform: translateX(-3.3em);
+  }
+.slider:before {
+ height: 1.5em;
+ right: 5px;
+  width: 1.5em;
+}
+}
+/* Stars */
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+@keyframes floating {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.star {
+  background-color: #fff;
+  border-radius: 50%;
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  transition: all 0.4s;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+.star_1 {
+  left: 1.2em;
+  top: 0.3em;
+  animation: twinkle 2s infinite, floating 3s infinite;
+}
+
+.star_2 {
+  left: 2.2em;
+  top: 0.9em;
+  animation: twinkle 2.5s infinite 0.5s, floating 4s infinite 1s;
+}
+
+.star_3 {
+  left: 3.2em;
+  top: 0.5em;
+  animation: twinkle 1.5s infinite 1s, floating 3.5s infinite 0.5s;
+}
+
+.star_4 {
+  left: 1.8em;
+  top: 0.7em;
+  animation: twinkle 2s infinite 1.5s, floating 4s infinite 0.2s;
+}
+
+.star_5 {
+  left: 2.8em;
+  top: 0.2em;
+  animation: twinkle 2.2s infinite 0.7s, floating 3.8s infinite 0.9s;
+}
+
+.switch input:checked ~ .slider .star {
+  opacity: 0;
+  animation: none;
+}
+
+/* Cloud Animations */
+@keyframes wave {
+  0%,
+  100% {
+    transform: translateY(0) scaleX(-1);
+  }
+  50% {
+    transform: translateY(-3px) scaleX(-1);
+  }
+}
+
+@keyframes floatWave {
+  0%,
+  100% {
+    transform: translate(-2px, 0) scaleX(-1);
+  }
+  50% {
+    transform: translate(2px, -2px) scaleX(-1);
+  }
+}
+
+/* Cloud */
+.cloud {
+  width: 3.5em;
+  position: absolute;
+  bottom: -1.2em;
+  right: -0.8em;
+  opacity: 0;
+  transition: all 0.4s;
+  transform: scaleX(-1);
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.6));
+}
+
+/* Background Cloud */
+.cloud-bg {
+  width: 4em;
+  position: absolute;
+  bottom: -1.4em;
+  right: -1em;
+  opacity: 0;
+  transition: all 0.4s;
+  transform: scaleX(-1);
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
+  z-index: -1;
+  animation: floatWave 3s ease-in-out infinite;
+}
+
+.switch input:checked ~ .slider .cloud {
+  opacity: 1;
+  animation: wave 2s ease-in-out infinite;
+}
+
+.switch input:checked ~ .slider .cloud-bg {
+  opacity: 0.3;
+}

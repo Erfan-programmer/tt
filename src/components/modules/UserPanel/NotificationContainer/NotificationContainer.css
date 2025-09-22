@@ -1,0 +1,8 @@
+.notification-container {
+    filter: drop-shadow(0px 4px 25px #001A58);
+    box-shadow: 0px 1px 15px #275edf84;
+}
+
+.notif-box {
+    border-bottom: 2px solid #585966;
+}

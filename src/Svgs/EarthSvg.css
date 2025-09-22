@@ -1,0 +1,87 @@
+.lottie-animation-thunder {
+  margin: auto;
+  position: relative;
+  transform: translateY(3rem);
+}
+.earth-svg {
+  transform: translateX(-50%) !important;
+  top: 68%;
+  width: 11.5rem;
+  height: 22vh;
+}
+
+.lottie-animation-thunder {
+  height: 25vh;
+  width: 30vw;
+}
+@media screen and (min-width: 700px) {
+  .lottie-animation-thunder {
+    height: 15vh;
+    width: 30vw;
+    top: 45%;
+  }
+}
+
+@media screen and (min-width: 800px) {
+  .lottie-animation-thunder {
+    height: 15vh;
+    width: 30vw;
+  }
+}
+
+@media screen and (min-width: 1022px) {
+  .lottie-animation-thunder {
+    height: 12vh;
+    width: 30vw;
+  }
+}
+
+@media screen and (min-width: 1300px) {
+  .lottie-animation-thunder {
+    height: 15vh;
+    width: 30vw;
+  }
+}
+@media screen and (min-width: 1600px) {
+  .main-body-bio {
+    margin-top: 10rem;
+  }
+}
+
+@media screen and (min-width: 1450px) and (min-height: 1080px) {
+  .main-body-shapes-bottom-wrapper {
+    margin-top: 5rem;
+  }
+  .graph_info_container {
+    top: 11vh !important;
+  }
+  .graph-info svg {
+    top: 3rem !important;
+  }
+}
+@media screen and (min-width: 189px) {
+  .main-body-shapes-bottom-wrapper {
+    margin-top: 1rem;
+  }
+
+  .main-body-bio {
+    margin-top: 5rem;
+  }
+  .graph_info_container {
+    top: -8vh !important;
+  }
+  .graph-info svg {
+    top: 3rem !important;
+  }
+}
+@media screen and (min-width: 678px) {
+  .main-body-bio {
+    margin-top: 8rem;
+  }
+}
+
+@media screen and (min-width: 2000px) and (min-height: 1080px) {
+  .main-body-shapes-bottom-wrapper {
+    margin-top: 1rem;
+  }
+}

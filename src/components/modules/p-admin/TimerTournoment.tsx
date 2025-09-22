@@ -1,0 +1,127 @@
+"use client";
+import React, { useState, useEffect } from "react";
+import "@/styles/p-admin/TimerTournoment.css";
+import { motion, AnimatePresence } from "framer-motion";
+
+// --- Interfaces for type safety ---
+interface IRemainingTime {
+  days: number | string;
+  hours: number | string;
+  minutes: number | string;
+  seconds: number | string;
+}
+
+interface ITimerProps {
+  countdownTimestampMs: number;
+}
+
+// --- Utility Function to calculate remaining time ---
+const getRemainingTime = (timestamp: number): IRemainingTime => {
+  const totalSeconds = (timestamp - Date.now()) / 1000;
+  if (totalSeconds < 0) {
+    return { days: "00", hours: "00", minutes: "00", seconds: "00" };
+  }
+
+  const seconds = Math.floor(totalSeconds % 60);
+  const minutes = Math.floor((totalSeconds / 60) % 60);
+  const hours = Math.floor((totalSeconds / (60 * 60)) % 24);
+  const days = Math.floor(totalSeconds / (60 * 60 * 24));
+
+  // Function to add a leading zero
+  const formatNumber = (num: number): string =>
+    num < 10 ? `0${num}` : `${num}`;
+
+  return {
+    days: formatNumber(days),
+    hours: formatNumber(hours),
+    minutes: formatNumber(minutes),
+    seconds: formatNumber(seconds),
+  };
+};
+
+// --- Custom Hook to manage countdown logic ---
+const defaultRemainingTime: IRemainingTime = {
+  days: "00",
+  hours: "00",
+  minutes: "00",
+  seconds: "00",
+};
+
+const useCountdown = (countdownTimestampMs: number): IRemainingTime => {
+  const [remainingTime, setRemainingTime] =
+    useState<IRemainingTime>(defaultRemainingTime);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setRemainingTime(getRemainingTime(countdownTimestampMs));
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, [countdownTimestampMs]);
+
+  return remainingTime;
+};
+
+// --- Animated Number Component ---
+const AnimatedNumber = ({
+  number,
+  label,
+}: {
+  number: number | string;
+  label: string;
+}) => {
+  return (
+    <div
+      className="flex flex-col items-center mx-2 md:mx-4 relative overflow-hidden w-[1.8rem] sm:w-[15vw] xl:w-[4rem]"
+      style={{ height: "80px"}}
+    >
+      <AnimatePresence>
+        <motion.div
+          key={number}
+          initial={{ y: 70, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: -70, opacity: 0 }}
+          transition={{ duration: 0.4 }}
+          className="absolute inset-0 flex justify-center items-center text-[1.4rem] lg:text-4xl md:text-5xl font-bold mb-2"
+        >
+          {number}
+        </motion.div>
+      </AnimatePresence>
+      <span className="text-xs uppercase text-[#888] mt-1 md:mt-1.5 absolute -bottom-0">
+        {label}
+      </span>
+    </div>
+  );
+};
+
+// --- Main Countdown Timer Component with Tailwind CSS ---
+const TimerTournoment = ({
+  countdownTimestampMs,
+}: ITimerProps): JSX.Element => {
+  const { days, hours, minutes, seconds } = useCountdown(countdownTimestampMs);
+
+  return (
+    <>
+    <div className="timer-tournoment-title mb-6">
+        <h2 className="text-2xl font-bold text-white">Team Builders Tournament</h2>
+    </div>
+    <div className="flex  mb-4 justify-center items-center bg-gradient-to-t tournoment-timer-container from-[#202020] to-[#000] w-fit mx-auto text-white p-5 rounded-lg shadow-xl relative">
+      <AnimatedNumber number={days} label="Days" />
+      <span className="text-4xl md:text-5xl font-light text-[#555] mx-2">
+        |
+      </span>
+      <AnimatedNumber number={hours} label="Hours" />
+      <span className="text-4xl md:text-5xl font-light text-[#555] mx-2">
+        |
+      </span>
+      <AnimatedNumber number={minutes} label="Minutes" />
+      <span className="text-4xl md:text-5xl font-light text-[#555] mx-2">
+        |
+      </span>
+      <AnimatedNumber number={seconds} label="Seconds" />
+    </div>
+    </>
+  );
+};
+
+export default TimerTournoment;

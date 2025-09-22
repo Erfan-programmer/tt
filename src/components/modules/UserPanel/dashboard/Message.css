@@ -1,0 +1,30 @@
+.message-info p {
+  color: #ffcc00;
+  font-size: 1.1rem;
+}
+.message-info-history span {
+  color: #D1D1D1;
+  font-size: .8rem;
+}
+.message-info-description span p{
+  color: var(--sidebar-color);
+  text-wrap: wrap;
+}
+
+.message-info p,
+.message-content span,
+.message-description span {
+  word-break: break-word; 
+}
+
+.dark .message-info-description span{
+  color: white;
+  font-size: 1rem;
+}
+.message-item{
+    transition: all .5s;
+}
+.message-item:hover{
+    background-color: var(--sidebar-color);
+    box-shadow:inset 0 0 2rem #034cda ;
+}

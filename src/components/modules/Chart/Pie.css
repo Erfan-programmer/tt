@@ -1,0 +1,50 @@
+.recharts-wrapper {
+  user-select: none !important;
+}
+.recharts-responsive-container svg {
+  margin: auto;
+}
+
+.pie-container {
+  width: 500px;
+  height: 400px;
+}
+@media screen and (min-width: 768px) {
+  .recharts-wrapper {
+    width: 500px !important;
+  }
+  .pie-container {
+    width: 400px;
+    height: 400px;
+  }
+  .recharts-responsive-container svg {
+    width: 100% !important;
+  }
+}
+
+.hidden-blur {
+  filter: blur(2px);
+  transition: filter 0.3s;
+}
+
+.show-blur {
+  filter: blur(2px) drop-shadow(0 0 5px #9eb8ea);
+  transition: filter 0.3s;
+  box-shadow: 10px 10px 10px red;
+}
+.circle {
+  width: 10rem !important;
+  height: 10rem !important;
+  position: absolute;
+  background-color: red !important;
+}
+
+.recharts-wrapper,
+.recharts-pie-sector,
+.recharts-surface {
+  outline: none !important;
+}
+
+.recharts-wrapper *:focus {
+  outline: none !important
+}

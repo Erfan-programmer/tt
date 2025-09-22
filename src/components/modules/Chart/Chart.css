@@ -1,0 +1,29 @@
+.titan_chart div {
+    width: 100% !important;
+    height: auto !important;
+}
+
+
+@media screen and (min-width:568px) {
+    
+    .titan_chart div {
+        width: 100% !important;
+        margin: auto;
+        height: auto !important;
+    }
+}
+@media screen and (min-width:768px) {
+    
+    .titan_chart div {
+        width: 50% !important;
+        margin: auto;
+        height: auto !important;
+    }
+}
+@media screen and (min-width:1024px) {
+    
+    .titan_chart div {
+        width: 100% !important;
+    }
+}
+    

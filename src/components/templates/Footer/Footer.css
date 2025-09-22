@@ -1,0 +1,23 @@
+.footer-important-links ul li a {
+    color: white;
+}
+.footer-icons svg {
+    color: white;
+    width:1.5rem;
+    height: 1.5rem;
+}
+
+@media screen and (max-width:630px) {
+    .titan-footer{
+        background: linear-gradient(360deg, #11398e 0%, #080a1d 100%);
+        margin-top: 0rem;
+    }
+    
+}
+@media screen and (min-width:630px) {
+    .titan-footer{
+        background: #080a1d;
+        margin-top: 0rem;
+    }
+    
+}

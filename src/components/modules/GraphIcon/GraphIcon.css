@@ -1,0 +1,25 @@
+.svgIcon {
+  width: 100%;
+  position: absolute;
+  top:1rem;
+  z-index: 1;
+  left: 0;
+}
+
+@media screen and (min-width: 640px) {
+  .svgIcon {
+    width: 60%;
+    top: -15%;
+
+  }
+}
+@media screen and (min-width: 768px) {
+  .svgIcon {
+    width: 50%;
+  }
+}
+@media screen and (min-width: 1024) {
+  .svgIcon {
+    width: 40%;
+  }
+}

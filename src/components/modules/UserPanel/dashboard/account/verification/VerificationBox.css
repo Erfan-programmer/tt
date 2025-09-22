@@ -1,0 +1,19 @@
+.verification-box-container{
+    min-width: calc(fit-content);
+    border-radius: 1rem;
+    width: 20rem;
+    background-color: #fff;
+    height: 15rem;
+    padding: 1rem 2rem;
+}
+.dark  .verification-box-container{
+    background-color: #0f163a;
+
+}
+
+.verification-box-footer-top p {
+    font-size: 1.2rem;
+}
+.verification-box-footer-bottom span {
+    font-size: .6rem;
+}

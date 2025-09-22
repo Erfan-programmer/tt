@@ -1,0 +1,30 @@
+.pyramid-container{
+  width: 10rem !important;
+  height: 8rem !important;
+  position: absolute;
+  margin: auto;
+  background-color: unset !important;
+  box-shadow: none !important;
+  left:50%;
+  top:-4%;
+  z-index: 2;
+  transform: translate(-50% , -50%);
+}
+.pyramid-container div{
+  width: auto !important;
+  height: auto !important;
+  overflow: visible !important;
+  position: relative !important;
+  display: flex;
+  justify-content: center;
+  box-shadow: none !important;
+
+  align-items: center;
+}
+
+.pyramid-container div svg{
+position: relative !important;
+transform: translate(-50%, -3%) !important;
+filter: drop-shadow( 0 0 15px #fff);
+
+}

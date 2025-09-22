@@ -1,0 +1,12 @@
+
+
+/* .css-ja1try-MuiTabs-root .MuiTabs-indicator{
+    background-color: #00CB08 !important;
+    position: relative;
+} */
+
+.css-ja1try-MuiTabs-root .MuiTabs-indicator::before {
+content: "";
+width: 100%;
+position: relative;
+}

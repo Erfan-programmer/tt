@@ -1,0 +1,20 @@
+@media screen and (min-width:1280px) {
+  .slider-graph-container svg:first-child {
+    right: 50% !important;
+    width: 50vw !important;
+}
+.slider-graph-container svg:last-child{
+      left: 50% !important;
+      width: 50vw !important;
+  }
+}
+@media screen and (min-width:1525px) {
+  .slider-graph-container svg:first-child {
+    right: 49.2% !important;
+    width: 50vw !important;
+}
+.slider-graph-container svg:last-child{
+      left: 49.2% !important;
+      width: 50vw !important;
+  }
+}

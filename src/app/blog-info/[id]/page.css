@@ -1,0 +1,18 @@
+.blog-info-wrapper h3 , .blog-info-wrapper p {
+    color: white;
+}
+.blog-info-wrapper h3 {
+    margin-bottom: .5rem;
+    font-size: 1.2rem;
+}
+.blog-info-wrapper ul{
+    list-style: disc;
+    color: white;
+    padding-left:.7rem ;
+    margin-top: 1rem;
+
+}
+
+.blog-info-wrapper article{
+    margin-bottom: 2rem;
+}

@@ -1,0 +1,21 @@
+
+.admin-breadcrumb::-webkit-scrollbar {
+  width: 2px;
+  height: 5px;
+  border-radius: 1rem;
+}
+
+
+.admin-breadcrumb::-webkit-scrollbar-track {
+  background: #fff !important;
+  border-radius: 1rem;
+}
+
+.admin-breadcrumb::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 1rem;
+}
+
+.admin-breadcrumb::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}

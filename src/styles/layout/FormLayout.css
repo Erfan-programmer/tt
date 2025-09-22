@@ -1,0 +1,227 @@
+.formLayout-left-side-title h1 {
+  color: #ffffff;
+  line-height: 49px;
+  text-shadow: 0px 0px 30px #0e4dff;
+}
+
+.formLayout-left-side-wrppaer {
+  overflow: hidden;
+}
+
+.stars-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
+  border-radius: 50%;
+  opacity: 0;
+  animation: twinkle var(--duration) ease-in-out infinite;
+  animation-delay: var(--delay);
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.5);
+  }
+}
+
+.form-layout-bg {
+  background-image: url(/images/earth-moon.png);
+  background-blend-mode: lighten;
+  background-color: #090d23;
+  background-repeat: no-repeat;
+  width: 100%;
+  bottom: 0;
+  height: 100vh;
+  left: 0;
+  background-size: cover;
+  background-position: center center;
+}
+.form-layout-forgot-bg{
+  background-image: url(/3c3fa8f9fb03e29bb146ad74ebfdf102.jpg);
+  background-blend-mode: lighten;
+  position: relative;
+  background-color: #090d23;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
+  background-size: cover;
+  background-position: center center;
+}
+.form-layout-reset-2fa-bg{
+  background-image: url(/b17b9bdf81c8534ae87278703098c4dd654a7d10.jpg);
+  background-blend-mode: lighten;
+  position: relative;
+  background-color: #090d23;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
+  background-size: cover;
+  background-position: center center;
+}
+.form-layout-reset-2fa-confirm-bg{
+  background-image: url(/20b0025f4eb6df97fc4360aa58bec57d7940aa41.jpg);
+  background-blend-mode: lighten;
+  position: relative;
+  background-color: #090d23;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
+  background-size: cover;
+  background-position: center center;
+}
+.form-layout-reset-bg{
+  background-image: url(/reset-pass.jpg);
+  background-blend-mode: lighten;
+  position: relative;
+  background-color: #090d23;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
+  background-size: cover;
+  background-position: center center;
+}
+.form-layout-reset-2fa-bg{
+  background-image: url(/b17b9bdf81c8534ae87278703098c4dd654a7d10.jpg);
+  background-blend-mode: lighten;
+  position: relative;
+  background-color: #000;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
+  background-size: 100% 150%;
+  background-position: 100% 10%;
+  background-repeat: no-repeat;
+}
+.form-layout-reset-2fa-confirm-bg{
+  background-image: url(/20b0025f4eb6df97fc4360aa58bec57d7940aa41.jpg);
+  background-blend-mode: lighten;
+  position: relative;
+  background-color: #000;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
+  background-size: 100% 100%;
+  background-position: 100% 100%;
+  background-repeat: no-repeat;
+}
+.formlayout-bg-mobile{
+  background-image: url(/images/earth.png);
+  background-blend-mode: lighten;
+  position: relative;
+  background-color: #090d23;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 30vh;
+  background-size: cover;
+  background-position: center center;
+}
+.formlayout-bg-mobile-forgot-password{
+  background-image: url(/3c3fa8f9fb03e29bb146ad74ebfdf102.jpg);
+  background-blend-mode: lighten;
+  position: relative;
+  background-color: #090d23;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 30vh;
+  background-size: cover;
+  background-position: 100% 40%;
+}
+.formlayout-bg-mobile-Titan-recover{
+  background-image: url(/b17b9bdf81c8534ae87278703098c4dd654a7d10.jpg);
+  background-blend-mode: lighten;
+  position: relative;
+  background-color: #090d23;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 30vh;
+  background-size: cover;
+  background-position: 100% 10%;
+}
+.formlayout-bg-mobile-Titan-recover-confirm{
+  background-image: url(/20b0025f4eb6df97fc4360aa58bec57d7940aa41.jpg);
+  background-blend-mode: lighten;
+  position: relative;
+  background-color: #090d23;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 30vh;
+  background-size: cover;
+  background-position: 100% 10%;
+}
+.formlayout-bg-mobile-reset-password{
+  background-image: url(/reset-pass.jpg);
+  background-blend-mode: lighten;
+  position: relative;
+  background-color: #090d23;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 30vh;
+  background-size: cover;
+  background-position: 100% 40%;
+}
+.formlayout-bg-mobile-login{
+  background-color: #090d23;
+  background-repeat: no-repeat;
+}
+.form-layout-space-man {
+  background-image: url(/images/space-man.png);
+  width: 94%;
+  height: 15rem;
+  right: 0;
+  background-size: contain;
+  background-position: right;
+  background-repeat: no-repeat;
+  opacity: 1;
+  transform: none;
+  z-index: 2;
+  position: absolute;
+  right: 0rem;
+  bottom: 12rem;
+
+}
+.form-layout-titan-img {
+  background-image: url(/3c3fa8f9fb03e29bb146ad74ebfdf102.jpg);
+  width: 100%;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 1;
+  transform: none;
+  z-index: 2;
+}
+
+.forgot-password-img-wrapper p{
+  color: #ffffff;
+  font-size: 1.8rem;
+  font-weight: 600;
+  line-height: 2.5rem;
+}
+.reset-password-img-wrapper p{
+  color: #ffffff;
+  font-size: 1.8rem;
+  font-weight: 600;
+  line-height: 2.5rem;
+}
+
