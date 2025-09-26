@@ -139,7 +139,7 @@ export default function UserAccountCondition() {
         return [
           {
             id: 1,
-            title: `$ ${dashboardData?.start_of_investment}`,
+            title: ` ${dashboardData?.start_of_investment}`,
             subTitle: "Start Of Investment",
           },
           {
@@ -168,7 +168,7 @@ export default function UserAccountCondition() {
         return [
           {
             id: 1,
-            title: `$ ${dashboardData?.start_of_investment}`,
+            title: `${dashboardData?.start_of_investment}`,
             subTitle: "Start Of Investment",
           },
           {
@@ -196,7 +196,7 @@ export default function UserAccountCondition() {
         return [
           {
             id: 1,
-            title: `$ ${dashboardData?.start_of_investment}`,
+            title: `${dashboardData?.start_of_investment}`,
             subTitle: "Start Of Investment",
           },
           { id: 2, title: `$ ${dashboardData?.total_roi}`, subTitle: "ROI" },
@@ -205,7 +205,7 @@ export default function UserAccountCondition() {
         return [
           {
             id: 1,
-            title: `$ ${dashboardData?.start_of_investment}`,
+            title: ` ${dashboardData?.start_of_investment}`,
             subTitle: "Start Of Investment",
           },
           {
