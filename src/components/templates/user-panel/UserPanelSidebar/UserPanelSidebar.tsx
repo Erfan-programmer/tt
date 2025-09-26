@@ -157,13 +157,13 @@ export default function UserPanelSidebar() {
                     <Link
                       key={index}
                       href={
-                        (isVerified && subItem.toLowerCase() === "verification" )
+                        (isVerified && subItem?.toLowerCase() === "verification" )
                           ? ""
                           : subItem?.link
                       }
                       className={`submenu-item flex items-center rounded-[1rem] select-none gap-3  ${
                         pathname?.startsWith(subItem.link) &&
-                        subItem.id.toLowerCase() !== "verification"
+                        subItem.id?.toLowerCase() !== "verification"
                           ? "active-before"
                           : "border-none"
                       }`}
@@ -171,11 +171,11 @@ export default function UserPanelSidebar() {
                     >
                       {subItem.svg}
                       <span>
-                        {subItem.id.toLowerCase() === "verification" && isVerified ? (
+                        {subItem.id?.toLowerCase() === "verification" && isVerified ? (
                           <div className="flex items-center">
                             <span
                               className={`${
-                                subItem.id.toLowerCase() === "verification"
+                                subItem.id?.toLowerCase() === "verification"
                                   ? "opacity-30"
                                   : ""
                               }`}
@@ -231,7 +231,7 @@ export default function UserPanelSidebar() {
       <div className="sidebar-items w-[95%] mx-auto mt-[1rem] overflow-x-auto">
         <ul className="sidear-items-container">
           {menuItems
-            .filter((item) => permissions?.includes(item.id.toLowerCase()))
+            .filter((item) => permissions?.includes(item.id?.toLowerCase()))
             .map((item) =>
               item.subItems.length === 0 ? (
                 item.id === "logout" ? (
