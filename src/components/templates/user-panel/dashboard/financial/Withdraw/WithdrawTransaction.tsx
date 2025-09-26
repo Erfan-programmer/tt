@@ -252,6 +252,7 @@ export default function WithdrawTransaction() {
     setSelectedTransaction(transaction);
     setModalFadeOut(false);
     setModalOpen(true);
+    console.log("transaction" , transaction)
   };
 
   const handleCloseModal = () => {

@@ -29,10 +29,7 @@ interface Props {
   refetch: () => void;
 }
 
-export default function AdminWithdrawList({
-  transactions,
-  refetch,
-}: Props) {
+export default function AdminWithdrawList({ transactions, refetch }: Props) {
   const [selectedTransaction, setSelectedTransaction] =
     useState<Transaction | null>(null);
   const [modalType, setModalType] = useState<
@@ -43,15 +40,19 @@ export default function AdminWithdrawList({
   const handleApprove = async () => {
     if (!selectedTransaction?.id) return;
     try {
-      await apiRequest(
+      const response = await apiRequest(
         `${process.env.NEXT_PUBLIC_API_URL}/v1/admin/withdrawals/${selectedTransaction.id}/approve`,
         "POST",
         null,
         { Authorization: `Bearer ${loadEncryptedData()?.token}` }
       );
-      toast.success("Withdraw approved!");
-      resetModal();
-      refetch()
+      if (response.success) {
+        toast.success(response.message || "Withdraw approved!");
+        resetModal();
+        refetch();
+      } else {
+        toast.error(response.message);
+      }
     } catch (err: any) {
       toast.error("Error approving withdraw: " + err.message);
     }
@@ -60,7 +61,7 @@ export default function AdminWithdrawList({
   const handleReject = async () => {
     if (!selectedTransaction?.id) return;
     try {
-      await apiRequest(
+      const response = await apiRequest(
         `${process.env.NEXT_PUBLIC_API_URL}/v1/admin/withdrawals/${
           selectedTransaction.id
         }/reject?reason=${encodeURIComponent(inputValue)}`,
@@ -68,9 +69,13 @@ export default function AdminWithdrawList({
         null,
         { Authorization: `Bearer ${loadEncryptedData()?.token}` }
       );
-      toast.success("Withdraw rejected!");
-      resetModal();
-      refetch();
+      if (response.success) {
+        toast.success(response.message || "Withdraw rejected!");
+        resetModal();
+        refetch();
+      } else {
+        toast.error(response.message);
+      }
     } catch (err: any) {
       toast.error("Error rejecting withdraw: " + err.message);
     }
@@ -79,15 +84,19 @@ export default function AdminWithdrawList({
   const handleComplete = async () => {
     if (!selectedTransaction?.id) return;
     try {
-      await apiRequest(
+      const response = await apiRequest(
         `${process.env.NEXT_PUBLIC_API_URL}/v1/admin/withdrawals/${selectedTransaction.id}/complete?transaction_hash=${inputValue}`,
         "POST",
         null,
         { Authorization: `Bearer ${loadEncryptedData()?.token}` }
       );
-      toast.success("Withdraw completed!");
-      resetModal();
-      refetch();
+      if (response.success) {
+        toast.success(response.message || "Withdraw completed!");
+        resetModal();
+        refetch();
+      } else {
+        toast.error(response.message);
+      }
     } catch (err: any) {
       toast.error("Error completing withdraw: " + err.message);
     }
@@ -145,7 +154,7 @@ export default function AdminWithdrawList({
               setModalType("approve");
             }}
           >
-             <FaCheck className="text-white" />
+            <FaCheck className="text-white" />
           </button>
           <button
             className="p-1 rounded bg-red-600 hover:bg-red-500 text-white transition"
