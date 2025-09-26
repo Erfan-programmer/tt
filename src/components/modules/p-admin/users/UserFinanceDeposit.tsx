@@ -41,6 +41,7 @@ export default function UserFinanceDeposit() {
       <CustomAdminInput title="Amount" value={String(amount)} onChange={setAmount} />
       <CustomAdminInput
         title="Capital Health"
+        readOnly={true}
         value={capitalHealth}
         onChange={setCapitalHealth}
       />
