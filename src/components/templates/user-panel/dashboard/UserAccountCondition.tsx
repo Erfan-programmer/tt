@@ -352,7 +352,7 @@ export default function UserAccountCondition() {
               <>
                 <div className="flex flex-col items-center">
                   <span className="text-[var(--main-background)] dark:text-white text-md font-medium">
-                    $ {dashboardData?.start_of_investment}
+                     {dashboardData?.start_of_investment}
                   </span>
                   <span className="text-[#8E92BC] text-sm mt-1">
                     Start Of Investment
