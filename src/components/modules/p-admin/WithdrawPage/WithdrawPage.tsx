@@ -134,7 +134,7 @@ export default function WithdrawPage() {
             onClear={() => fetchWithdrawTransactions()}
           />
 
-          <AdminWithdrawList transactions={transactions} />
+          <AdminWithdrawList transactions={transactions} refetch={fetchWithdrawTransactions}/>
         </AnimationTemplate>
       )}
 

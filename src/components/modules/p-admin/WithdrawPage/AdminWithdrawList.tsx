@@ -26,12 +26,12 @@ export interface Transaction {
 
 interface Props {
   transactions: Transaction[];
-  refreshTransactions?: () => void;
+  refetch: () => void;
 }
 
 export default function AdminWithdrawList({
   transactions,
-  refreshTransactions,
+  refetch,
 }: Props) {
   const [selectedTransaction, setSelectedTransaction] =
     useState<Transaction | null>(null);
@@ -51,7 +51,7 @@ export default function AdminWithdrawList({
       );
       toast.success("Withdraw approved!");
       resetModal();
-      refreshTransactions?.();
+      refetch()
     } catch (err: any) {
       toast.error("Error approving withdraw: " + err.message);
     }
@@ -70,7 +70,7 @@ export default function AdminWithdrawList({
       );
       toast.success("Withdraw rejected!");
       resetModal();
-      refreshTransactions?.();
+      refetch();
     } catch (err: any) {
       toast.error("Error rejecting withdraw: " + err.message);
     }
@@ -87,7 +87,7 @@ export default function AdminWithdrawList({
       );
       toast.success("Withdraw completed!");
       resetModal();
-      refreshTransactions?.();
+      refetch();
     } catch (err: any) {
       toast.error("Error completing withdraw: " + err.message);
     }
