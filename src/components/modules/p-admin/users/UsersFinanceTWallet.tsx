@@ -13,8 +13,8 @@ export default function UsersFinanceTWallet() {
   const [twoFaCode, setTwoFaCode] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const params = useParams()
   const handleTransfer = async (type: "increase" | "decrease") => {
-    const params = useParams()
     const numericAmount = parseFloat(amount) || 0;
     if (!numericAmount) {
       toast.error("Please enter a valid amount");
