@@ -43,7 +43,7 @@ export default function UsersFinanceROI() {
       };
 
       const res = await apiRequest<any>(
-        `${process.env.NEXT_PUBLIC_API_URL}/v1/admin/transferCommission/2`,
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/admin/transferCommission/${id}`,
         "POST",
         body,
         { Authorization: `Bearer ${token}` }
