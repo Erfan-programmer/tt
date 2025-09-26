@@ -102,6 +102,7 @@ export default function UserPanelSidebar() {
   )} ${getPart("hour")}:${getPart("minute")} ${getPart("dayPeriod")}`;
   const { headerData } = useHeader();
   const permissions = headerData?.permission;
+  const isVerified = headerData?.verified
   const renderLinks = (item: any) => {
     const hiddenInMobile = ["dashboard", "withdraw"].includes(item.id);
     if (isMobile && hiddenInMobile) return null;
@@ -156,7 +157,7 @@ export default function UserPanelSidebar() {
                     <Link
                       key={index}
                       href={
-                        subItem.id.toLowerCase() === "verification"
+                        isVerified
                           ? ""
                           : subItem?.link
                       }
@@ -170,7 +171,7 @@ export default function UserPanelSidebar() {
                     >
                       {subItem.svg}
                       <span>
-                        {subItem.id.toLowerCase() === "verification" ? (
+                        {subItem.id.toLowerCase() === "verification" && isVerified ? (
                           <div className="flex items-center">
                             <span
                               className={`${
