@@ -6,6 +6,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { loadUserData } from "@/components/modules/EncryptData/SavedEncryptData";
 import { apiRequest } from "@/libs/api";
+import { useHeader } from "@/contextApi/HeaderContext";
 
 export default function TeamContractsContent() {
   const [contractRenewalData, setContractRenewalData] = useState<any>(null);
@@ -17,7 +18,7 @@ export default function TeamContractsContent() {
     [key: string]: string;
   }>({});
   const [showModal, setShowModal] = useState(false);
-
+ const {headerData} = useHeader()
   const router = useRouter();
 
   // API call for contract renewal list
@@ -171,8 +172,6 @@ export default function TeamContractsContent() {
             {/* Confirm Button */}
             <button
               onClick={async () => {
-                if (twoFACode.trim().length !== 6) return;
-                if (!selectedContract) return;
 
                 setLoading(true);
                 try {
@@ -244,9 +243,7 @@ export default function TeamContractsContent() {
             </div>
             <h2 className="text-[var(--dark-color)] dark:text-white text-lg font-semibold">
               Contract Expiration{" "}
-              {selectedContract
-                ? `#${selectedContract.contract_number}`
-                : "#2341_1"}
+                #{headerData?.t_id}
             </h2>
           </div>
 
