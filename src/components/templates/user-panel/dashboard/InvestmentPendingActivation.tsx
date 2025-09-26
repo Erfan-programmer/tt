@@ -107,48 +107,49 @@ export default function InvestmentPendingActivation() {
     );
   }
   const progressPercentage = calculateProgress(data.start_date, data.end_date);
+
   return (
     <>
-      <div className="my-[1rem] w-full border-standard rounded-t-xl shadow-md overflow-hidden">
-        <div className=" bg-gradient-to-r from-[#F6FAFF] to-[#E0EFFF]">
-          <div className="py-4 px-6 sm:px-8">
-            <div className="flex justify-between items-center">
-              <div className="flex items-center gap-2">
-                <IoIosInformationCircleOutline
-                  className="text-blue-500 text-3xl"
-                  onClick={() => setShowHint(!hintShow)}
-                />
-                <p className="text-gray-800 font-semibold text-lg">
-                  Investment Pending Activation
+      {data.status && (
+        <div className="my-[1rem] w-full border-standard rounded-t-xl shadow-md overflow-hidden">
+          <div className=" bg-gradient-to-r from-[#F6FAFF] to-[#E0EFFF]">
+            <div className="py-4 px-6 sm:px-8">
+              <div className="flex justify-between items-center">
+                <div className="flex items-center gap-2">
+                  <IoIosInformationCircleOutline
+                    className="text-blue-500 text-3xl"
+                    onClick={() => setShowHint(!hintShow)}
+                  />
+                  <p className="text-gray-800 font-semibold text-lg">
+                    Investment Pending Activation
+                  </p>
+                </div>
+              </div>
+              <div className="mt-4 text-gray-700 text-sm leading-relaxed">
+                <p>
+                  Your investment contract{" "}
+                  <span className="font-bold">#{data.contract_number}</span> for{" "}
+                  <span className="font-bold">${data.contract_investment}</span>{" "}
+                  has been successfully registered. From{" "}
+                  <span className="font-bold">{data.label}</span>, your capital
+                  will automatically enter the trading cycle.
+                </p>
+                <p className="mt-2">
+                  Meanwhile, your account is fully active and you can use all
+                  features of the platform.
                 </p>
               </div>
             </div>
-            <div className="mt-4 text-gray-700 text-sm leading-relaxed">
-              <p>
-                Your investment contract{" "}
-                <span className="font-bold">#{data.contract_number}</span> for{" "}
-                <span className="font-bold">${data.contract_investment}</span>{" "}
-                has been successfully registered. From{" "}
-                <span className="font-bold">{data.label}</span>, your capital
-                will automatically enter the trading cycle.
-              </p>
-              <p className="mt-2">
-                Meanwhile, your account is fully active and you can use all
-                features of the platform.
-              </p>
+
+            <div className="mt-4 rounded-full bg-gray-300 dark:bg-gray-700 h-2 overflow-hidden">
+              <div
+                className="bg-blue-500 h-full rounded-r-xl transition-all duration-500"
+                style={{ width: `${progressPercentage}%` }}
+              ></div>
             </div>
           </div>
-
-          <div className="mt-4 rounded-full bg-gray-300 dark:bg-gray-700 h-2 overflow-hidden">
-            <div
-              className="bg-blue-500 h-full rounded-r-xl transition-all duration-500"
-              style={{ width: `${progressPercentage}%` }}
-            ></div>
-          </div>
         </div>
-      </div>
-      {/* {hintShow && (
-      )} */}
+      )}
     </>
   );
 }

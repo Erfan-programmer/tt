@@ -231,7 +231,7 @@ export default function GoldRewardPopup({
             </div>
             {data.button_text && (
               <button
-                className="w-full py-2 rounded-lg border border-[var(--gold)] text-[#FAD594] font-semibold bg-black hover:bg-[#FAD594] hover:text-[#232b41] transition-colors duration-200 mt-2"
+                className="w-full py-2 rounded-lg border border-[var(--gold)] text-[#FAD594] font-semibold bg-black/40 hover:bg-[#FAD594] hover:text-[#232b41] transition-colors duration-200 mt-2"
                 onClick={() => handleButtonClick(data.id, data.button_url)}
               >
                 {data.button_text}

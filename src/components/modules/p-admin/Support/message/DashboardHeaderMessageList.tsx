@@ -321,7 +321,7 @@ export default function DashboardHeaderMessageList({
               >
                 {(editMessage?.image || file) && (
                   <div
-                    className="absolute left-1 top-1 p-1 bg-black bg-opacity-50 rounded-full z-10"
+                    className="absolute left-1 top-1 p-1 bg-black/40 bg-opacity-50 rounded-full z-10"
                     onClick={(e) => {
                       e.stopPropagation();
                       setFile(null);

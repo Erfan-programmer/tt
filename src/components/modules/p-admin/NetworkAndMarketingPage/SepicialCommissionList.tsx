@@ -40,7 +40,7 @@ function ConfirmModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black bg-opacity-70">
+    <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/40 bg-opacity-70">
       <div className="bg-[#1F2937] text-white rounded-lg shadow-lg w-96 p-6">
         <h2 className="text-lg font-bold mb-4">{title || "Confirm Action"}</h2>
         <p className="mb-6">{message || "Are you sure?"}</p>

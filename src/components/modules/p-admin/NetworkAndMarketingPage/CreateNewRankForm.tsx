@@ -290,7 +290,7 @@ export default function CreateNewRankForm({refetch}:CreateNewRankFormProp) {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
-              className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+              className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 bg-opacity-50"
             >
               <motion.div
                 initial={{ y: -20 }}

@@ -409,7 +409,7 @@ export default function AddSpecialCommissionRule() {
                       className="h-full w-full rounded-[.5rem] object-cover"
                     />
                     <span
-                      className="absolute top-1 right-1 text-white bg-black bg-opacity-50 rounded-full p-1 cursor-pointer hover:bg-red-600"
+                      className="absolute top-1 right-1 text-white bg-black/40 bg-opacity-50 rounded-full p-1 cursor-pointer hover:bg-red-600"
                       onClick={(e) => {
                         e.stopPropagation();
                         setPreviewImage(null);
