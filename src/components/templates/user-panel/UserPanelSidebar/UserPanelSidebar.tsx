@@ -13,7 +13,6 @@ import { removeUserData } from "@/components/modules/EncryptData/SavedEncryptDat
 import { menuItems } from "./UserSidebarMenus";
 import Image from "next/image";
 import { useHeader } from "@/contextApi/HeaderContext";
-import { useAuth } from "@/contextApi/AuthContext";
 
 export interface SubMenuItem {
   svg?: JSX.Element;
@@ -95,7 +94,6 @@ export default function UserPanelSidebar() {
     minute: "2-digit",
     hour12: true,
   });
-  const {user} = useAuth()
   const parts = formatter.formatToParts(dateUTC);
   const getPart = (type: string) =>
     parts.find((p) => p.type === type)?.value || "";
@@ -159,7 +157,7 @@ export default function UserPanelSidebar() {
                     <Link
                       key={index}
                       href={
-                        isVerified
+                        (isVerified && subItem.toLowerCase() === "verification" )
                           ? ""
                           : subItem?.link
                       }

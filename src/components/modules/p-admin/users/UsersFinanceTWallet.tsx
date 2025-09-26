@@ -6,6 +6,7 @@ import { apiRequest } from "@/libs/api";
 import { loadEncryptedData } from "../../EncryptData/SavedEncryptData";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useParams } from "next/navigation";
 
 export default function UsersFinanceTWallet() {
   const [amount, setAmount] = useState("");
@@ -13,6 +14,7 @@ export default function UsersFinanceTWallet() {
   const [loading, setLoading] = useState(false);
 
   const handleTransfer = async (type: "increase" | "decrease") => {
+    const params = useParams()
     const numericAmount = parseFloat(amount) || 0;
     if (!numericAmount) {
       toast.error("Please enter a valid amount");
@@ -34,7 +36,7 @@ export default function UsersFinanceTWallet() {
       };
 
       const res = await apiRequest<any>(
-        `${process.env.NEXT_PUBLIC_API_URL}/v1/admin/transferTWallet/2`,
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/admin/transferTWallet/${params?.id}`,
         "POST",
         body,
         { Authorization: `Bearer ${token}` }
