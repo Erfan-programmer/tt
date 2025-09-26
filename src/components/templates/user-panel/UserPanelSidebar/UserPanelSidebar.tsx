@@ -171,7 +171,7 @@ export default function UserPanelSidebar() {
                     >
                       {subItem.svg}
                       <span>
-                        {subItem.id?.toLowerCase() === "verification" && isVerified ? (
+                        { isVerified ? (
                           <div className="flex items-center">
                             <span
                               className={`${
