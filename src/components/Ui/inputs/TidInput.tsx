@@ -141,7 +141,7 @@ function TIDSuggestions({
             <button
               disabled={page === 1}
               onClick={() => setPage((p) => Math.max(1, p - 1))}
-              className="px-2 py-1 rounded bg-gray-200 dark:bg-gray-700 text-xs disabled:opacity-50"
+              className="px-2 py-1 rounded bg-gray-200 dark:bg-gray-700 text-[.8rem] disabled:opacity-50"
             >
               Prev
             </button>
@@ -151,7 +151,7 @@ function TIDSuggestions({
             <button
               disabled={page === meta.last_page}
               onClick={() => setPage((p) => Math.min(meta.last_page, p + 1))}
-              className="px-2 py-1 rounded bg-gray-200 dark:bg-gray-700 text-xs disabled:opacity-50"
+              className="px-2 py-1 rounded bg-gray-200 dark:bg-gray-700 text-[.8rem] disabled:opacity-50"
             >
               Next
             </button>

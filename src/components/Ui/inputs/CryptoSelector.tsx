@@ -84,7 +84,7 @@ export default function CryptoSelector({
     if (cryptoList.length > 0 && !value) {
       const firstOption = cryptoList[0];
       onChange(firstOption.symbol);
-      if (onKeyChange) onKeyChange(firstOption.title);
+      if (onKeyChange) onKeyChange(firstOption.symbol);
     }
   }, [cryptoList, value, onChange, onKeyChange]);
 

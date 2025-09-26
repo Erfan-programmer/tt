@@ -30,8 +30,9 @@ export default function TwoFAStep({
   errors,
 }: TwoFAStepProps) {
   const [localError, setLocalError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
   const router = useRouter();
-console.log("qrcode" ,formData.qrcode)
   const handleCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
 
@@ -48,7 +49,7 @@ console.log("qrcode" ,formData.qrcode)
 
   const fetchRegisterForm = async () => {
     if (formData.otp.length !== 6) return;
-
+    setIsLoading(true);
     try {
       const response = await apiRequest<{ success: boolean; message: string }>(
         `${process.env.NEXT_PUBLIC_API_URL}/v1/client/confirmTwoFactor`,
@@ -57,17 +58,18 @@ console.log("qrcode" ,formData.qrcode)
       );
 
       if (response.success) {
+        setIsLoading(true);
         toast.success(response.message || "User registered successfully!");
         setTimeout(() => router.push("/login"), 3000);
       } else {
+        setIsLoading(false);
         toast.error(response.message || "User registrerd failed!");
       }
     } catch (error: any) {
+      setIsLoading(false);
       toast.error(error?.message || "Unexpected error occurred!");
     }
   };
-
-  console.log("formData =>", formData);
 
   return (
     <>
@@ -118,7 +120,7 @@ console.log("qrcode" ,formData.qrcode)
         {/* 2FA Section */}
         <div className={`${twoFactore ? "blur-0" : "blur-[10px]"}`}>
           <div className="mt-4 sm:mt-8">
-            <span className="text-sm sm:text-base text-[var(--box-background)] dark:text-white">
+            <span className="text-sm sm:text-base text-[#383C47] dark:text-white">
               To complete your account setup, enabling two-factor authentication
               (2FA) is mandatory. Before you activate your 2FA, please ensure
               that you have backed up your QR code and secret key. Resetting 2FA
@@ -128,18 +130,18 @@ console.log("qrcode" ,formData.qrcode)
 
           <div className="sm:w-[95%] flex flex-wrap gap-x-2 sm:gap-x-4 justify-center items-center mx-auto border-standard bg-[#f9f9fe] dark:bg-[#0f163a] p-2 py-[1rem] mt-[2rem] rounded-lg">
             {/* QR Code */}
-            <div className="twofacode-img min-w-[80px] max-w-[10rem] rounded-lg overflow-hidden p-[.25rem] bg-white min-h-[100px]">
-                <Image
-                  width={500}
-                  height={500}
-                  src={formData.qrCode}
-                  alt="2FA QR Code"
-                  className="w-full h-full object-cover"
-                />
+            <div className="twofacode-img w-[14rem] h-[14rem]  rounded-lg overflow-hidden p-[1rem] bg-[#0f163a] dark:bg-white min-h-[100px]">
+              <Image
+                width={500}
+                height={500}
+                src={formData.qrCode}
+                alt="2FA QR Code"
+                className="w-full h-full object-cover"
+              />
             </div>
 
             {/* Secret + Copy */}
-            <div className="text-white flex-1 min-w-[200px]">
+            <div className="text-var[(--main-background)] dark:text-white flex-1 min-w-[200px]">
               <div className="scan-container text-center lg:text-left">
                 <p className="text-sm sm:text-base">Can&apos;t scan QR code?</p>
                 <span className="text-sm sm:text-base">
@@ -147,7 +149,7 @@ console.log("qrcode" ,formData.qrcode)
                 </span>
               </div>
 
-              <div className="scan-code w-full border-standard overflow-x-auto text-black dark:text-white p-2 text-center lg:text-left rounded-lg pr-[2rem] flex flex-wrap items-center mt-4">
+              <div className="scan-code w-full border-[1px] border-[#0f163a] dark:border-[#383C47] overflow-x-auto text-black dark:text-white p-2 text-center lg:text-left rounded-lg pr-[2rem] flex flex-wrap items-center mt-4">
                 <span className="break-all secret-text">{formData.secret}</span>
               </div>
 
@@ -195,7 +197,7 @@ console.log("qrcode" ,formData.qrcode)
           <div className="mt-8 w-full sm:w-[80%] mx-auto">
             <label
               htmlFor="verification-code"
-              className="text-sm sm:text-base block text-white"
+              className="text-sm sm:text-base block text-[#383C47] dark:text-white"
             >
               Enter verification code:
             </label>
@@ -212,12 +214,12 @@ console.log("qrcode" ,formData.qrcode)
               maxLength={6}
             />
             {localError && (
-              <span className="text-red-500 text-xs mt-1 block">
+              <span className="text-red-500 text-[.8rem] mt-1 block">
                 {localError}
               </span>
             )}
             {errors?.code && (
-              <span className="text-red-500 text-xs mt-1 block">
+              <span className="text-red-500 text-[.8rem] mt-1 block">
                 {errors.otp.message}
               </span>
             )}
@@ -235,15 +237,15 @@ console.log("qrcode" ,formData.qrcode)
           </motion.button>
           <motion.button
             type="button"
-            className={`submit-register text-white w-[80%] xl:w-full text-[.8rem] md:text-[1rem] relative ${
-              formData.otp.length !== 6 || formData.isLoading
+            className={`submit-register text-white w-[80%] xl:w-full text-[.8rem]  md:text-[1rem] relative ${
+              formData.otp.length !== 6 || isLoading
                 ? "opacity-50 bg-gray-400 cursor-not-allowed"
                 : "cursor-pointer bg-[#030a30]"
             }`}
             onClick={fetchRegisterForm}
-            disabled={formData.otp.length !== 6 || formData.isLoading}
+            disabled={formData.otp.length !== 6 || isLoading}
           >
-            {formData.isLoading ? (
+            {isLoading ? (
               <div className="flex items-center justify-center">
                 <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
                 <span className="text-sm sm:text-base">Processing...</span>

@@ -1,19 +1,28 @@
 "use client";
-import React, { useState, useEffect, useCallback } from "react";
+
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useRef,
+  useMemo,
+} from "react";
 import LineTitle from "@/components/modules/p-admin/LineTitle";
 import CustomAdminInput from "@/components/modules/p-admin/CustomAdminInput";
-const CkEditorWrapper = dynamic(() => import("@/components/modules/CkEditor"), {
-  ssr: false,
-});
-
 import { apiRequest } from "@/libs/api";
 import { toast } from "react-toastify";
-import "@/styles/p-admin/CkEditor.css";
+import "@/styles/p-admin/AdminTextEditor.css";
 import { loadEncryptedData } from "@/components/modules/EncryptData/SavedEncryptData";
 import { AnimatePresence, motion } from "framer-motion";
 import TermsTable, { Term } from "./TermsTable";
 import AnimationTemplate from "@/components/Ui/Modals/p-admin/AnimationTemplate";
 import dynamic from "next/dynamic";
+import "react-quill/dist/quill.snow.css";
+
+// ایمپورت های Quill و ImageUploader که به DOM وابسته هستند، حذف شدند
+import type ReactQuillType from "react-quill";
+
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 export default function TermsAndConditionPage() {
   const [createFormData, setCreateFormData] = useState({
@@ -21,22 +30,99 @@ export default function TermsAndConditionPage() {
     description: "",
   });
   const [loading, setLoading] = useState(false);
-
   const [editFormData, setEditFormData] = useState({
     title: "",
     description: "",
   });
   const [editModal, setEditModal] = useState<Term | null>(null);
-
-  const [terms, setPrivacies] = useState<Term[]>([]);
+  const [terms, setTerms] = useState<Term[]>([]);
   const [listLoading, setListLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
-
   const [deleteModal, setDeleteModal] = useState<Term | null>(null);
   const [modalLoading, setModalLoading] = useState(false);
+  const [showTitle, setShowTitle] = useState(true);
 
-  const fetchPrivacies = useCallback(
+  const quillRef = useRef<ReactQuillType | any>(null);
+
+  // 📌 رفع مشکل: Quill.register به داخل useEffect منتقل شد.
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    Promise.all([
+      import("react-quill").then(m => m.Quill),
+      import("quill-image-uploader").then(m => m.default)
+    ]).then(([Quill, ImageUploader]) => {
+      // این چک برای جلوگیری از ثبت مجدد ماژول هنگام Hot Reloading لازم است
+      const quillAny: any = Quill;
+      if (Quill && ImageUploader && !quillAny.imports['modules/imageUploader']) {
+        Quill.register("modules/imageUploader", ImageUploader);
+      }
+    }).catch(error => {
+      console.error("Failed to load Quill modules:", error);
+    });
+    
+  }, []);
+
+  const imageHandler = useCallback(() => {
+    const input = document.createElement("input");
+    input.setAttribute("type", "file");
+    input.setAttribute("accept", "image/*");
+    input.click();
+
+    input.onchange = async () => {
+      if (!input.files || !input.files[0]) return;
+      const file = input.files[0];
+      const formData = new FormData();
+      formData.append("image", file);
+      const token = loadEncryptedData()?.token;
+      try {
+        const res = await apiRequest<{ data: string }>(
+          `${process.env.NEXT_PUBLIC_API_URL}/v1/admin/upload-ck-image`,
+          "POST",
+          formData,
+          { Authorization: `Bearer ${token}` }
+        );
+        if (res.success && res.data?.data) {
+          const editor = quillRef.current?.getEditor();
+          const range = editor?.getSelection();
+          const imageUrl = `${process.env.NEXT_PUBLIC_API_URL_STORAGE}/${res.data.data}`;
+          editor?.insertEmbed(range?.index || 0, "image", imageUrl);
+        } else {
+          toast.error("Image upload failed!");
+        }
+      } catch {
+        toast.error("Error while uploading image.");
+      }
+    };
+  }, []);
+
+  const quillModules = useMemo(() => {
+    return {
+      toolbar: {
+        container: [
+          ["bold", "italic", "underline", "strike"],
+          ["blockquote", "code-block"],
+          [{ list: "ordered" }, { list: "bullet" }],
+          [{ script: "sub" }, { script: "super" }],
+          [{ indent: "-1" }, { indent: "+1" }],
+          [{ direction: "rtl" }],
+          [{ size: ["small", false, "large", "huge"] }],
+          [{ header: [1, 2, 3, 4, 5, 6, false] }],
+          [{ color: [] }, { background: [] }],
+          [{ font: [] }],
+          [{ align: [] }],
+          ["clean"],
+          ["link", "image"],
+        ],
+        handlers: {
+          image: imageHandler,
+        },
+      },
+    };
+  }, [imageHandler]);
+
+  const fetchTerms = useCallback(
     async (pageNumber: number = 1) => {
       setListLoading(true);
       const token = loadEncryptedData()?.token;
@@ -58,24 +144,24 @@ export default function TermsAndConditionPage() {
             description: f.description,
             created_at: f.created_at,
           }));
-          setPrivacies(termsData);
+          setTerms(termsData);
           setPage(res.data.meta?.current_page || 1);
           setLastPage(res.data.meta?.last_page || 1);
         } else {
-          toast.error(res.message || "Failed to fetch Privacy Policy");
+          toast.error(res.message || "Failed to fetch Terms & Conditions");
         }
       } catch {
-        toast.error("Error while fetching Privacy Policy");
+        toast.error("Error while fetching Terms & Conditions");
       } finally {
         setListLoading(false);
       }
     },
-    [setPrivacies, setPage, setLastPage, setListLoading]
+    []
   );
 
   useEffect(() => {
-    fetchPrivacies(page);
-  }, [fetchPrivacies, page]);
+    fetchTerms(page);
+  }, [fetchTerms, page]);
 
   const handleSubmit = async () => {
     if (!createFormData.title.trim() || !createFormData.description.trim()) {
@@ -92,12 +178,14 @@ export default function TermsAndConditionPage() {
         { Authorization: `Bearer ${token}` }
       );
       if (res.success) {
-        toast.success(res.message || "FAQ created successfully!");
+        toast.success(res.message || "Terms created successfully!");
         setCreateFormData({ title: "", description: "" });
-        fetchPrivacies(page);
+        fetchTerms(page);
+        setLoading(false);
       } else toast.error(res.message || "Something went wrong!");
     } catch {
-      toast.error("Error while creating FAQ!");
+      setLoading(false);
+      toast.error("Error while creating Terms!");
     } finally {
       setLoading(false);
     }
@@ -124,14 +212,14 @@ export default function TermsAndConditionPage() {
         { Authorization: `Bearer ${token}` }
       );
       if (res.success && res.data) {
-        toast.success(res.data.message || "FAQ updated successfully!");
+        toast.success(res.data.message || "Terms updated successfully!");
         setEditModal(null);
-        fetchPrivacies(page);
+        fetchTerms(page);
       } else {
-        toast.error(res.error?.message || "Failed to update FAQ.");
+        toast.error(res.error?.message || "Failed to update Terms.");
       }
     } catch {
-      toast.error("Unexpected error while updating FAQ.");
+      toast.error("Unexpected error while updating Terms.");
     } finally {
       setModalLoading(false);
     }
@@ -152,16 +240,14 @@ export default function TermsAndConditionPage() {
         toast.success(res.data.message || "Deleted successfully!");
         setDeleteModal(null);
         const newPage = terms.length === 1 && page > 1 ? page - 1 : page;
-        fetchPrivacies(newPage);
-      } else toast.error(res.error?.message || "Failed to delete FAQ.");
+        fetchTerms(newPage);
+      } else toast.error(res.error?.message || "Failed to delete Terms.");
     } catch {
-      toast.error("Unexpected error while deleting FAQ.");
+      toast.error("Unexpected error while deleting Terms.");
     } finally {
       setModalLoading(false);
     }
   };
-
-  const [showTitle, setShowTitle] = useState(true);
 
   return (
     <>
@@ -188,14 +274,17 @@ export default function TermsAndConditionPage() {
               <label className="block font-medium mb-2 text-white">
                 Long Description
               </label>
-              <CkEditorWrapper
-                data={createFormData.description}
+              <ReactQuill
+                theme="snow"
+                value={createFormData.description}
                 onChange={(val) =>
                   setCreateFormData((prev) => ({
                     ...prev,
                     description: val,
                   }))
                 }
+                placeholder="Type here..."
+                modules={quillModules}
               />
             </div>
             <button
@@ -219,7 +308,7 @@ export default function TermsAndConditionPage() {
             lastPage={lastPage}
             onPageChange={(p) => {
               setPage(p);
-              fetchPrivacies(p);
+              fetchTerms(p);
             }}
             onEdit={handleEdit}
             onDelete={(term) => setDeleteModal(term)}
@@ -250,9 +339,8 @@ export default function TermsAndConditionPage() {
                     ✕
                   </button>
                   <h2 className="text-xl font-semibold text-center">
-                    Edit FAQ &quot;{editModal.title}&quot;
+                    Edit Terms &quot;{editModal.title}&quot;
                   </h2>
-
                   <CustomAdminInput
                     title="Title"
                     type="text"
@@ -267,14 +355,17 @@ export default function TermsAndConditionPage() {
                     <label className="block font-medium mb-2 text-white">
                       Description
                     </label>
-                    <CkEditorWrapper
-                      data={createFormData.description}
+                    <ReactQuill
+                      theme="snow"
+                      value={editFormData.description}
                       onChange={(val) =>
                         setEditFormData((prev) => ({
                           ...prev,
                           description: val,
                         }))
                       }
+                      placeholder="Edit description..."
+                      modules={quillModules}
                     />
                   </div>
 

@@ -6,6 +6,7 @@ export default function AdminDashboardDataBox({
   title,
   subTitle,
   status,
+  link,
   chart,
   bgColor
 }: AdminDashboardDataBoxType) {
@@ -21,7 +22,7 @@ export default function AdminDashboardDataBox({
   const router = useRouter()
   return (
     <div
-    onClick={()=> router.push("/hrtaamst2025/network&marketing/ranks")}
+    onClick={()=> router.push(link ? link : "")}
       className={`admin-dashboard-data cursor-pointer min-w-52 border-2 py-4 ${bgColor ? `bg-[${bgColor}]` : ""} ${borderClass} rounded-xl p-2 px-4`}
     >
       <div className="flex items-center justify-between">

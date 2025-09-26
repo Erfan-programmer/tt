@@ -11,7 +11,6 @@ export default function TeamTreeStructurePage() {
   const [isMobileModalOpen, setIsMobileModalOpen] = useState(false);
 
   const handleReferralSelect = (referral: ReferralType) => {
-    console.log("referral =>" , referral)
     setSelectedReferral(referral);
     setIsMobileModalOpen(true);
   };

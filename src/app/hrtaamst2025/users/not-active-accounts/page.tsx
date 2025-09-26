@@ -49,7 +49,6 @@ export default function NotActiveAccount() {
 
       if (res.success) {
         setNotActiveUsers(res.data?.data || []);
-        console.log(res.data?.data || []);
       } else {
         setNotActiveUsers([]);
         toast.error("Error fetching users: " + res.message);

@@ -100,7 +100,6 @@ export default function EditRankForm({ initialData, onClose  , id , refetch}: Ed
 
  
 const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-  console.log("fcwesadfcvweds")
   const file = e.target.files?.[0];
   if (!file) return;
 
@@ -202,9 +201,6 @@ const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
   }
 };
 
-
-
-  console.log("form edit data =>" , formData)
 
   return (
     <div className="edit-rank-form">

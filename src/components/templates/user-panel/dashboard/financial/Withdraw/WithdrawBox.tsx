@@ -246,7 +246,7 @@ export default function WithdrawBox({
               strokeLinejoin="round"
             />
           </svg>
-          <p className="text-[var(--dark-color)] dark:text-white text-xs sm:text-sm md:text-base">
+          <p className="text-[var(--dark-color)] dark:text-white text-[.8rem] sm:text-sm md:text-base">
             Withdraw Profits
           </p>
         </div>
@@ -260,7 +260,7 @@ export default function WithdrawBox({
               {infoError || String(infoError)}
             </span>
           ) : twalletInfo ? (
-            <span className="text-xs text-[var(--dark-color)] dark:text-white">
+            <span className="text-[.8rem] text-[var(--dark-color)] dark:text-white">
               Wallet Balance:{" "}
               <b>{twalletInfo.balance ?? headerData?.t_wallet ?? 0}</b>
             </span>
@@ -281,13 +281,13 @@ export default function WithdrawBox({
               onClick={() => handleSelect(option.label)}
             >
               <div className="flex items-center flex-wrap gap-1 sm:gap-1.5 md:gap-2">
-                <span className="text-[var(--dark-color)] dark:text-[#D9D9D9] text-xs sm:text-sm md:text-base">
+                <span className="text-[var(--dark-color)] dark:text-[#D9D9D9] text-[.8rem] sm:text-sm md:text-base">
                   {option.label}:
                 </span>
                 <span
                   className={`text-[var(--dark-color)] ${
                     option.label.toLocaleLowerCase() !== "referral"
-                      ? "line-through !text-[.8rem]"
+                      ? "line-through !text-[.8rem] "
                       : ""
                   } dark:text-white`}
                 >
@@ -340,17 +340,17 @@ export default function WithdrawBox({
             className="register-inputs-reward-special bg-[#d9d9d9] dark:bg-[#123b90] flex justify-between rounded-[1rem] sm:rounded-[1.5rem] md:rounded-[2rem] py-3 border-standard px-2 sm:px-3 items-center gap-1.5 sm:gap-2 md:gap-3 bg-[#123B90] flex-1 w-full sm:w-auto"
           >
             <div className="flex items-center flex-wrap gap-1 sm:gap-1.5 md:gap-2">
-              <span className="text-[var(--dark-color)] dark:text-[#D9D9D9] text-xs sm:text-sm md:text-base">
+              <span className="text-[var(--dark-color)] dark:text-[#D9D9D9] text-[.8rem] sm:text-sm md:text-base">
                 Total
               </span>
             </div>
-            <p className="text-[var(--dark-color)] dark:text-white text-xs sm:text-sm md:text-base">
+            <p className="text-[var(--dark-color)] dark:text-white text-[.8rem] sm:text-sm md:text-base">
               $ {totalAll}
             </p>
           </motion.div>
         </div>
         <div className="px-[2rem] mx-auto my-2">
-          <span className="text-[var(--dark-color)] dark:text-white text-xs sm:text-sm md:text-base">
+          <span className="text-[var(--dark-color)] dark:text-white text-[.8rem] sm:text-sm md:text-base">
             Company Fee: {system_percent}%
           </span>
         </div>

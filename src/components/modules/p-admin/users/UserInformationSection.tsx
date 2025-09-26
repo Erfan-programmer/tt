@@ -67,7 +67,6 @@ export default function UserInformationSection() {
     if (userInfo?.personal_info) {
       const info = userInfo.personal_info;
       const initialDialCode = info?.dial_code || info.dial_code || 0;
-      console.log("initialDialCode =>", initialDialCode);
       setUserData({
         first_name: info.first_name || "",
         last_name: info.last_name || "",
@@ -91,15 +90,14 @@ export default function UserInformationSection() {
     setUserData((prev) => ({ ...prev, [field]: value }));
 
     if (field === "country") {
-      console.log("file country ", field, value);
       setUpdatedFields((prev) => ({ ...prev, country: value }));
     } else {
       setUpdatedFields((prev) => ({ ...prev, [field]: value }));
     }
   };
 
+
   const handleSubmit = async () => {
-    console.log("updatedFields ,", updatedFields);
     if (Object.keys(updatedFields).length === 0) {
       alert("No changes detected");
       return;
@@ -119,16 +117,9 @@ export default function UserInformationSection() {
       if (updatedFields.status) body.status = updatedFields.status;
       if (updatedFields.country) {
         body.country_id = updatedFields.country;
-        console.log(
-          "updatedFields =>",
-          updatedFields,
-          body,
-          updatedFields.country
-        );
       }
       if (updatedFields.prefix_number) {
         body.dial_code = updatedFields.prefix_number;
-        console.log("prefix =>", updatedFields);
       }
       if (updatedFields.phone) {
         body.mobile = updatedFields.phone;
@@ -212,7 +203,6 @@ export default function UserInformationSection() {
               value={field.value || ""}
               onChange={(val) => {
                 field.onChange(val);
-                console.log("val =>", val);
                 setValue("country", val, { shouldDirty: true });
                 handleChange("country", val);
               }}
@@ -295,7 +285,7 @@ export default function UserInformationSection() {
             className="flex justify-between items-center p-2 px-2 rounded-[.5rem] border border-[#555] bg-transparent text-white cursor-pointer text-md"
             onClick={() => setTwoFaDropdownOpen(!twoFaDropdownOpen)}
           >
-            <span>{userData.two_fa_enabled ? "Yes" : "No"}</span>
+            <span>{ userInfo?.security?.has_2fa_enabled ? "Yes" : "No"}</span>
             <VscTriangleDown
               className={`transition-transform text-xl ${
                 twoFaDropdownOpen ? "rotate-180" : ""

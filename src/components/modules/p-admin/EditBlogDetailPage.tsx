@@ -1,7 +1,7 @@
 "use client";
-import React, { useState, useEffect, KeyboardEvent } from "react";
+import React, { useState, useEffect, KeyboardEvent, useMemo } from "react";
 import { useParams } from "next/navigation";
-import "./../../../styles/p-admin/CkEditor.css";
+import "@/styles/p-admin/AdminTextEditor.css"; // Keep this for potential shared styles or modify/remove as needed
 
 import CustomAdminInput from "@/components/modules/p-admin/CustomAdminInput";
 import LineTitle from "@/components/modules/p-admin/LineTitle";
@@ -10,15 +10,13 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import dynamic from "next/dynamic";
 
-const CKEditor = dynamic(
-  () => import("@ckeditor/ckeditor5-react").then((mod) => mod.CKEditor),
-  { ssr: false }
-);
-
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+// 💡 NEW: Dynamic import for ReactQuill to prevent SSR issues
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+import "react-quill/dist/quill.snow.css"; // Import Quill styles
 
 import { FaTimes } from "react-icons/fa";
-import CustomUploadAdapterPlugin from "@/components/Ui/Modals/p-admin/blog/CustomUploadAdapterPlugin";
+// CustomUploadAdapterPlugin and ClassicEditor are no longer needed
+// import CustomUploadAdapterPlugin from "@/components/Ui/Modals/p-admin/blog/CustomUploadAdapterPlugin"; 
 import CategoryDropdown from "@/components/Ui/Modals/p-admin/blog/CategoryDropDown";
 import { loadEncryptedData } from "@/components/modules/EncryptData/SavedEncryptData";
 import EditBlogSkeleton from "@/skeletons/my-admin/blog/EditBlogSkeleton";
@@ -55,6 +53,24 @@ export default function EditBlogDetailPage() {
   const [isPending, setIsPending] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
 
+  // 💡 NEW: Define the Quill modules/toolbar configuration
+  const quillModules = useMemo(() => ({
+    toolbar: [
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
+      ['bold', 'italic', 'underline', 'strike'], // toggled buttons
+      ['blockquote', 'code-block'],
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
+      [{ direction: 'rtl' }], // text direction
+      [{ size: ['small', false, 'large', 'huge'] }], // custom dropdown
+      [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+      [{ font: [] }],
+      [{ align: [] }],
+      ['link', 'image', 'video'],
+      ['clean'], // remove formatting button
+    ],
+  }), []);
+
   useEffect(() => {
     if (!blogId) {
       setLoading(false);
@@ -73,6 +89,7 @@ export default function EditBlogDetailPage() {
             blog_category_id: String(data.blog_category_id),
             categoryTitle: data.category?.title || "",
             image: data.image || null,
+            long_description: data.long_description || "",
           };
           setFormData(formatted);
           setInitialData(formatted);
@@ -134,15 +151,20 @@ export default function EditBlogDetailPage() {
 
   const isDirty: boolean =
     initialData !== null &&
-    JSON.stringify({ ...formData, image: null }) !==
-      JSON.stringify({ ...initialData, image: null });
+    (JSON.stringify({ ...formData, image: null }) !==
+      JSON.stringify({ ...initialData, image: null }) ||
+      formData.image instanceof File); // Also check if a new File object is present
 
   const handleSave = async () => {
+    // 💡 FIX: Check isDirty to avoid unnecessary API calls
     if (!isFormValid || !isDirty || isPending) return;
     setIsPending(true);
 
     const url = `${process.env.NEXT_PUBLIC_API_URL}/v1/admin/updateBlogs/${blogId}`;
     const body = new FormData();
+
+    // 💡 IMPORTANT: API expects a "_method: PUT" for update requests that use POST due to FormData
+    body.append("_method", "POST"); 
 
     const fields: (keyof BlogData)[] = [
       "title",
@@ -154,24 +176,34 @@ export default function EditBlogDetailPage() {
     ];
 
     fields.forEach((field) => {
-      if (formData[field] !== initialData?.[field]) {
-        body.append(field, formData[field] as string);
-      }
+        if (field === "long_description") {
+            if (formData[field] !== initialData?.long_description) {
+                body.append(field, formData[field] as string);
+            }
+        } else if (formData[field] !== initialData?.[field]) {
+            body.append(field, formData[field] as string);
+        }
     });
 
-    if (formData.image && formData.image !== initialData?.image) {
-      body.append("image", formData.image as File);
-    }
+
+    // Tags are handled separately below
+
+    if (formData.image instanceof File) {
+      // Only append new image file
+      body.append("image", formData.image);
+    } 
 
     const initialTags = initialData?.tags || [];
     if (JSON.stringify(formData.tags) !== JSON.stringify(initialTags)) {
+      // Send all current tags if they've changed
       formData.tags.forEach((tag, index) => body.append(`tags[${index}]`, tag));
     }
+
 
     const token = loadEncryptedData()?.token;
 
     try {
-      const response = await apiRequest<any>(url, "POST", body, {
+      const response = await apiRequest<any>(url, "POST", body, { // Using POST due to FormData and _method=PUT
         Authorization: `Bearer ${token}`,
       });
 
@@ -179,13 +211,17 @@ export default function EditBlogDetailPage() {
         toast.success(response.message || "Blog updated successfully ✅", {
           position: "top-right",
         });
-        setInitialData(formData);
+        // 💡 Update initialData to reflect successful changes
+        setInitialData(prev => prev ? {...formData, image: formData.image instanceof File ? 'new-image-path' : formData.image} : formData);
       } else {
-        toast.error(`Error: ${response.error?.message}`, {
+        // Log the error response for debugging
+        console.error("API Error:", response.error);
+        toast.error(`Error: ${response.error?.message || response.message || "Unknown error"}`, {
           position: "top-right",
         });
       }
     } catch (error: any) {
+      console.error("Request Exception:", error);
       toast.error(`Request failed: ${error.message}`, {
         position: "top-right",
       });
@@ -194,10 +230,9 @@ export default function EditBlogDetailPage() {
     }
   };
 
-  const formattedDescription = formData?.long_description.replace(
-    /src="\/uploads\/([^"]+)"/g,
-    `src="${process.env.NEXT_PUBLIC_API_URL_STORAGE}/$1"`
-  );
+  // NOTE: ReactQuill does not need the same URL replacement logic as CKEditor was using, 
+  // but if your backend serves the content, it should be clean HTML.
+  const quillContent = formData.long_description;
 
   if (loading) return <EditBlogSkeleton />;
 
@@ -206,7 +241,7 @@ export default function EditBlogDetailPage() {
       <ToastContainer />
       <LineTitle onClick={() => {}} title="Edit Blog" />
       <div className="mt-1 gap-4 p-4 border-[2px] border-[#383C47] rounded-lg flex items-start flex-wrap">
-        <div className="grid grid-cols-2 gap-2 w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
           <CustomAdminInput
             title="Title"
             value={formData?.title}
@@ -237,7 +272,7 @@ export default function EditBlogDetailPage() {
             type="text"
           />
         </div>
-        <div className="grid grid-cols-2 w-full gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 w-full gap-4">
           <CustomAdminInput
             title="References"
             value={formData?.references}
@@ -252,6 +287,8 @@ export default function EditBlogDetailPage() {
               value={tagInput}
               onChange={(e) => setTagInput(e.target.value)}
               onKeyDown={handleTagKeyDown}
+              rows={1} // Set rows to 1 to manage height better
+              style={{ minHeight: '38px' }}
             />
           </div>
         </div>
@@ -313,53 +350,13 @@ export default function EditBlogDetailPage() {
           <label className="block font-medium mb-2 text-white">
             Long Description
           </label>
-          <CKEditor
-            editor={ClassicEditor}
-            data={formattedDescription}
-            config={{
-              extraPlugins: [CustomUploadAdapterPlugin],
-              toolbar: [
-                "heading",
-                "|",
-                "bold",
-                "italic",
-                "link",
-                "bulletedList",
-                "numberedList",
-                "|",
-                "blockQuote",
-                "insertTable",
-                "mediaEmbed",
-                "undo",
-                "redo",
-                "|",
-                "imageUpload",
-              ],
-              image: {
-                toolbar: [
-                  "imageStyle:alignLeft",
-                  "imageStyle:alignCenter",
-                  "imageStyle:alignRight",
-                  "|",
-                  "resizeImage",
-                  "|",
-                  "imageTextAlternative",
-                ],
-              },
-              mediaEmbed: { previewsInData: true },
-            }}
-            onChange={(_, editor) => {
-              handleChange("long_description", editor.getData());
-            }}
+          <ReactQuill
+            theme="snow"
+            value={quillContent}
+            onChange={(content) => handleChange("long_description", content)}
+            modules={quillModules}
+            className="react-quill-editor" // Custom class for styling
           />
-          {/* <textarea
-            name=""
-            id=""
-            value={formData.long_description}
-            onChange={() => {
-              handleChange("long_description", editor.getData());
-            }}
-          ></textarea> */}
         </div>
         <button
           onClick={handleSave}

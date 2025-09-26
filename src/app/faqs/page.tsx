@@ -448,7 +448,7 @@ export default function Page() {
 
       <button
       onClick={()=> router.back()}
-        className="p-2 w-[60%] mx-auto rounded-[1rem] mt-10 border-2 border-[#383C47] flex justify-center items-center gap-2   mx-auto text-white"
+        className="p-2 w-[60%] mx-auto rounded-[1rem] mt-10 border-2 border-[#383C47] flex justify-center items-center gap-2   mx-auto text-[#383C47] dark:text-white"
       >
         Home
         <svg

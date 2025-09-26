@@ -39,10 +39,10 @@ export default function BlogInlineBoxView({
             </p>
 
             {blog.author && (
-              <p className="text-xs text-gray-500 mt-1">By {blog.author}</p>
+              <p className="text-[.8rem] text-gray-500 mt-1">By {blog.author}</p>
             )}
             {blog.category?.title && (
-              <span className="text-xs text-blue-400 mt-1 inline-block">
+              <span className="text-[.8rem] text-blue-400 mt-1 inline-block">
                 {blog.category.title}
               </span>
             )}
@@ -52,7 +52,7 @@ export default function BlogInlineBoxView({
                 {blog.tags.map((tag, idx) => (
                   <span
                     key={idx}
-                    className="text-xs bg-[#2a2f3a] text-blue-400 px-2 py-1 rounded-md"
+                    className="text-[.8rem] bg-[#2a2f3a] text-blue-400 px-2 py-1 rounded-md"
                   >
                     #{tag}
                   </span>
@@ -60,7 +60,7 @@ export default function BlogInlineBoxView({
               </div>
             )}
             
-            <span className="text-xs text-gray-500 mt-4 md:mt-0  whitespace-nowrap">
+            <span className="text-[.8rem] text-gray-500 mt-4 md:mt-0  whitespace-nowrap">
               {blog.created_at
                 ? new Date(blog.created_at).toLocaleDateString()
                 : ""}

@@ -33,7 +33,7 @@ export default function LatestNews() {
             initial={{ opacity: 0, scale: 1.5, filter: "blur(10px)" }}
             whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
             transition={{ duration: 1, delay: 0.5 }}
-            className="text-white"
+            className="text-[#383C47] dark:text-white"
           >
             {" "}
             latest news and events{" "}

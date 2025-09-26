@@ -5,7 +5,7 @@ import { IoMdClose } from "react-icons/io";
 export default function TitanVarification() {
   return (
     <div className="titan-form-container mt-[1rem] w-full border-standard bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] rounded-lg py-2">
-      <div className="titan-form-footer mt-[2rem] my-[1rem] w-[95%] mx-auto text-standard">
+      <div className="titan-form-footer mt-[2rem] my-[1rem] w-[95%] mx-auto text-[var(--box-background)] dark:text-white">
         <ul>
           <li className="flex items-center gap-2 mt-3">
             <FaCheck className="text-[var(--profit)] text-[1rem]" />

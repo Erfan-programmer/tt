@@ -18,17 +18,16 @@ export default function MyProfile() {
   useEffect(() => {
     const fetchProfile = async () => {
       setLoading(true);
-      const token = loadUserData()?.access_token
+      const token = loadUserData()?.access_token;
       const res = await apiRequest<any>(
         `${process.env.NEXT_PUBLIC_API_URL}/v1/client/profile`,
         "GET",
         undefined,
-        { Authorization : `Bearer ${token}`}
+        { Authorization: `Bearer ${token}` }
       );
 
       if (res.success) {
         setProfile(res.data.data);
-        console.log("data reponse =>" , res.data.data)
       } else {
         setError(res.message || "Failed to load profile");
       }
@@ -51,10 +50,10 @@ export default function MyProfile() {
 
       {profile && (
         <>
-          <TitanForm />
+          {profile.plan.type.toLowerCase() === "contract_free" && <TitanForm />}
 
           {/* permissionArray.includes("account.profile.personal_info") && <TitanPassForm /> */}
-       <TitanPassForm profile={profile} />
+          <TitanPassForm profile={profile} />
 
           {/* permissionArray.includes("account.profile.change_email") && <TitanEmailForm /> */}
           <TitanEmailForm />

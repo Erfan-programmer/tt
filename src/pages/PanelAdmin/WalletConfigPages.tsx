@@ -32,7 +32,6 @@ export default function WalletConfigPages() {
 
       if (response.success && response.data) {
         const mode:any = response.data; 
-        console.log("mode =>" , mode)
         setWalletConfig((prev) =>
           prev.map((wallet) => {
             if (mode.data === "wallet") {

@@ -45,7 +45,7 @@ function LatestNewBox({ lastNewInfo }: LastNewboxType) {
             initial={{ y: "20px" }}
             whileInView={{ y: "0" }}
             transition={{ duration: 0.5 }}
-            className="text-white"
+            className="text-[#383C47] dark:text-white"
           >
             {lastNewInfo.description}
           </motion.p>
@@ -80,7 +80,7 @@ function LatestNewBox({ lastNewInfo }: LastNewboxType) {
             className="h-[3rem] w-[3rem] flex justify-center items-center rounded-full"
           >
             <span>
-              <FaArrowRight className="text-white" />
+              <FaArrowRight className="text-[#383C47] dark:text-white" />
             </span>
           </Link>
         </motion.div>

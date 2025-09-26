@@ -39,7 +39,7 @@ export default function BlogBoxView({ blogs,
                 initial={{ y: 10, opacity: 0 }}
                 whileInView={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.3, delay: 0.1 }}
-                className="text-blue-500 text-xs border-[2px] border-blue-500 px-2 py-1 rounded w-fit mb-2"
+                className="text-blue-500 text-[.8rem] border-[2px] border-blue-500 px-2 py-1 rounded w-fit mb-2"
               >
                 {blog.category.title}
               </motion.button>
@@ -68,7 +68,7 @@ export default function BlogBoxView({ blogs,
                 initial={{ y: 10, opacity: 0 }}
                 whileInView={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.3, delay: 0.4 }}
-                className="text-xs text-gray-500 mt-2"
+                className="text-[.8rem] text-gray-500 mt-2"
               >
                 By {blog.author}
               </motion.p>
@@ -84,7 +84,7 @@ export default function BlogBoxView({ blogs,
                 {blog.tags.map((tag, idx) => (
                   <span
                     key={idx}
-                    className="text-xs text-blue-400 bg-[#2a2f3a] px-2 py-1 rounded"
+                    className="text-[.8rem] text-blue-400 bg-[#2a2f3a] px-2 py-1 rounded"
                   >
                     #{tag}
                   </span>
@@ -98,7 +98,7 @@ export default function BlogBoxView({ blogs,
               transition={{ duration: 0.3, delay: 0.6 }}
               className="flex justify-between items-center mt-8"
             >
-              <span className="text-xs text-gray-500">
+              <span className="text-[.8rem] text-gray-500">
                 {blog.created_at
                   ? new Date(blog.created_at).toLocaleDateString()
                   : ""}

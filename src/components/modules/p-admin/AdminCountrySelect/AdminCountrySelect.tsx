@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef, useEffect, useMemo, useCallback } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { FaStar } from "react-icons/fa6";
 import { IoSearch } from "react-icons/io5";
 import { motion, AnimatePresence } from "framer-motion";
@@ -48,14 +48,21 @@ export default function AdminCountrySelect({
   const [loading, setLoading] = useState(true);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const debouncedHandler = useCallback(
-    debounce((val: string) => setDebouncedSearch(val), 500),
+  // تغییر از useCallback به useMemo برای ایجاد تابع Debounced
+  const debouncedHandler = useMemo(
+    () => debounce((val: string) => setDebouncedSearch(val), 500),
     []
   );
 
+  // این useEffect مدیریت فراخوانی debounce و cleanup را همزمان انجام می‌دهد
   useEffect(() => {
     debouncedHandler(searchTerm);
-  }, [searchTerm, debouncedHandler]);
+
+    // مهم: در هنگام تغییر searchTerm یا حذف کامپوننت، debounce لغو می‌شود
+    return () => {
+      debouncedHandler.cancel();
+    };
+  }, [searchTerm, debouncedHandler]); // debouncedHandler ثابت است
 
   useEffect(() => {
     async function fetchCountries() {
@@ -66,18 +73,22 @@ export default function AdminCountrySelect({
           : `${process.env.NEXT_PUBLIC_API_URL}/v1/countries`;
         const res = await apiRequest<ApiResponse<Country[]>>(url);
         if (res.success) {
-          setCountries(res.data.data as Country[]);
+          // برای اطمینان از اینکه res.data.data یک آرایه است، یک بررسی اضافه می‌کنیم
+          const dataArray = Array.isArray(res.data.data) ? res.data.data : [];
+          setCountries(dataArray as Country[]);
         } else {
           console.error(res.message);
+          setCountries([]); // در صورت خطا، لیست را خالی می‌کند
         }
       } catch (err) {
         console.error("Failed to fetch countries:", err);
+        setCountries([]);
       } finally {
         setLoading(false);
       }
     }
     fetchCountries();
-  }, [debouncedSearch]);
+  }, [debouncedSearch]); // فقط زمانی که debouncedSearch تغییر کند، اجرا می‌شود
 
   // انتخاب پیش‌فرض
   useEffect(() => {
@@ -120,14 +131,14 @@ export default function AdminCountrySelect({
     >
       <label className="sponsor-label flex justify-start items-start gap-2">
         {required && <FaStar className="text-[#FF6060] w-3 h-2 mt-1" />}
-        <span className="text-gray-600 dark:text-gray-300 text-xs">
+        <span className="text-gray-300 text-xs">
           {label}
         </span>
       </label>
 
       {/* Dropdown container */}
       <div
-        className="flex justify-between items-center px-3 py-2 rounded-[.5rem] border border-[#585966] bg-transparent text-[var(--main-background)] dark:text-white cursor-pointer mt-2"
+        className="flex justify-between items-center px-3 py-2 rounded-[.5rem] border-[1px] border-[#585966] bg-transparent text-white cursor-pointer mt-2"
         onClick={() => setIsOpen(!isOpen)}
       >
         <div className="flex items-center gap-2 flex-1">
@@ -158,7 +169,7 @@ export default function AdminCountrySelect({
             transition={{ duration: 0.2 }}
             className="mt-2 overflow-hidden absolute z-[100] w-full"
           >
-            <div className="bg-[#D9D9D9] dark:bg-[#0f163a] border border-[#585966] rounded-[1rem] overflow-hidden">
+            <div className="bg-[#0f163a] border border-[#585966] rounded-[1rem] overflow-hidden">
               <div className="p-1 border-b border-[#585966]">
                 <div className="relative">
                   <input
@@ -166,28 +177,28 @@ export default function AdminCountrySelect({
                     placeholder="Search country..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full dark:bg-[#192879] bg-white text-[var(--main-background)] dark:text-white rounded-lg px-3 py-1.5 pl-9 outline-none text-sm placeholder:text-gray-400"
+                    className="w-full bg-[#192879] text-white rounded-lg px-3 py-1.5 pl-9 outline-none text-sm placeholder:text-gray-400"
                   />
                   <IoSearch className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
                 </div>
               </div>
 
               <div className="max-h-60 overflow-y-auto custom-scrollbar">
-                {loading ? (
+                {loading && debouncedSearch !== "" ? (
                   <div className="px-4 py-2 text-gray-500 text-sm">
-                    Loading countries...
+                    Searching...
                   </div>
-                ) : countries.length === 0 ? (
-                  <div className="px-4 py-2 text-[var(--main-background)] dark:text-white h-[200px] flex items-center justify-center">
-                    No countries found
+                ) : countries.length === 0 && debouncedSearch !== "" ? (
+                  <div className="px-4 py-2 text-white h-[100px] flex items-center justify-center text-sm">
+                    No matching countries found.
                   </div>
                 ) : (
                   countries.map((country) => (
                     <div
                       key={country.id}
-                      className={`px-4 py-2 cursor-pointer hover:bg-white dark:hover:bg-[#192879] transition-colors rounded-[.75rem] flex items-center gap-3 ${
+                      className={`px-4 py-2 cursor-pointer hover:bg-[#192879] transition-colors flex items-center gap-3 ${
                         value === String(country.id)
-                          ? "bg-white dark:bg-[#192879]"
+                          ? "bg-[#192879]" // Keep the selected style consistent
                           : ""
                       }`}
                       onClick={(e) => {
@@ -201,15 +212,21 @@ export default function AdminCountrySelect({
                         code={country.code}
                         className="w-6 h-4 rounded-sm"
                       />
-                      <span className="text-[var(--main-background)] dark:text-white text-sm">
+                      <span className="text-white text-sm">
                         {country.name}
                       </span>
-                      <span className="text-gray-400 text-xs ml-auto">
+                      <span className="text-gray-400 text-[.8rem] ml-auto">
                         {country.dial_code}
                       </span>
                     </div>
                   ))
                 )}
+                {/* نمایش وضعیت لودینگ اولیه */}
+                 {loading && debouncedSearch === "" && (
+                     <div className="px-4 py-2 text-gray-500 text-sm">
+                       Loading countries...
+                     </div>
+                 )}
               </div>
             </div>
           </motion.div>

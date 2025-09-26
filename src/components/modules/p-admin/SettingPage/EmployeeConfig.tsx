@@ -465,7 +465,7 @@ export default function EmployeeConfig() {
                   </span>
                   <div className="w-full my-4 h-[1px] bg-[#383C47]"></div>
                 </div>
-                <p className="text-[.8rem] text-[#9A9A9A] my-4">
+                <p className="text-[.8rem]  text-[#9A9A9A] my-4">
                   Deleting an employee requires entering the Admin 2FA code.
                 </p>
                 <div className="flex items-center justify-center">

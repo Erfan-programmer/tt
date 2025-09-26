@@ -92,7 +92,7 @@ export default function AddUserAction() {
   return (
     <div className="add-user-action-container px-2 sm:px-[2rem]">
       <ToastContainer />
-      <div className="add-user-action-desc">
+      <div className="add-user-action-desc my-2">
         <span className="text-[var(--gold)] dark:text-yellow-400">
           Please enter the information carefully.
         </span>

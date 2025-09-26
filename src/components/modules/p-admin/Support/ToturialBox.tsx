@@ -77,7 +77,7 @@ const renderFilePreview = () => {
       return (
         <div className="flex flex-col items-center gap-2">
           <FaFilePdf className="text-5xl text-blue-400" />
-          <span className="text-xs text-gray-400">PDF File</span>
+          <span className="text-[.8rem] text-gray-400">PDF File</span>
           <span>{(currentFile.size / 1024 / 1024).toFixed(2)} MB</span>
         </div>
       );
@@ -87,7 +87,7 @@ const renderFilePreview = () => {
     return (
       <div className="flex flex-col items-center gap-2">
         <FaFileAlt className="text-4xl text-gray-400" />
-        <span className="text-xs text-gray-400">{currentFile.name}</span>
+        <span className="text-[.8rem] text-gray-400">{currentFile.name}</span>
         <span>{(currentFile.size / 1024 / 1024).toFixed(2)} MB</span>
       </div>
     );
@@ -99,7 +99,7 @@ const renderFilePreview = () => {
       return (
         <div className="flex flex-col items-center gap-2">
           <FaFilePdf className="text-5xl text-blue-400" />
-          <span className="text-xs text-gray-400">PDF File</span>
+          <span className="text-[.8rem] text-gray-400">PDF File</span>
           <span>Existing File</span>
           <span>{(file_size / 1024 / 1024).toFixed(2)} MB</span>
         </div>
@@ -113,7 +113,7 @@ const renderFilePreview = () => {
       return (
         <div className="flex flex-col items-center gap-2">
           <FaFileAlt className="text-4xl text-gray-400" />
-          <span className="text-xs text-gray-400">{name}</span>
+          <span className="text-[.8rem] text-gray-400">{name}</span>
           <span>Existing File</span>
           <span>{(file_size / 1024 / 1024).toFixed(2)} MB</span>
         </div>

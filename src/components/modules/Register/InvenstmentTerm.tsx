@@ -43,9 +43,12 @@ export default function InvestmentTerm({
       );
       if (res.success) {
         setPlans(res.data?.data || []);
-        if (res.data?.data?.length > 0) {
+        if (res.data?.data?.length > 1) {
+          setSelectedPlan(res.data.data[1]);
+          setValue("plan_id", String(res.data.data[1].id));
+        } else if (res.data?.data?.length > 0) {
           setSelectedPlan(res.data.data[0]);
-          setValue("plan_id" , String(res.data.data[0].id));
+          setValue("plan_id", String(res.data.data[0].id));
         }
       } else {
         console.error("Failed to fetch investor plans", res.error);
@@ -55,9 +58,6 @@ export default function InvestmentTerm({
     fetchPlans();
   }, [setValue]);
 
-  useEffect(() => {
-    console.log(selectedPlan);
-  }, [selectedPlan]);
   return (
     <motion.div
       initial={{ opacity: 0, x: 20 }}
@@ -84,7 +84,7 @@ export default function InvestmentTerm({
                   `}
                 onClick={() => {
                   setSelectedPlan(plan);
-                  setValue("plan_id" , String(plan.id));
+                  setValue("plan_id", String(plan.id));
                 }}
               >
                 <div className="flex justify-between items-center">
@@ -99,7 +99,7 @@ export default function InvestmentTerm({
                       checked={isSelected}
                       onChange={() => {
                         setSelectedPlan(plan);
-                        setValue("plan_id" , String(plan.id));
+                        setValue("plan_id", String(plan.id));
                       }}
                       className="hidden"
                     />
@@ -133,7 +133,7 @@ export default function InvestmentTerm({
         {selectedPlan && (
           <div className="terms-options flex justify-center w-full">
             <div className="ring-1 ring-gray-400 shadow-[inset_0px_0px_70px_#275edf] drop-shadow-[0px_0px_20px_#84A9FF66] rounded-[3rem] w-full p-3">
-              <div className="flex flex-col items-start justify-center gap-2 w-[70%] mx-auto">
+              <div className="flex flex-col items-start justify-center gap-2 w-[90%] md:w-[70%] mx-auto">
                 <ItemsOptionProfits
                   user_per={Number(selectedPlan.user_percentage)}
                   company_per={Number(selectedPlan.company_percentage)}

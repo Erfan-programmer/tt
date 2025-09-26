@@ -105,7 +105,7 @@ export default function ResetTitan2FaCode({
             value={code}
             onChange={(e) => setCode(e.target.value)}
             maxLength={6}
-            className="absolute inset-0 opacity-0 w-full h-full cursor-pointer z-10 text-white"
+            className="absolute inset-0 opacity-0 w-full h-full cursor-pointer z-10 text-[#383C47] dark:text-white"
             autoComplete="off"
           />
           <div

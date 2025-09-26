@@ -4,7 +4,6 @@ import CryptoBox from "./CryptoBox";
 import { useQuery } from "@tanstack/react-query";
 import CryptoSkeletonBox from "@/skeletons/User-Panel/CryptoSkeletonBox/CryptoSkeletonBox";
 import { currencyApi } from "./currencyApi";
-import { toast, ToastContainer } from "react-toastify";
 
 interface CryptoData {
   id: number;
@@ -28,7 +27,6 @@ export default function CryptoContent() {
   const {
     data: currencyData,
     isLoading,
-    error,
   } = useQuery({
     queryKey: ["currencies"],
     queryFn: currencyApi.getCurrencies,
@@ -53,11 +51,6 @@ export default function CryptoContent() {
       })
     : [];
 
-  useEffect(() => {
-    if (error) {
-      toast.error("Failed to fetch currency data");
-    }
-  }, [error]);
 
   const handleScroll = () => {
     if (scrollContainerRef.current) {
@@ -81,7 +74,6 @@ export default function CryptoContent() {
 
   return (
     <>
-      <ToastContainer />
       <div className="w-[95%] mx-auto bg-[#f4f7fd] dark:bg-[#090d23] border-standard rounded-xl py-2 px-4 hidden sm:block">
         <div
           className={`crypto-scroll-container relative ${

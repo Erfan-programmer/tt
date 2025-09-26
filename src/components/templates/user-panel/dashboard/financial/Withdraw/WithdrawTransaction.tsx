@@ -196,7 +196,6 @@ export default function WithdrawTransaction() {
         if (res.success) {
           setData(res.data);
           setTransactions(res.data?.data);
-          console.log("transaction =>", res.data?.data);
         } else {
           throw new Error(res.message || "Failed to fetch withdraw list");
         }
@@ -225,14 +224,13 @@ export default function WithdrawTransaction() {
 
       if (res.success) {
         setWithdrawDetail(res.data?.data || res.data);
-        console.log("withdrawDetail =>", withdrawDetail);
       } else {
         throw new Error(res.message || "Failed to fetch withdraw detail");
       }
     } catch (err: any) {
       toast.error(err.message || "Something went wrong");
     }
-  }, [withdrawDetail]);
+  }, []);
   // call when page or withdrawRefresh changes
 
   const safeData = data ?? { total: 0, per_page: itemsPerPage, withdraw: [] };
@@ -240,12 +238,11 @@ export default function WithdrawTransaction() {
   const perPage = safeData?.per_page || itemsPerPage;
   const withdrawInfo = data?.withdraw;
   const canWithdraw = withdrawDetail?.can_withdrawal;
-  console.log("transactions =>", safeData);
   const whitelistMessage = withdrawInfo?.withdraw_whitelist;
   useEffect(() => {
     fetchWithdrawList(page, perPage);
     fetchWithdrawDetail();
-  }, [page, withdrawRefresh, fetchWithdrawDetail, fetchWithdrawList, perPage]);
+  }, [page, withdrawRefresh, fetchWithdrawList, fetchWithdrawDetail , perPage]);
 
   const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
@@ -341,7 +338,6 @@ export default function WithdrawTransaction() {
   //   } else if (Array.isArray(permissions?.data?.body)) {
   //     permissionArray = permissions.data.body;
   //   }
-  console.log(transactions);
   return (
     <>
       {withdrawDetail?.can_withdrawal ? (
@@ -498,7 +494,7 @@ export default function WithdrawTransaction() {
                                 onClick={() =>
                                   handleCancelWithdraw(transaction)
                                 }
-                                className="px-3 py-1 text-white text-xs rounded-lg transition-colors bg-red-500 hover:bg-red-600"
+                                className="px-3 py-1 text-white text-[.8rem] rounded-lg transition-colors bg-red-500 hover:bg-red-600"
                                 title="Cancel Withdraw"
                               >
                                 Cancel
@@ -528,7 +524,7 @@ export default function WithdrawTransaction() {
               >
                 {/* Header with blue accent and close button */}
                 <div className="flex items-center justify-between px-6 py-4 rounded-t-2xl bg-[#275EDF] dark:bg-[#275EDF]">
-                  <h2 className="text-sm font-bold text-white">
+                  <h2 className="text-sm font-bold text-[#383C47] dark:text-white">
                     Transaction Details
                   </h2>
                   <button
@@ -579,7 +575,7 @@ export default function WithdrawTransaction() {
                           Status:
                         </span>
                         <span
-                          className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${
+                          className={`inline-block px-2 py-1 rounded-full text-[.8rem] font-medium ${
                             selectedTransaction.status === "pending"
                               ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-300"
                               : selectedTransaction.status === "completed"
@@ -662,7 +658,7 @@ export default function WithdrawTransaction() {
                         viewBox="0 0 24 24"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
-                        className="text-white"
+                        className="text-[#383C47] dark:text-white"
                       >
                         <path
                           d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
@@ -674,7 +670,7 @@ export default function WithdrawTransaction() {
                       </svg>
                     </div>
                     <div>
-                      <h2 className="text-sm font-bold text-white">
+                      <h2 className="text-sm font-bold text-[#383C47] dark:text-white">
                         Cancel Not Available
                       </h2>
                       <p className="text-white/80 text-xs">
@@ -751,7 +747,7 @@ export default function WithdrawTransaction() {
                               viewBox="0 0 24 24"
                               fill="none"
                               xmlns="http://www.w3.org/2000/svg"
-                              className="text-white"
+                              className="text-[#383C47] dark:text-white"
                             >
                               <path
                                 d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
@@ -793,7 +789,7 @@ export default function WithdrawTransaction() {
                               strokeLinejoin="round"
                             />
                           </svg>
-                          <span className="text-blue-700 dark:text-blue-300 text-xs font-medium">
+                          <span className="text-blue-700 dark:text-blue-300 text-[.8rem] font-medium">
                             Please try again during the scheduled cancellation
                             period
                           </span>

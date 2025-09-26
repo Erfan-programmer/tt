@@ -73,7 +73,7 @@ export default function ResetPassword() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="text-white"
+            className="text-[#383C47] dark:text-white"
           >
             Reset Password
           </motion.h2>

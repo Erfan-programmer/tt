@@ -50,7 +50,6 @@ export default function DashboardClientWrapper({
   //     const channel = echo.channel("public-crypto-prices");
   //     const handler = (data: any) => {
   //       setMessages((prev) => [...prev, data.message]);
-  //       console.log("socket =>", data);
   //     };
 
   //     channel.listen(".crypto.pricesa.updated", handler);
@@ -76,7 +75,7 @@ export default function DashboardClientWrapper({
       <ul className="text-gray-900 text-right relative z-[99999] bg-green-200">
         {messages.map((m, i) => (
           <li key={i}>
-            <span className="text-white">{m}</span>
+            <span className="text-[#383C47] dark:text-white">{m}</span>
           </li>
         ))}
       </ul>

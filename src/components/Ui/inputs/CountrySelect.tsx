@@ -47,7 +47,6 @@ export default function CountrySelect({
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const dropdownRef = useRef<HTMLDivElement>(null);
-
   const debouncedHandler = useMemo(
     () =>
       debounce((val: string) => {
@@ -200,7 +199,7 @@ export default function CountrySelect({
                       <span className="text-[var(--box-background)] dark:text-white text-sm">
                         {country.name}
                       </span>
-                      <span className="text-gray-400 dark:text-gray-500 text-xs ml-auto">
+                      <span className="text-gray-400 dark:text-gray-500 text-[.8rem] ml-auto">
                         {country.dial_code}
                       </span>
                     </div>

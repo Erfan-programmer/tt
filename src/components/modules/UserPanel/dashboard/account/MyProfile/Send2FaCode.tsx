@@ -53,7 +53,6 @@ export default function Send2FaCode({
     setLoading(true);
     const accessToken = loadUserData()?.access_token;
     setEmail(data.email)
-    console.log("send email =>" , email)
     const res = await apiRequest<any>(
       `${process.env.NEXT_PUBLIC_API_URL}/v1/client/security/2fa/request-reset`,
       "POST",
@@ -66,7 +65,6 @@ export default function Send2FaCode({
 
     setLoading(false);
 
-    console.log(step, res);
     if (res.success) {
       toast.success(res.message || "Verification code sent successfully");
       reset();

@@ -12,7 +12,7 @@ function page() {
         Privacy Policy</h1>
       <article className="w-full">
         <div className="article-header text-center">
-          <p className="text-white">1. Introduction</p>
+          <p className="text-[#383C47] dark:text-white">1. Introduction</p>
         </div>
         <div className="article-body tex-left">
           <span className="text-[#888]">
@@ -25,7 +25,7 @@ function page() {
 
       <article className="w-full">
         <div className="article-header text-center">
-          <p className="text-white">2. Information </p>
+          <p className="text-[#383C47] dark:text-white">2. Information </p>
         </div>
         <div className="article-body tex-left">
           <span className="text-[#888]">
@@ -40,7 +40,7 @@ function page() {
 
       <article className="w-full">
         <div className="article-header text-center">
-          <p className="text-white">3. How We Use Your Information</p>
+          <p className="text-[#383C47] dark:text-white">3. How We Use Your Information</p>
         </div>
         <div className="article-body tex-left">
           <span className="text-[#888]">
@@ -53,7 +53,7 @@ function page() {
 
       <article className="w-full">
         <div className="article-header text-center">
-          <p className="text-white">4. Sharing Your Information</p>
+          <p className="text-[#383C47] dark:text-white">4. Sharing Your Information</p>
         </div>
         <div className="article-body tex-left">
           <span className="text-[#888]">
@@ -68,7 +68,7 @@ function page() {
 
       <article className="w-full">
         <div className="article-header text-center">
-          <p className="text-white">5. Data Security</p>
+          <p className="text-[#383C47] dark:text-white">5. Data Security</p>
         </div>
         <div className="article-body tex-left">
           <span className="text-[#888]">
@@ -82,7 +82,7 @@ function page() {
 
       <article className="w-full">
         <div className="article-header text-center">
-          <p className="text-white">6. Your Rights</p>
+          <p className="text-[#383C47] dark:text-white">6. Your Rights</p>
         </div>
         <div className="article-body tex-left">
           <span className="text-[#888]">
@@ -95,7 +95,7 @@ function page() {
 
       <article className="w-full">
         <div className="article-header text-center">
-          <p className="text-white">7. Cookies</p>
+          <p className="text-[#383C47] dark:text-white">7. Cookies</p>
         </div>
         <div className="article-body tex-left">
           <span className="text-[#888]">
@@ -107,7 +107,7 @@ function page() {
 
       <article className="w-full">
         <div className="article-header text-center">
-          <p className="text-white">8. Changes to Privacy Policy</p>
+          <p className="text-[#383C47] dark:text-white">8. Changes to Privacy Policy</p>
         </div>
         <div className="article-body tex-left">
           <span className="text-[#888]">

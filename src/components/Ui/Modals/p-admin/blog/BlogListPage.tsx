@@ -251,7 +251,7 @@ export default function BlogListPage() {
                         {deleteModal.tags.map((tag, idx) => (
                           <span
                             key={idx}
-                            className="text-xs bg-[#2a2f3a] text-blue-400 px-2 py-1 rounded-md"
+                            className="text-[.8rem] bg-[#2a2f3a] text-blue-400 px-2 py-1 rounded-md"
                           >
                             #{tag}
                           </span>

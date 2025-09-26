@@ -180,7 +180,7 @@ export default function DocumentVerificationList({
       />
 
       {selectedImage && currentDocId && (
-        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-[9998]">
+        <div className="fixed inset-0 bg-black/40  bg-opacity-70 flex items-center justify-center z-[9998]">
           <div className="bg-gray-900 p-4 rounded-lg relative w-auto max-w-lg">
             <Image
               width={400}

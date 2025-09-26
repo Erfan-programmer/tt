@@ -142,7 +142,7 @@ export default function RanksListHistory({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[9999]"
+      className="fixed inset-0 bg-black/40  bg-opacity-50 flex justify-center items-center z-[9999]"
       onClick={() => setIsViewOpen(false)}
     >
       <motion.div
@@ -183,7 +183,7 @@ export default function RanksListHistory({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[9999]"
+            className="fixed inset-0 bg-black/40  bg-opacity-50 flex justify-center items-center z-[9999]"
             onClick={() => setIsEditOpen({ status: false, id: null })}
           >
             <motion.div
@@ -213,7 +213,7 @@ export default function RanksListHistory({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[9999]"
+            className="fixed inset-0 bg-black/40  bg-opacity-50 flex justify-center items-center z-[9999]"
             onClick={() => setIsDeleteOpen({ status: false, id: null })}
           >
             <motion.div

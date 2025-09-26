@@ -1,4 +1,5 @@
 "use client";
+
 import { useState, useEffect } from "react";
 import TradingProfitChartSkeleton from "@/skeletons/User-Panel/dashboard/TradingProfitChartSkeleton";
 import ProfitTabs from "@/components/modules/UserPanel/dashboard/ProfitTabs";
@@ -13,12 +14,12 @@ interface ChartDataset {
   increase?: number;
 }
 interface ProfitMeta {
-    total: number;
-    perPage: number;
-    currentPage: number;
-    totalPages: number;
-    currentYear: number;
-    available_years: number[];
+  total: number;
+  perPage: number;
+  currentPage: number;
+  totalPages: number;
+  currentYear: number;
+  available_years: number[];
 }
 
 interface ProfitResponse {
@@ -45,7 +46,7 @@ export default function TradingProfitChart() {
         process.env.NEXT_PUBLIC_API_URL
       }/v1/client/dashboard/profit-chart${year ? `?year=${year}` : ""}`;
 
-      const response = await apiRequest<{ data: ProfitResponse , meta:ProfitMeta }>(
+      const response = await apiRequest<{ data: ProfitResponse, meta: ProfitMeta }>(
         url,
         "GET",
         undefined,
@@ -59,7 +60,7 @@ export default function TradingProfitChart() {
       }
 
       const { labels, datasets } = response.data.data;
-      const {meta} = response.data
+      const { meta } = response.data;
 
       setChartData({ labels, datasets });
 
@@ -69,7 +70,7 @@ export default function TradingProfitChart() {
         const now = new Date().getFullYear();
         setAvailableYears(Array.from({ length: 6 }, (_, i) => now - i));
       }
-    } catch{
+    } catch {
       setError("Unexpected error");
     } finally {
       setIsLoading(false);
@@ -90,7 +91,7 @@ export default function TradingProfitChart() {
   return (
     <div className="trade-overview mt-[1rem] w-full bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] rounded-lg p-4">
       <div className="flex justify-between items-center gap-4">
-        <p className="text-[var(--main-background)] dark:text-white">
+        <p className="text-[#333] dark:text-white">
           Profit & Network Expansion
         </p>
         <svg
@@ -98,7 +99,7 @@ export default function TradingProfitChart() {
           height="27"
           viewBox="0 0 27 27"
           fill="none"
-          className="stroke-[var(--main-background)] dark:stroke-[#D9D9D9]"
+          className="stroke-[#333] dark:stroke-[#D9D9D9]"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
@@ -119,7 +120,7 @@ export default function TradingProfitChart() {
         </svg>
       </div>
 
-      <div className="border-1 px-3 py-3 mt-[1rem] rounded-lg border-[#171b29] text-[var(--main-background)] dark:text-white">
+      <div className="border border-[#e0e2e7] dark:border-[#171b29] px-3 py-3 mt-[1rem] rounded-lg text-[#333] dark:text-white">
         {error ? (
           <div className="flex justify-center items-center h-32">
             <p className="text-red-500">{error}</p>
@@ -130,16 +131,15 @@ export default function TradingProfitChart() {
               datasets={chartData.datasets}
               activeDataset={activeDataset}
               onTabChange={handleTabChange}
-            /> 
-             <LineChart data={chartData} activeDataset={activeDataset} /> 
-              <div className="flex justify-center mt-4">
-                <YearPagination
-                  years={availableYears}
-                  currentYear={currentYear}
-                  onYearChange={handleYearChange}
-                />
-              </div>
-            )
+            />
+            <LineChart data={chartData} activeDataset={activeDataset} />
+            <div className="flex justify-center mt-4">
+              <YearPagination
+                years={availableYears}
+                currentYear={currentYear}
+                onYearChange={handleYearChange}
+              />
+            </div>
           </>
         ) : (
           <div className="flex justify-center items-center h-32">

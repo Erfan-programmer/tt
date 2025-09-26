@@ -70,9 +70,9 @@ export default function ProfitAndLoss() {
   const renderCell = (data: ProfitAndLossItem | number) => {
     if (typeof data === "number") {
       return (
-        <div className="h-[4rem] border border-1 relative bg-[var(--success)] overflow-hidden border-[#fff] flex justify-center items-center rounded-lg">
+        <div className="h-[4rem] border-1 relative bg-[var(--success)] overflow-hidden border-[#fff] flex justify-center items-center rounded-lg">
           <span className="text-[var(--main-background)] font-[600]">
-            {data === null ? "empty" : data}er
+            {data === null ? "empty" : data}
           </span>
         </div>
       );
@@ -96,7 +96,7 @@ export default function ProfitAndLoss() {
       <div
         className={`h-[4rem] border border-1 relative overflow-hidden flex justify-center items-center rounded-lg ${
           data === null
-            ? " bg-gray-500 dark:bg-[#393939] border-white"
+            ? " bg-gray-300 dark:bg-[#393939] border-white"
             : data?.value > 0
             ? "shadow-[inset_0_0_10px_#00CB08] bg-transparent border-[#00CB08]"
             : "shadow-[inset_0_0_10px_#FF6060] border-[#FF6060] bg-transparent"
@@ -118,8 +118,8 @@ export default function ProfitAndLoss() {
                 data === null
                   ? ""
                   : data?.value > 0
-                  ? "text-[#65FFD9]"
-                  : "text-[#FF6060]"
+                  ? "text-[var(--success)] dark:text-[#65FFD9]"
+                  : "textr-[var(--loss)] dark:text-[#FF6060]"
               }`}
             >
               {data?.status?.toLowerCase() === "completed" ? (
@@ -156,14 +156,14 @@ export default function ProfitAndLoss() {
             profitAndLossData?.overall_performance_percentage > 0 ? (
               <>
                 <FaArrowRight className="text-[var(--profit)] rotate-315" />
-                <span>
+                <span className="text-[var(--profit)">
                   +{profitAndLossData.overall_performance_percentage}%
                 </span>
               </>
             ) : (
               <>
                 <FaArrowRight className="text-[var(--loss)] rotate-30" />
-                <span>
+                <span className="text-[var(--loss)]">
                   -
                   {Math.abs(
                     profitAndLossData?.overall_performance_percentage || 0

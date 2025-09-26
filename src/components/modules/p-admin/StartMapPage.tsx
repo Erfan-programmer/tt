@@ -1,5 +1,4 @@
 import React from "react";
-import TournomentStepLevel from "./TournomentStepLevel";
 import TimerTournoment from "./TimerTournoment";
 
 export default function StartMapPage() {
@@ -8,7 +7,7 @@ export default function StartMapPage() {
   return (
     <>
       <TimerTournoment countdownTimestampMs={targetDate.getTime()} />
-      <TournomentStepLevel />
+      {/* <TournomentStepLevel /> */}
     </>
   );
 }

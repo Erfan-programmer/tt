@@ -6,6 +6,7 @@ import Stars from "@/Svgs/Star";
 import "locomotive-scroll/dist/locomotive-scroll.css";
 import localFont from "next/font/local";
 import Image from "next/image";
+import { ThemeProvider } from "next-themes";
 
 interface FormLayoutProps {
   children: ReactNode;
@@ -75,201 +76,211 @@ export default function FormLayout({ children, subtitle }: FormLayoutProps) {
       <body
         className={`${geistJakarta.variable} ${geistClash.variable} antialiased`}
       >
-        <div className="min-h-screen relative bg-white dark:bg-[var(--main-background)]">
-          <div className="w-full sm:grid sm:grid-cols-2 gap-4 justify-items-center">
-            <div className=" sm:h-screen hidden sm:flex items-center justify-center pl-[1rem] w-full">
-              <div
-                className={`formLayout-left-side-wrppaer fixed sm:w-[50%] bg-[#090d23] sm:border m:border-2 border-[#585966] rounded-[2rem] sm:h-[90vh] w-[100%] ${
-                  pathKey === "login" || pathKey === "register"
-                    ? "px-[1rem] pt-[2rem]"
-                    : ""
-                }`}
-              >
-                <Stars />
-                {pathKey !== "forgot-password" &&
-                  pathKey !== "reset-password" &&
-                  pathKey !== "reset-2-fa" &&
-                  pathKey !== "reset-2-fa-confirm" && (
-                    <>
-                      <motion.div
-                        className="flex relative z-10"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.7 }}
-                      >
-                        <Image
-                          width={800}
-                          className="w-auto"
-                          height={800}
-                          src={`${
-                            pathKey === "forgot-password" ||
-                            pathKey === "reset-password"
-                              ? "/3c3fa8f9fb03e29bb146ad74ebfdf102.jpg"
-                              : "/titan-main-avatar.png"
-                          }  `}
-                          alt="Titan Avatar"
-                        />
-                      </motion.div>
-                      <motion.div
-                        className="formLayout-left-side-title mt-[2rem] relative z-10 hidden sm:block"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.7, delay: 0.2 }}
-                      >
-                        <h1 className="w-[90%] md:w-[80%] lg:w-[85%]">
-                          {title}
-                        </h1>
-                        {subtitle && (
-                          <p className="text-white text-[1.4rem] font-[400]">
-                            {subtitle}
-                          </p>
-                        )}
-                      </motion.div>
-                    </>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          storageKey="theme"
+          enableSystem={true}
+        >
+          <div className="min-h-screen relative form-layout-container bg-gradient-to-b from-white to-gray-200 dark:from-[#080A1D] dark:to-[#1b2972]">
+            <div className="w-full flex items-start justify-center flex-col sm:flex-row gap-8">
+              <div className=" sm:h-screen hidden sm:flex items-center justify-center pl-[1rem] w-full sm:w-[48%]">
+                <div
+                  className={`formLayout-left-side-wrppaer fixed sm:w-[50%] xl:w-[48%] bg-[#090d23] border-2 border-[#585966] rounded-[2rem] sm:h-[90vh] w-[100%] ${
+                    pathKey === "login" || pathKey === "register"
+                      ? "px-[1rem] pt-[2rem]"
+                      : ""
+                  }`}
+                >
+                  <Stars />
+                  {pathKey !== "forgot-password" &&
+                    pathKey !== "reset-password" &&
+                    pathKey !== "reset-2-fa" &&
+                    pathKey !== "reset-2-fa-confirm" && (
+                      <>
+                        <motion.div
+                          className="flex relative z-10"
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.7 }}
+                        >
+                          <Image
+                            width={800}
+                            className="w-auto"
+                            height={800}
+                            src={`${
+                              pathKey === "forgot-password" ||
+                              pathKey === "reset-password"
+                                ? "/3c3fa8f9fb03e29bb146ad7.png"
+                                : "/titan-main-avatar.png"
+                            }  `}
+                            alt="Titan Avatar"
+                          />
+                        </motion.div>
+                        <motion.div
+                          className="formLayout-left-side-title mt-[2rem] relative z-10 hidden sm:block"
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.7, delay: 0.2 }}
+                        >
+                          <h1 className="w-[90%] md:w-[80%] lg:w-[85%]">
+                            {title}
+                          </h1>
+                          {subtitle && (
+                            <p className="text-white text-[1.4rem] font-[400]">
+                              {subtitle}
+                            </p>
+                          )}
+                        </motion.div>
+                      </>
+                    )}
+                  {(pathKey === "forgot-password" ||
+                    pathKey === "reset-password") && (
+                    <motion.div
+                      initial={{ y: 50, opacity: 0 }}
+                      animate={{ y: 50, opacity: 1 }}
+                      transition={{ duration: 1.8, delay: 1 }}
+                      className={`form-layout-titan-img ${
+                        pathKey === "reset-password"
+                          ? "reset-password-titan-img"
+                          : ""
+                      }`}
+                    ></motion.div>
                   )}
-                {(pathKey === "forgot-password" ||
-                  pathKey === "reset-password") && (
-                  <motion.div
-                    initial={{ y: 50, opacity: 0 }}
-                    animate={{ y: 50, opacity: 1 }}
-                    transition={{ duration: 1.8, delay: 1 }}
-                    className={`form-layout-titan-img ${
-                      pathKey === "reset-password"
-                        ? "reset-password-titan-img"
-                        : ""
-                    }`}
-                  ></motion.div>
-                )}
-                {pathKey === "forgot-password" ? (
-                  <motion.div
-                    className="form-layout-forgot-bg w-full relative bottom-0"
-                    initial={{ y: 100, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 0.8, delay: 0.3 }}
-                  >
-                    <div className="flex forgot-password-img-wrapper justify-center gap-4 px-[2rem] absolute bottom-[2rem]">
-                      <motion.img
-                        initial={{ y: 50, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        transition={{
-                          duration: 0.6,
-                          ease: "easeOut",
-                          delay: 1,
-                        }}
-                        src="/947ab9bac45b92e4228aad24fa218214745e8e37.png"
-                        className="w-[6rem]"
-                        alt="Titan Investments"
-                      />
-                      <motion.p
-                        initial={{ y: 50, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        transition={{
-                          duration: 0.6,
-                          ease: "easeOut",
-                          delay: 1.3,
-                        }}
-                        className="text-[var(--main-background)] dark:text-white text-[1.8rem] font-[600]"
-                      >
-                        We Always by your side, empowering your journey every
-                        step of the way
-                      </motion.p>
-                    </div>
-                  </motion.div>
-                ) : pathKey === "reset-2-fa" ? (
-                  <motion.div
-                    className="form-layout-reset-2fa-bg w-full relative bottom-0"
-                    initial={{ y: 100, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 0.8, delay: 0.3 }}
-                  >
-                    <div className="flex reset-password-img-wrapper justify-center gap-4 px-[2rem] absolute top-[2rem]">
-                      <motion.img
-                        initial={{ y: 50, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        transition={{
-                          duration: 0.6,
-                          ease: "easeOut",
-                          delay: 1,
-                        }}
-                        src="/947ab9bac45b92e4228aad24fa218214745e8e37.png"
-                        className="w-[10rem]"
-                        alt="Titan Investments"
-                      />
-                    </div>
-                  </motion.div>
-                ) : pathKey === "reset-2-fa-confirm" ? (
-                  <motion.div
-                    className="form-layout-reset-2fa-confirm-bg w-full relative bottom-0"
-                    initial={{ y: 100, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 0.8, delay: 0.3 }}
-                  >
-                    <div className="flex reset-password-img-wrapper justify-center gap-4 px-[2rem] absolute top-[2rem]">
-                      <motion.img
-                        initial={{ y: 50, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        transition={{
-                          duration: 0.6,
-                          ease: "easeOut",
-                          delay: 1,
-                        }}
-                        src="/947ab9bac45b92e4228aad24fa218214745e8e37.png"
-                        className="w-[10rem]"
-                        alt="Titan Investments"
-                      />
-                    </div>
-                  </motion.div>
-                ) : pathKey === "reset-password" ? (
-                  <motion.div
-                    className="form-layout-reset-bg w-full relative bottom-0"
-                    initial={{ y: 100, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 0.8, delay: 0.3 }}
-                  >
-                    <div className="flex reset-password-img-wrapper justify-center gap-4 px-[2rem] absolute top-[2rem]">
-                      <motion.img
-                        initial={{ y: 50, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        transition={{
-                          duration: 0.6,
-                          ease: "easeOut",
-                          delay: 1,
-                        }}
-                        src="/947ab9bac45b92e4228aad24fa218214745e8e37.png"
-                        className="w-[6rem]"
-                        alt="Titan Investments"
-                      />
-                      <motion.p
-                        initial={{ y: 50, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        transition={{
-                          duration: 0.6,
-                          ease: "easeOut",
-                          delay: 1.3,
-                        }}
-                        className="text-[var(--main-background)] dark:text-white text-[1.8rem] font-[600]"
-                      >
-                        We Always by your side, empowering your journey every
-                        step of the way
-                      </motion.p>
-                    </div>
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    className="form-layout-bg w-full absolute bottom-0"
-                    initial={{ y: 100, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 0.8, delay: 0.3 }}
-                  />
-                )}
+                  {pathKey === "forgot-password" ? (
+                    <motion.div
+                      className="form-layout-forgot-bg w-full relative bottom-0"
+                      initial={{ y: 100, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ duration: 0.8, delay: 0.3 }}
+                    >
+                      <div className="flex forgot-password-img-wrapper justify-center gap-4 px-[2rem] absolute bottom-[2rem]">
+                        <motion.img
+                          initial={{ y: 50, opacity: 0 }}
+                          animate={{ y: 0, opacity: 1 }}
+                          transition={{
+                            duration: 0.6,
+                            ease: "easeOut",
+                            delay: 1,
+                          }}
+                          src="/947ab9bac45b92e4228aad24fa218214745e8e37.png"
+                          className="w-[6rem]"
+                          alt="Titan Investments"
+                        />
+                        <motion.p
+                          initial={{ y: 50, opacity: 0 }}
+                          animate={{ y: 0, opacity: 1 }}
+                          transition={{
+                            duration: 0.6,
+                            ease: "easeOut",
+                            delay: 1.3,
+                          }}
+                          className="text-[var(--main-background)] dark:text-white text-[1.8rem] font-[600]"
+                        >
+                          We Always by your side, empowering your journey every
+                          step of the way
+                        </motion.p>
+                      </div>
+                    </motion.div>
+                  ) : pathKey === "reset-2-fa" ? (
+                    <motion.div
+                      className="form-layout-reset-2fa-bg w-full relative bottom-0"
+                      initial={{ y: 100, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ duration: 0.8, delay: 0.3 }}
+                    >
+                      <div className="flex reset-password-img-wrapper justify-center gap-4 px-[2rem] absolute top-[2rem]">
+                        <motion.img
+                          initial={{ y: 50, opacity: 0 }}
+                          animate={{ y: 0, opacity: 1 }}
+                          transition={{
+                            duration: 0.6,
+                            ease: "easeOut",
+                            delay: 1,
+                          }}
+                          src="/947ab9bac45b92e4228aad24fa218214745e8e37.png"
+                          className="w-[10rem]"
+                          alt="Titan Investments"
+                        />
+                      </div>
+                    </motion.div>
+                  ) : pathKey === "reset-2-fa-confirm" ? (
+                    <motion.div
+                      className="form-layout-reset-2fa-confirm-bg w-full relative bottom-0"
+                      initial={{ y: 100, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ duration: 0.8, delay: 0.3 }}
+                    >
+                      <div className="flex reset-password-img-wrapper justify-center gap-4 px-[2rem] absolute top-[2rem]">
+                        <motion.img
+                          initial={{ y: 50, opacity: 0 }}
+                          animate={{ y: 0, opacity: 1 }}
+                          transition={{
+                            duration: 0.6,
+                            ease: "easeOut",
+                            delay: 1,
+                          }}
+                          src="/947ab9bac45b92e4228aad24fa218214745e8e37.png"
+                          className="w-[10rem]"
+                          alt="Titan Investments"
+                        />
+                      </div>
+                    </motion.div>
+                  ) : pathKey === "reset-password" ? (
+                    <motion.div
+                      className="form-layout-reset-bg w-full relative bottom-0"
+                      initial={{ y: 100, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ duration: 0.8, delay: 0.3 }}
+                    >
+                      <div className="flex reset-password-img-wrapper justify-center gap-4 px-[2rem] absolute top-[2rem]">
+                        <motion.img
+                          initial={{ y: 50, opacity: 0 }}
+                          animate={{ y: 0, opacity: 1 }}
+                          transition={{
+                            duration: 0.6,
+                            ease: "easeOut",
+                            delay: 1,
+                          }}
+                          src="/947ab9bac45b92e4228aad24fa218214745e8e37.png"
+                          className="w-[6rem]"
+                          alt="Titan Investments"
+                        />
+                        <motion.p
+                          initial={{ y: 50, opacity: 0 }}
+                          animate={{ y: 0, opacity: 1 }}
+                          transition={{
+                            duration: 0.6,
+                            ease: "easeOut",
+                            delay: 1.3,
+                          }}
+                          className="text-[var(--main-background)] dark:text-white text-[1.8rem] font-[600]"
+                        >
+                          We Always by your side, empowering your journey every
+                          step of the way
+                        </motion.p>
+                      </div>
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      className="form-layout-bg w-full absolute bottom-0"
+                      initial={{ y: 100, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ duration: 0.8, delay: 0.3 }}
+                    />
+                  )}
+                </div>
+              </div>
+
+              <div
+                className="h-[90vh] overflow-y-auto w-[100%] sm:w-[48%] sm:px-4 mx-auto sm:border sm:border-white/30 
+                 sm:mt-10 sm:py-6 pb-6 sm:rounded-2xl bg-white/10 dark:bg-black/20 backdrop-blur-xl shadow-lg"
+              >
+                {children}
               </div>
             </div>
-
-            <div className="min-h-screen  ms:px-0  pb-4 sm:py-4 w-full sm:w-[80%] sm:pt-[3rem]">
-              {children}
-            </div>
           </div>
-        </div>
+        </ThemeProvider>
       </body>
     </html>
   );

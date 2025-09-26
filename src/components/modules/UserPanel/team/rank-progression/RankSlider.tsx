@@ -17,7 +17,7 @@ function StatusBadge({ status }: { status: string }) {
     return (
       <Link
         href="/dashboard/team/claim-rewards"
-        className="text-black bg-[#FCE803] px-4 py-2 rounded-full text-xs font-semibold flex items-center space-x-1"
+        className="text-black bg-[#FCE803] px-4 py-2 rounded-full text-[.8rem] font-semibold flex items-center space-x-1"
       >
         <span>Claim Reward 🎉</span>
       </Link>
@@ -63,7 +63,7 @@ export default function RankSlider({ ranks = [] }: { ranks?: any[] }) {
                 : "bg-white dark:bg-[#090D23]"
             } overflow-hidden w-full text-white p-4 rounded-xl z-[100] shadow-xl border border-gray-700 flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-8 relative`}
           >
-            <div className="flex items-stretch gap-4 w-full">
+            <div className="flex flex-col sm:flex-row items-stretch gap-4 w-full">
               <div className="flex-shrink-0 flex flex-col items-center sm:mr-6 sm:border-r sm:pr-2 sm:border-gray-700">
                 <div className="w-32 h-32 md:w-40 md:h-40 relative">
                   <Image
@@ -85,7 +85,7 @@ export default function RankSlider({ ranks = [] }: { ranks?: any[] }) {
                 </p>
               </div>
 
-              <div className="flex flex-row sm:flex-col sm:border-r sm:pr-2 sm:border-gray-700">
+              <div className="flex flex-row justify-center sm:justify-start sm:flex-col sm:border-r sm:pr-2 sm:border-gray-700">
                 <div className="grid grid-cols-1 gap-4 text-center sm:text-left">
                   <div className="p-2">
                     <p className="text-xl font-bold text-black dark:text-white">
@@ -93,14 +93,6 @@ export default function RankSlider({ ranks = [] }: { ranks?: any[] }) {
                     </p>
                     <p className="text-[#92959C] dark:text-gray-400 text-sm">
                       Rank
-                    </p>
-                  </div>
-                  <div className="p-2">
-                    <p className="text-xl font-bold text-black dark:text-white">
-                      {rank.award_name || "-"}
-                    </p>
-                    <p className="text-[#92959C] dark:text-gray-400 text-sm">
-                      Award
                     </p>
                   </div>
                   <div className="p-2 hidden sm:block">
@@ -111,10 +103,18 @@ export default function RankSlider({ ranks = [] }: { ranks?: any[] }) {
                       Team Investment
                     </p>
                   </div>
+                  <div className="p-2">
+                    <p className="text-xl font-bold text-black dark:text-white">
+                      {rank.award_name || "-"}
+                    </p>
+                    <p className="text-[#92959C] dark:text-gray-400 text-sm">
+                      Award
+                    </p>
+                  </div>
                 </div>
               </div>
 
-              <div className="right-section-container w-80 hidden sm:block">
+              <div className="right-section-container w-auto hidden sm:block">
                 <p
                   className={`text-sm leading-relaxed ${
                     rank.status === "upcoming"

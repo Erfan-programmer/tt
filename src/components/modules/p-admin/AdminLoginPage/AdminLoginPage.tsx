@@ -43,9 +43,6 @@ export default function AdminLoginPage() {
         password: formData.password,
       });
       setLoading(false);
-
-      console.log("response =>", response);
-
       const loginData = response.data?.data;
 
       if (response.success && loginData) {

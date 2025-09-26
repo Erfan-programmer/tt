@@ -118,7 +118,7 @@ export default function UserDocumentAction() {
       </div>
       {showRejectModal && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex items-center justify-center z-[10000]"
+          className="fixed inset-0 bg-black/40  bg-opacity-70 backdrop-blur-sm flex items-center justify-center z-[10000]"
           onClick={(e) => { if (e.target === e.currentTarget) setShowRejectModal(false); }}
         >
           <div className="relative bg-[var(--admin-bg-main)] p-6 rounded-lg w-[90%] max-w-lg flex flex-col items-center">

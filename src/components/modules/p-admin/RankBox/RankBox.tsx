@@ -26,11 +26,11 @@ export default function RankBox({
   }));
 
   return (
-    <div className="rank-box-container px-4 py-2 text-white my-8 border-[2px] border-[#383C47] rounded-lg bg-gradient-to-r from-[#090D23] via-[#090D23] via-60% to-[#1651C6] relative overflow-hidden">
+    <div className="rank-box-container px-4 py-2 text-[var(--box-background)] dark:text-white my-8 border-[1px] border-[#383C47] rounded-lg bg-gradient-to-r from-[#F6FAFF] via-[#E0EFFF] dark:from-[#090D23] dark:via-[#090D23] via-50% dark:via-60% to-[#1651C6] relative overflow-hidden">
       {stars.map((star) => (
         <motion.div
           key={star.id}
-          className="absolute text-white rounded-full bg-white opacity-50"
+          className="absolute text-[var(--box-background)] dark:text-white rounded-full bg-[var(--box-background)] dark:bg-white opacity-50"
           style={{
             top: `${star.y}%`,
             left: `${star.x}%`,

@@ -9,6 +9,7 @@ import { HeaderProvider } from "@/contextApi/HeaderContext";
 import { VerifyProvider } from "@/contextApi/TitanContext";
 import DashboardClientWrapper from "@/components/Layouts/DashboardClientWrapper";
 import { PaymentProvider } from "@/contextApi/PaymentProvider";
+import { ThemeProvider } from "next-themes";
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -17,19 +18,27 @@ interface DashboardLayoutProps {
 const queryClient = new QueryClient();
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
+
   return (
     <ReduxProvider store={store}>
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <PaymentProvider>
-            <HeaderProvider>
-              <VerifyProvider>
-                <DashboardClientWrapper>{children}</DashboardClientWrapper>
-              </VerifyProvider>
-            </HeaderProvider>
-          </PaymentProvider>
-        </AuthProvider>
-      </QueryClientProvider>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="dark"
+        storageKey="theme"
+        enableSystem={true}
+      >
+     <QueryClientProvider client={queryClient}>
+          <AuthProvider>
+            <PaymentProvider>
+              <HeaderProvider>
+                <VerifyProvider>
+                  <DashboardClientWrapper>{children}</DashboardClientWrapper>
+                </VerifyProvider>
+              </HeaderProvider>
+            </PaymentProvider>
+          </AuthProvider>
+        </QueryClientProvider>
+      </ThemeProvider>
     </ReduxProvider>
   );
 }

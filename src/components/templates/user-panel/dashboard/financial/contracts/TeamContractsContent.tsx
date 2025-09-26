@@ -60,10 +60,6 @@ export default function TeamContractsContent() {
         setSelectedContract(contractRenewalData.data.body.data[0]);
       }
     }
-    if (error) {
-      console.error("Contract Renewal Error:", error);
-      toast.error("Failed to load contract data. Please refresh the page.");
-    }
   }, [contractRenewalData, error]);
 
 
@@ -235,7 +231,7 @@ export default function TeamContractsContent() {
           <div className="flex items-center gap-3 mb-4">
             <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center">
               <svg
-                className="w-5 h-5 text-white"
+                className="w-5 h-5 text-[#383C47] dark:text-white"
                 fill="currentColor"
                 viewBox="0 0 20 20"
               >

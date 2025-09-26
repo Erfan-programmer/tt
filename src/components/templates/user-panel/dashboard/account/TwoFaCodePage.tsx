@@ -10,7 +10,6 @@ export default function TwoFaCode() {
 
   const handleSetTwoFaData = (data: TwoFaData) => {
     setTwoFaData(data);
-    console.log("handleSetTwoFaData=>" , data)
   };
 
   const handleBackToStep1 = () => {
@@ -21,7 +20,6 @@ export default function TwoFaCode() {
   const handleSetEmail = (userEmail: string) => {
     setEmail(userEmail);
   };
- console.log("twoFaData =>" , twoFaData)
   const renderComponent = () => {
   
     if (twoFaData) {

@@ -38,7 +38,6 @@ const SubMenuItemComponent: React.FC<SubMenuItemProps> = ({
     if (item.subItems && item.subItems.length > 0) {
       e.preventDefault();
       setIsSidebarOpen(isSidebarOpen);
-      console.log("sidebaropen =>", isSidebarOpen);
     }
   };
 

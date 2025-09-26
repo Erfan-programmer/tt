@@ -77,7 +77,7 @@ export default function CustomAdminInput({
           onChange={(e) => onChange(e.target.value)}
           placeholder={`${title}...`}
           readOnly={readOnly}
-          className="border-[1px] mt-1 border-[#383C47] p-2 px-2 bg-transparent rounded-xl text-white"
+          className="border-[1px] mt-1 border-[#383C47] p-2 px-2 bg-transparent rounded-xl text-white placeholder:text-gray-300"
         />
       )}
     </div>

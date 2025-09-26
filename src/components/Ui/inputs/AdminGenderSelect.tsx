@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { FaStar } from "react-icons/fa6";
+import { IoIosArrowDown } from "react-icons/io";
 import { IoSearch } from "react-icons/io5";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -37,7 +38,7 @@ interface GenderSelectProps {
   className?: string;
 }
 
-export default function GenderSelect({
+export default function AdminGenderSelect({
   label,
   value,
   onChange,
@@ -81,8 +82,6 @@ export default function GenderSelect({
 
   const selectedOption = genderOptions.find((option) => option.id === value);
 
-
-
   return (
     <div
       className={`custom-input-form relative ${className}`}
@@ -90,13 +89,13 @@ export default function GenderSelect({
     >
       <label className="sponsor-label flex justify-start items-start gap-2">
         {required && <FaStar className="text-[#FF6060] w-3 h-3 mt-1" />}
-        <span className="text-gray-600 dark:text-gray-300 text-xs">
+        <span className="text-gray-300 text-xs">
           {label}
         </span>
       </label>
 
       <div
-        className={`titan-input-custom-container text-[var(--main-background)] dark:text-white rounded-[.5rem] border cursor-pointer mt-2 ${
+        className={`titan-input-custom-container !py-[.5rem] text-white rounded-[.5rem] cursor-pointer mt-2 ${
           isFocused || isOpen
             ? "titan-input-custom-container-focus"
             : "border-standard"
@@ -104,16 +103,15 @@ export default function GenderSelect({
         onClick={() => setIsOpen(!isOpen)}
       >
         <div className="flex items-center gap-2 flex-1">
-          <span className="text-[var(--main-background)] dark:text-white">
+          <span className="text-white">
             {selectedOption ? selectedOption.label : "Select gender"}
           </span>
         </div>
-          <span className={` text-white text-xl 
-          w-6 h-6 text-[var(--main-background)] dark:text-white transition-transform duration-300 ${
+        <IoIosArrowDown
+          className={`w-6 h-6 text-white transition-transform duration-300 ${
             isOpen ? "rotate-180" : ""
-          }
-          `}>▼</span>
-
+          }`}
+        />
       </div>
 
       <AnimatePresence>
@@ -125,33 +123,33 @@ export default function GenderSelect({
             transition={{ duration: 0.3 }}
             className="absolute left-0 right-0 mt-2 z-50"
           >
-            <div className="flex justify-between items-center px-3 py-2 rounded-[.5rem] border border-[#585966] bg-transparent text-[var(--main-background)] dark:text-white cursor-pointer mt-2">
-              <div className="">
+            <div className="bg-[#0f163a] border-1 border-[#585966] rounded-[.5rem] overflow-hidden shadow-lg">
+              <div className="p-3 border-b-2 border-[#585966]">
                 <div className="relative">
                   <input
                     type="text"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full bg-[#ffff] dark:bg-[#192879] text-[var(--main-background)] dark:text-white px-4 py-2 pr-10 rounded-lg placeholder:dark:text-gray-400 outline-none"
+                    className="w-full bg-[#192879] text-white px-4 py-2 pr-10 rounded-[.5rem] placeholder:dark:text-gray-400 outline-none"
                     placeholder="Search gender..."
                     onClick={(e) => e.stopPropagation()}
                   />
-                  <IoSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[var(--main-background)] dark:text-white w-5 h-5" />
+                  <IoSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white w-5 h-5" />
                 </div>
               </div>
 
               <div className="max-h-60 overflow-y-auto dark:bg-[#0f163a] custom-scrollbar">
                 {filteredOptions.length === 0 ? (
-                  <div className="px-4 py-2 text-[var(--main-background)] dark:text-white">
+                  <div className="px-4 py-2 text-white">
                     No options found
                   </div>
                 ) : (
                   filteredOptions.map((option) => (
                     <div
                       key={option.id}
-                      className={`px-4 py-2 cursor-pointer hover:bg-[#ffff] dark:bg-[#0f163a] dark:hover:bg-[#192879] transition-colors ${
+                      className={`px-4 py-2 cursor-pointer bg-[#0f163a] hover:bg-[#192879] transition-colors ${
                         value === option.id
-                          ? "bg-[#ffff] dark:bg-[#192879]"
+                          ? "bg-[#192879]"
                           : ""
                       } flex items-center gap-3`}
                       onClick={(e) => {
@@ -161,7 +159,7 @@ export default function GenderSelect({
                         setIsOpen(false);
                       }}
                     >
-                      <span className="text-[var(--main-background)] dark:text-white">
+                      <span className="text-white">
                         {option.label}
                       </span>
                     </div>

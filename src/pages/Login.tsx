@@ -141,7 +141,7 @@ export default function Login() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="text-[var(--main-background)] dark:text-white"
+                className="text-[var(--main-background)] dark:text-[#B9B9B9]"
               >
                 Welcome Back
               </motion.h2>
@@ -149,7 +149,7 @@ export default function Login() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                className="titan-light-text block"
+                className="text-[var(--dark-color)] dark:text-white block"
               >
                 Your Path to Greatness Starts Here
               </motion.span>
@@ -195,7 +195,7 @@ export default function Login() {
                         <span>Password:</span>
                         <Link
                           href="/reset-password"
-                          className="text-xs underline text-gray-800 dark:text-gray-400 hover:text-[var(--primary-color)] transition"
+                          className="text-[.8rem] underline text-gray-800 dark:text-gray-400 hover:text-[var(--primary-color)] transition"
                         >
                           Forgot Password?
                         </Link>

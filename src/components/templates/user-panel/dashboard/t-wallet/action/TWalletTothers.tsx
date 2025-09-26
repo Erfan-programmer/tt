@@ -89,7 +89,7 @@ export default function TWalletTothers() {
               strokeLinejoin="round"
             />
           </svg>
-          <p className="text-[var(--dark-color)] dark:text-white text-xs sm:text-sm md:text-base">
+          <p className="text-[var(--dark-color)] dark:text-white text-[.8rem] sm:text-sm md:text-base">
             T-Wallet to Others
           </p>
         </div>
@@ -105,11 +105,11 @@ export default function TWalletTothers() {
           className="register-inputs-reward-special bg-[#d9d9d9] dark:bg-[#123b90] flex justify-between w-full sm:w-2/3 md:w-[45%] rounded-[1rem] sm:rounded-[1.5rem] md:rounded-[2rem] py-1.5 sm:py-2 md:py-3 border-standard px-2 sm:px-3 items-center gap-1.5 sm:gap-2 md:gap-3 bg-[#123B90]"
         >
           <div className="flex items-center flex-wrap gap-1 sm:gap-1.5 md:gap-2">
-            <span className="text-[var(--dark-color)] dark:text-[#D9D9D9] text-xs sm:text-sm md:text-base">
+            <span className="text-[var(--dark-color)] dark:text-[#D9D9D9] text-[.8rem] sm:text-sm md:text-base">
               T-wallet Balance
             </span>
           </div>
-          <p className="text-[var(--dark-color)] dark:text-white text-xs sm:text-sm md:text-base">
+          <p className="text-[var(--dark-color)] dark:text-white text-[.8rem] sm:text-sm md:text-base">
             ${headerData?.t_wallet}
           </p>
         </motion.div>
@@ -134,7 +134,7 @@ export default function TWalletTothers() {
           onChange={setTid}
           className="w-full sm:w-2/3 md:w-[50%] mt-3 sm:mt-4 md:mt-[1rem]"
         />
-        {tidError && <div className="text-red-500 text-xs mt-1">{tidError}</div>}
+        {tidError && <div className="text-red-500 text-[.8rem] mt-1">{tidError}</div>}
 
         <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-end gap-3 sm:gap-4 mt-4 sm:mt-6 md:mt-[2rem]">
           <CustomInput

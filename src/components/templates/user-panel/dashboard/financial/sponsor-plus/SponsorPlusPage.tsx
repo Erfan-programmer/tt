@@ -44,9 +44,9 @@ export default function FinancialSponsorPlus() {
         description="Please enter your information carefully. Then, click on the 'Continue' button to proceed with the investment and registration process. In the deposit section, select your preferred payment method. Your investment account details will be sent to you as soon as possible based on the chosen payment method."
       />
       <StatementsProvider>
-        <SponsorPlus />
+        <SponsorPlus refetch={fetchAccounts}/>
         {loading ? (
-          <p className="text-white">Loading accounts...</p>
+          <p className="text-[#383C47] dark:text-white">Loading accounts...</p>
         ) : error ? (
           <p className="text-red-500">{error}</p>
         ) : (

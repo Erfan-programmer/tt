@@ -35,14 +35,14 @@ interface PaymentListResponse {
 }
 
 const statusColors: Record<string, string> = {
-  completed: "bg-green-500 text-white",
-  approved: "bg-green-500 text-white",
+  completed: "bg-green-500 text-[#383C47] dark:text-white",
+  approved: "bg-green-500 text-[#383C47] dark:text-white",
   pending: "bg-yellow-400 text-black",
-  processed: "bg-blue-400 text-white",
-  expired: "bg-orange-400 text-white",
-  cancelled: "bg-gray-400 text-white",
-  failed: "bg-red-500 text-white",
-  rejected: "bg-red-500 text-white",
+  processed: "bg-blue-400 text-[#383C47] dark:text-white",
+  expired: "bg-orange-400 text-[#383C47] dark:text-white",
+  cancelled: "bg-gray-400 text-[#383C47] dark:text-white",
+  failed: "bg-red-500 text-[#383C47] dark:text-white",
+  rejected: "bg-red-500 text-[#383C47] dark:text-white",
 };
 
 const ITEMS_PER_PAGE = 6;
@@ -119,7 +119,7 @@ export default function DepositHistoryList({
       <div className="team-account-content px-3 sm:px-4 md:px-[1rem] py-3 sm:py-4 md:py-[1rem] bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] bg-shadow-custom border-standard rounded-lg sm:rounded-xl mt-3 sm:mt-4 md:mt-5 pb-4 sm:pb-6 md:pb-[2rem]">
         <div className="team-claim-reward">
           <div className="flex items-center gap-1.5 sm:gap-2">
-            <p className="text-[var(--dark-color)] dark:text-white text-xs sm:text-sm md:text-base">
+            <p className="text-[var(--dark-color)] dark:text-white text-[.8rem] sm:text-sm md:text-base">
               All Transactions
             </p>
           </div>
@@ -200,7 +200,7 @@ export default function DepositHistoryList({
                       </td>
                       <td className="py-3 text-center px-4">
                         <span
-                          className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                          className={`px-3 py-1 rounded-full text-[.8rem] font-semibold ${
                             statusColors[item.status] ||
                             "bg-gray-300 text-black"
                           }`}

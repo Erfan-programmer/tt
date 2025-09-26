@@ -1,38 +1,26 @@
 "use client";
+
+import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import "./ThemeSwitcher.css";
 
 const ThemeSwitcher = () => {
-  const [isDark, setIsDark] = useState(false);
+  const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const savedTheme = localStorage.getItem("theme");
-      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      setIsDark(savedTheme ? savedTheme === "dark" : prefersDark);
-      setMounted(true);
-    }
+    setMounted(true);
   }, []);
 
-  useEffect(() => {
-    if (!mounted) return;
-    if (isDark) {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    }
-  }, [isDark, mounted]);
-
-  const toggleTheme = () => setIsDark(prev => !prev);
-
-  if (!mounted) return null; // prevent SSR mismatch
+  if (!mounted) return null;
 
   return (
     <label className="switch hidden sm:inline-block">
-      <input type="checkbox" checked={!isDark} onChange={toggleTheme} />
+      <input
+        type="checkbox"
+        checked={theme === "light"} 
+        onChange={() => setTheme(theme === "dark" ? "light" : "dark")}
+      />
       <span className="slider">
         <div className="star star_1"></div>
         <div className="star star_2"></div>

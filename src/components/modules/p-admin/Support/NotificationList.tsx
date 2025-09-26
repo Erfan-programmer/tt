@@ -108,7 +108,7 @@ export default function NotificationList({
       field: "id",
       render: (_, row) => (
         <div className="flex gap-2">
-          <button className="p-1 rounded text-[#6A6A6A]" onClick={() => console.log("View", row.id)}>
+          <button className="p-1 rounded text-[#6A6A6A]" >
             <FaEye />
           </button>
           <button className="p-1 rounded text-[#6A6A6A]" onClick={() => openEditModal(row)}>
@@ -129,7 +129,7 @@ export default function NotificationList({
       {/* Edit Modal */}
       <AnimatePresence>
         {editModalOpen && selectedNotification && (
-          <motion.div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+          <motion.div className="fixed inset-0 bg-black/40 bg-opacity-50 flex items-center justify-center z-50"
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
             <motion.div className="bg-[#1E1E2F] p-6 rounded-lg w-[400px] relative"
               initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.8, opacity: 0 }}>
@@ -152,7 +152,7 @@ export default function NotificationList({
       {/* Delete Modal */}
       <AnimatePresence>
         {deleteModalOpen && selectedNotification && (
-          <motion.div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+          <motion.div className="fixed inset-0 bg-black/40 bg-opacity-50 flex items-center justify-center z-50"
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
             <motion.div className="bg-[#1E1E2F] p-6 rounded-lg w-[400px] relative"
               initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.8, opacity: 0 }}>

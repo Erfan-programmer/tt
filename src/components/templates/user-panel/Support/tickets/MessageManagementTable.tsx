@@ -54,8 +54,6 @@ export default function MessageManagementTable({
     return "responded";
   };
 
-  console.log("tickets =>" , tickets)
-
   const getResponseColor = (ticket: Ticket) => {
     const status = getResponseStatus(ticket);
     switch (status) {

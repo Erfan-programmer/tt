@@ -25,7 +25,6 @@ export default function VerificationStepBox({
   const filterFile = fileSectionPairs?.filter((file) => file.type === type);
   const currentFile = filterFile[index];
   const status = currentFile?.status;
-  console.log("fileSectionPairs =>", fileSectionPairs);
   let borderColor = "border-1 border-gray-300";
   if (status === "rejected")
     borderColor = "border-1 border-[var(--loss)] border-solid";
@@ -98,7 +97,6 @@ export default function VerificationStepBox({
     );
     setPreviewURL(null);
     currentFile.path = "";
-    console.log(fileSectionPairs);
   };
 
   const finalImage =

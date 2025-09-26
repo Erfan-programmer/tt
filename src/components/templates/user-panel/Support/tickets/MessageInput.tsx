@@ -43,7 +43,7 @@ export default function MessageInput({ ticketStatus, isSending, onSend }: Messag
                 {attachments.length > 0 && (
                     <div className="flex flex-wrap gap-2 mb-2">
                         {attachments.map((file, index) => (
-                            <div key={index} className="flex items-center gap-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs font-medium px-2.5 py-1 rounded-full">
+                            <div key={index} className="flex items-center gap-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-[.8rem] font-medium px-2.5 py-1 rounded-full">
                                 <span>{file.name}</span>
                                 <button type="button" onClick={() => handleRemoveAttachment(index)} className="text-blue-500 hover:text-blue-700">
                                     <FaTimes />

@@ -52,7 +52,7 @@ export default function TitanNotification({
             <div className="flex justify-end items-center mb-3">
               <button
                 onClick={handleClose}
-                className="w-10 h-10 flex justify-center items-center bg-[#fff] text-white  rounded-full hover:bg-gray-100 transition-colors"
+                className="w-10 h-10 flex justify-center items-center bg-[#fff] text-[var(--box-background)]  rounded-full hover:bg-gray-100 transition-colors"
               >
                 {icon}
               </button>

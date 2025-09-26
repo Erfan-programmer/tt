@@ -34,21 +34,20 @@ export default function AcountActivation({type}:AcountActivationType) {
             <input
               type="checkbox"
               checked={acceptTerms}
-              onChange={() =>{ setAcceptTerms(!acceptTerms); console.log(acceptTerms) }}
+              onChange={() =>{ setAcceptTerms(!acceptTerms);}}
               className="hidden"
             />
-            <span className="custom-radio bg-white w-7 h-7 border-2 border-[#275edf] dark:border-white rounded-lg flex items-center justify-center relative">
-              <span className="check-icon absolute inset-0 flex items-center justify-center opacity-100 transition-opacity">
+            <span className={`${!acceptTerms ? "bg-white" : "bg-[var(--main-background)]"} w-7 h-7 border-2 border-[#275edf]  rounded-lg flex items-center justify-center relative`}>
+              <span className="absolute inset-0 flex items-center justify-center opacity-100 transition-opacity">
                 <svg
-                  className={`w-5 h-5 ${!
-                    acceptTerms ? "text-white" : "text-[#275EDF]"} text-[#275EDF]`}
+                  className={`w-5 h-5 ${!acceptTerms ? "opacity-0" : "opacity-100 "}`}
                   viewBox="0 0 12 12"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
                     d="M10 3L4.5 8.5L2 6"
-                    stroke="currentColor"
+                    stroke="#fff"
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -58,7 +57,7 @@ export default function AcountActivation({type}:AcountActivationType) {
             </span>
           </label>
           <p
-            className="text-[var(--main-background)] text-white text-xl"
+            className="text-[var(--main-background)] dark:text-white  text-xl"
             onClick={() => setAcceptTerms(!acceptTerms)}
           >
             I have carefully read and fully accept all the terms, conditions,

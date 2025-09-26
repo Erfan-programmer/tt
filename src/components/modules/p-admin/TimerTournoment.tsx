@@ -27,7 +27,6 @@ const getRemainingTime = (timestamp: number): IRemainingTime => {
   const hours = Math.floor((totalSeconds / (60 * 60)) % 24);
   const days = Math.floor(totalSeconds / (60 * 60 * 24));
 
-  // Function to add a leading zero
   const formatNumber = (num: number): string =>
     num < 10 ? `0${num}` : `${num}`;
 
@@ -72,7 +71,7 @@ const AnimatedNumber = ({
 }) => {
   return (
     <div
-      className="flex flex-col items-center mx-2 md:mx-4 relative overflow-hidden w-[1.8rem] sm:w-[15vw] xl:w-[4rem]"
+      className="flex flex-col items-center mx-2 md:mx-4 relative overflow-hidden min-w-[70px] xl:w-[4rem]"
       style={{ height: "80px"}}
     >
       <AnimatePresence>
@@ -87,7 +86,7 @@ const AnimatedNumber = ({
           {number}
         </motion.div>
       </AnimatePresence>
-      <span className="text-xs uppercase text-[#888] mt-1 md:mt-1.5 absolute -bottom-0">
+      <span className="text-[.8rem] sm:text-md uppercase text-[#888] mt-1 md:mt-1.5 absolute -bottom-0">
         {label}
       </span>
     </div>
@@ -105,7 +104,7 @@ const TimerTournoment = ({
     <div className="timer-tournoment-title mb-6">
         <h2 className="text-2xl font-bold text-white">Team Builders Tournament</h2>
     </div>
-    <div className="flex  mb-4 justify-center items-center bg-gradient-to-t tournoment-timer-container from-[#202020] to-[#000] w-fit mx-auto text-white p-5 rounded-lg shadow-xl relative">
+    <div className="flex mb-4 justify-center items-center bg-gradient-to-t tournoment-timer-container from-[#202020] to-[#000] w-full sm:w-fit mx-auto text-white p-5 rounded-lg shadow-xl relative overflow-x-auto sidebar-item">
       <AnimatedNumber number={days} label="Days" />
       <span className="text-4xl md:text-5xl font-light text-[#555] mx-2">
         |
@@ -114,11 +113,11 @@ const TimerTournoment = ({
       <span className="text-4xl md:text-5xl font-light text-[#555] mx-2">
         |
       </span>
-      <AnimatedNumber number={minutes} label="Minutes" />
+      <AnimatedNumber number={minutes} label="Min" />
       <span className="text-4xl md:text-5xl font-light text-[#555] mx-2">
         |
       </span>
-      <AnimatedNumber number={seconds} label="Seconds" />
+      <AnimatedNumber number={seconds} label="Sec" />
     </div>
     </>
   );

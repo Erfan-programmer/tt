@@ -227,7 +227,7 @@ export default function DepositCryptosTable({
 
       {/* Edit Modal */}
       {editId && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/40 bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-gray-900 p-6 rounded-xl w-[500px] space-y-4">
             <p className="text-white text-lg font-semibold">
               Edit Withdraw Wallet
@@ -283,7 +283,7 @@ export default function DepositCryptosTable({
 
       {/* Delete Modal */}
       {showDeleteModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/40 bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-gray-900 p-6 rounded-xl">
             <p className="text-white mb-4">
               Are you sure you want to delete this crypto?

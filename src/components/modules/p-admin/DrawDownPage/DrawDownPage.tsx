@@ -74,7 +74,6 @@ export default function DrawDownPage() {
               console.log("Search:", filter, value);
             }}
             onClear={() => {
-              console.log("Cleared");
               fetchData();
             }}
           />

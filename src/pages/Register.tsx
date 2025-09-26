@@ -207,7 +207,7 @@ export default function Register() {
   return (
     <>
       <ToastContainer />
-      <div className="sm:mb-[4rem]">
+      <div className="sm:mb-[4rem] ">
         <div className="formlayout-bg-mobile flex flex-col items-start justify-center gap-4 px-[1rem] sm:hidden">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}

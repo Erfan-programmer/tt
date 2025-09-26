@@ -105,7 +105,7 @@ export default function ExtraDashboardPage() {
             />
           </div>
         </div>
-        <div className="flex items-center justify-center text-center text-white">
+        <div className="flex items-center justify-center text-center text-[#383C47] dark:text-white">
           <h2 className="font-bold">Team Builders Tournament</h2>
         </div>
         <div className="flex items-center justify-center text-center text-white w-[80%] sm:w-[95%] mx-auto">
@@ -116,7 +116,7 @@ export default function ExtraDashboardPage() {
         <div className="border-[2px] border-[#555555] px-4 py-3 rounded-[.5rem] bg-[#161E36] mt-4">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-full bg-[#1A68FF] flex items-center justify-center">
-              <span className="text-white">1</span>
+              <span className="text-[#383C47] dark:text-white">1</span>
             </div>
             <p className="text-white text-lg">One-Time Challenge</p>
           </div>
@@ -130,7 +130,7 @@ export default function ExtraDashboardPage() {
         <div className="border-[2px] border-[#555555] px-4 py-3 rounded-[.5rem] bg-[#161E36] mt-4">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-full bg-[#1A68FF] flex items-center justify-center">
-              <span className="text-white">2</span>
+              <span className="text-[#383C47] dark:text-white">2</span>
             </div>
             <p className="text-white text-lg">Duration</p>
           </div>
@@ -152,7 +152,7 @@ export default function ExtraDashboardPage() {
         <div className="border-[2px] border-[#555555] px-4 py-3 rounded-[.5rem] bg-[#161E36] mt-4">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-full bg-[#1A68FF] flex items-center justify-center">
-              <span className="text-white">2</span>
+              <span className="text-[#383C47] dark:text-white">2</span>
             </div>
             <p className="text-white text-lg">Rewards</p>
           </div>
@@ -201,7 +201,7 @@ export default function ExtraDashboardPage() {
         <div className="border-[2px] border-[#555555] px-4 py-3 rounded-[.5rem] bg-[#161E36] mt-4">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-full bg-[#1A68FF] flex items-center justify-center">
-              <span className="text-white">4</span>
+              <span className="text-[#383C47] dark:text-white">4</span>
             </div>
             <p className="text-white text-lg">Requirements</p>
           </div>
@@ -226,7 +226,7 @@ export default function ExtraDashboardPage() {
         </div>
 
         <div className="flex items-center gap-4">
-          <span className="text-white">
+          <span className="text-[#383C47] dark:text-white">
             <Checkbox
               {...label}
               defaultChecked
@@ -241,14 +241,14 @@ export default function ExtraDashboardPage() {
               }}
             />
           </span>
-          <span className="text-white">
+          <span className="text-[#383C47] dark:text-white">
             I understand and agree to the tournament rules above
           </span>
         </div>
 
         <div className="flex items-center flex-wrap gap-4 mt-8">
           <button className="start-tournoment px-6 py-2 flex items-center w-full sm:w-auto rounded-xl titan-confirm-btn justify-center text-center">
-            <span className="text-white" onClick={()=> router.push("extraDashboard/start-map")}>🚀 Start Tournament</span>
+            <span className="text-[#383C47] dark:text-white" onClick={()=> router.push("extraDashboard/start-map")}>🚀 Start Tournament</span>
           </button>
           <button className="px-6 py-2 flex items-center w-full sm:w-auto rounded-xl bg-white text-[#090F29] justify-center text-center">
             <span>Cancel</span>

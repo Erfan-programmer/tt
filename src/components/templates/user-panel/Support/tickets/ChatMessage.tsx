@@ -23,7 +23,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ msg }) => {
           }
         `}
       >
-        <div className={`text-xs font-bold mb-1 ${isUser ? "text-right" : "text-left"}`}>
+        <div className={`text-[.8rem] font-bold mb-1 ${isUser ? "text-right" : "text-left"}`}>
           {senderName}
         </div>
         <div
@@ -45,7 +45,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ msg }) => {
             ))}
           </div>
         )}
-        <div className="text-xs mt-2 text-right opacity-70">
+        <div className="text-[.8rem] mt-2 text-right opacity-70">
           {msg.created_at ? new Date(msg.created_at).toLocaleString() : ""}
         </div>
       </div>

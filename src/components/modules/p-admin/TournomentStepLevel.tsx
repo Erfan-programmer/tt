@@ -14,24 +14,23 @@ import Box from "@mui/material/Box";
 const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
     top: 55,
-
   },
   [`&.${stepConnectorClasses.active}`]: {
     [`& .${stepConnectorClasses.line}`]: {
       background: "#1A68FF",
-      height:".5rem",
+      height: ".5rem",
       border: "1px solid white",
     },
   },
   [`&.${stepConnectorClasses.completed}`]: {
     [`& .${stepConnectorClasses.line}`]: {
       background: "#1A68FF",
-      height:".7rem",
+      height: ".7rem",
       border: "1px solid white",
     },
   },
   [`& .${stepConnectorClasses.line}`]: {
-      height:".7rem",
+    height: ".7rem",
     border: "1px solid white",
     backgroundColor: "#eaeaf0",
     borderRadius: 1,
@@ -174,16 +173,63 @@ function ColorlibStepIcon(props: ColorlibStepIconProps) {
   );
 }
 
-const steps = ["Start", "Bronze", "Silver", "Gold"];
-const values = ["30.07.2024", "$ 2000", "$ 5000", "$ 9000"];
+interface Milestone {
+  name: string;
+  icon_path: string;
+  min_sales_volume: number;
+  tournament_prize_amount: string;
+}
 
-export default function TournomentStepLevel() {
+interface TournomentStepLevelProps {
+  milestones: Milestone[];
+  currentSalesVolume: number; 
+  startTime: Date;
+}
+
+export default function TournomentStepLevel({
+  milestones,
+  currentSalesVolume,
+  startTime, 
+}: TournomentStepLevelProps) {
+  
+  // Logic to calculate the active step based on current sales volume
+  const calculateActiveStep = () => {
+    let activeStep = 0; // Start at index 0 (the "Start" step)
+    
+    // Check if the current sales volume reaches any milestone
+    // The index starts at 0, so we use (index + 1) for the stepper step number
+    milestones.forEach((milestone, index) => {
+      if (currentSalesVolume >= milestone.min_sales_volume) {
+        activeStep = index + 1; 
+      }
+    });
+
+    return activeStep;
+  };
+
+  const activeStep = calculateActiveStep(); // Use the calculated active step
+
+  const formattedStartDate = startTime
+    .toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    })
+    .replace(/\//g, "."); 
+
+  const steps = ["Start", ...milestones.map((m) => m.name)];
+  const values = [
+    formattedStartDate,
+    // Safely format the prize amount, assuming tournament_prize_amount is a string representing a number
+    ...milestones.map((m) => `$ ${parseFloat(m?.tournament_prize_amount).toLocaleString()}`),
+  ];
+  
   return (
     <Stack sx={{ width: "100%" }} spacing={4}>
-      <Box   sx={{ overflowX: "auto", width: "100%" }} className="sidebar-item">
+      <Box sx={{ overflowX: "auto", width: "100%" }} className="sidebar-item">
         <Stepper
           alternativeLabel
-          activeStep={1}
+          activeStep={activeStep} // 🔥 UPDATED: Use the calculated activeStep
           connector={<ColorlibConnector />}
           sx={{ minWidth: 600 }}
         >

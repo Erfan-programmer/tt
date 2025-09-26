@@ -450,7 +450,7 @@ If you have received more than 80% of your investment amount in profits from Tit
                 <p className="truncate text-sm text-[var(--dark-color)] dark:text-[#D9D9D9]">
                   {file.name}
                 </p>
-                <p className="text-xs text-gray-500">
+                <p className="text-[.8rem] text-gray-500">
                   {(file.size / (1024 * 1024)).toFixed(2)} MB
                 </p>
                 <button

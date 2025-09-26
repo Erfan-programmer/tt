@@ -1,35 +1,86 @@
-"use client"
-import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
+"use client";
+import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
+import { apiRequest, ApiResponse } from "@/libs/api";
+import { loadUserData } from "@/components/modules/EncryptData/SavedEncryptData";
+
+interface ContactsResponse {
+  data: any[];
+  meta: {
+    total: number;
+    per_page: number;
+    current_page: number;
+  };
+}
 
 interface ContactsContextType {
+  contacts: any[];
+  isLoading: boolean;
+  error: string | null;
+  page: number;
+  totalCount: number;
+  perPage: number;
   refreshContacts: () => void;
-  isRefreshing: boolean;
+  setPage: (page: number) => void;
 }
 
 const ContactsContext = createContext<ContactsContextType | undefined>(undefined);
 
 export const ContactsProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [isRefreshing, setIsRefreshing] = useState(false);
-  const queryClient = useQueryClient();
+  const [contacts, setContacts] = useState<any[]>([]);
+  const [totalCount, setTotalCount] = useState(0);
+  const [perPage, setPerPage] = useState(15);
+  const [page, setPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const refreshContacts = async () => {
-    setIsRefreshing(true);
+  const fetchContacts = async (pageNumber: number) => {
     try {
-      // Invalidate and refetch all contacts queries
-      await queryClient.invalidateQueries({ queryKey: ['contacts'] });
-    } catch (error) {
-      console.error('Error refreshing contacts:', error);
+      setIsLoading(true);
+      setError(null);
+
+      const token = loadUserData()?.access_token;
+
+      const response: ApiResponse<ContactsResponse> = await apiRequest(
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/client/contacts?page=${pageNumber}`,
+        "GET",
+        undefined,
+        { Authorization: `Bearer ${token}` }
+      );
+
+      if (!response.success) {
+        throw new Error(response.error?.message || "Failed to fetch contacts");
+      }
+
+      setContacts(response.data?.data || []);
+      setTotalCount(response.data?.meta?.total || 0);
+      setPerPage(response.data?.meta?.per_page || 15);
+      setPage(response.data?.meta?.current_page || 1);
+    } catch (err: any) {
+      setError(err.message || "Unexpected error");
     } finally {
-      setIsRefreshing(false);
+      setIsLoading(false);
     }
+  };
+
+  useEffect(() => {
+    fetchContacts(page);
+  }, [page]);
+
+  const refreshContacts = () => {
+    fetchContacts(page);
   };
 
   return (
     <ContactsContext.Provider
       value={{
+        contacts,
+        isLoading,
+        error,
+        page,
+        totalCount,
+        perPage,
         refreshContacts,
-        isRefreshing,
+        setPage,
       }}
     >
       {children}
@@ -40,7 +91,7 @@ export const ContactsProvider: React.FC<{ children: ReactNode }> = ({ children }
 export const useContacts = (): ContactsContextType => {
   const context = useContext(ContactsContext);
   if (!context) {
-    throw new Error('useContacts must be used within a ContactsProvider');
+    throw new Error("useContacts must be used within a ContactsProvider");
   }
   return context;
-}; 
+};

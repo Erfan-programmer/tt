@@ -90,7 +90,6 @@ export const loadUserData = () => {
     if (!raw) return null;
 
     const { encryptedData, expiresAt } = JSON.parse(raw);
-   console.log("now =>" , Date.now() , "expired At =>" , expiresAt)
     if (Date.now() > expiresAt) {
       removeUserData();
       return null;

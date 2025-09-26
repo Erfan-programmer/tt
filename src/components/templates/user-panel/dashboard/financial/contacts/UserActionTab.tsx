@@ -5,7 +5,6 @@ import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import AddUserAction from "./AddUserAction";
 import RemoveUserAction from "./RemoveUserAction";
-import { useTheme } from "next-themes";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -38,14 +37,6 @@ function a11yProps(index: number) {
 
 export default function UserActionTab() {
   const [value, setValue] = React.useState(0);
-  const { theme } = useTheme();
-
-  React.useEffect(() => {
-    if (typeof window !== "undefined") {
-      document.documentElement.classList.remove("light", "dark");
-      document.documentElement.classList.add(theme || "light");
-    }
-  }, [theme]);
 
   const handleChange = (_: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);

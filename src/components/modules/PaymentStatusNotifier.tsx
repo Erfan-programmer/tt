@@ -13,7 +13,6 @@
 //     const channel = echo.private(`client.${userId}`);
 
 //     channel.listen('.payment.success', (event: any) => {
-//       console.log('Payment Success Event Received:', event);
 //       toast.success(event.message);
 
 //       // window.location.href = '/dashboard/payments/success';

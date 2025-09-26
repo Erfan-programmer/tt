@@ -85,7 +85,7 @@ export default function TutorialBoxContent() {
   return (
     <div className="support-tutorial-container py-3 sm:py-4 md:py-[1rem] bg-[#F4F7FE4D] dark:bg-[var(--sidebar-bg)] border-standard rounded-lg sm:rounded-xl mt-4 sm:mt-5 pb-4 sm:pb-6 md:pb-[2rem]">
       <div className="support-tutorial text-[var(--sidebar-bg)] dark:text-white px-3 sm:px-4 md:px-[2rem]">
-        <p className="text-xs sm:text-sm md:text-base">Click on each file to download</p>
+        <p className="text-[.8rem] sm:text-sm md:text-base">Click on each file to download</p>
       </div>
       <div className="support-tutorial-wrapper px-3 sm:px-4 md:px-[2rem]">
         {isLoading && <>Loading...</>}
@@ -93,12 +93,12 @@ export default function TutorialBoxContent() {
           const isDownloading = downloadingId === file.id;
           const progress = progressMap[file.id] || 0;
           return (
-            <div key={file.id} className="support-tutorial-content border-standard mt-3 sm:mt-4 md:mt-[2rem] rounded-lg sm:rounded-xl bg-[#0B102D] p-2 sm:p-3 flex flex-col sm:flex-row justify-between pl-3 sm:pl-4 md:pl-[3rem] items-center gap-2 sm:gap-4 w-full sm:w-[80%] md:w-[45%] text-white">
+            <div key={file.id} className="support-tutorial-content border-standard mt-3 sm:mt-4 md:mt-[2rem] rounded-lg sm:rounded-xl bg-[#0B102D] p-2 sm:p-3 flex flex-col sm:flex-row justify-between pl-3 sm:pl-4 md:pl-[3rem] items-center gap-2 sm:gap-4 w-full sm:w-[80%] md:w-[45%] text-[#383C47] dark:text-white">
               <div className="flex items-center gap-2">
                 <FaFileLines className="text-red-500 text-4xl" />
                 <div className="support-download w-full sm:w-auto">
-                  <p className="text-xs sm:text-sm md:text-base  text-[var(--box-background)] dark:text-white">{file.title}</p>
-                  <span className="text-[10px] sm:text-xs md:text-sm text-gray-400">
+                  <p className="text-[.8rem] sm:text-sm md:text-base  text-[var(--box-background)] dark:text-white">{file.title}</p>
+                  <span className="text-[10px] sm:text-[.8rem] md:text-sm text-gray-400">
                     {file.file_size ? (file.file_size / 1024 / 1024).toFixed(2) + " MB" : ""}
                   </span>
                 </div>

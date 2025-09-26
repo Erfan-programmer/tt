@@ -7,7 +7,6 @@ import { FaTrash, FaEdit, FaEye } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "@/styles/p-admin/CkEditor.css";
 import { useRouter } from "next/navigation";
 
 interface Announcement {

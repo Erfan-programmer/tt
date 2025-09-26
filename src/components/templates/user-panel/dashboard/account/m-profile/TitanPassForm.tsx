@@ -59,8 +59,6 @@ export default function TitanPassForm({ profile }: TitanPassFormProps) {
     },
   });
 
-  console.log("profile =>", profile);
-
 const maskValue = (value: string, visibleChars = 2) => {
   if (!value) return "";
   if (value.length <= visibleChars) return value;

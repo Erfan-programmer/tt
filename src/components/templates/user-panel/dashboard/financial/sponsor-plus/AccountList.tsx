@@ -194,7 +194,7 @@ export default function AccountList({ accounts  , refetch}: AccountListProps) {
       <AnimatePresence>
         {showModal && selectedAccount && (
           <motion.div
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[1000]"
+            className="fixed inset-0 bg-black/40 bg-opacity-50 flex items-center justify-center z-[1000]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -215,19 +215,19 @@ export default function AccountList({ accounts  , refetch}: AccountListProps) {
                 </button>
               </div>
               <button
-                className="w-full h-12 border-[2px] rounded-[.5rem] text-white shadow-md hover:bg-gray-800 transition-all"
+                className="w-full h-12 border-[2px] rounded-[.5rem] text-gray-400 dark:text-white shadow-md hover:bg-[#EDEDEC] dark:hover:bg-gray-800 transition-all"
                 onClick={handleCopyCode}
               >
                 Copy Code
               </button>
               <button
-                className="w-full h-12 border-[2px] rounded-[.5rem] text-white shadow-md hover:bg-gray-800 transition-all"
+                className="w-full h-12 border-[2px] rounded-[.5rem] text-gray-400 dark:text-white shadow-md hover:bg-[#EDEDEC] dark:hover:bg-gray-800 transition-all"
                 onClick={handleShowQr}
               >
                 Show QR Code
               </button>
               <button
-                className="w-full h-12 border-[2px] rounded-[.5rem] text-white shadow-md hover:bg-gray-800 transition-all"
+                className="w-full h-12 border-[2px] rounded-[.5rem] text-gray-400 dark:text-white shadow-md hover:bg-[#EDEDEC] dark:hover:bg-gray-800 transition-all"
                 onClick={() =>
                   window.open(`${baseUrl}${selectedAccount.token}`, "_blank")
                 }
@@ -243,7 +243,7 @@ export default function AccountList({ accounts  , refetch}: AccountListProps) {
       <AnimatePresence>
         {showQrModal && selectedAccount && (
           <motion.div
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[10001]"
+            className="fixed inset-0 bg-black/40 bg-opacity-50 flex items-center justify-center z-[10001]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -282,7 +282,7 @@ export default function AccountList({ accounts  , refetch}: AccountListProps) {
       <AnimatePresence>
         {showDeleteModal && selectedAccount && (
           <motion.div
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+            className="fixed inset-0 bg-black/40 bg-opacity-50 flex items-center justify-center z-50"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

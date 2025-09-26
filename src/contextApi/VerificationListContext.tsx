@@ -56,7 +56,6 @@ export const VerificationListProvider = ({ children }: { children: React.ReactNo
           key: `document[${index}]`,
           title: item.type, 
         }));
-      console.log("normalaized =>" , normalized)
         setFileSectionPairs(normalized);
         return normalized;
       } else {

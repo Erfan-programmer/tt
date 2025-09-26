@@ -48,7 +48,7 @@ export default function UserPanelHeader() {
     <>
       <header
         ref={headerRef}
-        className={`dashbo  ard-header z-[999] transition-transform duration-1000  ease-in-out "bg-secondary-black-light backdrop-blur-md w-full xl:w-[80%] fixed top-0  right-0`}
+        className={`dashboard-header z-[999] transition-transform duration-1000  ease-in-out "bg-secondary-black-light backdrop-blur-md w-full xl:w-[80%] fixed top-0  right-0`}
       >
         <div className="w-[97%] sm:w-[95%] mx-auto flex justify-between  items-center h-[12vh] sm:gap-4">
           <button
@@ -111,7 +111,7 @@ export default function UserPanelHeader() {
               )}
             </div>
 
-            <span className="text-standard">
+            <span className="text-[var(--box-background)] dark:text-white">
               {headerData?.rank_icon && (
                 <Image
                   width={400}

@@ -19,7 +19,6 @@ interface Enable2FaProps {
 }
 
 export default function Enable2FaCode({ secretKey, qrCodeUrl, userEmail, onBackToStep1 }: Enable2FaProps) {
-  console.log("qrcode =>" , qrCodeUrl)
   const inputLength = 6;
   const [code, setCode] = useState<string[]>(Array(inputLength).fill(""));
   const inputRefs = useRef<HTMLInputElement[]>([]);

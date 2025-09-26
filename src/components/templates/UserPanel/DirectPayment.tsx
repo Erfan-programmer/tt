@@ -39,7 +39,7 @@ export default function DirectPayment({
     .string()
     .regex(/^\d+$/, { message: "Amount must be a number" })
     .transform((val) => Number(val))
-    .refine((val) => val % 1000 === 0, {
+    .refine((val) => val % 1 === 0, {
       message: "Amount must be a multiple of 1,000",
     });
 
@@ -80,7 +80,6 @@ export default function DirectPayment({
     (!errors.deposit || errors.deposit === "");
 
   const submitForm = useCallback(async () => {
-    console.log("cryptoKey =>" , cryptoKey , crypto)
     const token = loadUserData()?.access_token;
     try {
       const res = await apiRequest<any>(
@@ -98,7 +97,6 @@ export default function DirectPayment({
 
       if (res.success) {
         toast.success(res.message || "");
-        console.log("payment details =>" , res.data.data)
         setTimeout(() => {
           setAccountActivation("PAYMENT");
           setPayment(res.data.data)
@@ -109,7 +107,7 @@ export default function DirectPayment({
     } catch (err: any) {
       toast.error(err?.error?.message || "Error submitting request");
     }
-  }, [deposit, cryptoKey, router, setAccountActivation , crypto , setPayment]);
+  }, [deposit, cryptoKey, router, setAccountActivation  , setPayment]);
 
   useEffect(() => {
     if (triggerSubmit) {

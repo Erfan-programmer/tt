@@ -84,9 +84,8 @@ function HeaderTest() {
   useEffect(() => {
     if (typeof window === "undefined") return;
     const savedUser = localStorage.getItem("user");
-    console.log("saved User >=", user)
     if (savedUser && savedUser !== "undefined") setUser(true);
-  }, []);
+  }, [user]);
 
   const handleMenuItemClick = (item: string) => {
     if (item.toLowerCase() === "withdraw") {

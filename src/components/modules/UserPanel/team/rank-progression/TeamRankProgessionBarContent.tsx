@@ -11,7 +11,6 @@ interface ProgressBarProps {
 const ProgressBar = ({ start_value, end_value , current_value }: ProgressBarProps) => {
     const total = end_value - start_value
   const percent = total > 0 ? ((current_value / total) * 100) : 20;
-  console.log("percent =>" , percent , "end_value - start_value" , end_value , start_value)
 
   return (
     <div className="w-full h-8 sm:h-12 bg-[#f9f9fe] dark:bg-[#D9D9D9] rounded-md overflow-hidden flex flex-row-reverse p-[3px] border border-black relative">
@@ -70,13 +69,13 @@ export default function TeamRankProgessionBarContent({
       <div className="border-standard rounded-xl bg-[#f9f9fe] dark:bg-[#0f163a] p-4 sm:p-6 mt-4 sm:mt-6">
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4">
           <div className="text-[var(--dark-color)] dark:text-white">
-            <p className="text-xs sm:text-sm">
+            <p className="text-[.8rem] sm:text-sm">
               Your rank is{" "}
               <span className="text-[var(--gold)] font-semibold">
                 {currentRank.current_rank_name}
               </span>
             </p>
-            <p className="text-xs sm:text-sm mt-2">
+            <p className="text-[.8rem] sm:text-sm mt-2">
               Total Annual Sales:{" "}
               <span className="text-[var(--dark-color)] dark:text-white font-semibold">
                 $ {currentRank.total_annual_sales}
@@ -85,7 +84,7 @@ export default function TeamRankProgessionBarContent({
           </div>
         </div>
         <div className="relative mt-2">
-          <p className="text-[var(--dark-color)] dark:text-white/50 text-[10px] sm:text-xs mb-2">
+          <p className="text-[var(--dark-color)] dark:text-white/50 text-[10px] sm:text-[.8rem] mb-2">
             ({currentRank.time_remaining_until_reset.toFixed(0)} Day/s) Time remaining until reset.
           </p>
           <div className="w-full">

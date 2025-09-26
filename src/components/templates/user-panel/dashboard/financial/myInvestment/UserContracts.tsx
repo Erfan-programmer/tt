@@ -7,7 +7,6 @@ export default function UserContracts({
 }: {
   contract: ContractLast;
 }) {
-  console.log("contracts =>" , contract)
   const start = new Date(contract.start_date).getTime();
   const end = new Date(contract.end_date).getTime();
   const progress = Math.min(
@@ -64,7 +63,7 @@ export default function UserContracts({
             strokeLinejoin="round"
           />
         </svg>
-        <p className="text-white">
+        <p className="text-[#383C47] dark:text-white">
           Investment Contract ( {contract.contract_number} )
         </p>
       </div>
@@ -73,7 +72,7 @@ export default function UserContracts({
       <div className="user-contacts-wrapper px-2 sm:px-[2rem]">
         <div className="flex flex-wrap user-contracts-details items-center gap-3">
           <div className="user-contracts-detail min-w-[10rem] ">
-            <p className="text-white">
+            <p className="text-[#383C47] dark:text-white">
               $ {contract.investment_amount}
             </p>
             <span className="text-[var(--dark-color)] dark:text-[#585966]">
@@ -81,7 +80,7 @@ export default function UserContracts({
             </span>
           </div>
           <div className="user-contracts-detail min-w-[10rem] ">
-            <p className="text-white">
+            <p className="text-[#383C47] dark:text-white">
               {new Date(contract.start_date).toLocaleDateString()}
             </p>
             <span className="text-[var(--dark-color)] dark:text-[#585966]">
@@ -92,7 +91,7 @@ export default function UserContracts({
 
         <div className="flex flex-wrap user-contracts-details items-center gap-3">
           <div className="user-contracts-detail min-w-[10rem] ">
-            <p className="text-white">
+            <p className="text-[#383C47] dark:text-white">
               {new Date(contract.end_date).toLocaleDateString()}
             </p>
             <span className="text-[var(--dark-color)] dark:text-[#585966]">
@@ -100,7 +99,7 @@ export default function UserContracts({
             </span>
           </div>
           <div className="user-contracts-detail min-w-[10rem]">
-            <p className="text-white">
+            <p className="text-[#383C47] dark:text-white">
               $ {contract.total_income}
             </p>
             <span className="text-[var(--dark-color)] dark:text-[#585966]">
@@ -119,7 +118,7 @@ export default function UserContracts({
               style={{ width: `${progress}%` }}
             ></div>
           </div>
-          <span className="underline text-standard text-white " onClick={handleDownloadContract}>Download contract</span>
+          <span className="underline text-[var(--box-background)] dark:text-white text-white " onClick={handleDownloadContract}>Download contract</span>
           <div className="flex justify-center mt-[2rem] sm:mt-2 mb-4 sm:justify-end">
             <Link
               className="titan-cancel-btn text-white dark:text-[var(--dark-color)] bg-[var(--dark-color)] transition-all duration-300 hover:shadow-[0_1px_17px_#03071D] dark:bg-white dark:hover:shadow-[0_1px_17px_#fff]"

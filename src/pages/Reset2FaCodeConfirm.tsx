@@ -44,13 +44,12 @@ export default function Reset2FAConfirm() {
   // The 'canSubmit' logic should check if the form is valid, not just if fields are filled
   const canSubmit = isValid; // ✅ More robust check
 
-  const onSubmit = (data: ForgotPasswordForm) => {
+  const onSubmit = () => {
     // Implement your API call here
     // mutation.mutate({
     //   data: { email: data.email },
     //   headers: GetHeaderWithAuth(),
     // });
-    console.log("Form submitted with data:", data);
   };
 
   return (

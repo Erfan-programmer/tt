@@ -1,0 +1,109 @@
+/* ====== Quill Editor Theme ====== */
+
+/* Container */
+.ql-container {
+  background-color: #1f2937 !important;
+  color: white !important;
+  border: 1px solid #374151 !important;
+  border-radius: 6px;
+}
+
+/* Editor */
+.ql-editor {
+  min-height: 200px;
+  max-height: 300px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  word-wrap: break-word;
+  background-color: #1f2937 !important;
+  color: white !important;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.ql-editor p,
+.ql-editor h1,
+.ql-editor h2,
+.ql-editor h3,
+.ql-editor li {
+  color: white !important;
+}
+
+/* Toolbar */
+.ql-toolbar {
+  background-color: #111827 !important;
+  border: 1px solid #374151 !important;
+  color: white !important;
+  border-radius: 6px 6px 0 0;
+}
+
+.ql-toolbar button {
+  background-color: #1f2937 !important;
+  color: white !important;
+  border: none !important;
+  transition: background-color 0.2s ease;
+}
+
+.ql-toolbar button:hover,
+.ql-toolbar button.ql-active {
+  background-color: #374151 !important;
+  color: white !important;
+}
+
+/* Toolbar Icons */
+.ql-toolbar svg {
+  fill: white !important;
+}
+
+/* Picker */
+.ql-toolbar .ql-picker {
+  color: white !important;
+}
+
+.ql-toolbar .ql-picker-options {
+  background-color: #1f2937 !important;
+  border: 1px solid #374151 !important;
+  color: white !important;
+}
+
+.ql-toolbar .ql-picker-item:hover,
+.ql-toolbar .ql-picker-item.ql-selected {
+  background-color: #374151 !important;
+  color: white !important;
+}
+
+/* Tooltip */
+.ql-tooltip {
+  background-color: #1f2937 !important;
+  color: white !important;
+  border: 1px solid #374151 !important;
+  border-radius: 6px;
+}
+
+.ql-tooltip input {
+  background-color: #111827 !important;
+  color: white !important;
+  border: 1px solid #374151 !important;
+  border-radius: 4px;
+  padding: 4px 6px;
+}
+
+/* Editor and Placeholder */
+.ql-editor,
+.ql-blank {
+  color: white !important;
+}
+
+.ql-editor.ql-blank:before {
+  color: white !important;
+}
+
+/* Snow Theme Icons */
+.ql-snow .ql-stroke{
+    stroke: #fff !important;
+}
+.ql-snow .ql-stroke,
+.ql-snow .ql-fill,
+.ql-snow .ql-stroke.ql-fill {
+  stroke: white !important;
+}

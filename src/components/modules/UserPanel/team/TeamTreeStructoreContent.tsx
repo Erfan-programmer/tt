@@ -7,19 +7,14 @@ import { loadUserData } from "../../EncryptData/SavedEncryptData";
 import Image from "next/image";
 
 export interface ReferralType {
-  id: number;
-  tid: string;
-  rank_icon: string;
-  hasReferrals: boolean;
-  referrals?: ReferralType[];
-  level: number;
-  position: string;
-  deposit: number;
-  startDate: string;
+  children?: ReferralType[];
+  name: string;
+  id: string;
   rank: string;
-  annualSales: number;
-  country: string;
-  downLine: number;
+  rank_icon: string;
+  status: "pending" | "closed" | "active";
+
+  tid: string;
 }
 
 const ReferralNode: React.FC<{
@@ -31,11 +26,10 @@ const ReferralNode: React.FC<{
 }> = ({ referral, level = 0, selectedTID, onSelect }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const isSelected = selectedTID === referral.tid;
-
   return (
     <div className="relative">
       <div className="flex items-center">
-        {isExpanded && referral.referrals && (
+        {isExpanded && referral?.children && (
           <div
             className="absolute left-[14px] h-full w-[2px] border-l-[2px] border-dashed border-[var(--dark-color)] dark:border-white/30"
             style={{
@@ -45,7 +39,7 @@ const ReferralNode: React.FC<{
           />
         )}
 
-        {referral.hasReferrals && (
+        {referral.children && referral?.children.length > 0 && (
           <button
             onClick={() => setIsExpanded(!isExpanded)}
             className={`
@@ -65,13 +59,21 @@ const ReferralNode: React.FC<{
         <div
           onClick={() => onSelect(referral)}
           className={`flex items-center gap-2 rounded-lg h-[42px] px-6 relative z-10 cursor-pointer transition-colors
-            ${
-              isSelected
-                ? "bg-[#d9d9d9] dark:bg-[#192879]"
-                : "border border-[#d9d9d9] dark:border-none bg-[#f9f9fe] dark:bg-[#0f163a]"
-            }`}
+    ${
+      isSelected
+        ? "bg-[#d9d9d9] dark:bg-[#192879]"
+        : "bg-[#f9f9fe] dark:bg-[#0f163a]"
+    }
+    ${
+      referral.status === "pending"
+        ? "border border-[var(--normal)]"
+        : referral.status === "closed"
+        ? "border border-[var(--loss)]"
+        : "border border-none"
+    }
+  `}
         >
-          <div className="w-12 h-12 rounded-full overflow-hidden">
+          <div className="w-12 h-12 rounded-full overflow-auto">
             <Image
               width={300}
               height={300}
@@ -91,7 +93,7 @@ const ReferralNode: React.FC<{
       </div>
 
       <AnimatePresence>
-        {isExpanded && referral.referrals && (
+        {isExpanded && referral?.children && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
@@ -100,21 +102,25 @@ const ReferralNode: React.FC<{
             className="mt-4 space-y-4"
             style={{ marginLeft: `${level === 0 ? "3rem" : "3rem"}` }}
           >
-            {referral.referrals.map((subReferral, index) => (
+            {referral?.children?.map((subReferral, index) => (
               <div key={subReferral.tid} className="relative">
                 <div
                   className="absolute left-[14px] w-[2px] border-l-[2px] border-dashed border-[var(--dark-color)] dark:border-white/30"
                   style={{
                     top: "-1rem",
                     height:
-                      index === referral.referrals!.length - 1
+                      index ===
+                      (referral?.children && referral?.children?.length - 1)
                         ? "2rem"
-                        : "100%",
+                        : "130%",
                   }}
                 />
                 <ReferralNode
                   referral={subReferral}
-                  isLast={index === referral.referrals!.length - 1}
+                  isLast={
+                    index ===
+                    (referral?.children && referral?.children?.length - 1)
+                  }
                   level={level + 1}
                   selectedTID={selectedTID}
                   onSelect={onSelect}
@@ -194,7 +200,6 @@ export default function TeamTreeStructureContent({
     return (
       <div className="team-tree-structure-content bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] min-h-screen w-[95%] sm:w-[75%] border-standard rounded-xl bg-shadow-custom">
         <div className="flex items-center justify-between px-2 sm:px-[2rem] mt-3">
-
           <div className="relative w-[300px] sm:block hidden">
             <input
               type="text"
@@ -229,7 +234,13 @@ export default function TeamTreeStructureContent({
           }`}
         >
           {/* You node */}
-          <div className="flex flex-col  mb-8 relative">
+          <div className="flex flex-col  mb-4 relative">
+            <Image
+              src={`${process.env.NEXT_PUBLIC_API_URL_STORAGE}/${data?.rank_icon}`}
+              width={400}
+              height={400}
+              alt=""
+            />
             <span className="text-[var(--dark-color)] dark:text-white text-sm">
               You
             </span>
@@ -253,7 +264,7 @@ export default function TeamTreeStructureContent({
   const referrals: ReferralType[] = data?.children ?? [];
 
   return (
-    <div className=" bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] min-h-screen w-[95%] sm:w-[75%] border-standard rounded-xl bg-shadow-custom">
+    <div className=" bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] min-h-screen w-[95%] sm:w-[75%] border-standard rounded-xl bg-shadow-custom overflow-x-auto">
       <div className="flex items-center justify-between px-2 sm:px-[2rem] mt-3">
         <div className="relative w-[300px] sm:block hidden">
           <input
@@ -282,23 +293,31 @@ export default function TeamTreeStructureContent({
       <div className="w-full h-[1px] bg-standard my-3"></div>
 
       <div
-        className={`relative mt-8 mx-[2rem] overflow-x-auto transition-all duration-500 max-h-[86vh] overflow-y-auto ${
+        className={`relative mt-8 mx-[1rem] overflow-x-auto transition-all duration-500 w-fit max-h-[86vh] overflow-y-auto ${
           showScroll
             ? ""
             : "[&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
         }`}
       >
         {/* You node */}
-        <div className="flex flex-col  mb-8 relative">
+        <div className="flex flex-col  mt-2 relative pl-[2rem]">
+          <Image
+            src={`${process.env.NEXT_PUBLIC_API_URL_STORAGE}/${data?.rank_icon}`}
+            width={400}
+            height={400}
+            alt=""
+            className="w-16 h-16 relative scale-[1.4] -translate-x-4"
+          />
+
           <span className="text-[var(--dark-color)] dark:text-white text-sm">
             You
           </span>
           <div className="w-8 h-[2rem] border-l-[2px] border-dashed border-[var(--dark-color)] dark:border-white/30 ml-[.85rem]" />
         </div>
 
-        <div className="absolute left-[14px] top-16 bottom-0 w-[2px] border-l-[2px] border-dashed border-[var(--dark-color)] dark:border-white/30"></div>
+        <div className="absolute left-[12.8px] top-16 bottom-0 w-[2px] border-l-[2px] border-dashed border-[var(--dark-color)] dark:border-white/30 ml-[2rem]"></div>
 
-        <div className="ml-0 space-y-6">
+        <div className="space-y-6 ml-[2rem]">
           {isLoading
             ? [...Array(3)].map((_, idx) => <ReferralSkeleton key={idx} />)
             : referrals.map((referral: ReferralType, index: number) => (
@@ -315,7 +334,6 @@ export default function TeamTreeStructureContent({
                     } else {
                       setSelectedTID(referral.tid);
                       onReferralSelect(referral);
-                      console.log("referral inner =>", referrals);
                     }
                   }}
                 />

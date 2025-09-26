@@ -161,7 +161,7 @@ export default function TeamClaimRewardMethod({
               </p>
               <div className="flex flex-col items-end gap-2">
                 <span
-                  className={`px-3 py-1 rounded-full text-xs font-bold
+                  className={`px-3 py-1 rounded-full text-[.8rem] font-bold
                     ${
                       reward.status === "done"
                         ? "bg-green-100 text-green-700"

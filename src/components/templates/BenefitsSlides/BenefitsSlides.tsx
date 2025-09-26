@@ -69,7 +69,7 @@ const BenefitsSlides = () => {
             initial={{ opacity: 0, transform: "translateY(-10px)" }}
             whileInView={{ opacity: 1, transform: "translateY(0)" }}
             transition={{ duration: 1, delay: 0.9 }}
-            className="text-white"
+            className="text-[#383C47] dark:text-white"
           >
             {" "}
             right choice?

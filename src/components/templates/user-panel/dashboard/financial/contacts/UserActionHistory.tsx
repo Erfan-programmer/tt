@@ -1,25 +1,16 @@
-
 import Pagination from "@/components/modules/UserPanel/Pagination/Pagination";
+import { useContacts } from "@/contextApi/ContactsContext";
 
-interface Contact {
-  id: number;
-  name: string;
-  user_id: number;
-  tid: string;
-  created_at: string;
-  updated_at: string;
-}
+export default function UserActionHistory() {
+  const {
+    contacts,
+    isLoading,
+    perPage,
+    totalCount,
+    page,
+    setPage, 
+  } = useContacts();
 
-interface Props {
-  contacts: Contact[];
-  isLoading: boolean;
-  page: number;
-  onPageChange: (page: number) => void;
-  totalCount: number;
-  perPage: number;
-}
-
-export default function UserActionHistory({ contacts, isLoading, page, onPageChange, totalCount, perPage }: Props) {
   return (
     <div className="use-action-history-container border-standard rounded-xl px-[2rem] py-4 bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] mt-4">
       <div className="use-action-history-header flex items-center justify-between text-[var(--main-background)] dark:text-white mb-6">
@@ -38,13 +29,19 @@ export default function UserActionHistory({ contacts, isLoading, page, onPageCha
           <tbody>
             {isLoading ? (
               <tr>
-                <td colSpan={4} className="py-4 text-center text-[var(--main-background)] dark:text-white">
+                <td
+                  colSpan={4}
+                  className="py-4 text-center text-[var(--main-background)] dark:text-white"
+                >
                   Loading...
                 </td>
               </tr>
             ) : !contacts || contacts.length === 0 ? (
               <tr>
-                <td colSpan={4} className="py-4 text-center text-[var(--main-background)] dark:text-white">
+                <td
+                  colSpan={4}
+                  className="py-4 text-center text-[var(--main-background)] dark:text-white"
+                >
                   No contacts found
                 </td>
               </tr>
@@ -53,13 +50,23 @@ export default function UserActionHistory({ contacts, isLoading, page, onPageCha
                 <tr
                   key={contact.id}
                   className={`transition-colors ${
-                    index % 2 === 0 ? "bg-white dark:bg-[#2A3246]" : "bg-[#f9f9fe] dark:bg-[#222631]"
+                    index % 2 === 0
+                      ? "bg-white dark:bg-[#2A3246]"
+                      : "bg-[#f9f9fe] dark:bg-[#222631]"
                   }`}
                 >
-                  <td className="py-4 text-[var(--main-background)] dark:text-white text-center px-4">{contact.id}</td>
-                  <td className="py-4 text-[var(--main-background)] dark:text-white text-center px-4">{contact.name}</td>
-                  <td className="py-4 text-[var(--main-background)] dark:text-white text-center px-4">{contact.tid}</td>
-                  <td className="py-4 text-[var(--main-background)] dark:text-white text-center px-4">{new Date(contact.created_at).toLocaleDateString("en-US")}</td>
+                  <td className="py-4 text-[var(--main-background)] dark:text-white text-center px-4">
+                    {contact.id}
+                  </td>
+                  <td className="py-4 text-[var(--main-background)] dark:text-white text-center px-4">
+                    {contact.name}
+                  </td>
+                  <td className="py-4 text-[var(--main-background)] dark:text-white text-center px-4">
+                    {contact.tid}
+                  </td>
+                  <td className="py-4 text-[var(--main-background)] dark:text-white text-center px-4">
+                    {new Date(contact.created_at).toLocaleDateString("en-US")}
+                  </td>
                 </tr>
               ))
             )}
@@ -70,7 +77,7 @@ export default function UserActionHistory({ contacts, isLoading, page, onPageCha
         <Pagination
           count={Math.ceil(totalCount / perPage)}
           page={page}
-          onChange={(_, value) => onPageChange(value)}
+          onChange={(_, value) => setPage(value)} 
         />
       </div>
     </div>

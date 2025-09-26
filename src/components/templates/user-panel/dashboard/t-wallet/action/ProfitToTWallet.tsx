@@ -255,7 +255,7 @@ const options: WalletOption[] = useMemo(
               strokeLinejoin="round"
             />
           </svg>
-          <p className="text-[var(--dark-color)] dark:text-white text-xs sm:text-sm md:text-base">
+          <p className="text-[var(--dark-color)] dark:text-white text-[.8rem] sm:text-sm md:text-base">
             Profits to T-Wallet
           </p>
         </div>
@@ -284,12 +284,12 @@ const options: WalletOption[] = useMemo(
               onClick={() => handleSelect(option.label)}
             >
               <div className="flex items-center flex-wrap gap-1 sm:gap-1.5 md:gap-2">
-                <span className="text-[var(--dark-color)] dark:text-[#D9D9D9] text-xs sm:text-sm md:text-base">
+                <span className="text-[var(--dark-color)] dark:text-[#D9D9D9] text-[.8rem] sm:text-sm md:text-base">
                   {option.label}:
                 </span>
                 <span
                   className={`text-[var(--dark-color)] ${
-                    hasFee ? "line-through !text-[.8rem]" : ""
+                    hasFee ? "line-through !text-[.8rem] " : ""
                   } dark:text-white`}
                 >
                   {num}
@@ -337,11 +337,11 @@ const options: WalletOption[] = useMemo(
           className="register-inputs-reward-special bg-[#d9d9d9] dark:bg-[#123b90] flex justify-between rounded-[1rem] sm:rounded-[1.5rem] md:rounded-[2rem] py-3 border-standard px-2 sm:px-3 items-center gap-1.5 sm:gap-2 md:gap-3 bg-[#123B90]  w-full sm:w-auto min-w-72"
         >
           <div className="flex items-center flex-wrap gap-1 sm:gap-1.5 md:gap-2">
-            <span className="text-[var(--dark-color)] dark:text-[#D9D9D9] text-xs sm:text-sm md:text-base">
+            <span className="text-[var(--dark-color)] dark:text-[#D9D9D9] text-[.8rem] sm:text-sm md:text-base">
               Total
             </span>
           </div>
-          <p className="text-[var(--dark-color)] dark:text-white text-xs sm:text-sm md:text-base">
+          <p className="text-[var(--dark-color)] dark:text-white text-[.8rem] sm:text-sm md:text-base">
             $ {totalAll}
           </p>
         </motion.div>

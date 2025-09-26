@@ -50,6 +50,7 @@ export default function GenderSelect({
   const [isFocused] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+
   const filteredOptions = genderOptions?.filter((option) => {
     const searchTermLower = searchTerm.toLowerCase();
 

@@ -55,7 +55,7 @@ const ProfitItem = ({ index, isActive, label, value }: ProfitItemProps) => (
         </svg>
       )}
     </span>
-    <span className="flex-1 flex">
+    <span className="flex-1 flex text-[.9rem] sm:text-md">
       {index}.{" "}
       <p>
         {label}: <span className="text-[var(--sidebar-bg)] dark:text-white font-bold">{value}</span>

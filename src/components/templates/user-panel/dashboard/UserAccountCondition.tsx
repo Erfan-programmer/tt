@@ -1,23 +1,30 @@
-"use client"
+"use client";
 import { useQuery } from "@tanstack/react-query";
 import { apiRequest } from "@/libs/api";
 import { useAuth } from "@/contextApi/AuthContext";
-import "./UserAccountCondition.css"
+import "./UserAccountCondition.css";
 import Stars from "../Stars/Stars";
 import BackgroundPattern from "@/components/modules/UserPanel/dashboard/BackgroundPattern";
 import { LuBadge, LuBadgeCheck } from "react-icons/lu";
 import AcountDetails from "./AcountDetails";
 import Link from "next/link";
 import { FaFileContract } from "react-icons/fa";
-import { FaCableCar } from "react-icons/fa6";
+import {
+  FaArrowsLeftRight,
+  FaArrowTrendDown,
+  FaArrowTrendUp,
+  FaCableCar,
+} from "react-icons/fa6";
 import { IoTrendingUpOutline } from "react-icons/io5";
 import { loadUserData } from "@/components/modules/EncryptData/SavedEncryptData";
 import { useHeader } from "@/contextApi/HeaderContext";
+
 interface DashboardInfoType {
   success: boolean;
   message: string;
   data: {
     t_id: number;
+    total_income_percentage_change: number;
     rank: string;
     position: string;
     start_date: string;
@@ -36,16 +43,65 @@ interface DashboardInfoType {
   };
 }
 
+interface IncomeTrendProps {
+  change: number;
+  variant?: "desktop" | "mobile";
+}
+
+function IncomeTrend({ change, variant = "desktop" }: IncomeTrendProps) {
+  if (change === 0) {
+    return (
+      <div
+        className={`flex items-center gap-2 ${
+          variant === "desktop" ? "text-[var(--gold)]" : "text-[var(--gold)]"
+        }`}
+      >
+        <FaArrowsLeftRight className="mx-1" />
+        <span>{change}%</span>
+      </div>
+    );
+  }
+
+  if (change > 0) {
+    return (
+      <div
+        className={`flex items-center gap-2 ${
+          variant === "desktop"
+            ? "text-[#00CB08] dark:text-[#06FF93]"
+            : "text-[#00CB08] dark:text-[#06FF93]"
+        }`}
+      >
+        <FaArrowTrendUp />
+        <span>+</span>
+        <span>{change}%</span>
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className={`flex items-center gap-2 ${
+        variant === "desktop" ? "text-[#FF6060]" : "text-[#FF6060]"
+      }`}
+    >
+      <FaArrowTrendDown />
+      <span>-</span>
+      <span>{change}%</span>
+    </div>
+  );
+}
+
 export default function UserAccountCondition() {
   const { user } = useAuth();
-  const {headerData} = useHeader()
-  const token = loadUserData()?.access_token
+  const { headerData } = useHeader();
+  const token = loadUserData()?.access_token;
+
   const fetchDashboardInfo = async (): Promise<DashboardInfoType["data"]> => {
     const res = await apiRequest<DashboardInfoType>(
       `${process.env.NEXT_PUBLIC_API_URL}/v1/client/dashboard`,
       "GET",
       undefined,
-      { Authorization : `Bearer ${token}`}
+      { Authorization: `Bearer ${token}` }
     );
 
     if (!res.success) {
@@ -55,55 +111,129 @@ export default function UserAccountCondition() {
     return res.data.data;
   };
 
-  const { data: dashboardData, isLoading, error } = useQuery<DashboardInfoType["data"]>({
+  const {
+    data: dashboardData,
+    isLoading,
+    error,
+  } = useQuery<DashboardInfoType["data"]>({
     queryKey: ["dashboardInfo"],
     queryFn: fetchDashboardInfo,
   });
 
   if (isLoading) return <div>Loading...</div>;
-  if (error) return <div className="text-red-500 text-center">Error loading dashboard info</div>;
+  if (error)
+    return (
+      <div className="text-red-500 text-center">
+        Error loading dashboard info
+      </div>
+    );
 
-  // Get user position from API or fallback to context
-  const userPosition = dashboardData?.position?.toLowerCase() || user?.type?.toLowerCase() || "investor";
+  const userPosition =
+    dashboardData?.position?.toLowerCase() ||
+    user?.type?.toLowerCase() ||
+    "investor";
 
   const getVisibleItems = () => {
     switch (userPosition) {
       case "investor":
         return [
-          { id: 1, title: `$ ${dashboardData?.start_of_investment}`, subTitle: "Start Of Investment" },
-          { id: 2, title: `$ ${dashboardData?.total_annual_sales}`, subTitle: "Total Annual Sales" },
-          { id: 3, title: `$ ${dashboardData?.next_rank_needed}`, subTitle: "To Rank Up" },
+          {
+            id: 1,
+            title: `$ ${dashboardData?.start_of_investment}`,
+            subTitle: "Start Of Investment",
+          },
+          {
+            id: 2,
+            title: `$ ${dashboardData?.total_annual_sales}`,
+            subTitle: "Total Annual Sales",
+          },
+          {
+            id: 3,
+            title: `$ ${dashboardData?.next_rank_needed}`,
+            subTitle: "To Rank Up",
+          },
           { id: 4, title: `$ ${dashboardData?.total_roi}`, subTitle: "ROI" },
-          { id: 5, title: `$ ${dashboardData?.total_commission}`, subTitle: "Commission" },
-          { id: 6, title: `$ ${dashboardData?.total_referral}`, subTitle: "Referral" },
+          {
+            id: 5,
+            title: `$ ${dashboardData?.total_commission}`,
+            subTitle: "Commission",
+          },
+          {
+            id: 6,
+            title: `$ ${dashboardData?.total_referral}`,
+            subTitle: "Referral",
+          },
         ];
       case "marketer":
         return [
-          { id: 1, title: `$ ${dashboardData?.start_of_investment}`, subTitle: "Start Of Investment" },
-          { id: 2, title: `$ ${dashboardData?.total_annual_sales}`, subTitle: "Total Annual Sales" },
-          { id: 3, title: `$ ${dashboardData?.next_rank_needed}`, subTitle: "To Rank Up" },
-          { id: 4, title: `$ ${dashboardData?.total_referral}`, subTitle: "Referral" },
-          { id: 5, title: `$ ${dashboardData?.total_commission}`, subTitle: "Commission" },
+          {
+            id: 1,
+            title: `$ ${dashboardData?.start_of_investment}`,
+            subTitle: "Start Of Investment",
+          },
+          {
+            id: 2,
+            title: `$ ${dashboardData?.total_annual_sales}`,
+            subTitle: "Total Annual Sales",
+          },
+          {
+            id: 3,
+            title: `$ ${dashboardData?.next_rank_needed}`,
+            subTitle: "To Rank Up",
+          },
+          {
+            id: 4,
+            title: `$ ${dashboardData?.total_referral}`,
+            subTitle: "Referral",
+          },
+          {
+            id: 5,
+            title: `$ ${dashboardData?.total_commission}`,
+            subTitle: "Commission",
+          },
         ];
       case "contract":
         return [
-          { id: 1, title: `$ ${dashboardData?.start_of_investment}`, subTitle: "Start Of Investment" },
+          {
+            id: 1,
+            title: `$ ${dashboardData?.start_of_investment}`,
+            subTitle: "Start Of Investment",
+          },
           { id: 2, title: `$ ${dashboardData?.total_roi}`, subTitle: "ROI" },
         ];
       default:
         return [
-          { id: 1, title: `$ ${dashboardData?.start_of_investment}`, subTitle: "Start Of Investment" },
-          { id: 2, title: `$ ${dashboardData?.total_annual_sales}`, subTitle: "Total Annual Sales" },
-          { id: 3, title: `$ ${dashboardData?.next_rank_needed}`, subTitle: "To Rank Up" },
+          {
+            id: 1,
+            title: `$ ${dashboardData?.start_of_investment}`,
+            subTitle: "Start Of Investment",
+          },
+          {
+            id: 2,
+            title: `$ ${dashboardData?.total_annual_sales}`,
+            subTitle: "Total Annual Sales",
+          },
+          {
+            id: 3,
+            title: `$ ${dashboardData?.next_rank_needed}`,
+            subTitle: "To Rank Up",
+          },
           { id: 4, title: `$ ${dashboardData?.total_roi}`, subTitle: "ROI" },
-          { id: 5, title: `$ ${dashboardData?.total_commission}`, subTitle: "Commission" },
-          { id: 6, title: `$ ${dashboardData?.total_referral}`, subTitle: "Referral" },
+          {
+            id: 5,
+            title: `$ ${dashboardData?.total_commission}`,
+            subTitle: "Commission",
+          },
+          {
+            id: 6,
+            title: `$ ${dashboardData?.total_referral}`,
+            subTitle: "Referral",
+          },
         ];
     }
   };
 
   const visibleItems = getVisibleItems();
-
 
   return (
     <>
@@ -119,60 +249,25 @@ export default function UserAccountCondition() {
         <div className="hidden md:flex justify-between items-start w-full">
           <div className="user-account-condition-price w-[30%] lg:border-r-2 border-[var(--main-background)] dark:lg:border-white ">
             <div className="price-title flex gap-4 items-center text-[var(--main-background)] dark:text-white">
-              <span>
-                $ {Number(dashboardData?.total_annual_sales)?.toFixed()}
-              </span>
+              <span>$ {Number(dashboardData?.total_income)?.toFixed()}</span>
             </div>
-            {/* <div className="user-account-condition-income flex justify-start gap-2 items-center">
+            <div className="user-account-condition-income flex justify-start gap-2 items-center">
               <span className="text-[#585966]">Total Income </span>
-              <div className="flex justify-center gap-1 items-center">
-                <div
-                  className={`flex justify-center items-center ${
-                    dashboardData?.increase.increase
-                      ? "text-[#00CB08] dark:text-[#06FF93]"
-                      : "text-[#FF6060]"
-                  } `}
-                >
-                  {dashboardData?.increase.increase ? (
-                    <div className="flex items-center gap-2">
-                      <FaArrowTrendUp
-                        className={`${
-                          dashboardData?.increase.increase
-                            ? "text-[#00CB08] dark:text-[#06FF93]"
-                            : "text-[#FF6060]"
-                        }`}
-                      />
-                      <span>+</span>
-                    </div>
-                  ) : (
-                    <div className="flex items-center gap-2">
-                      <FaArrowTrendDown
-                        className={`${
-                          dashboardData?.increase.increase
-                            ? "text-[#00CB08] dark:text-[#06FF93]"
-                            : "text-[#FF6060]"
-                        }`}
-                      />
-                      <span>-</span>
-                    </div>
-                  )}
-
-                  <span>{dashboardData?.increase.value}%</span>
-                </div>
-              </div>
-            </div> */}
+              <IncomeTrend
+                change={dashboardData?.total_income_percentage_change ?? 0}
+                variant="desktop"
+              />
+            </div>
             <div className="user-role relative left-0 flex justify-start gap-2 mt-[1rem] items-center text-[var(--main-background)] dark:text-white">
               <span className="w-9 h-5 bg-[var(--sidebar-bg)] dark:bg-white"></span>
-              <span className="">
-                {dashboardData?.rank?.toUpperCase()}
-              </span>
+              <span className="">{dashboardData?.rank?.toUpperCase()}</span>
             </div>
             <div className="deposit-account-condition ml-[2.5rem] flex flex-col justify-center text-[var(--main-background)] dark:text-white">
               <div className="flex items-center">
                 <span>$</span>
                 <span>{dashboardData?.total_deposit}</span>
               </div>
-              <span className="text-standard deposit-condition-kind">
+              <span className="text-[var(--box-background)] dark:text-white deposit-condition-kind">
                 Deposit
               </span>
             </div>
@@ -181,11 +276,9 @@ export default function UserAccountCondition() {
             <div className="verified-container relative w-full h-[14vh]">
               <div
                 className={`verified-label absolute right-0 bg-[#0c286b] w-fit px-3 gap-3 py-1 flex justify-center items-center  ${
-                //   dashboardData?. ? " text-[#00CB08]" : "text-[#FF6060]"
                   headerData?.verified ? " text-[#00CB08]" : "text-[#FF6060]"
                 }`}
               >
-                {/* {dashboardData?.verifed ? ( */}
                 {headerData?.verified ? (
                   <>
                     <LuBadgeCheck className="text-[2rem]" />
@@ -234,36 +327,15 @@ export default function UserAccountCondition() {
                   {dashboardData?.total_income}
                 </span>
               </div>
-              {/* <div className="flex items-center gap-2 mt-2 w-fit">
+              <div className="flex items-center gap-2 mt-2 w-fit">
                 <span className="text-[#8E92BC] min-w-24">Total income</span>
-                <div
-                  className={`flex items-center gap-1 ${
-                    dashboardData?.increase.increase
-                      ? "text-[#00CB08] dark:text-[#06FF93]"
-                      : "text-[#FF6060]"
-                  }`}
-                >
-                  {dashboardData?.increase.increase ? (
-                    <FaArrowTrendUp
-                      className={`text-[#00CB08] dark:text-[#06FF93]`}
-                    />
-                  ) : (
-                    <FaArrowTrendDown className={`text-[#FF6060]`} />
-                  )}
-                  {dashboardData?.increase.increase ? (
-                    <span className="text-[#00CB08] dark:text-[#06FF93]">
-                      +{dashboardData?.increase.value}%
-                    </span>
-                  ) : (
-                    <span className="text-[#FF6060]">
-                      -{dashboardData?.increase.value}%
-                    </span>
-                  )}
-                </div>
-              </div> */}
+                <IncomeTrend
+                  change={dashboardData?.total_income_percentage_change ?? 0}
+                  variant="mobile"
+                />
+              </div>
             </div>
-            {/* {dashboardData?.verifed && ( */}
-            {true && (
+            {headerData?.verified && (
               <div className="verified-label bg-[#0c286b] px-3 py-1 rounded-lg flex items-center gap-2 text-[#00CB08]">
                 <span className="">verified</span>
                 <LuBadgeCheck className=" text-xl" />
@@ -329,7 +401,9 @@ export default function UserAccountCondition() {
       <div className="grid sm:hidden grid-cols-2 gap-4 mt-8">
         <div className="bg-gradient-to-b to-[#d9d9d9] text-center dark:to-[#090d23] from-[#fff] dark:from-[#275edf] border border-[#1E3A8A] rounded-xl p-4">
           <div className="text-[var(--main-background)]  dark:text-white text-2xl font-bold">
-            <span>$ {Number(dashboardData?.total_annual_sales)?.toFixed(0)}</span>
+            <span>
+              $ {Number(dashboardData?.total_annual_sales)?.toFixed(0)}
+            </span>
           </div>
           <div className="flex items-center gap-2 mb-2 justify-center">
             <FaCableCar className="text-[#8E92BC]" />

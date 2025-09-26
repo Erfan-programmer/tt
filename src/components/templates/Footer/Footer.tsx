@@ -66,7 +66,7 @@ export default function Footer() {
         <div className="w-full h-[2px] bg-[#8E8F98] my-12"></div>
 
         <div className="footer-description text-[#8E8F98]" id="contract">
-          <span className="text-[.8rem]">
+          <span className="text-[.8rem] ">
             Disclaimer and Risk Statement <br />
             Titan Investments is a private investment pool that operates through
             proprietary, fully automated systems for market analysis and

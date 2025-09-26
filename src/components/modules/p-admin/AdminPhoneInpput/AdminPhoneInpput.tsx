@@ -118,7 +118,7 @@ export default function AdminPhoneInput({
     >
       <label className="sponsor-label flex justify-start items-start gap-2">
         {required && <FaStar className="text-[#FF6060] w-3 h-3 mt-1" />}
-        <span className="text-[var(--main-background)] dark:text-white text-sm">
+        <span className="text-white text-sm">
           {label}
         </span>
       </label>
@@ -126,7 +126,7 @@ export default function AdminPhoneInput({
       <div className="flex flex-col-reverse sm:flex-row gap-2 mt-2 items-stretch z-[100]">
         <div className="relative w-52">
           <div
-            className="titan-input-custom-container text-[var(--main-background)] dark:text-white rounded-[.5rem] cursor-pointer flex items-center justify-between px-2 py-1"
+            className="titan-input-custom-container text-white rounded-[.5rem] cursor-pointer flex items-center justify-between px-2 py-1"
             onClick={() => setIsOpen(!isOpen)}
           >
             <div className="flex items-center gap-1 text-white">
@@ -144,7 +144,7 @@ export default function AdminPhoneInput({
           </div>
 
           {isOpen && (
-            <div className="absolute top-full left-0 w-full bg-white dark:bg-[#0f163a] border border-gray-300 dark:border-gray-700 rounded mt-1 max-h-60 overflow-y-auto z-[100]">
+            <div className="absolute top-full left-0 w-full bg-[#0f163a] border border-gray-700 rounded mt-1 max-h-60 overflow-y-auto z-[100]">
               <div className="relative p-1">
                 <IoSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
                 <input
@@ -152,14 +152,14 @@ export default function AdminPhoneInput({
                   placeholder="Search code..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-3 py-2 border-b border-gray-300 bg-gray-800 text-white dark:border-gray-700 outline-none text-sm rounded-sm"
+                  className="w-full pl-10 pr-3 py-2 border-b bg-gray-800 border-gray-700 outline-none text-sm rounded-sm"
                 />
               </div>
 
               {countries.map((country) => (
                 <div
                   key={country.id}
-                  className="px-3 py-2 cursor-pointer text-white dark:hover:bg-gray-700 flex items-center gap-2"
+                  className="px-3 py-2 cursor-pointer text-white hover:bg-gray-700 flex items-center gap-2"
                   onClick={() => handleCountrySelect(country)}
                 >
                   <Flag code={country.code} className="w-5 h-3 rounded-sm" />
@@ -175,7 +175,7 @@ export default function AdminPhoneInput({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder="Enter phone number"
-          className="flex-1 w-full sm:w-auto titan-input-custom-container rounded-[.5rem] px-4 py-2 border border-dashed border-gray-400 dark:border-gray-600 text-[var(--main-background)] dark:text-white"
+          className="flex-1 w-full sm:w-auto titan-input-custom-container rounded-[.5rem] px-4 py-2 border border-dashed border-gray-600 text-white"
         />
       </div>
     </div>

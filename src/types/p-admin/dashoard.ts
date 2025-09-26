@@ -2,6 +2,7 @@ export interface AdminDashboardDataBoxType {
   title: string | number;
   subTitle: string | number;
   chart?: string;
+  link?: string;
   status?: string;
   bgColor?: string;
 }

@@ -142,7 +142,7 @@ const NotificationContainer: React.FC<NotificationContainerProps> = ({
               <button
                 onClick={handleMarkAllAsRead}
                 disabled={loadingAll}
-                className="px-2 sm:px-3 py-1 text-xs sm:text-sm text-blue-500 underline rounded hover:text-blue-600 disabled:opacity-50"
+                className="px-2 sm:px-3 py-1 text-[.8rem] sm:text-sm text-blue-500 underline rounded hover:text-blue-600 disabled:opacity-50"
               >
                 {loadingAll ? "Marking..." : "Mark All Read"}
               </button>
@@ -174,10 +174,10 @@ const NotificationContainer: React.FC<NotificationContainerProps> = ({
                 >
                   <div className="flex items-start gap-3 sm:gap-4">
                     <div className="flex-1">
-                      <p className="text-xs sm:text-sm text-gray-900 dark:text-gray-200">
+                      <p className="text-[.8rem] sm:text-sm text-gray-900 dark:text-gray-200">
                         {notification.message}
                       </p>
-                      <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 mt-1">
+                      <p className="text-[10px] sm:text-[.8rem] text-gray-500 dark:text-gray-400 mt-1">
                         {formatDistanceToNow(
                           new Date(notification.created_at),
                           {

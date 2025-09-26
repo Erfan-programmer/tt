@@ -73,14 +73,14 @@ const toggleTheme = () => {
 
       {/* Sidebar Container */}
       <div
-        className={`fixed top-0 left-0 h-full w-[70%] bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] z-[1000] transform transition-transform duration-300 ease-in-out sm:hidden ${
+        className={`fixed top-0 left-0 h-full w-[70%] bg-[var(--sidebar-bg)] z-[1000] transform transition-transform duration-300 ease-in-out sm:hidden ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
         <div className="p-4">
           <button
             onClick={()=>setIsSidebarOpen(true)}
-            className="text-[var(--main-background)] dark:text-white mb-4"
+            className="text-white mb-4"
           >
             <svg
               width="24"
@@ -166,8 +166,8 @@ const toggleTheme = () => {
                 xmlns="http://www.w3.org/2000/svg"
                 className={
                   isActive("/financial/withdraw")
-                    ? "stroke-[var(--main-background)] dark:stroke-[#fff]"
-                    : "stroke-[var(--main-background)] dark:stroke-[#71717A]"
+                    ? "stroke-[#fff]"
+                    : "stroke-[#71717A]"
                 }
               >
                 <path
@@ -178,9 +178,9 @@ const toggleTheme = () => {
               </svg>
             </div>
             <span
-              className={`text-[.8rem] mt-1 transition-all duration-300 ${
+              className={`text-[.8rem]  mt-1 transition-all duration-300 ${
                 isActive("/financial/withdraw")
-                  ? "text-[var(--main-background)] dark:text-white -translate-y-1"
+                  ? "text-white -translate-y-1"
                   : "text-zinc-500"
               }`}
             >
@@ -207,8 +207,8 @@ const toggleTheme = () => {
                 xmlns="http://www.w3.org/2000/svg"
                 className={
                   isActive("/dashboard")
-                    ? "stroke-[var(--main-background)] dark:stroke-[#fff]"
-                    : "stroke-[var(--main-background)] dark:stroke-[#71717A]"
+                    ? "stroke-[#fff]"
+                    : "stroke-[#71717A]"
                 }
               >
                 <path
@@ -219,9 +219,9 @@ const toggleTheme = () => {
               </svg>
             </div>
             <span
-              className={`text-[.8rem] mt-1 transition-all duration-300 ${
+              className={`text-[.8rem]  mt-1 transition-all duration-300 ${
                 isActive("/dashboard")
-                  ? "text-[var(--main-background)] dark:text-white -translate-y-1"
+                  ? "text-white -translate-y-1"
                   : "text-zinc-500"
               }`}
             >
@@ -248,8 +248,8 @@ const toggleTheme = () => {
                 xmlns="http://www.w3.org/2000/svg"
                 className={
                   isActive("/t-wallet")
-                    ? "stroke-[var(--main-background)] dark:stroke-[#fff]"
-                    : "stroke-[var(--main-background)] dark:stroke-[#71717A]"
+                    ? "stroke-[#fff]"
+                    : "stroke-[#71717A]"
                 }
               >
                 <path
@@ -260,9 +260,9 @@ const toggleTheme = () => {
               </svg>
             </div>
             <span
-              className={`text-[.8rem] mt-1 transition-all duration-300 ${
+              className={`text-[.8rem]  mt-1 transition-all duration-300 ${
                 isActive("/t-wallet")
-                  ? "text-[var(--main-background)] dark:text-white -translate-y-1"
+                  ? "text-white -translate-y-1"
                   : "text-zinc-500"
               }`}
             >
@@ -289,8 +289,8 @@ const toggleTheme = () => {
                 xmlns="http://www.w3.org/2000/svg"
                 className={
                   isSidebarOpen
-                    ? "stroke-[var(--main-background)] dark:stroke-[#fff]"
-                    : "stroke-[var(--main-background)] dark:stroke-[#71717A]"
+                    ? "stroke-[#fff]"
+                    : "stroke-[#71717A]"
                 }
               >
                 <path
@@ -316,9 +316,9 @@ const toggleTheme = () => {
               </svg>
             </div>
             <span
-              className={`text-[.8rem] mt-1 transition-all duration-300 ${
+              className={`text-[.8rem]  mt-1 transition-all duration-300 ${
                 isSidebarOpen
-                  ? "text-[var(--main-background)] dark:text-white -translate-y-1"
+                  ? "text-white -translate-y-1"
                   : "text-zinc-500"
               }`}
             >

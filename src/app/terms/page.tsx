@@ -12,7 +12,7 @@ function page() {
         </h1>
         <article className="w-full">
           <div className="article-header text-center">
-            <p className="text-white">1. Introduction</p>
+            <p className="text-[#383C47] dark:text-white">1. Introduction</p>
           </div>
           <div className="article-body tex-left">
             <span className="text-[#888]">
@@ -25,7 +25,7 @@ function page() {
 
         <article className="w-full">
           <div className="article-header text-center">
-            <p className="text-white">2. Services </p>
+            <p className="text-[#383C47] dark:text-white">2. Services </p>
           </div>
           <div className="article-body tex-left">
             <span className="text-[#888]">
@@ -39,7 +39,7 @@ function page() {
 
         <article className="w-full">
           <div className="article-header text-center">
-            <p className="text-white">3. Risk Acknowledgment</p>
+            <p className="text-[#383C47] dark:text-white">3. Risk Acknowledgment</p>
           </div>
           <div className="article-body tex-left">
             <span className="text-[#888]">
@@ -57,7 +57,7 @@ function page() {
 
         <article className="w-full">
           <div className="article-header text-center">
-            <p className="text-white">4. Investment Performance</p>
+            <p className="text-[#383C47] dark:text-white">4. Investment Performance</p>
           </div>
           <div className="article-body tex-left">
             <span className="text-[#888]">
@@ -72,7 +72,7 @@ function page() {
 
         <article className="w-full">
           <div className="article-header text-center">
-            <p className="text-white">5. Fees and Commissions</p>
+            <p className="text-[#383C47] dark:text-white">5. Fees and Commissions</p>
           </div>
           <div className="article-body tex-left">
             <span className="text-[#888]">
@@ -87,7 +87,7 @@ function page() {
 
         <article className="w-full">
           <div className="article-header text-center">
-            <p className="text-white">6. User Responsibilities</p>
+            <p className="text-[#383C47] dark:text-white">6. User Responsibilities</p>
           </div>
           <div className="article-body tex-left">
             <span className="text-[#888]">
@@ -101,7 +101,7 @@ function page() {
 
         <article className="w-full">
           <div className="article-header text-center">
-            <p className="text-white">7. Account Termination</p>
+            <p className="text-[#383C47] dark:text-white">7. Account Termination</p>
           </div>
           <div className="article-body tex-left">
             <span className="text-[#888]">
@@ -114,7 +114,7 @@ function page() {
 
         <article className="w-full">
           <div className="article-header text-center">
-            <p className="text-white">8. Limitation of Liability</p>
+            <p className="text-[#383C47] dark:text-white">8. Limitation of Liability</p>
           </div>
           <div className="article-body tex-left">
             <span className="text-[#888]">
@@ -127,7 +127,7 @@ function page() {
 
         <article className="w-full">
           <div className="article-header text-center">
-            <p className="text-white">9. Changes to Terms</p>
+            <p className="text-[#383C47] dark:text-white">9. Changes to Terms</p>
           </div>
           <div className="article-body tex-left">
             <span className="text-[#888]">
@@ -140,7 +140,7 @@ function page() {
 
         <article className="w-full">
           <div className="article-header text-center">
-            <p className="text-white">10. Governing Law</p>
+            <p className="text-[#383C47] dark:text-white">10. Governing Law</p>
           </div>
           <div className="article-body tex-left">
             <span className="text-[#888]">

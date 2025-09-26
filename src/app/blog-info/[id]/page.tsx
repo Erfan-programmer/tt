@@ -28,7 +28,7 @@ function Page() {
       </button> */}
       <button
         onClick={() => router.back()}
-        className="p-2 rounded-[1rem] border-2 border-[#383C47] flex justify-center items-center gap-2 mt-5 w-full w-full mx-auto text-white"
+        className="p-2 rounded-[1rem] border-2 border-[#383C47] flex justify-center items-center gap-2 mt-5 w-full w-full mx-auto text-[#383C47] dark:text-white"
       >
         Home
         <svg

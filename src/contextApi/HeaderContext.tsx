@@ -9,6 +9,7 @@ interface HeaderUserData {
   rank_icon: string;
   t_id: number;
   t_wallet: number;
+  permission: string[]
   verified: number;
   transform_to_twallet: number;
 }

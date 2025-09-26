@@ -28,18 +28,14 @@ export default function DynamicVerificationTab({
     const currentTypeFiles = fileSectionPairs?.filter(
       (item) => item.type === type
     );
-    console.log("fileSectionPairs =>", fileSectionPairs, type);
 
     const rejectedFiles = currentTypeFiles?.filter(
       (item) => item.status === "rejected"
     );
 
-    const filesToUpload: typeof fileSectionPairs = [];
-    console.log("rejectedFiles =>", rejectedFiles);
     const formData = new FormData();
 
     formData.append("documentType", type);
-    console.log("rejectedFiles", rejectedFiles);
     // filesToUpload = currentTypeFiles?.filter((f) => f.file);
     // if (missingSteps.length > 0) {
     //   const missingTitles = missingSteps.map((s) => s.title);
@@ -47,7 +43,6 @@ export default function DynamicVerificationTab({
     //   return;
     // }
     if (rejectedFiles.length > 0) {
-      console.log("formData , filetoupload", formData, filesToUpload);
 
       rejectedFiles.map((item, index) => {
         // const fileObj = filesToUpload.find(
@@ -56,14 +51,9 @@ export default function DynamicVerificationTab({
         if (item?.path) formData.append(`documents[${index}]`, item.path);
       });
     } else {
-      console.log("currentTypeFiles =>", currentTypeFiles);
-
       const missingSteps = steps?.filter((step, index) => { 
-        console.log("miss filter =>" , currentTypeFiles.find((file) => file.key === `document[${index}]` && file.path) , step);
-
         return !currentTypeFiles.find((file) => file.key === `document[${index}]` && file.path);
     });
-      console.log("missingsteps =>", missingSteps, steps);
 
       if (missingSteps.length > 0) {
         const missingTitles = missingSteps.map((s) => s.title);

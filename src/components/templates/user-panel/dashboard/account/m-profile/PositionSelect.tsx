@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoSearch } from "react-icons/io5";
 import { motion, AnimatePresence } from "framer-motion";
+import { FaStar } from "react-icons/fa";
 
 interface PositionOption {
   id: string;
@@ -79,7 +80,7 @@ export default function PositionSelect({
       ref={dropdownRef}
     >
       <label className="sponsor-label flex justify-start items-start gap-2">
-        {required && <span className="text-[var(--loss)] text-2xl">*</span>}
+        {required && <FaStar className="text-[#FF6060] w-3 h-2 mt-1 text-2xl" />}
         <span className="text-[var(--dark-color)] dark:text-white text-md">
           {label}
         </span>

@@ -184,7 +184,7 @@ export default function AdminVerificationStepBox({
       {/* Preview Modal */}
       {showPreview && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex items-center justify-center z-[9999]"
+          className="fixed inset-0 bg-black/40  bg-opacity-70 backdrop-blur-sm flex items-center justify-center z-[9999]"
           onClick={(e) => {
             if (e.target === e.currentTarget) setShowPreview(false);
           }}
@@ -212,7 +212,7 @@ export default function AdminVerificationStepBox({
       {/* Reject Modal */}
       {showRejectModal && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex items-center justify-center z-[10000]"
+          className="fixed inset-0 bg-black/40  bg-opacity-70 backdrop-blur-sm flex items-center justify-center z-[10000]"
           onClick={(e) => {
             if (e.target === e.currentTarget) setShowRejectModal(false);
           }}

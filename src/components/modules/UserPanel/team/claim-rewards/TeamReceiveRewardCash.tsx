@@ -101,7 +101,7 @@ export default function TeamReceiveRewardCash({
             required={true}
           />
           {errors.crypto && (
-            <div className="text-red-500 text-xs mt-1">
+            <div className="text-red-500 text-[.8rem] mt-1">
               {errors.crypto.message}
             </div>
           )}

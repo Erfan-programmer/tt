@@ -105,7 +105,6 @@ export default function ProfitTabs({
   activeDataset,
   onTabChange,
 }: ProfitTabsProps) {
-  console.log("datasets =>" , datasets)
   const [value, setValue] = React.useState(activeDataset);
   const tabsRef = React.useRef<HTMLDivElement>(null);
   const [touchStart, setTouchStart] = React.useState<number | null>(null);

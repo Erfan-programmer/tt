@@ -169,7 +169,7 @@ const MobileMenu = () => {
               </svg>
             </div>
             <span
-              className={`text-[.8rem] mt-1 transition-all duration-300 ${
+              className={`text-[.8rem]  mt-1 transition-all duration-300 ${
                 isActive("/financial/withdraw")
                   ? "text-[var(--main-background)] opacity-100 dark:text-white -translate-y-1"
                   : "text-zinc-500 opacity-40"
@@ -210,7 +210,7 @@ const MobileMenu = () => {
               </svg>
             </div>
             <span
-              className={`text-[.8rem] mt-1 transition-all duration-300 ${
+              className={`text-[.8rem]  mt-1 transition-all duration-300 ${
                 isActive("/dashboard")
                   ? "text-[var(--main-background)] opacity-100 dark:text-white -translate-y-1"
                   : "text-zinc-500 opacity-40"
@@ -251,7 +251,7 @@ const MobileMenu = () => {
               </svg>
             </div>
             <span
-              className={`text-[.8rem] mt-1 transition-all duration-300 ${
+              className={`text-[.8rem]  mt-1 transition-all duration-300 ${
                 isActive("/t-wallet")
                   ? "text-[var(--main-background)] opacity-100 dark:text-white -translate-y-1"
                   : "text-zinc-500 opacity-40"
@@ -307,7 +307,7 @@ const MobileMenu = () => {
               </svg>
             </div>
             <span
-              className={`text-[.8rem] mt-1 transition-all duration-300 ${
+              className={`text-[.8rem]  mt-1 transition-all duration-300 ${
                 isSidebarOpen
                   ? "text-[var(--main-background)] dark:text-white opacity-100 -translate-y-1"
                   : "text-zinc-500 opacity-40"

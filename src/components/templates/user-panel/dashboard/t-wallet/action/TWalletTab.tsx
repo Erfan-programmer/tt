@@ -9,9 +9,7 @@ import IncreaserTWallet from "./IncreaseTWallet";
 import TWalletStatement from "./TWalletStatement";
 import Logout from "@/components/modules/UserPanel/Logout/Logout";
 import { useState } from "react";
-import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
-// import { usePermissions } from "../hooks/usePermissions";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -65,14 +63,6 @@ export default function TWalletTab() {
   const [value, setValue] = React.useState(0);
   const [isLogoutOpen, setIsLogoutOpen] = useState(false);
   const route = useRouter();
-  const { theme } = useTheme();
-
- React.useEffect(() => {
-  if (typeof window !== "undefined") {
-    document.documentElement.classList.remove("light", "dark");
-    document.documentElement.classList.add(theme || "light");
-  }
-}, [theme]);
 
 
   const handleChange = (_: React.SyntheticEvent, newValue: number) => {

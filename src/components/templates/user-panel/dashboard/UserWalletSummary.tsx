@@ -103,7 +103,7 @@ export default function UserWalletSummary() {
                   <div className="flex justify-start gap-3 items-center text-[var(--main-background)] dark:text-white">
                     {getWalletValue(walletInfo)}
                   </div>
-                  <span className="text-standard">{getSubTitle(walletInfo)}</span>
+                  <span className="text-[var(--box-background)] dark:text-white">{getSubTitle(walletInfo)}</span>
                 </div>
               </div>
               <Link

@@ -14,7 +14,7 @@ export default function PositionStep({ selectedPosition, setSelectedPosition, ha
         exit={{ opacity: 0, x: -20 }}
         className="mt-[1rem] sm:mt-[2rem]"
       >
-        <motion.p className="text-[var(--main-background)] dark:text-white font-[600] text-[1.5rem] sm:text-[2rem] mb-3 text-center sm:text-left">
+        <motion.p className="text-[#383C47] dark:text-white font-[600] text-[1.5rem] sm:text-[1.4rem] mb-3 text-center sm:text-left">
           Choose Your Position:
         </motion.p>
         <div className="register-positions-container grid grid-cols-1 gap-4">

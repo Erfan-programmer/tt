@@ -137,10 +137,16 @@ p {
 #root {
   background: #fff;
 }
-.titan-light-text {
-  color: #585966;
+.dark .titan-light-text {
+  color: #B9B9B9;
   font-size: 1rem;
 }
+
+.titan-light-text {
+  color: var(--box-background);
+  font-size: 1rem;
+}
+
 body {
   box-sizing: border-box;
 }
@@ -793,3 +799,22 @@ input {
   background: rgba(9, 13, 35, 0.6);
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 } */
+
+
+.trade-overview , .user-account-condition-wrapper ,  .titan-form-container , .withdraw-container , .withdraw-transaction-container , .new-account-contentainer , .account-list , .use-action-history-container , .user-details-container , .team-account-content , .teamtree-structure-detail-container , .team-tree-structure-content , .team-refferal-detail , .team-commission-detail , .team-account-analytic-content , .team-commission-detail , .message-container , .send-message-container{
+  transition: all .3s;
+  border:1px solid #737484
+  
+}
+
+.trade-overview:hover , .user-account-condition-wrapper:hover ,  .titan-form-container:hover , .withdraw-container:hover , .withdraw-transaction-container:hover , .new-account-contentainer:hover , .account-list:hover , .use-action-history-container:hover , .user-details-container:hover , .team-account-content:hover , .teamtree-structure-detail-container:hover , .team-tree-structure-content:hover , .team-refferal-detail:hover , .team-commission-detail:hover , .team-commission-detail:hover , .team-account-analytic-content:hover , .message-container:hover , .send-message-container:hover{
+  box-shadow: 0 0 11px #034cda;
+}
+
+
+.t-wallet-container , .titan-form-container{
+    transition: all .3s;
+}
+.t-wallet-container:hover , .titan-form-container:hover{
+    box-shadow: 0 0 11px #034cda;
+}

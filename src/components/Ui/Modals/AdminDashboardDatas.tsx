@@ -84,24 +84,28 @@ export default function AdminDashboardDatas() {
         title: "Deposit",
         subTitle: dahsboardInfo?.tasks?.pending_deposits,
         status: "blue",
+        link: "/hrtaamst2025/finance/t-wallet",
       },
       {
         id: 2,
         title: "Investment",
         subTitle: dahsboardInfo?.tasks?.pending_investments,
         status: "blue",
+        link: "/hrtaamst2025/finance/investments",
       },
       {
         id: 3,
         title: "Withdraw Req",
         subTitle: dahsboardInfo?.tasks?.pending_withdrawals,
         status: "blue",
+        link: "/hrtaamst2025/finance/withdraw",
       },
       {
         id: 4,
         title: "Cancel",
         subTitle: dahsboardInfo?.tasks?.pending_cancellations,
         status: "red",
+        link: "/hrtaamst2025/users/cancel-accounts",
       },
     ],
     systermOverview: [
@@ -216,15 +220,14 @@ export default function AdminDashboardDatas() {
         {showLineTitle.dashboard && (
           <AnimationTemplate>
             <div className="flex items-center gap-4 flex-wrap">
-
-            {adminDashboardData.dashboardInfo.map((info) => (
-              <AdminDashboardDataBox
-              key={info.id}
-              title={info.title}
-              subTitle={info.subTitle}
-              chart={info.chart}
-              />
-            ))}
+              {adminDashboardData.dashboardInfo.map((info) => (
+                <AdminDashboardDataBox
+                  key={info.id}
+                  title={info.title}
+                  subTitle={info.subTitle}
+                  chart={info.chart}
+                />
+              ))}
             </div>
           </AnimationTemplate>
         )}
@@ -243,6 +246,7 @@ export default function AdminDashboardDatas() {
               <AdminDashboardDataBox
                 key={info.id}
                 title={info.title}
+                link={info.link}
                 subTitle={info.subTitle}
                 status={info.status}
               />

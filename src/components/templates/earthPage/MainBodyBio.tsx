@@ -29,7 +29,7 @@ export default function MainBodyBio() {
           transition={{ delay: 2, duration: 1 }}
           className={`${Style.main_body_joinUs} p-0 flex justify-center gap-3`}
         >
-          {/* <span className="text-white">💸</span> */}
+          {/* <span className="text-[#383C47] dark:text-white">💸</span> */}
           <span className="text-sm">
             Grow your wealth with Titan Investment
           </span>
@@ -234,7 +234,7 @@ export default function MainBodyBio() {
                   className="w-10 j-10"
                   alt=""
                 />
-                <p className="text-2xl text-white">450%</p>
+                <p className="text-2xl text-[#383C47] dark:text-white">450%</p>
                 <div>
                   <span className="text-[#888]">Profit 2020 - 2024</span>
                 </div>
@@ -247,7 +247,7 @@ export default function MainBodyBio() {
                   className="w-10 j-10"
                   alt=""
                 />
-                <p className="text-2xl text-white">$10M+</p>
+                <p className="text-2xl text-[#383C47] dark:text-white">$10M+</p>
                 <div>
                   <span className="text-[#888]">Investments</span>
                 </div>
@@ -260,7 +260,7 @@ export default function MainBodyBio() {
                   className="w-10 j-10 "
                   alt=""
                 />
-                <p className="text-2xl text-white">100%</p>
+                <p className="text-2xl text-[#383C47] dark:text-white">100%</p>
                 <div>
                   <span className="text-[#888]">Automated Trading</span>
                 </div>
@@ -480,7 +480,7 @@ export default function MainBodyBio() {
               <p className="text-white font-clash text-lg lg:text-xl mt-2">
                 TITAN&apos;s Investor Profit Split{" "}
               </p>
-              <span className="text-[.8rem] text-[#888]">
+              <span className="text-[.8rem]  text-[#888]">
                 Choose a 2-year investment with TITAN and withdraw your profits
                 on an 80/20 basis — keeping 80% of the gains, while 20% supports
                 our continued performance and growth. Opt for a 4-year contract
@@ -499,7 +499,7 @@ export default function MainBodyBio() {
               <p className="text-white text-lg lg:text-xl mt-2">
                 TITAN Loss Coverage Plan
               </p>
-              <span className="text-[.8rem] text-[#888]">
+              <span className="text-[.8rem]  text-[#888]">
                 Protecting You from Unexpected Market Downturns If your monthly
                 trading loss exceeds 5%, only 5% will be deducted from your
                 account. The remaining loss will be covered by TITAN and settled
@@ -520,7 +520,7 @@ export default function MainBodyBio() {
               <p className="text-white text-lg lg:text-xl mt-2">
                 TITAN Bonus Shield
               </p>
-              <span className="text-[.8rem] text-[#888]">
+              <span className="text-[.8rem]  text-[#888]">
                 A Reward for Your Patience, A Boost for Your Recovery After two
                 consecutive months without profit, TITAN grants a 20% bonus on
                 your capital to boost your trading power. If losses continue, an
@@ -541,7 +541,7 @@ export default function MainBodyBio() {
               <p className="text-white text-lg lg:text-xl mt-2">
                 30% total Drawdown
               </p>
-              <span className="text-[.8rem] text-[#888]">
+              <span className="text-[.8rem]  text-[#888]">
                 Investing in financial markets always comes with both profits
                 and risks. At Titan Investments, we understand these risks and
                 inform our investors about them. To protect capital, if losses

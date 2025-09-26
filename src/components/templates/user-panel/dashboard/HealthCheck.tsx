@@ -5,6 +5,9 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { motion } from "framer-motion";
 import { loadUserData } from "@/components/modules/EncryptData/SavedEncryptData";
 import { useApiQuery } from "@/hooks/useApi";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import { apiRequest } from "@/libs/api";
 
 
 interface HealthData {
@@ -24,30 +27,6 @@ interface HealthData {
   remind: number;
   periods: number;
 }
-
-// Helper function to calculate progress and color based on status
-// const getProgressAndColor = (
-//   status: string,
-//   balance: number,
-//   amount: number
-// ) => {
-//   const percentage = (balance / amount) * 100;
-
-//   switch (status.toLowerCase()) {
-//     case "perfect":
-//       return { progress: 95, color: "success", lossLevel: "0%" };
-//     case "normal":
-//       return { progress: 65, color: "normal", lossLevel: "-5%" };
-//     case "risk":
-//       return { progress: 45, color: "loss", lossLevel: "-30%" };
-//     default:
-//       return {
-//         progress: percentage,
-//         color: "normal",
-//         lossLevel: `${Math.round(percentage - 100)}%`,
-//       };
-//   }
-// };
 
 
 const CircularProgress = ({
@@ -115,7 +94,7 @@ const CircularProgress = ({
             className="text-base"
             style={{
               color:
-                capital_status.toLowerCase() === "loss"
+                capital_status.toLowerCase() === "risky"
                   ? "var(--loss)"
                   : capital_status.toLowerCase() === "perfect"
                   ? "var(--perfect)"
@@ -183,6 +162,7 @@ export default function HealthCheck() {
   const {
     data: healthCheckData,
     isLoading,
+    refetch,
     error,
   } = useApiQuery<HealthCheckResponse>(
     ["contract-health-check", 1],
@@ -210,44 +190,33 @@ const healthData = React.useMemo(() => {
 }, [healthCheckData]);
 
 
+ const router = useRouter()
+  const SubmitContractAction = async () => {
+   const token = loadUserData()?.access_token
+    if (checkValue === "continue_trading") {
+      try {
+        const response = await apiRequest(`${process.env.NEXT_PUBLIC_API_URL}/v1/client/contracts/choice` , "POST" , undefined , {
+          Authorization : `Bearer ${token}`
+        })
 
-  // Submit contract action function
-  // const SubmitContractAction = async () => {
-  //   if (!checkValue || !selectedContractId) {
-  //     toast.error("Please select an option and ensure contract is selected");
-  //     return;
-  //   }
-
-  //   if (checkValue === "continue_trading") {
-  //     try {
-  //       await allowToInvestMutation.mutateAsync({
-  //         data: {
-  //           contract_id: selectedContractId,
-  //         },
-  //         headers: GetHeaderWithAuth(),
-  //       });
-
-  //       toast.success("Contract allowed to continue trading successfully!");
-  //       setCheckValue("");
-  //       setSelectedContractId("");
-
-  //       // Refetch contracts data
-  //       await refetch();
-  //     } catch (error: any) {
-  //       console.error("Error allowing contract to invest:", error);
-  //       toast.error(
-  //         error?.response?.data?.message ||
-  //           "Failed to allow contract to continue trading"
-  //       );
-  //     }
-  //   } else if (checkValue === "withdraw") {
-  //     // Navigate to cancel contract page
-  //     toast.success("Redirecting to cancel contract page...");
-  //     setCheckValue("");
-  //     setSelectedContractId("");
-  //     router.push(`/financial/my-investments/${selectedContractId}`);
-  //   }
-  // };
+        if(response.status){
+          toast.success(response.message || "contract continue request has been admitting : ))")
+        }
+        await refetch();
+      } catch (error: any) {
+        console.error("Error allowing contract to invest:", error);
+        toast.error(
+          error?.response?.data?.message ||
+            "Failed to allow contract to continue trading"
+        );
+      }
+    } else if (checkValue === "withdraw") {
+      // Navigate to cancel contract page
+      toast.success("Redirecting to cancel contract page...");
+      setCheckValue("");
+      router.push(`/dashboard/financial/withdraw`);
+    }
+  };
 
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev > 0 ? prev - 1 : healthData.length - 1));
@@ -341,7 +310,7 @@ const healthData = React.useMemo(() => {
       bg: "bg-[var(--perfect)]",
       stroke: "var(--perfect)",
     },
-    loss: {
+    risky: {
       text: "text-[var(--loss)]",
       bg: "bg-[var(--loss)]",
       stroke: "var(--loss)",
@@ -375,7 +344,7 @@ const healthData = React.useMemo(() => {
           >
             <path
               d="M11 11L14 6M6 6H6.01M10 4H10.01M16 10H16.01M4 10H4.01M12 13C12 14.1046 11.1046 15 10 15C8.89543 15 8 14.1046 8 13C8 11.8954 8.89543 11 10 11C11.1046 11 12 11.8954 12 13ZM19 10C19 14.9706 14.9706 19 10 19C5.02944 19 1 14.9706 1 10C1 5.02944 5.02944 1 10 1C14.9706 1 19 5.02944 19 10Z"
-              stroke={colors.stroke}
+              stroke={colors?.stroke}
               strokeLinecap="round"
               strokeLinejoin="round"
             />
@@ -392,13 +361,13 @@ const healthData = React.useMemo(() => {
           </div>
           <div className="contract-number flex gap-2 text-[var(--main-background)] dark:text-[#B9B9B9] my-1">
             <span>Loss Level : </span>
-            <div className={`flex gap-1 items-center ${colors.text}`}>
+            <div className={`flex gap-1 items-center ${colors?.text}`}>
               {data.loss_level}
             </div>
           </div>
           <div className="contract-number flex gap-2 text-[var(--main-background)] dark:text-[#B9B9B9] my-1">
             <span>Your Last Capital status: </span>
-            <span className={`flex gap-1 items-center ${colors.text}`}>
+            <span className={`flex gap-1 items-center ${colors?.text}`}>
               {data?.capital_status?.toUpperCase()}
             </span>
           </div>
@@ -406,7 +375,7 @@ const healthData = React.useMemo(() => {
           <div className="progress-bar">
             <div className="w-full rounded-lg bg-white overflow-hidden h-[3rem] p-[3px] relative">
               <div
-                className={`${colors.bg} rounded-lg p-[2px] h-full flex items-center justify-center min-w-fit`}
+                className={`${colors?.bg} rounded-lg p-[2px] h-full flex items-center justify-center min-w-fit`}
                 style={{ width: `${remainingPercentage}%` }}
               ></div>
               <div className="progress-bar-label text-[1.4rem] absolute left-10 z-[2] text-black">
@@ -415,11 +384,11 @@ const healthData = React.useMemo(() => {
             </div>
           </div>
 
-          {data.requires_action && (
+         {data.requires_action && (
             <div className="bg-white dark:bg-[#4C4C4C] rounded-[2rem] p-3 py-[1rem] mt-[1rem]">
               <p className="flex items-center gap-2">
                 ⚠️
-                <span className="text-[var(--)]">
+                <span className="text-white">
                   Trading on your account has been stopped due to reaching the
                   30% drawdown limit.
                 </span>
@@ -490,7 +459,7 @@ const healthData = React.useMemo(() => {
                     >
                       {checkValue === "withdraw" && (
                         <svg
-                          className="w-5 h-5 text-white"
+                          className="w-5 h-5 text-[#383C47] dark:text-white"
                           viewBox="0 0 12 12"
                           fill="none"
                           xmlns="http://www.w3.org/2000/svg"
@@ -540,7 +509,7 @@ const healthData = React.useMemo(() => {
                     >
                       {checkValue === "continue_trading" && (
                         <svg
-                          className="w-5 h-5 text-white"
+                          className="w-5 h-5 text-[#383C47] dark:text-white"
                           viewBox="0 0 12 12"
                           fill="none"
                           xmlns="http://www.w3.org/2000/svg"
@@ -564,7 +533,7 @@ const healthData = React.useMemo(() => {
                     !checkValue ? "opacity-50 cursor-not-allowed" : ""
                   }`}
                   disabled={!checkValue}
-                  // onClick={SubmitContractAction}
+                  onClick={SubmitContractAction}
                 >
                   {"Submit"}
                 </button>
@@ -605,7 +574,7 @@ const healthData = React.useMemo(() => {
             <path
               d="M11 11L14 6M6 6H6.01M10 4H10.01M16 10H16.01M4 10H4.01M12 13C12 14.1046 11.1046 15 10 15C8.89543 15 8 14.1046 8 13C8 11.8954 8.89543 11 10 11C11.1046 11 12 11.8954 12 13ZM19 10C19 14.9706 14.9706 19 10 19C5.02944 19 1 14.9706 1 10C1 5.02944 5.02944 1 10 1C14.9706 1 19 5.02944 19 10Z"
               // stroke={`var(--${singleContract ? singleContract.color : curreloss)`}
-              stroke={`${colors.stroke}`}
+              stroke={`${colors?.stroke}`}
               strokeLinecap="round"
               strokeLinejoin="round"
             />
@@ -637,11 +606,11 @@ const healthData = React.useMemo(() => {
               : currentData.initial_investment
           }
           // color={singleContract ? singleContract.color : curreloss}
-          color={colors.stroke}
+          color={colors?.stroke}
         />
         {singleContract && (
           <div className="text-center mb-4">
-            <div className={`${colors.text} text-xl font-medium`}>
+            <div className={`${colors?.text} text-xl font-medium`}>
               {singleContract?.capital_status?.toUpperCase()}
             </div>
           </div>
@@ -672,7 +641,7 @@ const healthData = React.useMemo(() => {
           <div className="bg-white dark:bg-[#4C4C4C] rounded-[2rem] p-3 py-[1rem] mt-[1rem]">
             <p className="flex items-center gap-2">
               ⚠️
-              <span className="text-[var(--)]">
+              <span className="text-white">
                 Trading on your account has been stopped due to reaching the 30%
                 drawdown limit.
               </span>
@@ -705,7 +674,7 @@ const healthData = React.useMemo(() => {
                 remaining balance will be reinvested into recovery strategies,
                 and you will no longer have access to your funds—even in the
                 case of further losses—until your portfolio recovers and reaches
-                PERFECT status. We will do everything in our power to improve
+                {currentData.capital_status} status. We will do everything in our power to improve
                 the performance and restore your portfolio. Important Note:If
                 you do not select any of the options, Titan&apos;s trading systems
                 will no longer trade on your account. Please make your decision:
@@ -742,7 +711,7 @@ const healthData = React.useMemo(() => {
                   >
                     {checkValue === "withdraw" && (
                       <svg
-                        className="w-5 h-5 text-white"
+                        className="w-5 h-5 text-[#383C47] dark:text-white"
                         viewBox="0 0 12 12"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
@@ -790,7 +759,7 @@ const healthData = React.useMemo(() => {
                   >
                     {checkValue === "continue_trading" && (
                       <svg
-                        className="w-5 h-5 text-white"
+                        className="w-5 h-5 text-[#383C47] dark:text-white"
                         viewBox="0 0 12 12"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
@@ -813,10 +782,10 @@ const healthData = React.useMemo(() => {
                 className={`titan-btn  ${
                   checkValue.length ? "opacity-50 cursor-not-allowed" : ""
                 }`}
-                // onClick={SubmitContractAction}
-                // disabled={
-                //   checkValue.length
-                // }
+                onClick={SubmitContractAction}
+                disabled={
+                  checkValue.length <= 0
+                }
               >
                 {"Submit"}
               </button>

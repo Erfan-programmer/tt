@@ -17,7 +17,7 @@ import { loadUserData } from "@/components/modules/EncryptData/SavedEncryptData"
 import { useStatements } from "@/contextApi/SponsorContext";
 import Image from "next/image";
 
-export default function SponsorPlus() {
+export default function SponsorPlus({refetch}:{refetch:()=> void}) {
   const [hasSponsor, setHasSponsor] = useState<boolean>(false);
   const [showLink, setShowLink] = useState(false);
   const [referralCode, setReferralCode] = useState<string>("");
@@ -90,6 +90,7 @@ export default function SponsorPlus() {
       if (res.success) {
         setShowLink(true);
         fetchStatements();
+        refetch()
         toast.success(res?.message || "Referral link generated successfully!");
       }
     } catch (err: any) {
@@ -154,7 +155,7 @@ export default function SponsorPlus() {
         <ToastContainer />
         <div className="new-account">
           <div className="flex items-center gap-1.5 sm:gap-2">
-            <p className="text-[var(--dark-color)] dark:text-white text-xs sm:text-sm md:text-base">
+            <p className="text-[var(--dark-color)] dark:text-white text-[.8rem] sm:text-sm md:text-base">
               Referral Link Setting
             </p>
           </div>
@@ -363,7 +364,7 @@ export default function SponsorPlus() {
             ) : (
               <div className="w-full h-40 bg-gray-200 dark:bg-gray-600 animate-pulse rounded-lg" />
             )}
-            <div className="text-center text-[var(--dark-color)] dark:text-white mt-2 break-all text-xs sm:text-sm md:text-base">
+            <div className="text-center text-[var(--dark-color)] dark:text-white mt-2 break-all text-[.8rem] sm:text-sm md:text-base">
               {referralCode}
             </div>
           </div>

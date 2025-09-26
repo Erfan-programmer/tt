@@ -27,13 +27,13 @@ export default function Logout({ isOpen, onClose, onLogout }: LogoutProps) {
         
         <button
           onClick={onClose}
-          className="absolute right-2 sm:right-4 top-2 sm:top-4 text-[var(--main-background)] dark:text-white"
+          className="absolute right-2 sm:right-4 top-2 sm:top-4 text-white"
         >
           <IoMdClose size={24} />
         </button>
 
         <div className="text-center space-y-2 sm:space-y-3 mb-6 sm:mb-8">
-          <h2 className="text-[var(--main-background)] dark:text-white text-md sm:text-2xl font-medium">
+          <h2 className="text-white text-md sm:text-2xl font-medium">
             Are you sure you want to log out?
           </h2>
           <p className="text-[var(--main-background)] dark:text-[#fff] text-sm sm:text-base">

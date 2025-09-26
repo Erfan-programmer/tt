@@ -18,20 +18,33 @@ class CustomUploadAdapter {
   }
 
   async upload() {
-    const file = await this.loader.file;
-    const formData = new FormData();
-    formData.append("image", file);
-    const token = loadEncryptedData()?.token
-    const res = await apiRequest<{data: string }>(
-      `${process.env.NEXT_PUBLIC_API_URL}/v1/admin/upload-ck-image`,
-      "POST",
-      formData,
-      {Authorization : `Bearer ${token}`}
-    );
-    return {
-      default: `${process.env.NEXT_PUBLIC_API_URL_STORAGE}/${res.data.data}`,
-    };
+    try {
+      const file = await this.loader.file;
+      const formData = new FormData();
+      formData.append("image", file);
+
+      const token = loadEncryptedData()?.token;
+
+      const res = await apiRequest<{ data: string }>(
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/admin/upload-ck-image`,
+        "POST",
+        formData,
+        { Authorization: `Bearer ${token}` }
+      );
+
+      if (!res.success || !res.data?.data) {
+        throw new Error(res.message || "Upload failed");
+      }
+
+      return {
+        default: `${process.env.NEXT_PUBLIC_API_URL_STORAGE}/${res.data.data}`,
+      };
+    } catch (err: any) {
+      console.error("CKEditor upload error:", err);
+      throw err;
+    }
   }
 
-  abort() {}
+  abort() {
+  }
 }

@@ -213,7 +213,7 @@ export default function AddSpecialCommissionRule({ refetch }: AddSpecialCommisio
                           }}
                         >
                           <p className="text-white">{option.label}</p>
-                          <p className="text-xs text-gray-400">TID: {option.tid}</p>
+                          <p className="text-[.8rem] text-gray-400">TID: {option.tid}</p>
                         </div>
                       ))
                     )}

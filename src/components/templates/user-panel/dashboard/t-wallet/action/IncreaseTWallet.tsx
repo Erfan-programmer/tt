@@ -74,7 +74,7 @@ export default function IncreaserTWallet() {
             />
           </svg>
 
-          <p className="text-[var(--dark-color)] dark:text-white text-xs sm:text-sm md:text-base">
+          <p className="text-[var(--dark-color)] dark:text-white text-[.8rem] sm:text-sm md:text-base">
             Increase T-Wallet
           </p>
         </div>

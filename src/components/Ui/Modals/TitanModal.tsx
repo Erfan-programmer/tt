@@ -94,7 +94,7 @@ export default function TitanModal({
             exit={{ scale: 0.8, opacity: 0, y: -50 }}
             transition={{ type: "spring", stiffness: 200, damping: 20 }}
           >
-            <div className="flex items-center justify-between text-white">
+            <div className="flex items-center justify-between text-[#383C47] dark:text-white">
               <p
                 className="text-lg sm:text-2xl font-bold flex items-center gap-2"
                 dangerouslySetInnerHTML={{ __html: title }}
