@@ -149,6 +149,8 @@ export default function InternalWalletSection() {
       fetchWallets();
     } else {
       toast.error("Error saving deposit wallets: " + res.message);
+    setLoading(false);
+
     }
   };
 
