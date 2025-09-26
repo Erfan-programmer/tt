@@ -127,6 +127,7 @@ export default function PaymentTitan({ paymentProp }: PaymentTitanProps) {
         <TitanNotification
           icon={<IoMdClose className="text-[var(--dark-color)] text-2xl" />}
           btn="Go to Dashboard"
+          btnLink="/dashboard"
           btnStyle="bg-[#275EDF]"
           onClose={() => setShowSuccessNotif(false)}
         >
