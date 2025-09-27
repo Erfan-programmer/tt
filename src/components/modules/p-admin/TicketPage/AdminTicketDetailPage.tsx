@@ -85,7 +85,7 @@ export default function AdminTicketDetailPage() {
   if (error) return <p className="text-center py-8 text-red-500">{error}</p>;
   if (!ticket)
     return <p className="text-center py-8 text-white">No ticket found.</p>;
-
+ console.log("reply.attachement , " , ticket.replies)
   return (
     <>
       <div className="flex justify-between items-center mb-4">

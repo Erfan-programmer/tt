@@ -30,8 +30,9 @@
   }
 }
 
-.sidebar-items::-webkit-scrollbar {
-  width: 5px;
+.dark .sidebar-items::-webkit-scrollbar  , .sidebar-items::-webkit-scrollbar {
+  width: .5rem;
+
 }
 
 .sidebar-items::-webkit-scrollbar-track {
@@ -43,9 +44,6 @@
   border-radius: 5px;
 }
 
-.sidebar-items::-webkit-scrollbar-thumb:hover {
-  background: var(--admin-bg-main);
-}
 
 .main-content {
   margin-left: 280px;

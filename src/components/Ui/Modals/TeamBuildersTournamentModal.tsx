@@ -9,22 +9,32 @@ import { loadUserData } from "@/components/modules/EncryptData/SavedEncryptData"
 import { toast } from "react-toastify";
 import { MdOutlineErrorOutline } from "react-icons/md";
 
-type TournamentStatus = "can_start" | "not_started" | "active" | "completed" | "expired" | "not_eligible";
+type TournamentStatus =
+  | "can_start"
+  | "not_started"
+  | "active"
+  | "completed"
+  | "expired"
+  | "not_eligible";
 
 interface Props {
   isModalOpen: boolean;
   onClose: () => void;
+  refetch: () => void;
   status: TournamentStatus | null;
   // Corrected the type here to include 'undefined'
-  details: {
-    duration_days: number;
-    rewards: {
-      name: string;
-      icon_path: string;
-      min_sales_volume: number;
-      tournament_prize_amount: string;
-    }[];
-  } | null | undefined; // Added 'undefined' to the type
+  details:
+    | {
+        duration_days: number;
+        rewards: {
+          name: string;
+          icon_path: string;
+          min_sales_volume: number;
+          tournament_prize_amount: string;
+        }[];
+      }
+    | null
+    | undefined; // Added 'undefined' to the type
   onImportantNoticeClick: () => void;
   onStartTournament: () => void;
 }
@@ -34,6 +44,7 @@ export default function TeamBuildersTournamentModal({
   onClose,
   status,
   details,
+  refetch,
   onImportantNoticeClick,
   onStartTournament,
 }: Props) {
@@ -63,6 +74,7 @@ export default function TeamBuildersTournamentModal({
         toast.success(res.message || "Tournament started successfully!");
         onStartTournament();
         onClose();
+        refetch()
       } else {
         toast.error(res.message || "Failed to start tournament.");
       }
@@ -93,11 +105,14 @@ export default function TeamBuildersTournamentModal({
             <div className="w-8 h-8 rounded-full bg-blue-500 dark:bg-[#1A68FF] flex items-center justify-center">
               <span className="text-white dark:text-gray-900">1</span>
             </div>
-            <p className="text-gray-900 dark:text-white text-lg">One-Time Challenge</p>
+            <p className="text-gray-900 dark:text-white text-lg">
+              One-Time Challenge
+            </p>
           </div>
           <div className="description mt-1">
             <span className="text-gray-600 dark:text-[#707070]">
-              Once activated, the challenge cannot be paused or reset. Make sure you&apos;re ready to commit!
+              Once activated, the challenge cannot be paused or reset. Make sure
+              you&apos;re ready to commit!
             </span>
           </div>
         </div>
@@ -145,7 +160,9 @@ export default function TeamBuildersTournamentModal({
                   className="w-20 h-20 scale-150"
                 />
                 <span>{reward.name}</span>
-                <p className="font-bold text-xl">{reward.tournament_prize_amount}</p>
+                <p className="font-bold text-xl">
+                  {reward.tournament_prize_amount}
+                </p>
               </div>
             ))}
           </div>
@@ -155,11 +172,14 @@ export default function TeamBuildersTournamentModal({
             <div className="w-8 h-8 rounded-full bg-blue-500 dark:bg-[#1A68FF] flex items-center justify-center">
               <span className="text-white dark:text-gray-900">4</span>
             </div>
-            <p className="text-gray-900 dark:text-white text-lg">Requirements</p>
+            <p className="text-gray-900 dark:text-white text-lg">
+              Requirements
+            </p>
           </div>
           <div className="description mt-1">
             <span className="text-gray-600 dark:text-[#707070]">
-              Consistent effort and adherence to team-building principles are required to qualify for any reward.
+              Consistent effort and adherence to team-building principles are
+              required to qualify for any reward.
             </span>
           </div>
         </div>
@@ -176,7 +196,8 @@ export default function TeamBuildersTournamentModal({
               </div>
               <div className="flex items-center mt-2 justify-center text-yellow-800 dark:text-white w-[80%] sm:w-full mx-auto">
                 <span>
-                  You must activate this challenge within the first year of your contract...
+                  You must activate this challenge within the first year of your
+                  contract...
                 </span>
               </div>
             </div>
@@ -186,12 +207,12 @@ export default function TeamBuildersTournamentModal({
                   checked={agreed}
                   onChange={handleCheckboxChange}
                   sx={{
-                    color: "blue",
+                    color: "#004ada",
                     "&.Mui-checked": {
-                      color: "blue",
+                      color: "#004ada",
                     },
                     "& .MuiSvgIcon-root": {
-                      fill: "blue",
+                      fill: "#004ada",
                     },
                   }}
                 />
@@ -219,10 +240,15 @@ export default function TeamBuildersTournamentModal({
             </div>
           </>
         )}
-        {(status === "active" || status === "completed" || status === "expired") && (
-            <button onClick={onClose} className="px-6 py-2 mt-6 rounded-xl bg-blue-600 text-white">
-                Close
-            </button>
+        {(status === "active" ||
+          status === "completed" ||
+          status === "expired") && (
+          <button
+            onClick={onClose}
+            className="px-6 py-2 mt-6 rounded-xl bg-blue-600 text-white"
+          >
+            Close
+          </button>
         )}
       </>
     );

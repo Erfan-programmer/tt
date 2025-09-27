@@ -35,7 +35,6 @@ export default function UsersFinanceROI() {
       }
 
       const body = {
-        user_id: id,
         amount: numericAmount,
         type,
         send_commission: commissionIncluded,
@@ -43,7 +42,7 @@ export default function UsersFinanceROI() {
       };
 
       const res = await apiRequest<any>(
-        `${process.env.NEXT_PUBLIC_API_URL}/v1/admin/transferCommission/${id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/admin/transferRoi/${id}`,
         "POST",
         body,
         { Authorization: `Bearer ${token}` }

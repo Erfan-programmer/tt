@@ -30,11 +30,20 @@ export default function UserInformationDetailPage({ id }: { id: number }) {
 
   useEffect(() => {
     fetchUserInfo(id);
-  }, [id , fetchUserInfo]);
+  }, [id, fetchUserInfo]);
 
   const getStatusText = (status?: string) => {
     if (!status) return "";
     return status.toLowerCase() === "cancellation_pending" ? "pending" : status;
+  };
+
+  const statusColors: Record<string, string> = {
+    pending: "text-yellow-500",
+    active: "text-green-500",
+    suspend: "text-red-500",
+    cancellation_pending: "text-orange-400",
+    closed: "text-gray-500",
+    delete_account: "text-red-700",
   };
 
   const formatDate = (dateString?: string) => {
@@ -72,7 +81,14 @@ export default function UserInformationDetailPage({ id }: { id: number }) {
           <span>{userInfo?.contract_info?.plan?.name}</span>
           <span>Start: {formatDate(userInfo?.contract_info?.start_date)}</span>
           <span>End: {formatDate(userInfo?.contract_info?.end_date)}</span>
-          <span className="text-[#00FF90]">Renewed</span>
+          <span
+            className={
+              statusColors[userInfo?.status?.toLowerCase() || ""] ||
+              "text-white"
+            }
+          >
+            {userInfo?.status}
+          </span>
         </div>
       </div>
       <LineTitle

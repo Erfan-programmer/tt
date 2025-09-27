@@ -11,7 +11,6 @@ import { useHeader } from "@/contextApi/HeaderContext";
 import { loadUserData } from "@/components/modules/EncryptData/SavedEncryptData";
 import { apiRequest } from "@/libs/api";
 
-
 interface WalletOption {
   key: "roi" | "referral" | "commission";
   label: string;
@@ -34,44 +33,41 @@ export default function ProfitToTWallet() {
   const { headerData, refetch: refetchHeader } = useHeader();
   const token = loadUserData()?.access_token;
 
- const fetchTWalletDetails = useCallback(async () => {
-  try {
-    const res = await apiRequest<{
-      data: {
-        roi: number;
-        commission: number;
-        referral: number;
-      };
-    }>(
-      `${process.env.NEXT_PUBLIC_API_URL}/v1/client/wallet`,
-      "GET",
-      undefined,
-      { Authorization: `Bearer ${token}` }
-    );
+  const fetchTWalletDetails = useCallback(async () => {
+    try {
+      const res = await apiRequest<{
+        data: {
+          roi: number;
+          commission: number;
+          referral: number;
+        };
+      }>(
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/client/wallet`,
+        "GET",
+        undefined,
+        { Authorization: `Bearer ${token}` }
+      );
 
-    if (res.success && res.data) {
-      const apiData = res.data.data;
-      setWalletInfos((prev) => ({
-        ...prev,
-        roi: apiData.roi,
-        commission: apiData.commission,
-        referral: apiData.referral,
-      }));
-    } else {
-      toast.error(res.message || "Failed to fetch wallet details");
+      if (res.success && res.data) {
+        const apiData = res.data.data;
+        setWalletInfos((prev) => ({
+          ...prev,
+          roi: apiData.roi,
+          commission: apiData.commission,
+          referral: apiData.referral,
+        }));
+      } else {
+        toast.error(res.message || "Failed to fetch wallet details");
+      }
+    } catch {
+      toast.error("Error while fetching wallet details");
     }
-  } catch {
-    toast.error("Error while fetching wallet details");
-  }
-}, [token, setWalletInfos]);
+  }, [token, setWalletInfos]);
   useEffect(() => {
-
     fetchTWalletDetails();
   }, [fetchTWalletDetails]);
 
-  const {
-    refetch: refetchTWalletInfo,
-  } = useQuery({
+  const { refetch: refetchTWalletInfo } = useQuery({
     queryKey: ["twallet-info"],
     queryFn: async () => {
       const res = await axios.get(
@@ -94,30 +90,29 @@ export default function ProfitToTWallet() {
     }
   };
 
- 
-const options: WalletOption[] = useMemo(
-  () => [
-    {
-      key: "roi",
-      label: "ROI",
-      amount: walletInfos?.roi ?? 0,
-      feeApplies: true,
-    },
-    {
-      key: "referral",
-      label: "Referral",
-      amount: walletInfos?.referral ?? 0,
-      feeApplies: false,
-    },
-    {
-      key: "commission",
-      label: "Commission",
-      amount: walletInfos?.commission ?? 0,
-      feeApplies: true,
-    },
-  ],
-  [walletInfos?.roi, walletInfos?.referral, walletInfos?.commission]
-);
+  const options: WalletOption[] = useMemo(
+    () => [
+      {
+        key: "roi",
+        label: "ROI",
+        amount: walletInfos?.roi ?? 0,
+        feeApplies: true,
+      },
+      {
+        key: "referral",
+        label: "Referral",
+        amount: walletInfos?.referral ?? 0,
+        feeApplies: false,
+      },
+      {
+        key: "commission",
+        label: "Commission",
+        amount: walletInfos?.commission ?? 0,
+        feeApplies: true,
+      },
+    ],
+    [walletInfos?.roi, walletInfos?.referral, walletInfos?.commission]
+  );
 
   const selectedAmounts = options
     ?.filter((opt) => selectedOptions.includes(opt.label))
@@ -185,57 +180,56 @@ const options: WalletOption[] = useMemo(
       setAmount("");
     }
   }, [selectedOptions, feePercent, options]);
- const handleTransfer = async (e: React.FormEvent) => {
-  e.preventDefault();
+  const handleTransfer = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-  if (!twofaCode) {
-    toast.error("Please fill all fields correctly.");
-    return;
-  }
-  if (!/^[0-9]{6}$/.test(twofaCode)) {
-    setTwofaError("2FA code must be 6 digits");
-    return;
-  } else {
-    setTwofaError("");
-  }
-
-  setLoading(true);
-  const types = options
-    ?.filter((opt) => selectedOptions.includes(opt.label))
-    .map((opt) => opt.key);
-
-  try {
-    const payload =
-      selectedOptions.length === 1
-        ? { code: twofaCode, types, amount }
-        : { code: twofaCode, types };
-
-    const res = await apiRequest<any>(
-      `${process.env.NEXT_PUBLIC_API_URL}/v1/client/wallet/transferToBalance`,
-      "POST",
-      payload,
-      { Authorization: `Bearer ${token}` }
-    );
-
-    if (res.success) {
-      toast.success( res.message || "Transfer successful!");
-      setTwoFaCode("");
-      setSelectedOptions([]);
-      fetchTWalletDetails()
-      setAmount("");
-      refetchTWalletInfo();
-      if (refetchHeader) refetchHeader();
-      queryClient.invalidateQueries({ queryKey: ["twallet-list"] });
-    } else {
-      toast.error(res.message || "Transfer failed");
+    if (!twofaCode) {
+      toast.error("Please fill all fields correctly.");
+      return;
     }
-  } catch {
-    toast.error("Error while transferring");
-  } finally {
-    setLoading(false);
-  }
-};
+    if (!/^[0-9]{6}$/.test(twofaCode)) {
+      setTwofaError("2FA code must be 6 digits");
+      return;
+    } else {
+      setTwofaError("");
+    }
 
+    setLoading(true);
+    const types = options
+      ?.filter((opt) => selectedOptions.includes(opt.label))
+      .map((opt) => opt.key);
+
+    try {
+      const payload =
+        selectedOptions.length === 1
+          ? { code: twofaCode, types, amount }
+          : { code: twofaCode, types };
+
+      const res = await apiRequest<any>(
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/client/wallet/transferToBalance`,
+        "POST",
+        payload,
+        { Authorization: `Bearer ${token}` }
+      );
+
+      if (res.success) {
+        toast.success(res.message || "Transfer successful!");
+        setTwoFaCode("");
+        setSelectedOptions([]);
+        fetchTWalletDetails();
+        setAmount("");
+        refetchTWalletInfo();
+        if (refetchHeader) refetchHeader();
+        queryClient.invalidateQueries({ queryKey: ["twallet-list"] });
+      } else {
+        toast.error(res.message || "Transfer failed");
+      }
+    } catch {
+      toast.error("Error while transferring");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="team-account-content px-3 sm:px-4 md:px-[1rem] py-3 sm:py-4 md:py-[1rem] bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] bg-shadow-custom border-standard rounded-lg sm:rounded-xl mt-3 sm:mt-4 md:mt-5 pb-4 sm:pb-6 md:pb-[2rem]">
@@ -259,11 +253,14 @@ const options: WalletOption[] = useMemo(
             Profits to T-Wallet
           </p>
         </div>
-    
       </div>
 
       <div className="w-full h-[1px] bg-standard my-2 sm:my-2.5 md:my-3"></div>
-
+      <div className="my-5">
+        <span className="text-[.8rem] text-[var(--dark-color)] dark:text-white">
+          Wallet Balance: <b>{headerData?.t_wallet ?? 0}</b>
+        </span>
+      </div>
       <div className="flex items-center flex-wrap gap-2 sm:gap-2.5 md:gap-3">
         {options.map((option, index) => {
           const num = Number(option.amount) || 0;
@@ -287,16 +284,27 @@ const options: WalletOption[] = useMemo(
                 <span className="text-[var(--dark-color)] dark:text-[#D9D9D9] text-[.8rem] sm:text-sm md:text-base">
                   {option.label}:
                 </span>
-                <span
-                  className={`text-[var(--dark-color)] ${
-                    hasFee ? "line-through !text-[.8rem] " : ""
-                  } dark:text-white`}
-                >
-                  {num}
-                </span>
-                {hasFee && (
-                  <span className="text-[var(--gold)] !text-lg">
-                    {finalAmount}
+                {num !== 0 ? (
+                  <>
+                    <span
+                      className={`text-[var(--dark-color)] ${
+                        hasFee ? "line-through !text-[.8rem] " : ""
+                      } dark:text-white`}
+                    >
+                     $ {num}
+                    </span>
+                    {hasFee && (
+                      <span className="text-[var(--gold)] !text-lg">
+                       $ {finalAmount}
+                      </span>
+                    )}
+                  </>
+                ) : (
+                  <span
+                    className={`
+                       " !text-[.8rem] `}
+                  >
+                    $ {num}
                   </span>
                 )}
               </div>

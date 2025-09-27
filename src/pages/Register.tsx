@@ -37,7 +37,7 @@ export default function Register() {
     defaultValues: {
       secret: "",
       sponsor_id: "",
-      ref_id: "",
+      referrer_id: "",
       hasSponsor: false,
       acceptTerms: false,
       first_name: "",
@@ -87,7 +87,7 @@ export default function Register() {
           ) {
             setValue("hasSponsor", true);
             setValue("sponsor_id", response.data.data.sponser_id);
-            setValue("ref_id", response.data.data.refferal_id);
+            setValue("referrer_id", response.data.data.refferal_id);
           } else {
             if (typeof window !== "undefined") {
               const url = new URL(window.location.href);

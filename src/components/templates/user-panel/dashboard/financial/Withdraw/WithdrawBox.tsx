@@ -22,17 +22,19 @@ interface walletType {
   created_at: string;
   updated_at: string;
 }
-
+type optionType = {
+  label: string;
+  amount: number;
+};
 interface WithdrawBoxProps {
   onWithdrawSuccess?: () => void;
   onWithdrawSubmitted?: () => void;
   onRefetch?: () => void;
-  roi: number;        
-  commission: number; 
-  referral: number;  
-  total: number;    
+  roi: number;
+  commission: number;
+  referral: number;
+  total: number;
 }
-
 
 export default function WithdrawBox({
   onWithdrawSuccess,
@@ -44,8 +46,6 @@ export default function WithdrawBox({
   const [userModifiedAmount, setUserModifiedAmount] = useState(false);
   const [twalletInfo, setTWalletInfo] = useState<walletType>();
   const { headerData } = useHeader();
-  const [infoError] = useState<string | null>(null);
-  const [infoLoading] = useState(false);
   const system_percent = headerData?.transform_to_twallet;
 
   useEffect(() => {
@@ -110,11 +110,11 @@ export default function WithdrawBox({
 
   const [cryptoKey, setCryptoKey] = useState<string>("");
 
-  const options = useMemo(
+  const options: optionType[] = useMemo(
     () => [
-      { label: "ROI", amount: twalletInfo?.roi || "" },
-      { label: "Referral", amount: twalletInfo?.referral || "" },
-      { label: "Commission", amount: twalletInfo?.commission || "" },
+      { label: "ROI", amount: Number(twalletInfo?.roi) },
+      { label: "Referral", amount: Number(twalletInfo?.referral) },
+      { label: "Commission", amount: Number(twalletInfo?.commission) },
     ],
     [twalletInfo]
   );
@@ -250,22 +250,7 @@ export default function WithdrawBox({
             Withdraw Profits
           </p>
         </div>
-        <div className="px-[2rem] mt-2">
-          {infoLoading ? (
-            <span className="text-blue-500 text-xs">
-              Loading wallet info...
-            </span>
-          ) : infoError ? (
-            <span className="text-red-500 text-xs">
-              {infoError || String(infoError)}
-            </span>
-          ) : twalletInfo ? (
-            <span className="text-[.8rem] text-[var(--dark-color)] dark:text-white">
-              Wallet Balance:{" "}
-              <b>{twalletInfo.balance ?? headerData?.t_wallet ?? 0}</b>
-            </span>
-          ) : null}
-        </div>
+
         <div className="flex items-center flex-wrap gap-2 sm:gap-2.5 md:gap-3 px-4 my-4">
           {options.map((option, index) => (
             <motion.div
@@ -284,17 +269,29 @@ export default function WithdrawBox({
                 <span className="text-[var(--dark-color)] dark:text-[#D9D9D9] text-[.8rem] sm:text-sm md:text-base">
                   {option.label}:
                 </span>
-                <span
-                  className={`text-[var(--dark-color)] ${
-                    option.label.toLocaleLowerCase() !== "referral"
-                      ? "line-through !text-[.8rem] "
-                      : ""
-                  } dark:text-white`}
-                >
-                  $ {option.amount}
-                </span>
-                {option.label.toLocaleLowerCase() !== "referral" && (
-                  <span className="text-[var(--gold)] !text-lg">
+                {option.amount != 0 ? (
+                  <>
+                    <span
+                      className={`text-[var(--dark-color)] ${
+                        option.label.toLocaleLowerCase() !== "referral"
+                          ? "line-through !text-[.8rem] "
+                          : ""
+                      } dark:text-white`}
+                    >
+                      $ {option.amount}
+                    </span>
+                    {option.label.toLocaleLowerCase() !== "referral" && (
+                      <span className="text-[var(--gold)] !text-lg">
+                        ${" "}
+                        {(
+                          Number(option.amount) *
+                          (1 - (Number(system_percent) || 0) / 100)
+                        ).toFixed(2)}
+                      </span>
+                    )}
+                  </>
+                ) : (
+                  <span className="!text-lg">
                     ${" "}
                     {(
                       Number(option.amount) *

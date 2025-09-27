@@ -231,9 +231,9 @@ export default function ExtraDashboardPage() {
               {...label}
               defaultChecked
               sx={{
-                color: "blue",
+                color:"#004ada",
                 "&.Mui-checked": {
-                  color: "blue",
+                  color:"#004ada",
                 },
                 "& .MuiSvgIcon-root": {
                   fill: "white",

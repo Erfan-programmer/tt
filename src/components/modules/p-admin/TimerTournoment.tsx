@@ -72,7 +72,7 @@ const AnimatedNumber = ({
   return (
     <div
       className="flex flex-col items-center mx-2 md:mx-4 relative overflow-hidden min-w-[70px] xl:w-[4rem]"
-      style={{ height: "80px"}}
+      style={{ height: "80px" }}
     >
       <AnimatePresence>
         <motion.div
@@ -101,24 +101,29 @@ const TimerTournoment = ({
 
   return (
     <>
-    <div className="timer-tournoment-title mb-6">
-        <h2 className="text-2xl font-bold text-white">Team Builders Tournament</h2>
-    </div>
-    <div className="flex mb-4 justify-center items-center bg-gradient-to-t tournoment-timer-container from-[#202020] to-[#000] w-full sm:w-fit mx-auto text-white p-5 rounded-lg shadow-xl relative overflow-x-auto sidebar-item">
-      <AnimatedNumber number={days} label="Days" />
-      <span className="text-4xl md:text-5xl font-light text-[#555] mx-2">
-        |
-      </span>
-      <AnimatedNumber number={hours} label="Hours" />
-      <span className="text-4xl md:text-5xl font-light text-[#555] mx-2">
-        |
-      </span>
-      <AnimatedNumber number={minutes} label="Min" />
-      <span className="text-4xl md:text-5xl font-light text-[#555] mx-2">
-        |
-      </span>
-      <AnimatedNumber number={seconds} label="Sec" />
-    </div>
+      <div className="timer-tournoment-title mb-6">
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+          Team Builders Tournament
+        </h2>
+      </div>
+      <div
+        className="flex mb-4 justify-center items-center w-full sm:w-fit mx-auto p-5 rounded-lg shadow-xl relative overflow-x-auto sidebar-item
+                bg-white dark:bg-[#202020] bg-gradient-to-t dark:from-[#202020] dark:to-[#000] text-gray-900 dark:text-white"
+      >
+        <AnimatedNumber number={days} label="Days" />
+        <span className="text-4xl md:text-5xl font-light text-gray-500 dark:text-[#555] mx-2">
+          |
+        </span>
+        <AnimatedNumber number={hours} label="Hours" />
+        <span className="text-4xl md:text-5xl font-light text-gray-500 dark:text-[#555] mx-2">
+          |
+        </span>
+        <AnimatedNumber number={minutes} label="Min" />
+        <span className="text-4xl md:text-5xl font-light text-gray-500 dark:text-[#555] mx-2">
+          |
+        </span>
+        <AnimatedNumber number={seconds} label="Sec" />
+      </div>
     </>
   );
 };

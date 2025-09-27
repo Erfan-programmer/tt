@@ -38,7 +38,7 @@ export default function UserFinanceDeposit() {
 
   return (
     <AdminTemplateBox title="Deposit">
-      <CustomAdminInput title="Amount" value={String(amount)} onChange={setAmount} />
+      <CustomAdminInput title="Amount" value={String(amount)} onChange={setAmount} readOnly={true} />
       <CustomAdminInput
         title="Capital Health"
         readOnly={true}
@@ -46,9 +46,9 @@ export default function UserFinanceDeposit() {
         onChange={setCapitalHealth}
       />
 
-      <div className="flex flex-col gap-2 mt-4">
+      <div className="flex flex-col gap-2 mb-1 min-w-52">
         <label className="text-white mb-1">Tournament</label>
-        <div className="relative w-full h-9 bg-[#b9bcc781] rounded-lg overflow-hidden">
+        <div className="relative w-[70%] h-9 bg-[#b9bcc781] rounded-lg overflow-hidden">
           <div
             className="absolute top-0 h-full left-0 bg-[#D7FE63] transition-all duration-500"
             style={{ width: `${remainingPercentage}%` }}

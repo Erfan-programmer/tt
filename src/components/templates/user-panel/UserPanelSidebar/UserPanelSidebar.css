@@ -25,14 +25,13 @@
   padding-right: 5px;
 }
 
-@media screen and (min-width:768px) {
+@media screen and (min-width: 768px) {
   .sidebar-items {
     height: calc(100vh - 300px);
   }
 }
-
 .sidebar-items::-webkit-scrollbar {
-  width: 5px;
+  width: .7rem !important;
 }
 
 .sidebar-items::-webkit-scrollbar-track {
@@ -40,13 +39,10 @@
 }
 
 .sidebar-items::-webkit-scrollbar-thumb {
-  background: #275edf;
+  background: #1e45b3;
   border-radius: 5px;
 }
 
-.sidebar-items::-webkit-scrollbar-thumb:hover {
-  background: #1e45b3;
-}
 
 .main-content {
   margin-left: 280px;
@@ -152,13 +148,12 @@
   transition: all 0.3ease;
   border-left: 1px solid #fff;
   border-bottom: 2px solid #fff;
-  border-bottom-left-radius: 0 .6rem;
+  border-bottom-left-radius: 0 0.6rem;
 }
 
-.active-before{
+.active-before {
   border: 1px solid #275edf99 !important;
 }
-
 
 .submenu-item.active-before::before {
   border-left: 1px solid #275edf99;
@@ -172,4 +167,3 @@
 .submenu-item span {
   font-size: 1rem;
 }
-

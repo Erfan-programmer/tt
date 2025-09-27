@@ -9,7 +9,7 @@ export const registerSchema = z.object({
   first_name: z.string().min(2, 'First name must be at least 2 characters'),
   last_name: z.string().min(2, 'Last name must be at least 2 characters'),
   sponsor_id: z.string().optional(),
-  ref_id: z.string().optional(),
+  referrer_id: z.string().optional(),
   hasSponsor: z.boolean(),
   acceptTerms: z.boolean().refine(val => val, { message: 'You must accept the terms.' }),
   email: z.string()

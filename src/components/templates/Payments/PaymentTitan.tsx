@@ -12,6 +12,7 @@ import Image from "next/image";
 import { useAuth } from "@/contextApi/AuthContext";
 import { usePayment } from "@/contextApi/PaymentProvider";
 import { useHeader } from "@/contextApi/HeaderContext";
+import { useVerify } from "@/contextApi/TitanContext";
 
 interface PaymentTitanProps {
   paymentProp?: PaymentData;
@@ -83,6 +84,8 @@ export default function PaymentTitan({ paymentProp }: PaymentTitanProps) {
       setLoading(false);
     }, 1500);
   };
+
+  const {setAccountActivation} = useVerify()
 
   useEffect(() => {
     intervalRef.current = setInterval(() => {
@@ -223,7 +226,7 @@ export default function PaymentTitan({ paymentProp }: PaymentTitanProps) {
             >
               {loading ? "Verifying..." : "Submit"}
             </button>
-            <button className="titan-btn !bg-gray-400">Back</button>
+            <button className="titan-btn !bg-gray-400" onClick={()=> {setAccountActivation("METHOD")}}>Back</button>
           </div>
         </div>
       )}

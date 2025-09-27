@@ -130,6 +130,7 @@ export default function TwalletPayment({ onValidityChange }: TwalletPaymentProps
         <TitanNotification
           icon={<IoMdClose className="text-[var(--main-background)] text-2xl" />}
           btn="Go to Dashboard"
+          btnLink="/dashboard"
           btnStyle="bg-[#275EDF]"
           onClose={() => setShowSuccessNotif(false)}
         >

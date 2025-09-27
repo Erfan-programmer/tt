@@ -48,7 +48,7 @@ export default function InfoStep({
           if (response.success && response.data) {
             handleChange("hasSponsor", true);
             handleChange("sponsor_id", String(response.data.data?.sponsor_id));
-            handleChange("ref_id", String(response.data.data?.referrer_id));
+            handleChange("referrer_id", String(response.data.data?.referrer_id));
             setLockSponsorFields(true);
           }
         } catch (error) {
@@ -175,9 +175,9 @@ export default function InfoStep({
             readOnly={lockSponsorFields}
             label="Ref ID"
             placeholder="Enter Your Ref ID"
-            name="ref_id"
-            value={formData.ref_id}
-            onChange={(value) => handleChange("ref_id", value)}
+            name="referrer_id"
+            value={formData.referrer_id}
+            onChange={(value) => handleChange("referrer_id", value)}
             showStar
             required
             onlyNumber

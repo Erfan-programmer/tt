@@ -1,7 +1,7 @@
 "use client";
 import { apiRequest } from "@/libs/api";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { loadUserData } from "../../EncryptData/SavedEncryptData";
 import { IoMdClose } from "react-icons/io";
 import TeamBuildersTournamentModal from "@/components/Ui/Modals/TeamBuildersTournamentModal";
@@ -50,10 +50,14 @@ interface TournamentStatusResponse {
   };
 }
 interface TeamBuilderTournomentsProps {
-  setAchievements: React.Dispatch<React.SetStateAction<AchievementType[] | undefined>>;
+  setAchievements: React.Dispatch<
+    React.SetStateAction<AchievementType[] | undefined>
+  >;
 }
 
-export default function TeamBuilderTournoments({ setAchievements }: TeamBuilderTournomentsProps) {
+export default function TeamBuilderTournoments({
+  setAchievements,
+}: TeamBuilderTournomentsProps) {
   const [status, setStatus] = useState<TournamentStatus | null>(null);
   const [tournamentDetails, setTournamentDetails] = useState<
     TournamentStatusResponse["data"]["details"] | null
@@ -62,41 +66,45 @@ export default function TeamBuilderTournoments({ setAchievements }: TeamBuilderT
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
 
+
+const fetchStatus = useCallback(async () => {
+  const token = loadUserData()?.access_token;
+  if (!token) {
+    setLoading(false);
+    return;
+  }
+
+  try {
+    const res = await apiRequest<TournamentStatusResponse>(
+      `${process.env.NEXT_PUBLIC_API_URL}/v1/client/contracts/tournamentStatus`,
+      "GET",
+      undefined,
+      {
+        Authorization: `Bearer ${token}`,
+      }
+    );
+
+    if (res.status === 200 && res.data) {
+      setStatus(res.data.data.status);
+
+      if (res.data.data.status === "completed" && res.data.data.badges) {
+        setAchievements(res.data.data.badges);
+      }
+
+      if (res.data.data.details) {
+        setTournamentDetails(res.data.data.details);
+      }
+    }
+  } catch (error) {
+    console.error("Failed to fetch tournament status:", error);
+  } finally {
+    setLoading(false);
+  }
+}, [setAchievements, setTournamentDetails, setStatus, setLoading]);
+
   useEffect(() => {
-    const fetchStatus = async () => {
-      const token = loadUserData()?.access_token;
-      if (!token) {
-        setLoading(false);
-        return;
-      }
-      try {
-        const res = await apiRequest<TournamentStatusResponse>(
-          `${process.env.NEXT_PUBLIC_API_URL}/v1/client/contracts/tournamentStatus`,
-          "GET",
-          undefined,
-          {
-            Authorization: `Bearer ${token}`,
-          }
-        );
-
-        if (res.status === 200 && res.data) {
-          setStatus(res.data.data.status);
-          if (res.data.data.status === "completed" && res.data.data.badges) {
-            setAchievements(res.data.data.badges);
-          }
-          if (res.data.data.details) {
-            setTournamentDetails(res.data.data.details);
-          }
-        }
-      } catch (error) {
-        console.error("Failed to fetch tournament status:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchStatus();
-  }, [setAchievements]);
+  }, [fetchStatus]);
 
   if (loading || status === "not_eligible" || status === "completed") {
     return null;
@@ -130,6 +138,7 @@ export default function TeamBuilderTournoments({ setAchievements }: TeamBuilderT
             startTime={new Date(activeDetails.starts_at)}
             milestones={activeDetails.milestones}
             currentSalesVolume={activeDetails.current_sales_volume}
+            progress_percentage={activeDetails.progress_percentage}
           />
         </div>
       )}
@@ -142,13 +151,11 @@ export default function TeamBuilderTournoments({ setAchievements }: TeamBuilderT
             </div>
             <div className="team-tournoment-description mt-2 w-[100%] sm:w-[80%]">
               <span className="text-gray-700 dark:text-white text-sm">
-                A special challenge for those determined to
-                build a powerful team or organization. As you
-                progress through building your team and reach
-                Bronze, Silver, and Gold ranks, you’ll earn increasing
-                valuable rewards and receive support on your growth
-                journey. Limited time offer. It’s time to get
-                started!
+                A special challenge for those determined to build a powerful
+                team or organization. As you progress through building your team
+                and reach Bronze, Silver, and Gold ranks, you’ll earn increasing
+                valuable rewards and receive support on your growth journey.
+                Limited time offer. It’s time to get started!
               </span>
             </div>
             <div className="team-tournoment-btn mt-8 flex justify-center sm:justify-start">
@@ -186,6 +193,7 @@ export default function TeamBuilderTournoments({ setAchievements }: TeamBuilderT
             isModalOpen={isModalOpen}
             onClose={() => setIsModalOpen(false)}
             status={status}
+            refetch={fetchStatus}
             details={generalDetails}
             onImportantNoticeClick={handleImportantNoticeClick}
             onStartTournament={() => {}}
@@ -205,9 +213,8 @@ export default function TeamBuilderTournoments({ setAchievements }: TeamBuilderT
                   Team Builders Tournament
                 </h2>
                 <p className="text-sm text-center">
-                  You must activate this challenge within the
-                  first year of your contract. If not
-                  activated in time, you will permanently lose
+                  You must activate this challenge within the first year of your
+                  contract. If not activated in time, you will permanently lose
                   access to this opportunity in your second investment round.
                 </p>
               </div>

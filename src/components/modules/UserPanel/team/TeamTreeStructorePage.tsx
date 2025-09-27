@@ -10,10 +10,11 @@ export default function TeamTreeStructurePage() {
   );
   const [isMobileModalOpen, setIsMobileModalOpen] = useState(false);
 
-  const handleReferralSelect = (referral: ReferralType) => {
-    setSelectedReferral(referral);
-    setIsMobileModalOpen(true);
-  };
+const handleReferralSelect = (referral: ReferralType | null) => {
+  setSelectedReferral(referral);
+  if (referral) setIsMobileModalOpen(true);
+  else setIsMobileModalOpen(false);
+};
 
 //   const { data: permissions } = usePermissions();
 

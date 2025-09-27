@@ -9,6 +9,7 @@ import { loadUserData } from "@/components/modules/EncryptData/SavedEncryptData"
 import { FaTimes } from "react-icons/fa";
 import { apiRequest } from "@/libs/api";
 import { formatToTwoDecimals } from "@/components/modules/FormatToDecimal";
+import WithdrawSkeleton from "@/skeletons/User-Panel/dashboard/WithdrawSkeleton";
 
 // EmptyBox component for when withdraw is not available
 function EmptyBox({ whitelistMessage }: { whitelistMessage?: string }) {
@@ -99,9 +100,6 @@ function WithdrawTransactionSkeleton() {
             <div className="h-4 w-16 sm:w-24 bg-gray-300 dark:bg-gray-600 rounded mx-auto animate-pulse"></div>
           </td>
           <td className="py-4 text-center px-4">
-            <div className="h-4 w-16 sm:w-20 bg-gray-300 dark:bg-gray-600 rounded mx-auto animate-pulse"></div>
-          </td>
-          <td className="py-4 text-center px-4">
             <div className="h-4 w-24 sm:w-32 bg-gray-300 dark:bg-gray-600 rounded mx-auto animate-pulse"></div>
           </td>
           <td className="py-4 text-center px-4">
@@ -116,13 +114,14 @@ function WithdrawTransactionSkeleton() {
 interface Transaction {
   id: string;
   user_id: string;
-  roi: string;
-  commission: string;
+  // roi: string;
+  // commission: string;
   transaction_hash: string;
   external_address: string;
+  gross_amount: string;
   currency: string;
   ref: string;
-  amount?: string; 
+  amount?: string;
   cryptocurrency: string;
   wallet_address: string;
   status:
@@ -147,7 +146,6 @@ interface WithdrawResponse {
   };
 }
 
-
 export default function WithdrawTransaction() {
   const [page, setPage] = useState(1);
   const itemsPerPage = 10;
@@ -162,6 +160,7 @@ export default function WithdrawTransaction() {
   const [transactionToCancel, setTransactionToCancel] =
     useState<Transaction | null>(null);
   const [isCancelling, setIsCancelling] = useState(false);
+  const [withdrawLoading, setIsLWithdrawLoading] = useState(false);
 
   // Cancel withdraw mutation using useApiMutation
 
@@ -210,6 +209,7 @@ export default function WithdrawTransaction() {
 
   // ---------------- Fetch Withdraw Detail ----------------
   const fetchWithdrawDetail = useCallback(async () => {
+    setIsLWithdrawLoading(true);
     try {
       const token = loadUserData()?.access_token;
 
@@ -224,7 +224,9 @@ export default function WithdrawTransaction() {
 
       if (res.success) {
         setWithdrawDetail(res.data?.data || res.data);
+        setIsLWithdrawLoading(false);
       } else {
+        setIsLWithdrawLoading(false);
         throw new Error(res.message || "Failed to fetch withdraw detail");
       }
     } catch (err: any) {
@@ -242,7 +244,7 @@ export default function WithdrawTransaction() {
   useEffect(() => {
     fetchWithdrawList(page, perPage);
     fetchWithdrawDetail();
-  }, [page, withdrawRefresh, fetchWithdrawList, fetchWithdrawDetail , perPage]);
+  }, [page, withdrawRefresh, fetchWithdrawList, fetchWithdrawDetail, perPage]);
 
   const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
@@ -252,7 +254,7 @@ export default function WithdrawTransaction() {
     setSelectedTransaction(transaction);
     setModalFadeOut(false);
     setModalOpen(true);
-    console.log("transaction" , transaction)
+    console.log("transaction", transaction);
   };
 
   const handleCloseModal = () => {
@@ -339,19 +341,28 @@ export default function WithdrawTransaction() {
   //   } else if (Array.isArray(permissions?.data?.body)) {
   //     permissionArray = permissions.data.body;
   //   }
+  console.log("selectedTransaction =>", selectedTransaction);
   return (
     <>
-      {withdrawDetail?.can_withdrawal ? (
-        <WithdrawBox
-          onWithdrawSubmitted={handleWithdrawSubmitted}
-          onRefetch={() =>fetchWithdrawList(page , itemsPerPage)}
-          roi={withdrawDetail.roi}
-          commission={withdrawDetail.commission}
-          referral={withdrawDetail.referral}
-          total={withdrawDetail.total}
-        />
+      {withdrawLoading ? (
+        <>
+          <WithdrawSkeleton />
+        </>
       ) : (
-        <EmptyBox whitelistMessage="Withdrawals are temporarily disabled." />
+        <>
+          {withdrawDetail?.can_withdrawal ? (
+            <WithdrawBox
+              onWithdrawSubmitted={handleWithdrawSubmitted}
+              onRefetch={() => fetchWithdrawList(page, itemsPerPage)}
+              roi={withdrawDetail.roi}
+              commission={withdrawDetail.commission}
+              referral={withdrawDetail.referral}
+              total={withdrawDetail.total}
+            />
+          ) : (
+            <EmptyBox whitelistMessage="Withdrawals are temporarily disabled." />
+          )}
+        </>
       )}
 
       {
@@ -375,9 +386,6 @@ export default function WithdrawTransaction() {
                   </th>
                   <th className="text-center py-4 text-black font-medium px-4">
                     Wallet Address
-                  </th>
-                  <th className="text-center py-4 text-black font-medium px-4">
-                    TxID
                   </th>
                   <th className="text-center py-4 text-black font-medium px-4">
                     Status
@@ -428,9 +436,6 @@ export default function WithdrawTransaction() {
                       </td>
                       <td className="py-4 text-[var(--dark-color)] dark:text-white text-center px-4">
                         {transaction.external_address}
-                      </td>
-                      <td className="py-4 text-[var(--dark-color)] dark:text-white text-center px-4">
-                        {transaction.transaction_hash || "-"}
                       </td>
                       <td className="py-4 text-center px-4">
                         <div className="flex flex-col items-center gap-2">
@@ -549,7 +554,7 @@ export default function WithdrawTransaction() {
                           Amount:
                         </span>
                         <p className="text-[var(--dark-color)] dark:text-white font-semibold">
-                          {selectedTransaction.roi !== "0.000000" &&
+                          {/* {selectedTransaction.roi !== "0.000000" &&
                             `ROI: $${parseFloat(
                               selectedTransaction.roi
                             ).toFixed(2)}`}
@@ -560,7 +565,13 @@ export default function WithdrawTransaction() {
                           {selectedTransaction.ref !== "0.000000" &&
                             `Referral: $${parseFloat(
                               selectedTransaction.ref
-                            ).toFixed(2)}`}
+                            ).toFixed(2)}`} */}
+
+                          {selectedTransaction?.amount &&
+                            selectedTransaction.amount !== "0.000000" &&
+                            ` $${parseFloat(
+                              Number(selectedTransaction.amount).toFixed(2)
+                            )}`}
                         </p>
                       </div>
                       <div>
@@ -606,27 +617,24 @@ export default function WithdrawTransaction() {
                           ).toLocaleString()}
                         </p>
                       </div>
+
+                      <div className="mb-4 flex flex-col gap-1">
+                        <label className="font-semibold text-[var(--dark-color)] dark:text-white">
+                          Gross Amount:
+                        </label>
+                        <span className="text-gray-700 dark:text-gray-300 ">
+                          $ {selectedTransaction?.gross_amount}
+                        </span>
+                      </div>
                     </div>
                   </div>
 
                   <div className="mb-4 flex flex-col gap-1">
                     <label className="font-semibold text-[var(--dark-color)] dark:text-white">
-                      Payed At:
+                      External Address:
                     </label>
-                    <span className="text-gray-700 dark:text-gray-300">
-                      {selectedTransaction.payed_at
-                        ? new Date(selectedTransaction.payed_at).toLocaleString(
-                            "en-GB",
-                            {
-                              year: "numeric",
-                              month: "2-digit",
-                              day: "2-digit",
-                              hour: "2-digit",
-                              minute: "2-digit",
-                              hour12: false,
-                            }
-                          )
-                        : "-"}
+                    <span className="text-gray-700 dark:text-gray-300 border-[2px] border-standard rounded-lg px-2 py-1">
+                      {selectedTransaction?.external_address}
                     </span>
                   </div>
                 </div>

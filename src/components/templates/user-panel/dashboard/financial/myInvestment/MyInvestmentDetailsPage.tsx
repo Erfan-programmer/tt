@@ -584,7 +584,7 @@ If you have received more than 80% of your investment amount in profits from Tit
             >
               <TitanNotification
                 icon={
-                  <IoIosTimer className="dark:text-[var(--main-background)] text-white text-2xl" />
+                  <IoIosTimer className="text-[var(--main-background)] dark:text-white text-2xl" />
                 }
                 className="border-1"
                 btn="dashboard"
