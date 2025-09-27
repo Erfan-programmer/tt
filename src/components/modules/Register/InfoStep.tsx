@@ -123,7 +123,7 @@ export default function InfoStep({
               <svg
                 className={`w-5 h-5 ${
                   formData.hasSponsor
-                    ? "dark:text-[#275EDF] text-white"
+                    ? "text-white"
                     : "dark:text-white"
                 }`}
                 viewBox="0 0 12 12"
@@ -260,6 +260,7 @@ export default function InfoStep({
           label="Phone Number"
           value={formData.mobile}
           onChange={(value) => handleChange("mobile", value)}
+          defaultDialCode={formData.dial_code}
           onPrefixChange={(country) => {
             handleChange("dial_code", String(country.id));
           }}
@@ -278,7 +279,7 @@ export default function InfoStep({
           <span className="custom-radio w-7 h-7 border-2 border-[#275edf] dark:border-white rounded-lg flex items-center justify-center relative">
             <span className="check-icon absolute inset-0 flex items-center justify-center opacity-0 transition-opacity">
               <svg
-                className="w-5 h-5 text-white dark:text-[#275EDF]"
+                className="w-5 h-5 text-white "
                 viewBox="0 0 12 12"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"

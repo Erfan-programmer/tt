@@ -92,7 +92,7 @@ export default function TwoFAStep({
             <span className="custom-radio w-7 h-7 border-2 border-[#275edf] dark:border-white rounded-lg flex items-center justify-center relative">
               <span className="check-icon absolute inset-0 flex items-center justify-center opacity-0 transition-opacity">
                 <svg
-                  className="w-5 h-5 text-white dark:text-[#275EDF]"
+                  className="w-5 h-5 text-white"
                   viewBox="0 0 12 12"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"

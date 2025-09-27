@@ -273,7 +273,7 @@ export default function FormLayout({ children, subtitle }: FormLayoutProps) {
               </div>
 
               <div
-                className="h-[90vh] overflow-y-auto w-[100%] sm:w-[48%] sm:px-4 mx-auto sm:border sm:border-white/30 
+                className="h-[100vh] sm:h-[90vh] overflow-y-auto w-[100%] sm:w-[48%] sm:px-4 mx-auto sm:border sm:border-white/30 
                  sm:mt-10 sm:py-6 pb-6 sm:rounded-2xl bg-white/10 dark:bg-black/20 backdrop-blur-xl shadow-lg"
               >
                 {children}

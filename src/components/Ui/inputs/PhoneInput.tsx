@@ -91,11 +91,12 @@ export default function PhoneInput({
             ? countryData.find((c) => Number(c.id) === Number(defaultDialCode))
             : null;
             
-            let countryToSelect = countryData[0];
+            let countryToSelect = countryData[139];
 
             if (defaultCountry) {
               countryToSelect = defaultCountry;
             }
+            
            console.log("default country =>"  ,defaultCountry , defaultDialCode , countryData)
 
             setSelectedCountry(countryToSelect);

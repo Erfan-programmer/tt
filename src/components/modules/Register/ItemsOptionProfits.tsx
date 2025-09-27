@@ -1,4 +1,5 @@
 import React from "react";
+import { FaPlus } from "react-icons/fa6";
 
 interface ItemsOptionProfitsType {
   user_per: number;
@@ -6,6 +7,7 @@ interface ItemsOptionProfitsType {
   loss_cover: boolean;
   bonus_shield: boolean;
   referral: boolean;
+  plan?: string;
   commission: boolean;
 }
 
@@ -19,7 +21,9 @@ interface ProfitItemProps {
 const ProfitItem = ({ index, isActive, label, value }: ProfitItemProps) => (
   <div className="flex items-center gap-4 text-gray-400">
     <span
-      className={`rounded-md p-1 w-5 h-5 ${isActive ? "bg-[#00CB08]" : "bg-[#FF6060]"}`}
+      className={`rounded-md p-1 w-5 h-5 ${
+        isActive ? "bg-[#00CB08]" : "bg-[#FF6060]"
+      }`}
     >
       {isActive ? (
         <svg
@@ -58,7 +62,10 @@ const ProfitItem = ({ index, isActive, label, value }: ProfitItemProps) => (
     <span className="flex-1 flex text-[.9rem] sm:text-md">
       {index}.{" "}
       <p>
-        {label}: <span className="text-[var(--sidebar-bg)] dark:text-white font-bold">{value}</span>
+        {label}:{" "}
+        <span className="text-[var(--sidebar-bg)] dark:text-white font-bold">
+          {value}
+        </span>
       </p>
     </span>
   </div>
@@ -71,7 +78,9 @@ export default function ItemsOptionProfits({
   bonus_shield,
   referral,
   commission,
+  plan,
 }: ItemsOptionProfitsType) {
+  console.log("plan =>" , plan)
   const items = [
     {
       active: !!(user_per && company_per),
@@ -98,13 +107,31 @@ export default function ItemsOptionProfits({
   return (
     <div className="flex flex-col gap-2">
       {items.map((item, i) => (
-        <ProfitItem
-          key={i}
-          index={i + 1}
-          isActive={item.active}
-          label={item.label}
-          value={item.value}
-        />
+        <>
+          <ProfitItem
+            key={i}
+            index={i + 1}
+            isActive={item.active}
+            label={item.label}
+            value={item.value}
+          />
+
+          {i + 1 === items.length && plan === "Investor - 4 Year" && user_per === 85 && (
+            <div className="flex items-center gap-4 text-gray-400">
+              <span className={`rounded-md p-1 w-5 h-5 bg-[#00CB08] flex items-center justify-center`}>
+                <FaPlus className="text-white" />
+              </span>
+              <span className="flex-1 flex text-[.9rem] sm:text-md">
+                {items.length + 1}.{" "}
+                <p>
+                  <span className="text-[var(--sidebar-bg)] dark:text-white font-bold">
+                    Enhanced Benefits for Long-Term Partners
+                  </span>
+                </p>
+              </span>
+            </div>
+          )}
+        </>
       ))}
     </div>
   );

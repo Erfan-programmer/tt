@@ -85,7 +85,7 @@ export default function AdminPhoneInput({
       const initial =
         countries.find(
           (c) => Number(c.id) === Number(initialDialCode)
-        ) || countries[0];
+        ) || countries[139];
       setSelectedCountry(initial);
       onPrefixChange?.(initial);
     }

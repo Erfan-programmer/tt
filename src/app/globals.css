@@ -641,7 +641,7 @@ input {
 }
 
 .dark .custom-radio-container input:checked + .custom-radio {
-  background-color: white;
+  background-color: var(--main-background);
   color: white;
   font-size: 1.2rem;
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);

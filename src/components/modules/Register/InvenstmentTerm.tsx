@@ -141,6 +141,7 @@ export default function InvestmentTerm({
                   bonus_shield={selectedPlan.has_bonus_shield}
                   referral={selectedPlan.can_earn_referral}
                   commission={selectedPlan.can_earn_commission}
+                  plan={plans[2]?.name}
                 />
               </div>
             </div>
