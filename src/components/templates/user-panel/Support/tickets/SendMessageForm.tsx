@@ -46,7 +46,7 @@ export default function SendMessageForm({
     attachments: [],
   });
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
-  const [isUploading] = useState(false);
+  const [isUploading , setIsUploading] = useState(false);
  
   const [departments, setDepartments] = useState<Department[]>([]);
   const [isDepartmentsLoading, setIsDepartmentsLoading] = useState(false);
@@ -117,6 +117,7 @@ export default function SendMessageForm({
  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsUploading(true)
     const errs = validate();
     setErrors(errs);
     if (Object.keys(errs).length === 0) {
@@ -127,19 +128,20 @@ export default function SendMessageForm({
         form.append("subject", formData.subject);
         form.append("message", formData.message);
         form.append("priority", formData.priority);
- 
+        
         formData.attachments.forEach((file) =>
           form.append("attachments[]", file)
-        );
- 
-        const res = await apiRequest<ApiResponse>(
-          `${process.env.NEXT_PUBLIC_API_URL}/v1/client/createTickets`,
-          "POST",
-          form,
-          { Authorization: `Bearer ${token}` }
-        );
- 
-        if (res.success) {
+      );
+      
+      const res = await apiRequest<ApiResponse>(
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/client/createTickets`,
+        "POST",
+        form,
+        { Authorization: `Bearer ${token}` }
+      );
+      
+      if (res.success) {
+          setIsUploading(false)
           toast.success(res.message || "Ticket sent successfully!");
           setFormData({
             department_id: "",
@@ -152,10 +154,11 @@ export default function SendMessageForm({
           setErrors({});
           queryClient.invalidateQueries({ queryKey: ["tickets"] });
         } else {
+          setIsUploading(false)
           toast.error(res.message || "Error sending ticket.");
         }
-      } catch (err: any) {
-        toast.error(err?.message || "Error sending ticket.");
+      } catch  {
+        toast.error("Internal Server Error.");
       }
     }
   };
@@ -314,7 +317,7 @@ export default function SendMessageForm({
               !formData.priority
             }
           >
-            send ticket
+            {isUploading ? "sending ..." : "Send Ticket"}
           </button>
         </div>
       </form>

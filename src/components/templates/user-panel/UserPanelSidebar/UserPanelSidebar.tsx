@@ -149,7 +149,7 @@ export default function UserPanelSidebar() {
                   <Link
                     key={index}
                     href={subItem.id?.toLowerCase() === "verification" && isVerified ? "javascript:void(0);" : subItem?.link}
-                    className={`submenu-item flex ${isVerified && subItem?.id?.toLowerCase() === "verification" ? "opacity-40" : "opacity-100"} items-center rounded-[1rem] gap-3 ${
+                    className={`submenu-item flex ${isVerified && subItem?.id?.toLowerCase() === "verification" ? " !text-green-400 opacity-50" : "opacity-100"} items-center rounded-[1rem] gap-3 ${
                       pathname?.startsWith(subItem.link) ? "border border-[#004ada] active-before" : ""
                     }`}
                     onClick={(e: any) => e.stopPropagation()}
@@ -157,7 +157,7 @@ export default function UserPanelSidebar() {
                     {subItem.svg}
                     <span>{subItem.span}</span>
                     {isVerified && subItem?.id?.toLowerCase() === "verification" && (
-                      <span className="text-green-400">verified</span>
+                      <span className="text-gray-400">verified</span>
                     )}
                   </Link>
                 ))}

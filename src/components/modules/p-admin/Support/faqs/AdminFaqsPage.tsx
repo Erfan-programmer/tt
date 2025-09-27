@@ -12,19 +12,13 @@ import { loadEncryptedData } from "@/components/modules/EncryptData/SavedEncrypt
 import AnimationTemplate from "@/components/Ui/Modals/p-admin/AnimationTemplate";
 import Image from "next/image";
 import "react-quill/dist/quill.snow.css";
-// import ImageUploader from "quill-image-uploader"; // ❌ حذف شد
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import CategoryDropdown from "@/components/Ui/Modals/p-admin/blog/CategoryDropDown";
-// import { Quill } from "react-quill"; // ❌ حذف شد
 
-// Dynamic Import برای ReactQuill (برای جلوگیری از SSR کل کامپوننت ادیتور)
-const ReactQuill = dynamic(
-  () => import("react-quill"),
-  {
-    ssr: false
-  }
-);
+// ✅ Dynamic Import برای ReactQuill (غیرفعال کردن SSR)
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+
 interface FormData {
   title: string;
   short_description: string;
@@ -55,27 +49,26 @@ export default function CreateBlogPage() {
     create_blog: true,
   });
 
-  // ✅ راه‌حل نهایی: ایمپورت داینامیک Quill و ماژول‌ها در useEffect
+  // ✅ رجیستر Quill modules فقط سمت کلاینت
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === "undefined") return;
 
-    // بارگذاری Quill از react-quill و ImageUploader به صورت کلاینت‌ساید
     Promise.all([
-      import("react-quill").then(m => m.Quill),
-      import("quill-image-uploader").then(m => m.default)
-    ]).then(([Quill, ImageUploader]) => {
-      const quillAny: any = Quill;
-      
-      if (Quill && !quillAny.imports['modules/imageUploader']) {
-        Quill.register("modules/imageUploader", ImageUploader);
-      }
-    }).catch(error => {
-      console.error("Failed to load Quill modules:", error);
-    });
-    
+      import("react-quill").then((m) => m.Quill),
+      import("quill-image-uploader").then((m) => m.default),
+    ])
+      .then(([Quill, ImageUploader]) => {
+        const quillAny: any = Quill;
+        if (Quill && !quillAny.imports["modules/imageUploader"]) {
+          Quill.register("modules/imageUploader", ImageUploader);
+        }
+      })
+      .catch((error) => {
+        console.error("Failed to load Quill modules:", error);
+      });
   }, []);
 
-  // تعریف ماژول‌ها با useMemo
+  // 🛠 تعریف ماژول‌های Quill
   const modules = useMemo(
     () => ({
       toolbar: [
@@ -93,15 +86,13 @@ export default function CreateBlogPage() {
         ["clean"],
         ["link", "image"],
       ],
-      // فعال‌سازی ماژول ثبت‌شده و تعریف تابع آپلود
       imageUploader: {
         upload: (file: File) => {
           return new Promise((resolve, reject) => {
             const reader = new FileReader();
             reader.onload = (e) => {
-              if (e.target && e.target.result) {
-                // این فقط یک پیش‌نمایش Data URL است. برای آپلود واقعی به سرور
-                // باید اینجا یک درخواست API POST/PUT ارسال کنید و URL نهایی تصویر را resolve کنید.
+              if (e?.target?.result) {
+                // ✅ اینجا برای آپلود واقعی باید API بفرستی و URL سرور رو resolve کنی
                 resolve(e.target.result as string);
               } else {
                 reject("Error reading file.");
@@ -115,10 +106,7 @@ export default function CreateBlogPage() {
     []
   );
 
-  const handleChange = (
-    key: keyof FormData,
-    value: FormData[keyof FormData]
-  ) => {
+  const handleChange = (key: keyof FormData, value: FormData[keyof FormData]) => {
     setFormData((prev) => ({
       ...prev,
       [key]: key === "blog_category_id" ? String(value) : value,
@@ -141,7 +129,7 @@ export default function CreateBlogPage() {
   const removeTag = (index: number) => {
     setFormData((prev) => ({
       ...prev,
-      tags: prev.tags?.filter((_, i) => i !== index),
+      tags: prev.tags.filter((_, i) => i !== index),
     }));
   };
 
@@ -211,14 +199,15 @@ export default function CreateBlogPage() {
       <ToastContainer />
 
       <LineTitle
-        onClick={() => {
+        onClick={() =>
           setShowLineTile((prev) => ({
             ...prev,
             create_blog: !showLineTitle.create_blog,
-          }));
-        }}
+          }))
+        }
         title="Create Blog"
       />
+
       {showLineTitle.create_blog && (
         <AnimationTemplate>
           <div className="mt-1 gap-4 p-4 border-[2px] border-[#383C47] rounded-lg flex items-start flex-wrap">
@@ -236,7 +225,7 @@ export default function CreateBlogPage() {
               <div className="mb-4">
                 <CategoryDropdown
                   selectedCategoryId={formData.blog_category_id}
-                  onChange={(id:any) => handleChange("blog_category_id", id)}
+                  onChange={(id: any) => handleChange("blog_category_id", id)}
                 />
               </div>
 
@@ -330,25 +319,21 @@ export default function CreateBlogPage() {
               <label className="block font-medium mb-2 text-white">
                 Long Description
               </label>
-              {" "}
               <ReactQuill
                 theme="snow"
                 value={formData.long_description}
-                onChange={(content) =>
-                  handleChange("long_description", content)
-                }
+                onChange={(content) => handleChange("long_description", content)}
                 modules={modules}
                 className="react-quill-editor"
               />
             </div>
+
             <div className="flex items-center mt-6 gap-4">
               <button
                 onClick={handleSubmit}
                 disabled={!isFormValid || isPending}
                 className={`titan-btn px-4 py-2 rounded text-white titan-tn transition ${
-                  !isFormValid || isPending
-                    ? "!bg-gray-400 cursor-not-allowed"
-                    : ""
+                  !isFormValid || isPending ? "!bg-gray-400 cursor-not-allowed" : ""
                 }`}
               >
                 {isPending ? (

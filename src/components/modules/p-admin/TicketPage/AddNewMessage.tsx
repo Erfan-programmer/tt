@@ -94,7 +94,7 @@ export default function AddNewMessage({
   };
 
   return (
-    <div className="fixed bottom-0 right-0 w-full bg-[#1E1F25] border-t border-[#383C47] px-4 py-3 flex flex-col gap-2 xl:w-[80%] ml-auto">
+    <div className="fixed bottom-0 right-0 w-full bg-[#1E1F25] border-t border-[#383C47] px-4 py-3 flex flex-col gap-2 xl:w-[80%] ml-auto z-[10002]">
       <AnimatePresence>{file && <div>{renderFilePreview()}</div>}</AnimatePresence>
       <div className={`flex items-center relative gap-3 ${status !== "closed" ? "opacity-100" : "opacity-50"}`}>
 
