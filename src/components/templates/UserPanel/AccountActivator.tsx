@@ -33,8 +33,8 @@ Account Type Is Non-Changeable Switching from the “Investor” account to othe
 Activation Deadline You have 30 days from registration to activate your account by making a deposit. Failure to do so will result in permanent deletion of your registration data.
 `,
     },
-    contract: {
-      description: `Dear ${user?.first_name} ${user?.last_name} {Investor},
+    contract_free: {
+      description: `Dear ${user?.first_name} ${user?.last_name} ,
 We sincerely thank you for choosing Titan Investments as your trusted investment partner. Please carefully read the following text. If you fully agree with the terms and conditions, proceed by depositing your investment amount to activate your account.
 Risk Warning
 
