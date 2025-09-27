@@ -213,7 +213,7 @@ export default function PaymentTitan({ paymentProp }: PaymentTitanProps) {
               </div>
             </div>
           </div>
-          <div className="flex justify-center mt-4">
+          <div className="flex justify-center mt-4 gap-4">
             <button
               className={`payment-btn w-fit titan-btn ${
                 loading ? "!bg-gray-400" : ""
