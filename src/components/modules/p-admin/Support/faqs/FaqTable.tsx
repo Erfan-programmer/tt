@@ -9,7 +9,7 @@ import AdminPagination from "../../AdminPagination";
 export interface Faq {
   id: number;
   title: string;
-  content: string;
+  description: string;
   created_at?: string;
 }
 
@@ -36,10 +36,10 @@ export default function FaqsTable({
     { title: "ID", field: "id" },
     { title: "Title", field: "title" },
  {
-      title: "Content",
-      field: "content",
+      title: "Description",
+      field: "description",
       render: (_ , faq: any): React.ReactNode =>
-          <span className="whitespace-nowrap" dangerouslySetInnerHTML={{__html:faq.content}} />
+          <span className="whitespace-nowrap" dangerouslySetInnerHTML={{__html:faq.description}} />
             
     },    {
       title: "Created At",

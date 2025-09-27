@@ -4,7 +4,6 @@ import React, {
   useState,
   useEffect,
   useCallback,
-  useRef,
   useMemo,
 } from "react";
 import LineTitle from "@/components/modules/p-admin/LineTitle";
@@ -19,8 +18,6 @@ import AnimationTemplate from "@/components/Ui/Modals/p-admin/AnimationTemplate"
 import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
 
-// ایمپورت های Quill و ImageUploader که به DOM وابسته هستند، حذف شدند
-import type ReactQuillType from "react-quill";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
@@ -43,9 +40,7 @@ export default function TermsAndConditionPage() {
   const [modalLoading, setModalLoading] = useState(false);
   const [showTitle, setShowTitle] = useState(true);
 
-  const quillRef = useRef<ReactQuillType | any>(null);
 
-  // 📌 رفع مشکل: Quill.register به داخل useEffect منتقل شد.
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
@@ -53,7 +48,6 @@ export default function TermsAndConditionPage() {
       import("react-quill").then(m => m.Quill),
       import("quill-image-uploader").then(m => m.default)
     ]).then(([Quill, ImageUploader]) => {
-      // این چک برای جلوگیری از ثبت مجدد ماژول هنگام Hot Reloading لازم است
       const quillAny: any = Quill;
       if (Quill && ImageUploader && !quillAny.imports['modules/imageUploader']) {
         Quill.register("modules/imageUploader", ImageUploader);
@@ -64,38 +58,7 @@ export default function TermsAndConditionPage() {
     
   }, []);
 
-  const imageHandler = useCallback(() => {
-    const input = document.createElement("input");
-    input.setAttribute("type", "file");
-    input.setAttribute("accept", "image/*");
-    input.click();
 
-    input.onchange = async () => {
-      if (!input.files || !input.files[0]) return;
-      const file = input.files[0];
-      const formData = new FormData();
-      formData.append("image", file);
-      const token = loadEncryptedData()?.token;
-      try {
-        const res = await apiRequest<{ data: string }>(
-          `${process.env.NEXT_PUBLIC_API_URL}/v1/admin/upload-ck-image`,
-          "POST",
-          formData,
-          { Authorization: `Bearer ${token}` }
-        );
-        if (res.success && res.data?.data) {
-          const editor = quillRef.current?.getEditor();
-          const range = editor?.getSelection();
-          const imageUrl = `${process.env.NEXT_PUBLIC_API_URL_STORAGE}/${res.data.data}`;
-          editor?.insertEmbed(range?.index || 0, "image", imageUrl);
-        } else {
-          toast.error("Image upload failed!");
-        }
-      } catch {
-        toast.error("Error while uploading image.");
-      }
-    };
-  }, []);
 
   const quillModules = useMemo(() => {
     return {
@@ -115,12 +78,24 @@ export default function TermsAndConditionPage() {
           ["clean"],
           ["link", "image"],
         ],
-        handlers: {
-          image: imageHandler,
+      imageUploader: {
+          upload: (file: File) => {
+            return new Promise((resolve, reject) => {
+              const reader = new FileReader();
+              reader.onload = (e) => {
+                if (e.target && e.target.result) {
+                  resolve(e.target.result as string);
+                } else {
+                  reject("Error reading file.");
+                }
+              };
+              reader.readAsDataURL(file);
+            });
+          },
         },
       },
     };
-  }, [imageHandler]);
+  }, []);
 
   const fetchTerms = useCallback(
     async (pageNumber: number = 1) => {
@@ -443,4 +418,4 @@ export default function TermsAndConditionPage() {
       )}
     </>
   );
-}
+} 

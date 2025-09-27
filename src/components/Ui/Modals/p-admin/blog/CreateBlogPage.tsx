@@ -1,6 +1,12 @@
 "use client";
 import "@/styles/p-admin/AdminTextEditor.css";
-import React, { useState, KeyboardEvent, ChangeEvent, useMemo, useEffect } from "react";
+import React, {
+  useState,
+  KeyboardEvent,
+  ChangeEvent,
+  useMemo,
+  useEffect,
+} from "react";
 import CustomAdminInput from "@/components/modules/p-admin/CustomAdminInput";
 import LineTitle from "@/components/modules/p-admin/LineTitle";
 import { apiRequest } from "@/libs/api";
@@ -13,18 +19,12 @@ import { loadEncryptedData } from "@/components/modules/EncryptData/SavedEncrypt
 import AnimationTemplate from "../AnimationTemplate";
 import Image from "next/image";
 import "react-quill/dist/quill.snow.css";
-// import ImageUploader from "quill-image-uploader"; // ❌ حذف شد
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
-// import { Quill } from "react-quill"; // ❌ حذف شد
 
-// Dynamic Import برای ReactQuill (برای جلوگیری از SSR کل کامپوننت ادیتور)
-const ReactQuill = dynamic(
-  () => import("react-quill"),
-  {
-    ssr: false
-  }
-);
+const ReactQuill = dynamic(() => import("react-quill"), {
+  ssr: false,
+});
 interface FormData {
   title: string;
   short_description: string;
@@ -55,60 +55,57 @@ export default function CreateBlogPage() {
     create_blog: true,
   });
 
-  // ✅ راه‌حل نهایی: ایمپورت داینامیک Quill و ماژول‌ها در useEffect
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === "undefined") return;
 
-    // بارگذاری Quill از react-quill و ImageUploader به صورت کلاینت‌ساید
     Promise.all([
-      import("react-quill").then(m => m.Quill),
-      import("quill-image-uploader").then(m => m.default)
-    ]).then(([Quill, ImageUploader]) => {
-      const quillAny: any = Quill;
-      
-      if (Quill && !quillAny.imports['modules/imageUploader']) {
-        Quill.register("modules/imageUploader", ImageUploader);
-      }
-    }).catch(error => {
-      console.error("Failed to load Quill modules:", error);
-    });
-    
+      import("react-quill").then((m) => m.Quill),
+      import("quill-image-uploader").then((m) => m.default),
+    ])
+      .then(([Quill, ImageUploader]) => {
+        const quillAny: any = Quill;
+
+        if (Quill && !quillAny.imports["modules/imageUploader"]) {
+          Quill.register("modules/imageUploader", ImageUploader);
+        }
+      })
+      .catch((error) => {
+        console.error("Failed to load Quill modules:", error);
+      });
   }, []);
 
-  // تعریف ماژول‌ها با useMemo
   const modules = useMemo(
     () => ({
-      toolbar: [
-        ["bold", "italic", "underline", "strike"],
-        ["blockquote", "code-block"],
-        [{ list: "ordered" }, { list: "bullet" }],
-        [{ script: "sub" }, { script: "super" }],
-        [{ indent: "-1" }, { indent: "+1" }],
-        [{ direction: "rtl" }],
-        [{ size: ["small", false, "large", "huge"] }],
-        [{ header: [1, 2, 3, 4, 5, 6, false] }],
-        [{ color: [] }, { background: [] }],
-        [{ font: [] }],
-        [{ align: [] }],
-        ["clean"],
-        ["link", "image"],
-      ],
-      // فعال‌سازی ماژول ثبت‌شده و تعریف تابع آپلود
-      imageUploader: {
-        upload: (file: File) => {
-          return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-              if (e.target && e.target.result) {
-                // این فقط یک پیش‌نمایش Data URL است. برای آپلود واقعی به سرور
-                // باید اینجا یک درخواست API POST/PUT ارسال کنید و URL نهایی تصویر را resolve کنید.
-                resolve(e.target.result as string);
-              } else {
-                reject("Error reading file.");
-              }
-            };
-            reader.readAsDataURL(file);
-          });
+      toolbar: {
+        container: [
+          ["bold", "italic", "underline", "strike"],
+          ["blockquote", "code-block"],
+          [{ list: "ordered" }, { list: "bullet" }],
+          [{ script: "sub" }, { script: "super" }],
+          [{ indent: "-1" }, { indent: "+1" }],
+          [{ direction: "rtl" }],
+          [{ size: ["small", false, "large", "huge"] }],
+          [{ header: [1, 2, 3, 4, 5, 6, false] }],
+          [{ color: [] }, { background: [] }],
+          [{ font: [] }],
+          [{ align: [] }],
+          ["clean"],
+          ["link", "image"],
+        ],
+        imageUploader: {
+          upload: (file: File) => {
+            return new Promise((resolve, reject) => {
+              const reader = new FileReader();
+              reader.onload = (e) => {
+                if (e.target && e.target.result) {
+                  resolve(e.target.result as string);
+                } else {
+                  reject("Error reading file.");
+                }
+              };
+              reader.readAsDataURL(file);
+            });
+          },
         },
       },
     }),
@@ -329,8 +326,7 @@ export default function CreateBlogPage() {
             <div className="mt-4 w-full">
               <label className="block font-medium mb-2 text-white">
                 Long Description
-              </label>
-              {" "}
+              </label>{" "}
               <ReactQuill
                 theme="snow"
                 value={formData.long_description}

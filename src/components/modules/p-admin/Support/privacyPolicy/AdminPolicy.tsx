@@ -4,7 +4,6 @@ import React, {
   useState,
   useEffect,
   useCallback,
-  useRef,
   useMemo,
 } from "react";
 import LineTitle from "@/components/modules/p-admin/LineTitle";
@@ -19,9 +18,6 @@ import AnimationTemplate from "@/components/Ui/Modals/p-admin/AnimationTemplate"
 import "react-quill/dist/quill.snow.css";
 
 import dynamic from "next/dynamic";
-import type ReactQuillType from "react-quill";
-// import { Quill } from "react-quill"; // حذف شد
-// import ImageUploader from "quill-image-uploader"; // حذف شد
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
@@ -44,7 +40,6 @@ export default function PrivacyPolicyPage() {
   const [modalLoading, setModalLoading] = useState(false);
   const [showTitle, setShowTitle] = useState(true);
 
-  const quillRef = useRef<ReactQuillType | any>(null);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -185,38 +180,6 @@ export default function PrivacyPolicyPage() {
     }
   };
   
-  const imageHandler = useCallback(() => {
-    const input = document.createElement("input");
-    input.setAttribute("type", "file");
-    input.setAttribute("accept", "image/*");
-    input.click();
-
-    input.onchange = async () => {
-      if (!input.files || !input.files[0]) return;
-      const file = input.files[0];
-      const formData = new FormData();
-      formData.append("image", file);
-      const token = loadEncryptedData()?.token;
-      try {
-        const res = await apiRequest<{ data: string }>(
-          `${process.env.NEXT_PUBLIC_API_URL}/v1/admin/upload-ck-image`,
-          "POST",
-          formData,
-          { Authorization: `Bearer ${token}` }
-        );
-        if (res.success && res.data?.data) {
-          const editor = quillRef.current?.getEditor();
-          const range = editor?.getSelection();
-          const imageUrl = `${process.env.NEXT_PUBLIC_API_URL_STORAGE}/${res.data.data}`;
-          editor?.insertEmbed(range?.index || 0, "image", imageUrl);
-        } else {
-          toast.error("Image upload failed!");
-        }
-      } catch {
-        toast.error("Error while uploading image.");
-      }
-    };
-  }, []);
 
   const quillModules = useMemo(() => {
     return {
@@ -236,12 +199,24 @@ export default function PrivacyPolicyPage() {
           ["clean"],
           ["link", "image"],
         ],
-        handlers: {
-          image: imageHandler,
+      imageUploader: {
+          upload: (file: File) => {
+            return new Promise((resolve, reject) => {
+              const reader = new FileReader();
+              reader.onload = (e) => {
+                if (e.target && e.target.result) {
+                  resolve(e.target.result as string);
+                } else {
+                  reject("Error reading file.");
+                }
+              };
+              reader.readAsDataURL(file);
+            });
+          },
         },
       },
     };
-  }, [imageHandler]);
+  }, []);
 
   return (
     <>

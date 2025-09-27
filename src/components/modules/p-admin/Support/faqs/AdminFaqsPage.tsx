@@ -1,377 +1,410 @@
 "use client";
-import "@/styles/p-admin/AdminTextEditor.css";
-import React, { useState, KeyboardEvent, ChangeEvent, useMemo, useEffect } from "react";
-import CustomAdminInput from "@/components/modules/p-admin/CustomAdminInput";
+
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useRef,
+  useMemo,
+} from "react";
 import LineTitle from "@/components/modules/p-admin/LineTitle";
+import CustomAdminInput from "@/components/modules/p-admin/CustomAdminInput";
 import { apiRequest } from "@/libs/api";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-
-import { FaTimes } from "react-icons/fa";
+import { toast } from "react-toastify";
+import "@/styles/p-admin/AdminTextEditor.css";
 import { loadEncryptedData } from "@/components/modules/EncryptData/SavedEncryptData";
+import { AnimatePresence, motion } from "framer-motion";
 import AnimationTemplate from "@/components/Ui/Modals/p-admin/AnimationTemplate";
-import Image from "next/image";
 import "react-quill/dist/quill.snow.css";
-import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
-import CategoryDropdown from "@/components/Ui/Modals/p-admin/blog/CategoryDropDown";
+import type ReactQuillType from "react-quill";
+import FaqsTable, { Faq } from "./FaqTable";
 
-// ✅ Dynamic Import برای ReactQuill (غیرفعال کردن SSR)
-const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+const ReactQuill = dynamic(async () => {
+  const { default: RQ } = await import("react-quill");
+  return RQ;
+}, {
+  ssr: false,
+}) as unknown as React.ForwardRefExoticComponent<
+  ReactQuillType["props"] & React.RefAttributes<ReactQuillType>
+>;
 
-interface FormData {
-  title: string;
-  short_description: string;
-  references: string;
-  author: string;
-  tags: string[];
-  blog_category_id: string;
-  image: File | null;
-  long_description: string;
-}
-
-export default function CreateBlogPage() {
-  const [formData, setFormData] = useState<FormData>({
+export default function FaqsPage() {
+  const [createFormData, setCreateFormData] = useState({
     title: "",
-    short_description: "",
-    references: "",
-    author: "",
-    tags: [],
-    blog_category_id: "",
-    image: null,
-    long_description: "",
+    description: "",
   });
-
-  const router = useRouter();
-  const [tagInput, setTagInput] = useState("");
-  const [isPending, setIsPending] = useState(false);
-  const [showLineTitle, setShowLineTile] = useState({
-    create_blog: true,
+  const [loading, setLoading] = useState(false);
+  const [editFormData, setEditFormData] = useState({
+    title: "",
+    description: "",
   });
+  const [editModal, setEditModal] = useState<Faq | null>(null);
+  const [faqs, setFaqs] = useState<Faq[]>([]);
+  const [listLoading, setListLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [lastPage, setLastPage] = useState(1);
+  const [deleteModal, setDeleteModal] = useState<Faq | null>(null);
+  const [modalLoading, setModalLoading] = useState(false);
+  const [showTitle, setShowTitle] = useState(true);
 
-  // ✅ رجیستر Quill modules فقط سمت کلاینت
-  useEffect(() => {
-    if (typeof window === "undefined") return;
+  const createQuillRef = useRef<ReactQuillType>(null);
+  const editQuillRef = useRef<ReactQuillType>(null);
 
-    Promise.all([
-      import("react-quill").then((m) => m.Quill),
-      import("quill-image-uploader").then((m) => m.default),
-    ])
-      .then(([Quill, ImageUploader]) => {
-        const quillAny: any = Quill;
-        if (Quill && !quillAny.imports["modules/imageUploader"]) {
-          Quill.register("modules/imageUploader", ImageUploader);
-        }
-      })
-      .catch((error) => {
-        console.error("Failed to load Quill modules:", error);
-      });
+   useEffect(() => {
+     if (typeof window === 'undefined') return;
+ 
+     Promise.all([
+       import("react-quill").then(m => m.Quill),
+       import("quill-image-uploader").then(m => m.default)
+     ]).then(([Quill, ImageUploader]) => {
+       const quillAny: any = Quill;
+       
+       if (Quill && !quillAny.imports['modules/imageUploader']) {
+         Quill.register("modules/imageUploader", ImageUploader);
+       }
+     }).catch(error => {
+       console.error("Failed to load Quill modules:", error);
+     });
+     
+   }, []);
+
+  const fetchFaqs = useCallback(async (pageNumber: number = 1) => {
+    setListLoading(true);
+    const token = loadEncryptedData()?.token;
+    try {
+      const res = await apiRequest<{
+        data: any[];
+        meta: { current_page: number; last_page: number };
+      }>(
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/faqs?page=${pageNumber}`,
+        "GET",
+        undefined,
+        { Authorization: `Bearer ${token}` }
+      );
+      if (res.success && res.data) {
+        const faqsData: Faq[] = res.data.data.map((f) => ({
+          id: f.id,
+          title: f.title || f.description.slice(0, 30),
+          description: f.description,
+          created_at: f.created_at,
+        }));
+        setFaqs(faqsData);
+        setPage(res.data.meta?.current_page || 1);
+        setLastPage(res.data.meta?.last_page || 1);
+      } else {
+        toast.error(res.message || "Failed to fetch faq");
+      }
+    } catch {
+      toast.error("Error while fetching faq");
+    } finally {
+      setListLoading(false);
+    }
   }, []);
 
-  // 🛠 تعریف ماژول‌های Quill
-  const modules = useMemo(
-    () => ({
-      toolbar: [
-        ["bold", "italic", "underline", "strike"],
-        ["blockquote", "code-block"],
-        [{ list: "ordered" }, { list: "bullet" }],
-        [{ script: "sub" }, { script: "super" }],
-        [{ indent: "-1" }, { indent: "+1" }],
-        [{ direction: "rtl" }],
-        [{ size: ["small", false, "large", "huge"] }],
-        [{ header: [1, 2, 3, 4, 5, 6, false] }],
-        [{ color: [] }, { background: [] }],
-        [{ font: [] }],
-        [{ align: [] }],
-        ["clean"],
-        ["link", "image"],
-      ],
-      imageUploader: {
-        upload: (file: File) => {
-          return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-              if (e?.target?.result) {
-                // ✅ اینجا برای آپلود واقعی باید API بفرستی و URL سرور رو resolve کنی
-                resolve(e.target.result as string);
-              } else {
-                reject("Error reading file.");
-              }
-            };
-            reader.readAsDataURL(file);
-          });
-        },
-      },
-    }),
-    []
-  );
-
-  const handleChange = (key: keyof FormData, value: FormData[keyof FormData]) => {
-    setFormData((prev) => ({
-      ...prev,
-      [key]: key === "blog_category_id" ? String(value) : value,
-    }));
-  };
-
-  const handleTagKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === "Enter" && tagInput.trim() !== "") {
-      e.preventDefault();
-      if (!formData.tags.includes(tagInput.trim())) {
-        setFormData((prev) => ({
-          ...prev,
-          tags: [...prev.tags, tagInput.trim()],
-        }));
-      }
-      setTagInput("");
-    }
-  };
-
-  const removeTag = (index: number) => {
-    setFormData((prev) => ({
-      ...prev,
-      tags: prev.tags.filter((_, i) => i !== index),
-    }));
-  };
-
-  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files?.[0]) {
-      setFormData((prev) => ({ ...prev, image: e.target.files![0] }));
-    }
-  };
-
-  const removeImage = () => {
-    setFormData((prev) => ({ ...prev, image: null }));
-  };
-
-  const isFormValid =
-    formData.title.trim() &&
-    formData.short_description.trim() &&
-    formData.references.trim() &&
-    formData.author.trim() &&
-    formData.blog_category_id.trim() &&
-    formData.long_description.trim() &&
-    formData.image;
+  useEffect(() => {
+    fetchFaqs(page);
+  }, [fetchFaqs, page]);
 
   const handleSubmit = async () => {
-    if (!isFormValid || isPending) return;
-
-    setIsPending(true);
-    const url = `${process.env.NEXT_PUBLIC_API_URL}/v1/admin/createBlogs`;
-    const body = new FormData();
-
-    body.append("title", formData.title);
-    body.append("long_description", formData.long_description);
-    body.append("short_description", formData.short_description);
-    body.append("references", formData.references);
-    body.append("author", formData.author);
-    body.append("blog_category_id", formData.blog_category_id);
-
-    if (formData.image) body.append("image", formData.image);
-    formData.tags.forEach((tag, index) => body.append(`tags[${index}]`, tag));
-
-    const savedData = loadEncryptedData();
-    const token = savedData?.token;
-
+    if (!createFormData.title.trim() || !createFormData.description.trim()) {
+      toast.error("Please fill in all fields!");
+      return;
+    }
+    setLoading(true);
+    const token = loadEncryptedData()?.token;
     try {
-      const response = await apiRequest<any>(url, "POST", body, {
-        Authorization: `Bearer ${token}`,
-      });
-      if (response.success) {
-        toast.success(response.message || "Blog created successfully ✅", {
-          position: "top-right",
-        });
-      } else {
-        toast.error(`Error: ${response.error?.message}`, {
-          position: "top-right",
-        });
-      }
-    } catch (error: any) {
-      toast.error(`Request failed: ${error.message}`, {
-        position: "top-right",
-      });
+      const res = await apiRequest<any>(
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/admin/createFaqs`,
+        "POST",
+        createFormData,
+        { Authorization: `Bearer ${token}` }
+      );
+      if (res.success) {
+        toast.success(res.message || "faq created successfully!");
+        setCreateFormData({ title: "", description: "" });
+        fetchFaqs(page);
+      } else toast.error(res.message || "Something went wrong!");
+    } catch {
+      toast.error("Error while creating faq!");
     } finally {
-      setIsPending(false);
+      setLoading(false);
     }
   };
+
+  const handleEdit = (faq: Faq) => {
+    setEditModal(faq);
+    setEditFormData({ title: faq.title, description: faq.description });
+  };
+
+  const handleUpdate = async () => {
+    if (!editModal) return;
+    if (!editFormData.title.trim() || !editFormData.description.trim()) {
+      toast.error("Please fill in all fields!");
+      return;
+    }
+    setModalLoading(true);
+    const token = loadEncryptedData()?.token;
+    try {
+      const res = await apiRequest<{ message: string }>(
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/admin/updateFaqs/${editModal.id}`,
+        "POST",
+        editFormData,
+        { Authorization: `Bearer ${token}` }
+      );
+      if (res.success && res.data) {
+        toast.success(res.data.message || "faq updated successfully!");
+        setEditModal(null);
+        fetchFaqs(page);
+      } else {
+        toast.error(res.error?.message || "Failed to update faq .");
+      }
+    } catch {
+      toast.error("Unexpected error while updating faq .");
+    } finally {
+      setModalLoading(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!deleteModal) return;
+    setModalLoading(true);
+    const token = loadEncryptedData()?.token;
+    try {
+      const res = await apiRequest<{ message: string }>(
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/admin/deleteFaqs/${deleteModal.id}`,
+        "DELETE",
+        undefined,
+        { Authorization: `Bearer ${token}` }
+      );
+      if (res.success && res.data) {
+        toast.success(res.data.message || "Deleted successfully!");
+        setDeleteModal(null);
+        const newPage = faqs.length === 1 && page > 1 ? page - 1 : page;
+        fetchFaqs(newPage);
+      } else toast.error(res.error?.message || "Failed to delete faq.");
+    } catch {
+      toast.error("Unexpected error while deleting faq.");
+    } finally {
+      setModalLoading(false);
+    }
+  };
+
+
+
+  const quillModules = useMemo(() => {
+    return {
+      toolbar: {
+        container: [
+          ["bold", "italic", "underline", "strike"],
+          ["blockquote", "code-block"],
+          [{ list: "ordered" }, { list: "bullet" }],
+          [{ script: "sub" }, { script: "super" }],
+          [{ indent: "-1" }, { indent: "+1" }],
+          [{ direction: "rtl" }],
+          [{ size: ["small", false, "large", "huge"] }],
+          [{ header: [1, 2, 3, 4, 5, 6, false] }],
+          [{ color: [] }, { background: [] }],
+          [{ font: [] }],
+          [{ align: [] }],
+          ["clean"],
+          ["link", "image"],
+        ],
+      imageUploader: {
+          upload: (file: File) => {
+            return new Promise((resolve, reject) => {
+              const reader = new FileReader();
+              reader.onload = (e) => {
+                if (e.target && e.target.result) {
+                  resolve(e.target.result as string);
+                } else {
+                  reject("Error reading file.");
+                }
+              };
+              reader.readAsDataURL(file);
+            });
+          },
+        },
+      },
+    };
+  }, []);
 
   return (
     <>
-      <ToastContainer />
+      <LineTitle onClick={() => setShowTitle(!showTitle)} title="Manage faqs" />
 
-      <LineTitle
-        onClick={() =>
-          setShowLineTile((prev) => ({
-            ...prev,
-            create_blog: !showLineTitle.create_blog,
-          }))
-        }
-        title="Create Blog"
-      />
-
-      {showLineTitle.create_blog && (
+      {showTitle && (
         <AnimationTemplate>
-          <div className="mt-1 gap-4 p-4 border-[2px] border-[#383C47] rounded-lg flex items-start flex-wrap">
-            <div className="grid grid-cols-2 gap-2 w-full">
-              <div className="mb-4">
-                <label className="block font-medium text-white">Title</label>
-                <CustomAdminInput
-                  title=""
-                  value={formData.title}
-                  onChange={(val) => handleChange("title", val)}
-                  type="text"
-                />
-              </div>
-
-              <div className="mb-4">
-                <CategoryDropdown
-                  selectedCategoryId={formData.blog_category_id}
-                  onChange={(id: any) => handleChange("blog_category_id", id)}
-                />
-              </div>
-
-              <CustomAdminInput
-                title="Short Description"
-                value={formData.short_description}
-                onChange={(val) => handleChange("short_description", val)}
-                type="text"
-              />
-
-              <CustomAdminInput
-                title="Author"
-                value={formData.author}
-                onChange={(val) => handleChange("author", val)}
-                type="text"
-              />
-            </div>
-
-            <div className="grid grid-cols-2 w-full gap-4">
-              <CustomAdminInput
-                title="References"
-                value={formData.references}
-                onChange={(val) => handleChange("references", val)}
-                type="text"
-              />
-              <div className="flex flex-col w-full">
-                <label className="block font-medium text-white">Tags</label>
-                <textarea
-                  className="w-full border border-gray-600 rounded p-2 bg-transparent mt-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="Type tag and press Enter"
-                  value={tagInput}
-                  onChange={(e) => setTagInput(e.target.value)}
-                  onKeyDown={handleTagKeyDown}
-                />
-              </div>
-            </div>
-
-            <div className="flex flex-wrap gap-2 mt-2">
-              {formData.tags.map((tag, index) => (
-                <span
-                  key={index}
-                  className="text-blue-500 bg-transparent border-[2px] border-blue-400 px-2 py-1 rounded flex items-center gap-1"
-                >
-                  {tag}
-                  <button
-                    type="button"
-                    onClick={() => removeTag(index)}
-                    className="text-blue-400 font-bold"
-                  >
-                    <FaTimes className="text-lg" />
-                  </button>
-                </span>
-              ))}
-            </div>
-
-            <div className="flex flex-col w-full">
-              <label className="block font-medium mt-4 text-white">Image</label>
-              <div className="mt-2 flex flex-col items-center justify-center border-2 border-dashed border-gray-600 rounded-lg w-full h-48 relative cursor-pointer hover:border-blue-500">
-                {!formData.image ? (
-                  <label className="flex flex-col w-full items-center justify-center h-full cursor-pointer text-gray-400 relative">
-                    <span>Upload Image</span>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                      onChange={handleImageChange}
-                    />
-                  </label>
-                ) : (
-                  <div className="relative w-full h-full flex items-center justify-center">
-                    <Image
-                      width={400}
-                      height={400}
-                      src={URL.createObjectURL(formData.image)}
-                      alt="preview"
-                      className="object-contain max-h-full max-w-full"
-                    />
-                    <button
-                      type="button"
-                      onClick={removeImage}
-                      className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center"
-                    >
-                      <FaTimes />
-                    </button>
-                  </div>
-                )}
-              </div>
-            </div>
-
+          <div className="flex flex-col gap-4 mb-4">
+            <CustomAdminInput
+              title="Title"
+              type="text"
+              value={createFormData.title}
+              onChange={(val) =>
+                setCreateFormData((prev) => ({ ...prev, title: val }))
+              }
+              readOnly={loading}
+            />
             <div className="mt-4 w-full">
               <label className="block font-medium mb-2 text-white">
                 Long Description
               </label>
               <ReactQuill
+                ref={createQuillRef}
                 theme="snow"
-                value={formData.long_description}
-                onChange={(content) => handleChange("long_description", content)}
-                modules={modules}
-                className="react-quill-editor"
+                value={createFormData.description}
+                onChange={(val) =>
+                  setCreateFormData((prev) => ({ ...prev, description: val }))
+                }
+                placeholder="Type here..."
+                modules={quillModules}
               />
             </div>
-
-            <div className="flex items-center mt-6 gap-4">
-              <button
-                onClick={handleSubmit}
-                disabled={!isFormValid || isPending}
-                className={`titan-btn px-4 py-2 rounded text-white titan-tn transition ${
-                  !isFormValid || isPending ? "!bg-gray-400 cursor-not-allowed" : ""
-                }`}
-              >
-                {isPending ? (
-                  <span className="flex items-center gap-2">
-                    <svg
-                      className="animate-spin h-5 w-5 text-white"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <circle
-                        className="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                      />
-                      <path
-                        className="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8v8H4z"
-                      />
-                    </svg>
-                    Submitting...
-                  </span>
-                ) : (
-                  "Create Blog"
-                )}
-              </button>
-              <button
-                onClick={() => router.back()}
-                className="titan-btn !bg-gray-400"
-              >
-                Back
-              </button>
-            </div>
+            <button
+              onClick={handleSubmit}
+              disabled={loading}
+              className={`px-4 py-2 rounded w-fit text-white ${
+                loading
+                  ? "bg-gray-500 cursor-not-allowed"
+                  : "bg-blue-600 hover:bg-blue-700"
+              }`}
+            >
+              {loading ? "Creating..." : "Create faq"}
+            </button>
           </div>
+          <FaqsTable
+            faqs={faqs}
+            loading={listLoading}
+            page={page}
+            lastPage={lastPage}
+            onPageChange={(p) => {
+              setPage(p);
+              fetchFaqs(p);
+            }}
+            onEdit={handleEdit}
+            onDelete={(faq) => setDeleteModal(faq)}
+          />
+          <AnimatePresence>
+            {editModal && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 z-50 flex items-center justify-center bg-black/60"
+                onClick={() => setEditModal(null)}
+              >
+                <motion.div
+                  initial={{ scale: 0.8 }}
+                  animate={{ scale: 1 }}
+                  exit={{ scale: 0.8 }}
+                  transition={{ duration: 0.3 }}
+                  className="bg-gray-900 text-white p-8 rounded-2xl w-[600px] max-h-[90vh] overflow-y-auto flex flex-col gap-4 relative"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <button
+                    className="absolute top-3 right-3 text-red-500 text-lg font-bold"
+                    onClick={() => setEditModal(null)}
+                  >
+                    ✕
+                  </button>
+                  <h2 className="text-xl font-semibold text-center">
+                    Edit Faq &quot;{editModal.title}&quot;
+                  </h2>
+                  <CustomAdminInput
+                    title="Title"
+                    type="text"
+                    value={editFormData.title}
+                    onChange={(val) =>
+                      setEditFormData((prev) => ({ ...prev, title: val }))
+                    }
+                    readOnly={modalLoading}
+                  />
+                  <div className="w-full">
+                    <label className="block font-medium mb-2 text-white">
+                      Description
+                    </label>
+                    <ReactQuill
+                      ref={editQuillRef}
+                      theme="snow"
+                      value={editFormData.description}
+                      onChange={(val) =>
+                        setEditFormData((prev) => ({
+                          ...prev,
+                          description: val,
+                        }))
+                      }
+                      placeholder="Edit description..."
+                      modules={quillModules}
+                    />
+                  </div>
+                  <div className="flex gap-4 mt-4">
+                    <button
+                      className="px-4 py-2 rounded bg-gray-700 hover:bg-gray-600"
+                      onClick={() => setEditModal(null)}
+                      disabled={modalLoading}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      className="px-4 py-2 rounded bg-blue-500 hover:bg-blue-600 disabled:opacity-50"
+                      onClick={handleUpdate}
+                      disabled={modalLoading}
+                    >
+                      {modalLoading ? "Updating..." : "Update"}
+                    </button>
+                  </div>
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+          <AnimatePresence>
+            {deleteModal && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 z-50 flex items-center justify-center bg-black/60"
+                onClick={() => setDeleteModal(null)}
+              >
+                <motion.div
+                  initial={{ scale: 0.8 }}
+                  animate={{ scale: 1 }}
+                  exit={{ scale: 0.8 }}
+                  transition={{ duration: 0.3 }}
+                  className="bg-gray-900 text-white p-8 rounded-2xl w-96 flex flex-col items-center gap-4 relative"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <button
+                    className="absolute top-3 right-3 text-red-500 text-lg font-bold"
+                    onClick={() => setDeleteModal(null)}
+                  >
+                    ✕
+                  </button>
+                  <h2 className="text-xl font-semibold text-center">
+                    Are you sure you want to delete &quot;
+                    {deleteModal.title || deleteModal.description.slice(0, 30)}
+                    &quot;?
+                  </h2>
+                  <div className="flex gap-4 mt-4">
+                    <button
+                      className="px-4 py-2 rounded bg-gray-700 hover:bg-gray-600"
+                      onClick={() => setDeleteModal(null)}
+                      disabled={modalLoading}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      className="px-4 py-2 rounded bg-red-500 hover:bg-red-600 disabled:opacity-50"
+                      onClick={handleDelete}
+                      disabled={modalLoading}
+                    >
+                      {modalLoading ? "Deleting..." : "Delete"}
+                    </button>
+                  </div>
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </AnimationTemplate>
       )}
     </>
