@@ -47,7 +47,6 @@ export default function AdminPhoneInput({
   const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // ✅ debounce فقط یکبار ساخته میشه
   const debouncedHandler = useMemo(
     () =>
       debounce((val: string) => {
@@ -85,7 +84,7 @@ export default function AdminPhoneInput({
     if (!selectedCountry && countries.length > 0) {
       const initial =
         countries.find(
-          (c) => Number(c.dial_code) === Number(initialDialCode)
+          (c) => Number(c.id) === Number(initialDialCode)
         ) || countries[0];
       setSelectedCountry(initial);
       onPrefixChange?.(initial);

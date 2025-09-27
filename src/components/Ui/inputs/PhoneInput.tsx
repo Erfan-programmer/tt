@@ -86,17 +86,17 @@ export default function PhoneInput({
           // Access 'data' correctly, assuming the API returns an object with a 'data' key containing the country array
           const countryData = Array.isArray(res.data.data) ? res.data.data : [];
           setCountries(countryData);
-
           if (!selectedCountry && countryData.length > 0) {
             const defaultCountry = defaultDialCode
-              ? countryData.find((c) => c.dial_code === defaultDialCode)
-              : null;
-
+            ? countryData.find((c) => Number(c.id) === Number(defaultDialCode))
+            : null;
+            
             let countryToSelect = countryData[0];
 
             if (defaultCountry) {
               countryToSelect = defaultCountry;
             }
+           console.log("default country =>"  ,defaultCountry , defaultDialCode , countryData)
 
             setSelectedCountry(countryToSelect);
 
@@ -194,7 +194,7 @@ export default function PhoneInput({
         <input
           type="tel"
           value={value}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={(e) => {onChange(e.target.value)}}
           placeholder="Enter phone number"
           className="flex-1 titan-input-custom-container w-[11rem] sm:w-auto rounded-[1.5rem] px-4 py-2 border border-dashed border-gray-400 dark:border-gray-600 text-[var(--main-background)] dark:text-white"
         />

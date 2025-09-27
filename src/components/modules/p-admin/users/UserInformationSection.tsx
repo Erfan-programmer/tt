@@ -226,10 +226,10 @@ export default function UserInformationSection() {
               }}
               required
               onPrefixChange={(country) => {
-                setValue("prefix_number", country.dial_code, {
+                setValue("prefix_number", country.id, {
                   shouldDirty: true,
                 });
-                handleChange("prefix_number", country.dial_code);
+                handleChange("prefix_number", country.id);
               }}
             />
           )}

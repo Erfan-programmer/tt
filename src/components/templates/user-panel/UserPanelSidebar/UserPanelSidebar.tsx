@@ -22,13 +22,10 @@ export interface SubMenuItem {
 }
 
 export default function UserPanelSidebar() {
-  const { activeItem, setActiveItem, isSidebarOpen, setIsSidebarOpen } =
-    useVerify();
+  const { activeItem, setActiveItem, isSidebarOpen, setIsSidebarOpen } = useVerify();
   const [isLogoutOpen, setIsLogoutOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [openDropdowns, setOpenDropdowns] = useState<{
-    [key: string]: boolean;
-  }>({});
+  const [openDropdowns, setOpenDropdowns] = useState<{ [key: string]: boolean }>({});
   const router = useRouter();
   const pathname: any = usePathname();
 
@@ -83,8 +80,11 @@ export default function UserPanelSidebar() {
     removeUserData();
     router.push("/login");
   };
+  const {headerData} = useHeader()
+  const isVerified = headerData?.verified
+  const permissions = headerData?.permission
 
-  const dateUTC = new Date();
+  const permiateUTC = new Date();
   const formatter = new Intl.DateTimeFormat("en-GB", {
     timeZone: "UTC",
     year: "numeric",
@@ -94,24 +94,20 @@ export default function UserPanelSidebar() {
     minute: "2-digit",
     hour12: true,
   });
-  const parts = formatter.formatToParts(dateUTC);
-  const getPart = (type: string) =>
-    parts.find((p) => p.type === type)?.value || "";
-  const utcTimeString = `${getPart("year")}/${getPart("month")}/${getPart(
-    "day"
-  )} ${getPart("hour")}:${getPart("minute")} ${getPart("dayPeriod")}`;
-  const { headerData } = useHeader();
-  const permissions = headerData?.permission;
-  const isVerified = headerData?.verified
+  const parts = formatter.formatToParts(permiateUTC);
+  const getPart = (type: string) => parts.find((p) => p.type === type)?.value || "";
+  const utcTimeString = `${getPart("year")}/${getPart("month")}/${getPart("day")} ${getPart(
+    "hour"
+  )}:${getPart("minute")} ${getPart("dayPeriod")}`;
+
+  
   const renderLinks = (item: any) => {
     const hiddenInMobile = ["dashboard", "withdraw"].includes(item.id);
     if (isMobile && hiddenInMobile) return null;
 
-    const isActive =
-      activeItem === item.id ||
-      (pathname === `/dashboard` && item.id === "dashboard");
+    const isActive = activeItem === item.id || (pathname === `/dashboard` && item.id === "dashboard");
     const isDropdownOpen = openDropdowns[item.id] || false;
- console.log("item , subitem" , item , item.subItems)
+
     return (
       <>
         <div
@@ -129,9 +125,7 @@ export default function UserPanelSidebar() {
           </div>
           {item.subItems.length > 0 && (
             <GoTriangleDown
-              className={`transition-transform duration-300 ${
-                isDropdownOpen ? "rotate-180" : ""
-              }`}
+              className={`transition-transform duration-300 ${isDropdownOpen ? "rotate-180" : ""}`}
             />
           )}
         </div>
@@ -146,52 +140,27 @@ export default function UserPanelSidebar() {
               className="overflow-hidden"
             >
               <div className="submenu-container">
-                {item.subItems
-                  .filter((subItem: any) =>
+                {item.subItems.filter((subItem: any) =>
                     permissions?.some((permission) => {
                       const parts = permission.split(".");
-                      return parts.length > 1 && parts[1] === subItem.id;
+                      return parts.length > 1 && parts[1] === subItem?.id?.toLowerCase();
                     })
-                  )
-                  .map((subItem: any, index: number) => (
-                    <Link
-                      key={index}
-                      href={
-                        (isVerified && subItem && subItem?.toLowerCase() === "verification" )
-                          ? ""
-                          : subItem?.link
-                      }
-                      className={`submenu-item flex items-center rounded-[1rem] select-none gap-3  ${
-                        pathname?.startsWith(subItem.link) &&
-                        subItem.id.toLowerCase() !== "verification"
-                          ? "active-before"
-                          : "border-none"
-                      }`}
-                      onClick={(e: any) => e.stopPropagation()}
-                    >
-                      {subItem.svg}
-                      <span>
-                        {subItem.id.toLowerCase() === "verification" && isVerified ? (
-                          <div className="flex items-center">
-                            <span
-                              className={`${
-                                subItem.id.toLowerCase() === "verification"
-                                  ? "opacity-30"
-                                  : ""
-                              }`}
-                            >
-                              {subItem.span}{" "}
-                            </span>
-                            <span className="p-1 px-1 mb-1 !text-[.8rem]  rounded-xl text-green-600 absolute right-4">
-                              verified
-                            </span>
-                          </div>
-                        ) : (
-                          subItem.span
-                        )}
-                      </span>{" "}
-                    </Link>
-                  ))}
+                  ).map((subItem: any, index: number) => (
+                  <Link
+                    key={index}
+                    href={subItem.id?.toLowerCase() === "verification" && isVerified ? "javascript:void(0);" : subItem?.link}
+                    className={`submenu-item flex ${isVerified && subItem?.id?.toLowerCase() === "verification" ? "opacity-40" : "opacity-100"} items-center rounded-[1rem] gap-3 ${
+                      pathname?.startsWith(subItem.link) ? "border border-[#004ada] active-before" : ""
+                    }`}
+                    onClick={(e: any) => e.stopPropagation()}
+                  >
+                    {subItem.svg}
+                    <span>{subItem.span}</span>
+                    {isVerified && subItem?.id?.toLowerCase() === "verification" && (
+                      <span className="text-green-400">verified</span>
+                    )}
+                  </Link>
+                ))}
               </div>
             </motion.div>
           )}
@@ -230,42 +199,31 @@ export default function UserPanelSidebar() {
 
       <div className="sidebar-items w-[95%] mx-auto mt-[1rem] overflow-x-auto">
         <ul className="sidear-items-container">
-          {menuItems
-            .filter((item) => permissions?.includes(item.id.toLowerCase()))
-            .map((item) =>
-              item.subItems.length === 0 ? (
-                item.id === "logout" ? (
-                  <div
-                    key={item.id}
-                    onClick={() => handleItemClick(item.id)}
-                    className={`text-[#585966] ${
-                      activeItem === item.id ? "open" : ""
-                    }`}
-                  >
-                    {renderLinks(item)}
-                  </div>
-                ) : (
-                  <Link
-                    href={`/${item.link}`}
-                    key={item.id}
-                    className={`text-[#585966] ${
-                      activeItem === item.id ? "open" : ""
-                    }`}
-                  >
-                    {renderLinks(item)}
-                  </Link>
-                )
-              ) : (
+          {menuItems.filter(menu=> permissions?.includes(menu?.id?.toLowerCase())).map((item) =>
+            item.subItems.length === 0 ? (
+              item.id === "logout" ? (
                 <div
                   key={item.id}
-                  className={`text-[#585966] ${
-                    activeItem === item.id ? "open" : ""
-                  }`}
+                  onClick={() => handleItemClick(item.id)}
+                  className={`text-[#585966] ${activeItem === item.id ? "open" : ""}`}
                 >
                   {renderLinks(item)}
                 </div>
+              ) : (
+                <Link
+                  href={`/${item.link}`}
+                  key={item.id}
+                  className={`text-[#585966] ${activeItem === item.id ? "open" : ""}`}
+                >
+                  {renderLinks(item)}
+                </Link>
               )
-            )}
+            ) : (
+              <div key={item.id} className={`text-[#585966] ${activeItem === item.id ? "open" : ""}`}>
+                {renderLinks(item)}
+              </div>
+            )
+          )}
         </ul>
       </div>
 

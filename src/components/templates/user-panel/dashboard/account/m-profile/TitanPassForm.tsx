@@ -13,6 +13,7 @@ interface TitanPassFormProps {
   profile: {
     mobile: string;
     dial_code: string;
+    id: number;
     gender: string;
     country: {
       id: number;
@@ -34,7 +35,7 @@ interface UpdatePersonalInfoRequest {
   country: string;
   gender: string;
   fa_code: string;
-  prefix_number: string;
+  prefix_number: number;
 }
 
 
@@ -55,7 +56,7 @@ export default function TitanPassForm({ profile }: TitanPassFormProps) {
       country: profile.country?.id ? String(profile.country.id) : "",
       gender: profile.gender || "",
       fa_code: "",
-      prefix_number: profile?.dial_code || "",
+      prefix_number: profile?.id ,
     },
   });
 
@@ -81,7 +82,7 @@ const maskValue = (value: string, visibleChars = 2) => {
       country_id: string;
       gender: string;
       mobile: string;
-      dial_code: string;
+      dial_code: number;
       code: string;
     }> = {};
 
@@ -92,7 +93,7 @@ const maskValue = (value: string, visibleChars = 2) => {
       changedFields.country_id = country;
     if (gender !== profile.gender) changedFields.gender = gender;
     if (mobile !== profile.mobile) changedFields.mobile = mobile;
-    if (prefix_number !== profile.country?.dial_code)
+    if (prefix_number !== profile.country?.id)
       changedFields.dial_code = prefix_number;
     if (fa_code) changedFields.code = fa_code;
 
@@ -214,7 +215,7 @@ const maskValue = (value: string, visibleChars = 2) => {
                   // update prefix_number on country change
                   const selectedCountry = profile.country;
                   if (selectedCountry?.dial_code) {
-                    setValue("prefix_number", selectedCountry.dial_code, {
+                    setValue("prefix_number", selectedCountry.id, {
                       shouldDirty: true,
                     });
                   }
@@ -237,9 +238,13 @@ const maskValue = (value: string, visibleChars = 2) => {
                 required
                 defaultDialCode={profile.dial_code}
                 onPrefixChange={(country) =>
-                  setValue("prefix_number", country.dial_code, {
+                {
+
+                  console.log("country =>" , country);
+                  setValue("prefix_number", country.id, {
                     shouldDirty: true,
                   })
+                }
                 }
               />
             )}
