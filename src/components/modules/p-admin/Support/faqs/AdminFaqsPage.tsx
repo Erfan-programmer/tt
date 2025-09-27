@@ -10,7 +10,7 @@ import React, {
 import LineTitle from "@/components/modules/p-admin/LineTitle";
 import CustomAdminInput from "@/components/modules/p-admin/CustomAdminInput";
 import { apiRequest } from "@/libs/api";
-import { toast } from "react-toastify";
+import { toast , ToastContainer } from "react-toastify";
 import "@/styles/p-admin/AdminTextEditor.css";
 import { loadEncryptedData } from "@/components/modules/EncryptData/SavedEncryptData";
 import { AnimatePresence, motion } from "framer-motion";
@@ -232,7 +232,7 @@ export default function FaqsPage() {
   return (
     <>
       <LineTitle onClick={() => setShowTitle(!showTitle)} title="Manage faqs" />
-
+      <ToastContainer />
       {showTitle && (
         <AnimationTemplate>
           <div className="flex flex-col gap-4 mb-4">

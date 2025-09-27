@@ -1,15 +1,10 @@
 "use client";
 
-import React, {
-  useState,
-  useEffect,
-  useCallback,
-  useMemo,
-} from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import LineTitle from "@/components/modules/p-admin/LineTitle";
 import CustomAdminInput from "@/components/modules/p-admin/CustomAdminInput";
 import { apiRequest } from "@/libs/api";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "@/styles/p-admin/AdminTextEditor.css";
 import { loadEncryptedData } from "@/components/modules/EncryptData/SavedEncryptData";
 import PolicyTable, { Privacy } from "./PolicyTable";
@@ -40,22 +35,26 @@ export default function PrivacyPolicyPage() {
   const [modalLoading, setModalLoading] = useState(false);
   const [showTitle, setShowTitle] = useState(true);
 
-
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === "undefined") return;
 
     Promise.all([
-      import("react-quill").then(m => m.Quill),
-      import("quill-image-uploader").then(m => m.default)
-    ]).then(([Quill, ImageUploader]) => {
-      const quillAny: any = Quill;
-      if (Quill && ImageUploader && !quillAny.imports['modules/imageUploader']) {
-        Quill.register("modules/imageUploader", ImageUploader);
-      }
-    }).catch(error => {
-      console.error("Failed to load Quill modules:", error);
-    });
-    
+      import("react-quill").then((m) => m.Quill),
+      import("quill-image-uploader").then((m) => m.default),
+    ])
+      .then(([Quill, ImageUploader]) => {
+        const quillAny: any = Quill;
+        if (
+          Quill &&
+          ImageUploader &&
+          !quillAny.imports["modules/imageUploader"]
+        ) {
+          Quill.register("modules/imageUploader", ImageUploader);
+        }
+      })
+      .catch((error) => {
+        console.error("Failed to load Quill modules:", error);
+      });
   }, []);
 
   const fetchPrivacies = useCallback(async (pageNumber: number = 1) => {
@@ -179,7 +178,6 @@ export default function PrivacyPolicyPage() {
       setModalLoading(false);
     }
   };
-  
 
   const quillModules = useMemo(() => {
     return {
@@ -199,7 +197,7 @@ export default function PrivacyPolicyPage() {
           ["clean"],
           ["link", "image"],
         ],
-      imageUploader: {
+        imageUploader: {
           upload: (file: File) => {
             return new Promise((resolve, reject) => {
               const reader = new FileReader();
@@ -220,6 +218,7 @@ export default function PrivacyPolicyPage() {
 
   return (
     <>
+      <ToastContainer />
       <LineTitle
         onClick={() => setShowTitle(!showTitle)}
         title="Manage Privacy & Policy"

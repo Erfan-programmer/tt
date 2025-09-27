@@ -1,15 +1,10 @@
 "use client";
 
-import React, {
-  useState,
-  useEffect,
-  useCallback,
-  useMemo,
-} from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import LineTitle from "@/components/modules/p-admin/LineTitle";
 import CustomAdminInput from "@/components/modules/p-admin/CustomAdminInput";
 import { apiRequest } from "@/libs/api";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "@/styles/p-admin/AdminTextEditor.css";
 import { loadEncryptedData } from "@/components/modules/EncryptData/SavedEncryptData";
 import { AnimatePresence, motion } from "framer-motion";
@@ -17,7 +12,6 @@ import TermsTable, { Term } from "./TermsTable";
 import AnimationTemplate from "@/components/Ui/Modals/p-admin/AnimationTemplate";
 import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
-
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
@@ -40,25 +34,27 @@ export default function TermsAndConditionPage() {
   const [modalLoading, setModalLoading] = useState(false);
   const [showTitle, setShowTitle] = useState(true);
 
-
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === "undefined") return;
 
     Promise.all([
-      import("react-quill").then(m => m.Quill),
-      import("quill-image-uploader").then(m => m.default)
-    ]).then(([Quill, ImageUploader]) => {
-      const quillAny: any = Quill;
-      if (Quill && ImageUploader && !quillAny.imports['modules/imageUploader']) {
-        Quill.register("modules/imageUploader", ImageUploader);
-      }
-    }).catch(error => {
-      console.error("Failed to load Quill modules:", error);
-    });
-    
+      import("react-quill").then((m) => m.Quill),
+      import("quill-image-uploader").then((m) => m.default),
+    ])
+      .then(([Quill, ImageUploader]) => {
+        const quillAny: any = Quill;
+        if (
+          Quill &&
+          ImageUploader &&
+          !quillAny.imports["modules/imageUploader"]
+        ) {
+          Quill.register("modules/imageUploader", ImageUploader);
+        }
+      })
+      .catch((error) => {
+        console.error("Failed to load Quill modules:", error);
+      });
   }, []);
-
-
 
   const quillModules = useMemo(() => {
     return {
@@ -78,7 +74,7 @@ export default function TermsAndConditionPage() {
           ["clean"],
           ["link", "image"],
         ],
-      imageUploader: {
+        imageUploader: {
           upload: (file: File) => {
             return new Promise((resolve, reject) => {
               const reader = new FileReader();
@@ -97,42 +93,39 @@ export default function TermsAndConditionPage() {
     };
   }, []);
 
-  const fetchTerms = useCallback(
-    async (pageNumber: number = 1) => {
-      setListLoading(true);
-      const token = loadEncryptedData()?.token;
-      try {
-        const res = await apiRequest<{
-          data: any[];
-          meta: { current_page: number; last_page: number };
-        }>(
-          `${process.env.NEXT_PUBLIC_API_URL}/v1/termsAndConditions?page=${pageNumber}`,
-          "GET",
-          undefined,
-          { Authorization: `Bearer ${token}` }
-        );
+  const fetchTerms = useCallback(async (pageNumber: number = 1) => {
+    setListLoading(true);
+    const token = loadEncryptedData()?.token;
+    try {
+      const res = await apiRequest<{
+        data: any[];
+        meta: { current_page: number; last_page: number };
+      }>(
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/termsAndConditions?page=${pageNumber}`,
+        "GET",
+        undefined,
+        { Authorization: `Bearer ${token}` }
+      );
 
-        if (res.success && res.data) {
-          const termsData: Term[] = res.data.data.map((f) => ({
-            id: f.id,
-            title: f.title || f.description.slice(0, 30),
-            description: f.description,
-            created_at: f.created_at,
-          }));
-          setTerms(termsData);
-          setPage(res.data.meta?.current_page || 1);
-          setLastPage(res.data.meta?.last_page || 1);
-        } else {
-          toast.error(res.message || "Failed to fetch Terms & Conditions");
-        }
-      } catch {
-        toast.error("Error while fetching Terms & Conditions");
-      } finally {
-        setListLoading(false);
+      if (res.success && res.data) {
+        const termsData: Term[] = res.data.data.map((f) => ({
+          id: f.id,
+          title: f.title || f.description.slice(0, 30),
+          description: f.description,
+          created_at: f.created_at,
+        }));
+        setTerms(termsData);
+        setPage(res.data.meta?.current_page || 1);
+        setLastPage(res.data.meta?.last_page || 1);
+      } else {
+        toast.error(res.message || "Failed to fetch Terms & Conditions");
       }
-    },
-    []
-  );
+    } catch {
+      toast.error("Error while fetching Terms & Conditions");
+    } finally {
+      setListLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
     fetchTerms(page);
@@ -226,6 +219,7 @@ export default function TermsAndConditionPage() {
 
   return (
     <>
+      <ToastContainer />
       <LineTitle
         onClick={() => {
           setShowTitle(!showTitle);
@@ -418,4 +412,4 @@ export default function TermsAndConditionPage() {
       )}
     </>
   );
-} 
+}
