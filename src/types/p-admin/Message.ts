@@ -81,3 +81,28 @@ export interface Crypto {
   created_at?: string;
   updated_at?: string;
 }
+
+
+
+export interface CashRewardRecipient {
+  id: number;
+  created_at: string;
+  user: string;
+  rank: string;
+  prize: string;
+  wallet_type: string;
+  wallet_address: string;
+  status: "approved" | "pending" | "rejected" | string;
+}
+
+export interface CashRewardHistoryRecipient {
+  id: number;
+  created_at: string;
+  user: string;
+  rank: string;
+  prize: string;
+  wallet_type: string;
+  wallet_address: string;
+  TXid?: string;
+  status: "approved" | "pending" | "rejected" | string;
+}

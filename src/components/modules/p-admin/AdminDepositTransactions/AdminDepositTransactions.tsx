@@ -28,7 +28,11 @@ export default function AdminDepositTransactions({
     useState<Investment | null>(null);
 
   const columns: TableColumn<Investment>[] = [
-    { title: "ID", field: "id" },
+    {
+      title: "ID",
+      field: "id",
+      render: (_value, _row, index) => index,
+    },
     { title: "Date", field: "date" },
     {
       title: "Amount",
@@ -87,7 +91,7 @@ export default function AdminDepositTransactions({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={() => setSelectedInvestment(null)} 
+            onClick={() => setSelectedInvestment(null)}
           >
             <motion.div
               className="bg-gray-900 p-6 rounded-xl w-[500px] space-y-4 text-white"
@@ -97,9 +101,7 @@ export default function AdminDepositTransactions({
               transition={{ duration: 0.2 }}
               onClick={(e) => e.stopPropagation()}
             >
-              <h2 className="text-lg font-semibold mb-4">
-                Investment Details
-              </h2>
+              <h2 className="text-lg font-semibold mb-4">Investment Details</h2>
 
               <div className="space-y-3">
                 {Object.entries(selectedInvestment).map(([key, value]) => (

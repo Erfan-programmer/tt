@@ -99,7 +99,7 @@ export default function ProfitAndLoss() {
             ? " bg-gray-300 dark:bg-[#393939] border-white"
             : data?.value > 0
             ? "shadow-[inset_0_0_10px_#00CB08] bg-transparent border-[#00CB08]"
-            : "shadow-[inset_0_0_10px_#FF6060] border-[#FF6060] bg-transparent"
+            : data?.value < 0 ? "shadow-[inset_0_0_10px_#FF6060] border-[#FF6060] bg-transparent" : "shadow-[inset_0_0_10px_#ffcc00] border-[var(--normal)] bg-transparent"
         }`}
       >
         {!data?.outside && !data?.empty && data?.value ? (

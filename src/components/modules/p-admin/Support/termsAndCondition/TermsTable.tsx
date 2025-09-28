@@ -33,26 +33,35 @@ export default function TermsTable({
   onDelete,
 }: TermTableProps) {
   const columns: TableColumn<Term>[] = [
-    { title: "ID", field: "id" },
+    {
+      title: "ID",
+      field: "id",
+      render: (_value, _row, index) => index,
+    },
     { title: "Title", field: "title" },
- {
+    {
       title: "Description",
       field: "description",
-      render: (_ , term: any): React.ReactNode =>
-          <span className="whitespace-nowrap" dangerouslySetInnerHTML={{__html:term.description}} />
-            
-    },    {
+      render: (_, term: any): React.ReactNode => (
+        <span
+          className="whitespace-nowrap"
+          dangerouslySetInnerHTML={{ __html: term.description }}
+        />
+      ),
+    },
+    {
       title: "Created At",
       field: "created_at",
-      render: (_ ,term: any): React.ReactNode =>
-          <span className="whitespace-nowrap">
-            {new Date(term.created_at).toLocaleDateString("en-GB")}
-          </span>
+      render: (_, term: any): React.ReactNode => (
+        <span className="whitespace-nowrap">
+          {new Date(term.created_at).toLocaleDateString("en-GB")}
+        </span>
+      ),
     },
     {
       title: "Action",
-      field:"id",
-      render: (_ ,term): React.ReactNode => (
+      field: "id",
+      render: (_, term): React.ReactNode => (
         <div className="flex gap-2">
           <button
             onClick={() => onEdit(term)}
@@ -73,7 +82,11 @@ export default function TermsTable({
 
   return (
     <>
-      <AdminDynamicTable<any> columns={columns} data={terms} loading={loading} />
+      <AdminDynamicTable<any>
+        columns={columns}
+        data={terms}
+        loading={loading}
+      />
       <AdminPagination
         currentPage={page}
         lastPage={lastPage}

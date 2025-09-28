@@ -109,7 +109,11 @@ export default function AdminWithdrawList({ transactions, refetch }: Props) {
   };
 
   const columns: TableColumn<Transaction>[] = [
-    { title: "ID", field: "id" },
+    {
+      title: "ID",
+      field: "id",
+      render: (_value, _row, index) => index,
+    },
     { title: "Client ID", field: "client_id" },
     {
       title: "Amount",

@@ -59,7 +59,11 @@ export default function RanksListHistory({
   };
 
   const columns: TableColumn<Rank>[] = [
-    { title: "#", field: "id" },
+    {
+      title: "ID",
+      field: "id",
+      render: (_value, _row, index) => index,
+    },
     { title: "Name", field: "name" },
     { title: "Level", field: "level" },
     {
@@ -81,7 +85,7 @@ export default function RanksListHistory({
     {
       title: "Min Sales Volume",
       field: "min_sales_volume",
-      render: (_ ,rowData: any) =>
+      render: (_, rowData: any) =>
         `$${formatToTwoDecimals(rowData.min_sales_volume)}`,
     },
     { title: "Prize Description", field: "prize_description" },
@@ -90,7 +94,7 @@ export default function RanksListHistory({
     {
       title: "Tournament Prize",
       field: "tournament_prize_amount",
-      render: (_ ,rowData: any) =>
+      render: (_, rowData: any) =>
         `${formatToTwoDecimals(rowData.tournament_prize_amount)}`,
     },
     { title: "Description", field: "description" },
@@ -135,46 +139,52 @@ export default function RanksListHistory({
         data={ranks}
         loading={loading}
       />
- <AnimatePresence>
-  {isViewOpen && selectedRank && (
-    <motion.div
-      key="view-modal"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 bg-black/40  bg-opacity-50 flex justify-center items-center z-[9999]"
-      onClick={() => setIsViewOpen(false)}
-    >
-      <motion.div
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.9, opacity: 0 }}
-        transition={{ duration: 0.3 }}
-        className="bg-[#1E1E2D] p-6 rounded-lg w-[600px] max-h-[80vh] overflow-y-auto text-white"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <h2 className="text-xl mb-4 font-bold">Rank Details</h2>
+      <AnimatePresence>
+        {isViewOpen && selectedRank && (
+          <motion.div
+            key="view-modal"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/40  bg-opacity-50 flex justify-center items-center z-[9999]"
+            onClick={() => setIsViewOpen(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="bg-[#1E1E2D] p-6 rounded-lg w-[600px] max-h-[80vh] overflow-y-auto text-white"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <h2 className="text-xl mb-4 font-bold">Rank Details</h2>
 
-        <div className="space-y-2">
-          {Object.entries(selectedRank).map(([key, value]) => (
-            <div key={key} className="flex justify-between bg-[#2A2A3B] p-2 rounded">
-              <span className="font-semibold capitalize">{key.replace(/_/g, " ")}:</span>
-              <span>{value === null || value === "" ? "-" : value.toString()}</span>
-            </div>
-          ))}
-        </div>
+              <div className="space-y-2">
+                {Object.entries(selectedRank).map(([key, value]) => (
+                  <div
+                    key={key}
+                    className="flex justify-between bg-[#2A2A3B] p-2 rounded"
+                  >
+                    <span className="font-semibold capitalize">
+                      {key.replace(/_/g, " ")}:
+                    </span>
+                    <span>
+                      {value === null || value === "" ? "-" : value.toString()}
+                    </span>
+                  </div>
+                ))}
+              </div>
 
-        <button
-          onClick={() => setIsViewOpen(false)}
-          className="mt-4 bg-red-500 px-4 py-2 rounded"
-        >
-          Close
-        </button>
-      </motion.div>
-    </motion.div>
-  )}
-</AnimatePresence>
-
+              <button
+                onClick={() => setIsViewOpen(false)}
+                className="mt-4 bg-red-500 px-4 py-2 rounded"
+              >
+                Close
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <AnimatePresence>
         {isEditOpen.status && selectedRank && (

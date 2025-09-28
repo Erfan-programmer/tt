@@ -16,58 +16,7 @@
     scrollbar-width: none;
 }
 
-.dark .crypto-scroll-container.show-right-gradient::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 100%;
-    width: 100px;
-    background: linear-gradient(to right, transparent, var(--sidebar-bg) 90%);
-    pointer-events: none;
-    opacity: 1;
-    transition: opacity 0.3s ease;
-}
-.crypto-scroll-container.show-right-gradient::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 100%;
-    width: 100px;
-    background: linear-gradient(to right, transparent, #D9D9D9 90%);
-    pointer-events: none;
-    opacity: 1;
-    transition: opacity 0.3s ease;
-}
 
-.dark .crypto-scroll-container.show-left-gradient::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 50px;
-    background: linear-gradient(to left, transparent, var(--sidebar-bg) 90%);
-    pointer-events: none;
-    z-index: 1;
-    opacity: 1;
-    transition: opacity 0.3s ease;
-}
-
-.crypto-scroll-container.show-left-gradient::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 50px;
-    background: linear-gradient(to left, transparent, #D9D9D9 90%);
-    pointer-events: none;
-    z-index: 1;
-    opacity: 1;
-    transition: opacity 0.3s ease;
-}
 
 .crypto-scroll-container::before,
 .crypto-scroll-container::after {

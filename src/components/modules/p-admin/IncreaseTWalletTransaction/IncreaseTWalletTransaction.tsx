@@ -27,6 +27,11 @@ export default function IncreaseTWalletTransaction({
     useState<Transaction | null>(null);
 
   const columns: TableColumn<Transaction>[] = [
+    {
+      title: "ID",
+      field: "id",
+      render: (_value, _row, index) => index,
+    },
     { title: "Date", field: "date" },
     {
       title: "Amount",

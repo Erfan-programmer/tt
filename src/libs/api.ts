@@ -2,13 +2,12 @@ export interface ApiResponse<T = any> {
   success: boolean;
   data: T;
   message: string;
-  status: number; 
+  status: number;
   error?: {
     message: string;
     code?: string | number;
   };
 }
-
 export async function apiRequest<T>(
   url: string,
   method: "GET" | "POST" | "PUT" | "DELETE" = "GET",
@@ -34,15 +33,37 @@ export async function apiRequest<T>(
 
     try {
       data = await res.json();
-    } catch {
-      data = {};
+    } catch {}
+
+    if (res.status === 401) {
+      if (typeof window !== "undefined") {
+        if (typeof window !== "undefined") {
+          const redirectTo = window.location.pathname.includes("hrtaamst2025")
+            ? "/hrtaamst2025/auth/login"
+            : "/login";
+
+          setTimeout(() => {
+            window.location.href = redirectTo;
+          }, 1500);
+        }
+      }
+      return {
+        success: false,
+        message: "token is expired please log in again , Redirecting...",
+        status: 401,
+        error: {
+          message: "token is expired please log in again , Redirecting...",
+          code: 401,
+        },
+        data: {} as T,
+      };
     }
 
     if (!res.ok) {
       return {
         success: false,
         message: data?.message || "Request failed",
-        status: res.status, 
+        status: res.status,
         error: {
           message: data?.message || "Request failed",
           code: data?.error?.code || res.status,

@@ -7,6 +7,7 @@ import { loadEncryptedData } from "../../EncryptData/SavedEncryptData";
 import { toast, ToastContainer } from "react-toastify";
 import { useUserDocuments } from "@/contextApi/DocumentContext";
 import { useParams } from "next/navigation";
+import { FaTimes } from "react-icons/fa";
 
 export default function UsersProfileEmailChange() {
   const [newEmail, setNewEmail] = useState("");
@@ -59,7 +60,13 @@ export default function UsersProfileEmailChange() {
 
   return (
     <>
-      <ToastContainer />
+      <ToastContainer
+        closeButton={({ closeToast }) => (
+          <button onClick={closeToast}>
+            <FaTimes className="text-white" />
+          </button>
+        )}
+      />
       <AdminTemplateBox title="Reset Email">
         <CustomAdminInput
           title="New Email"

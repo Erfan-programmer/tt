@@ -8,6 +8,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { useHeader } from "@/contextApi/HeaderContext";
 import { apiRequest } from "@/libs/api";
 import { loadUserData } from "@/components/modules/EncryptData/SavedEncryptData";
+import { FaTimes } from "react-icons/fa";
 
 export default function TWalletTothers() {
   const [amount, setAmount] = useState<string>("");
@@ -72,7 +73,13 @@ export default function TWalletTothers() {
 
   return (
     <div className="team-account-content px-3 sm:px-4 md:px-[1rem] py-3 sm:py-4 md:py-[1rem] bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] bg-shadow-custom border-standard rounded-lg sm:rounded-xl mt-3 sm:mt-4 md:mt-5 pb-4 sm:pb-6 md:pb-[2rem]">
-      <ToastContainer />
+      <ToastContainer
+  closeButton={({ closeToast }) => (
+    <button onClick={closeToast}>
+      <FaTimes className="text-white" />
+    </button>
+  )}
+/>
       <div className="team-claim-reward">
         <div className="flex items-center gap-1.5 sm:gap-2">
           <svg

@@ -3,7 +3,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import "./../AdminLoginPage/AdminLoginPage.css";
-import { FaCheck } from "react-icons/fa";
+import { FaCheck, FaTimes } from "react-icons/fa";
 import { apiRequest } from "@/libs/api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -69,7 +69,9 @@ export default function AdminRegisterPage() {
         });
       }
     } catch (error: any) {
-      toast.error(`Request failed: ${error.message}`, { position: "top-right" });
+      toast.error(`Request failed: ${error.message}`, {
+        position: "top-right",
+      });
     } finally {
       setIsLoading(false);
     }
@@ -100,7 +102,8 @@ export default function AdminRegisterPage() {
             alt="form-icon"
           />
           <span className="text-dark-900 text-sm">
-            Fill in your details to receive our latest updates and notifications.
+            Fill in your details to receive our latest updates and
+            notifications.
           </span>
         </div>
 
@@ -170,7 +173,13 @@ export default function AdminRegisterPage() {
         </div>
       </div>
 
-      <ToastContainer />
+      <ToastContainer
+        closeButton={({ closeToast }) => (
+          <button onClick={closeToast}>
+            <FaTimes className="text-white" />
+          </button>
+        )}
+      />
     </div>
   );
 }

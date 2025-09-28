@@ -238,7 +238,13 @@ export default function EditBlogDetailPage() {
 
   return (
     <>
-      <ToastContainer />
+      <ToastContainer
+  closeButton={({ closeToast }) => (
+    <button onClick={closeToast}>
+      <FaTimes className="text-white" />
+    </button>
+  )}
+/>
       <LineTitle onClick={() => {}} title="Edit Blog" />
       <div className="mt-1 gap-4 p-4 border-[2px] border-[#383C47] rounded-lg flex items-start flex-wrap">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">

@@ -20,7 +20,7 @@ export interface CurrencyResponse {
 export const currencyApi = {
   getCurrencies: async (): Promise<CurrencyResponse> => {
     const res = await apiRequest<CurrencyResponse>(
-      '/currencies/list',
+      `${process.env.NEXT_PUBLIC_API_URL}/v1/currencies`,
       'GET',
       undefined,
     );

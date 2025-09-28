@@ -3,7 +3,7 @@ import Image from "next/image";
 import React, { useCallback, useEffect, useState } from "react";
 import { apiRequest } from "@/libs/api";
 import { loadEncryptedData } from "../../EncryptData/SavedEncryptData";
-import { FaTrash, FaEdit, FaEye } from "react-icons/fa";
+import { FaTrash, FaEdit, FaEye, FaTimes } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -29,8 +29,6 @@ export default function AdminListMessage() {
     null
   );
 
-
-
   const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
   const fetchMessages = useCallback(async () => {
@@ -50,7 +48,7 @@ export default function AdminListMessage() {
     } finally {
       setLoading(false);
     }
-  }, [setLoading, setMessages , BASE_URL]);
+  }, [setLoading, setMessages, BASE_URL]);
 
   useEffect(() => {
     fetchMessages();
@@ -100,11 +98,15 @@ export default function AdminListMessage() {
 
   const router = useRouter();
 
-
-
   return (
     <div className="admin-list-message space-y-4">
-      <ToastContainer />
+      <ToastContainer
+        closeButton={({ closeToast }) => (
+          <button onClick={closeToast}>
+            <FaTimes className="text-white" />
+          </button>
+        )}
+      />
       {loading && <p className="text-white">Loading messages...</p>}
 
       {messages.map((msg) => (

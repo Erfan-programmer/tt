@@ -258,7 +258,13 @@ If you have received more than 80% of your investment amount in profits from Tit
         description="If you cancel your investment contract before its end date and the contract is terminated by you, the company will deduct all the profits paid to you so far from your investment amount, and a 10% penalty will be applied to your principal investment. After completing the necessary documentation, the remaining amount will be transferred to the wallet address you have provided.
 If you have received more than 80% of your investment amount in profits from Titan Investments during this period, you will not be able to cancel your contract and must wait until its legal end date."
       />
-      <ToastContainer />
+      <ToastContainer
+  closeButton={({ closeToast }) => (
+    <button onClick={closeToast}>
+      <FaTimes className="text-white" />
+    </button>
+  )}
+/>
       <div className="user-contacts-container border-standard rounded-xl py-4 bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] mt-4">
         <div className="user-contact-header flex flex-col sm:flex-row items-center px-2 sm:px-[2rem]">
           <p className="text-[var(--dark-color)] dark:text-white text-lg sm:text-xl">

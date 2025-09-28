@@ -2,7 +2,7 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import "./AdminLoginPage.css";
-import { FaCheck } from "react-icons/fa";
+import { FaCheck, FaTimes } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { apiRequest } from "@/libs/api";
 import { saveEncryptedData } from "../../EncryptData/SavedEncryptData";
@@ -54,7 +54,7 @@ export default function AdminLoginPage() {
             password: formData.password,
             token: loginData.access_token,
           },
-          loginData.expires_in, 
+          loginData.expires_in,
           keepPosted
         );
 
@@ -101,7 +101,8 @@ export default function AdminLoginPage() {
             alt=""
           />
           <span className="text-dark-900 text-sm">
-            Fill in your details to receive our latest updates and notifications.
+            Fill in your details to receive our latest updates and
+            notifications.
           </span>
         </div>
 
@@ -161,7 +162,13 @@ export default function AdminLoginPage() {
         </div>
       </div>
 
-      <ToastContainer />
+      <ToastContainer
+        closeButton={({ closeToast }) => (
+          <button onClick={closeToast}>
+            <FaTimes className="text-white" />
+          </button>
+        )}
+      />
     </div>
   );
 }

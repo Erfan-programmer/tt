@@ -112,7 +112,13 @@ export default function VerificationStepBox({
       onClick={handleClick}
       style={{ cursor: "pointer", position: "relative" }}
     >
-      <ToastContainer />
+      <ToastContainer
+  closeButton={({ closeToast }) => (
+    <button onClick={closeToast}>
+      <FaTimes className="text-white" />
+    </button>
+  )}
+/>
 
       {(status === "approved" || status === "rejected") && (
         <div

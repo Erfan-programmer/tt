@@ -19,6 +19,7 @@ import {
   registerSchema,
 } from "@/validations/validationSchema";
 import InvenstmentTerm from "@/components/modules/Register/InvenstmentTerm";
+import { FaTimes } from "react-icons/fa";
 
 export default function Register() {
   const [currentStep, setCurrentStep] = useState<number>(1);
@@ -206,7 +207,13 @@ export default function Register() {
 
   return (
     <>
-      <ToastContainer />
+      <ToastContainer
+        closeButton={({ closeToast }) => (
+          <button onClick={closeToast}>
+            <FaTimes className="text-white" />
+          </button>
+        )}
+      />
       <div className="sm:mb-[4rem] ">
         <div className="formlayout-bg-mobile flex flex-col items-start justify-center gap-4 px-[1rem] sm:hidden">
           <motion.h2

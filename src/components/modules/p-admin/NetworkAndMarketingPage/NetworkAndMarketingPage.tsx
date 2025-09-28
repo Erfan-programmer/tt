@@ -9,6 +9,7 @@ import { apiRequest } from "@/libs/api";
 import { loadEncryptedData } from "@/components/modules/EncryptData/SavedEncryptData";
 import { toast, ToastContainer } from "react-toastify";
 import Pagination from "../../UserPanel/Pagination/Pagination";
+import { FaTimes } from "react-icons/fa";
 
 interface Meta {
   current_page: number;
@@ -118,7 +119,13 @@ export default function NetworkAndMarketingPage() {
   return (
     <>
       <LineTitle onClick={() => {}} title="Ranks" />
-      <ToastContainer />
+      <ToastContainer
+        closeButton={({ closeToast }) => (
+          <button onClick={closeToast}>
+            <FaTimes className="text-white" />
+          </button>
+        )}
+      />
       <AdminTemplateBox title="Annual sales Level">
         <CustomAdminInput
           title="Enter Annual Sales Level"

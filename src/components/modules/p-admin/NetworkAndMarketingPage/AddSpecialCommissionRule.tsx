@@ -6,6 +6,7 @@ import CustomAdminInput from "../CustomAdminInput";
 import { apiRequest } from "@/libs/api";
 import { loadEncryptedData } from "../../EncryptData/SavedEncryptData";
 import { toast, ToastContainer } from "react-toastify";
+import { FaTimes } from "react-icons/fa";
 
 interface DropdownOption {
   label: string;
@@ -23,7 +24,9 @@ interface AddSpecialCommision {
   refetch: () => void;
 }
 
-export default function AddSpecialCommissionRule({ refetch }: AddSpecialCommision) {
+export default function AddSpecialCommissionRule({
+  refetch,
+}: AddSpecialCommision) {
   const [formData, setFormData] = useState({
     user: "",
     level: "",
@@ -52,10 +55,16 @@ export default function AddSpecialCommissionRule({ refetch }: AddSpecialCommisio
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (userDropdownRef.current && !userDropdownRef.current.contains(event.target as Node)) {
+      if (
+        userDropdownRef.current &&
+        !userDropdownRef.current.contains(event.target as Node)
+      ) {
         setUserDropdownOpen(false);
       }
-      if (levelDropdownRef.current && !levelDropdownRef.current.contains(event.target as Node)) {
+      if (
+        levelDropdownRef.current &&
+        !levelDropdownRef.current.contains(event.target as Node)
+      ) {
         setLevelDropdownOpen(false);
       }
     };
@@ -144,7 +153,9 @@ export default function AddSpecialCommissionRule({ refetch }: AddSpecialCommisio
         { Authorization: `Bearer ${token}` }
       );
       if (res.success) {
-        toast.success(res.message || "Special commission rule created successfully!");
+        toast.success(
+          res.message || "Special commission rule created successfully!"
+        );
         setFormData({ user: "", level: "", percentage: "", twoFA: "" });
         setSelectedUser({ label: "-- Choose User --", value: "", tid: 0 });
         setSelectedLevel({ label: "-- Choose Level --", value: "", tid: 0 });
@@ -159,13 +170,23 @@ export default function AddSpecialCommissionRule({ refetch }: AddSpecialCommisio
 
   return (
     <>
-      <ToastContainer />
+      <ToastContainer
+        closeButton={({ closeToast }) => (
+          <button onClick={closeToast}>
+            <FaTimes className="text-white" />
+          </button>
+        )}
+      />
       <div className="add-special-commission-rule space-y-4 mt-8">
-        <p className="text-lg font-semibold text-white">Add Special Commission Rule</p>
+        <p className="text-lg font-semibold text-white">
+          Add Special Commission Rule
+        </p>
         <div className="border-[2px] border-[#383C47] rounded-[.5rem] px-6 py-4 bg-[#111827]">
           <div className="flex flex-col lg:flex-row items-start lg:items-end gap-4">
             <div className="relative w-full lg:w-1/5" ref={userDropdownRef}>
-              <span className="text-white block font-bold mb-1">Select User</span>
+              <span className="text-white block font-bold mb-1">
+                Select User
+              </span>
               <div
                 className="flex justify-between items-center p-2 px-3 rounded-[.5rem] border border-[#555] bg-transparent text-white cursor-pointer text-md"
                 onClick={() => {
@@ -177,7 +198,9 @@ export default function AddSpecialCommissionRule({ refetch }: AddSpecialCommisio
               >
                 <span>{selectedUser.label}</span>
                 <VscTriangleDown
-                  className={`transition-transform text-white text-xl ${userDropdownOpen ? "rotate-180" : ""}`}
+                  className={`transition-transform text-white text-xl ${
+                    userDropdownOpen ? "rotate-180" : ""
+                  }`}
                 />
               </div>
               <AnimatePresence>
@@ -198,9 +221,13 @@ export default function AddSpecialCommissionRule({ refetch }: AddSpecialCommisio
                       />
                     </div>
                     {loadingUsers ? (
-                      <div className="px-4 py-3 text-white text-md">Loading...</div>
+                      <div className="px-4 py-3 text-white text-md">
+                        Loading...
+                      </div>
                     ) : users.length === 0 ? (
-                      <div className="px-4 py-3 text-gray-400 text-md">No results</div>
+                      <div className="px-4 py-3 text-gray-400 text-md">
+                        No results
+                      </div>
                     ) : (
                       users.map((option) => (
                         <div
@@ -213,7 +240,9 @@ export default function AddSpecialCommissionRule({ refetch }: AddSpecialCommisio
                           }}
                         >
                           <p className="text-white">{option.label}</p>
-                          <p className="text-[.8rem] text-gray-400">TID: {option.tid}</p>
+                          <p className="text-[.8rem] text-gray-400">
+                            TID: {option.tid}
+                          </p>
                         </div>
                       ))
                     )}
@@ -222,7 +251,9 @@ export default function AddSpecialCommissionRule({ refetch }: AddSpecialCommisio
               </AnimatePresence>
             </div>
             <div className="relative w-full lg:w-1/5" ref={levelDropdownRef}>
-              <span className="text-white block font-bold mb-1">Select Level</span>
+              <span className="text-white block font-bold mb-1">
+                Select Level
+              </span>
               <div
                 className="flex justify-between items-center p-2 px-3 rounded-[.5rem] border border-[#555] bg-transparent text-white cursor-pointer text-md"
                 onClick={async () => {
@@ -232,7 +263,9 @@ export default function AddSpecialCommissionRule({ refetch }: AddSpecialCommisio
               >
                 <span>{selectedLevel.label}</span>
                 <VscTriangleDown
-                  className={`transition-transform text-white text-xl ${levelDropdownOpen ? "rotate-180" : ""}`}
+                  className={`transition-transform text-white text-xl ${
+                    levelDropdownOpen ? "rotate-180" : ""
+                  }`}
                 />
               </div>
               <AnimatePresence>
@@ -244,7 +277,9 @@ export default function AddSpecialCommissionRule({ refetch }: AddSpecialCommisio
                     className="absolute z-10 mt-2 w-full bg-[#1F2937] border border-[#555] rounded-[.5rem] overflow-hidden shadow-lg max-h-60 overflow-y-auto"
                   >
                     {loadingLevels ? (
-                      <div className="px-4 py-3 text-white text-md">Loading...</div>
+                      <div className="px-4 py-3 text-white text-md">
+                        Loading...
+                      </div>
                     ) : (
                       levels.map((level) => (
                         <div

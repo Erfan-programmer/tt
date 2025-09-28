@@ -16,6 +16,11 @@ const nextConfig = {
       },
       {
         protocol: "https",
+        hostname: "flagcdn.com",
+        pathname: "/w40/**",
+      },
+      {
+        protocol: "https",
         hostname: "api.qrserver.com",
         pathname: "/**",
       },

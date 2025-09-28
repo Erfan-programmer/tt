@@ -39,30 +39,41 @@ export default function RoiListHistory({ data }: RoiListHistoryProps) {
   const [selectedRoi, setSelectedRoi] = useState<RoiStatement | null>(null);
 
   const columns: TableColumn<RoiStatement>[] = [
-    { title: "User Id", field: "user_id" },
+    {
+      title: "ID",
+      field: "id",
+      render: (_value, _row, index) => index,
+    },
     { title: "Year", field: "year" },
     { title: "Month", field: "month" },
     {
       title: "Average %",
       field: "average_percentage",
-      render: (_: any, row: RoiStatement) => `${formatToInt(row.average_percentage)} %`,
+      render: (_: any, row: RoiStatement) =>
+        `${formatToInt(row.average_percentage)} %`,
     },
     { title: "ROI Recipients Count", field: "roi_recipients_count" },
     {
       title: "Total Profit",
       field: "total_profit",
-      render: (_: any, row: RoiStatement) => formatToTwoDecimalsSafe(row.total_profit),
+      render: (_: any, row: RoiStatement) =>
+        formatToTwoDecimalsSafe(row.total_profit),
     },
     {
       title: "Total Loss",
       field: "total_loss",
-      render: (_: any, row: RoiStatement) => formatToTwoDecimalsSafe(row.total_loss),
+      render: (_: any, row: RoiStatement) =>
+        formatToTwoDecimalsSafe(row.total_loss),
     },
-    { title: "Commission Recipients Count", field: "commission_recipients_count" },
+    {
+      title: "Commission Recipients Count",
+      field: "commission_recipients_count",
+    },
     {
       title: "Total Commission",
       field: "total_commission",
-      render: (_: any, row: RoiStatement) => formatToTwoDecimalsSafe(row.total_commission),
+      render: (_: any, row: RoiStatement) =>
+        formatToTwoDecimalsSafe(row.total_commission),
     },
     {
       title: "Action",
@@ -99,28 +110,36 @@ export default function RoiListHistory({ data }: RoiListHistoryProps) {
               <h2 className="text-lg font-semibold mb-4">ROI Preview</h2>
               <div className="space-y-2 text-sm">
                 <p>
-                  <span className="font-semibold">Year:</span> {selectedRoi.year}
+                  <span className="font-semibold">Year:</span>{" "}
+                  {selectedRoi.year}
                 </p>
                 <p>
-                  <span className="font-semibold">Month:</span> {selectedRoi.month}
+                  <span className="font-semibold">Month:</span>{" "}
+                  {selectedRoi.month}
                 </p>
                 <p>
-                  <span className="font-semibold">Average:</span> {formatToInt(selectedRoi.average_percentage)} %
+                  <span className="font-semibold">Average:</span>{" "}
+                  {formatToInt(selectedRoi.average_percentage)} %
                 </p>
                 <p>
-                  <span className="font-semibold">ROI Recipients:</span> {selectedRoi.roi_recipients_count}
+                  <span className="font-semibold">ROI Recipients:</span>{" "}
+                  {selectedRoi.roi_recipients_count}
                 </p>
                 <p>
-                  <span className="font-semibold">Total Profit:</span> {formatToTwoDecimalsSafe(selectedRoi.total_profit)}
+                  <span className="font-semibold">Total Profit:</span>{" "}
+                  {formatToTwoDecimalsSafe(selectedRoi.total_profit)}
                 </p>
                 <p>
-                  <span className="font-semibold">Total Loss:</span> {formatToTwoDecimalsSafe(selectedRoi.total_loss)}
+                  <span className="font-semibold">Total Loss:</span>{" "}
+                  {formatToTwoDecimalsSafe(selectedRoi.total_loss)}
                 </p>
                 <p>
-                  <span className="font-semibold">Commission Recipients:</span> {selectedRoi.commission_recipients_count}
+                  <span className="font-semibold">Commission Recipients:</span>{" "}
+                  {selectedRoi.commission_recipients_count}
                 </p>
                 <p>
-                  <span className="font-semibold">Total Commission:</span> {formatToTwoDecimalsSafe(selectedRoi.total_commission)}
+                  <span className="font-semibold">Total Commission:</span>{" "}
+                  {formatToTwoDecimalsSafe(selectedRoi.total_commission)}
                 </p>
               </div>
               <div className="flex justify-end mt-4">

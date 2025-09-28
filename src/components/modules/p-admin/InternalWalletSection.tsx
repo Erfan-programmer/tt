@@ -225,7 +225,8 @@ export default function InternalWalletSection() {
     withdrawWallets.forEach((w, i) => {
       formData.append(`cryptos[${i}][title]`, w.title);
       formData.append(`cryptos[${i}][network]`, w.network);
-      formData.append(`cryptos[${i}][description]`, `Main ${w.title}`);
+      formData.append(`cryptos[${i}][network]`, w.network);
+      formData.append(`cryptos[${i}][description]`, `${w.description}`);
       if (w.icon) {
         formData.append(`cryptos[${i}][icon]`, w.icon);
       }
@@ -493,6 +494,13 @@ export default function InternalWalletSection() {
                     value={wallet.network}
                     onChange={(val) =>
                       handleWithdrawChange(wallet.id, "network", val)
+                    }
+                  />
+                  <CustomAdminInput
+                    title="Description"
+                    value={wallet.description}
+                    onChange={(val) =>
+                      handleWithdrawChange(wallet.id, "description", val)
                     }
                   />
 

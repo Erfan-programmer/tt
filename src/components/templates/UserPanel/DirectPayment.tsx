@@ -13,6 +13,7 @@ import { useVerify } from "@/contextApi/TitanContext";
 import { apiRequest } from "@/libs/api";
 import { loadUserData } from "@/components/modules/EncryptData/SavedEncryptData";
 import { usePayment } from "@/contextApi/PaymentProvider";
+import { FaTimes } from "react-icons/fa";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -43,18 +44,21 @@ export default function DirectPayment({
       message: "Amount must be a multiple of 1,000",
     });
 
-  const validateDeposit = useCallback((value: string) => {
-    const result = depositSchema.safeParse(value);
-    if (!result.success) {
-      setErrors((prev) => ({
-        ...prev,
-        deposit: result.error.issues[0]?.message || "",
-      }));
-      return false;
-    }
-    setErrors((prev) => ({ ...prev, deposit: "" }));
-    return true;
-  }, [depositSchema]);
+  const validateDeposit = useCallback(
+    (value: string) => {
+      const result = depositSchema.safeParse(value);
+      if (!result.success) {
+        setErrors((prev) => ({
+          ...prev,
+          deposit: result.error.issues[0]?.message || "",
+        }));
+        return false;
+      }
+      setErrors((prev) => ({ ...prev, deposit: "" }));
+      return true;
+    },
+    [depositSchema]
+  );
 
   const debouncedValidateDeposit = useMemo(
     () => debounce((value: string) => validateDeposit(value), 500),
@@ -72,7 +76,7 @@ export default function DirectPayment({
     setTouched((prev) => ({ ...prev, deposit: true }));
     validateDeposit(deposit);
   };
-  const {setPayment} = usePayment()
+  const { setPayment } = usePayment();
 
   const isValid =
     deposit.trim() !== "" &&
@@ -99,15 +103,14 @@ export default function DirectPayment({
         toast.success(res.message || "");
         setTimeout(() => {
           setAccountActivation("PAYMENT");
-          setPayment(res.data.data)
+          setPayment(res.data.data);
           router.push(`/dashboard/payment`);
         }, 1000);
       }
-
     } catch (err: any) {
       toast.error(err?.error?.message || "Error submitting request");
     }
-  }, [deposit, cryptoKey, router, setAccountActivation  , setPayment]);
+  }, [deposit, cryptoKey, router, setAccountActivation, setPayment]);
 
   useEffect(() => {
     if (triggerSubmit) {
@@ -130,7 +133,13 @@ export default function DirectPayment({
 
   return (
     <div className="add-user-action-container px-2 sm:px-[2rem]">
-      <ToastContainer />
+      <ToastContainer
+        closeButton={({ closeToast }) => (
+          <button onClick={closeToast}>
+            <FaTimes className="text-white" />
+          </button>
+        )}
+      />
       <div className="border-standard bg-[#f9f9fe] dark:bg-[#0f163a] rounded-[1em] mt-3 p-5 py-[2rem] space-y-4">
         <CustomInput
           className="w-full"

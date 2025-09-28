@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaTimes } from "react-icons/fa";
 import AdminDynamicTable, { TableColumn } from "../AdminTable";
 import { CancelRequest } from "./CancelAccountPage";
 import { toast, ToastContainer } from "react-toastify";
@@ -93,11 +93,13 @@ export default function CancelRequestTable({ requests = [], refetch }: Props) {
       render: (_, row) => <span>{formatToTwoDecimals(row.deposit)}</span>,
     },
     {
-     title: "Balance", field: "balance" ,
+      title: "Balance",
+      field: "balance",
       render: (_, row) => <span>{formatToTwoDecimals(row.balance)}</span>,
     },
     {
-      title: "Income", field: "income"  ,
+      title: "Income",
+      field: "income",
       render: (_, row) => <span>{formatToTwoDecimals(row.balance)}</span>,
     },
     { title: "Cancel Reason", field: "cancel_reason" },
@@ -144,7 +146,13 @@ export default function CancelRequestTable({ requests = [], refetch }: Props) {
 
   return (
     <>
-      <ToastContainer />
+      <ToastContainer
+        closeButton={({ closeToast }) => (
+          <button onClick={closeToast}>
+            <FaTimes className="text-white" />
+          </button>
+        )}
+      />
       <AdminDynamicTable<CancelRequest> columns={columns} data={requests} />
 
       {showModal && selectedRequest && (

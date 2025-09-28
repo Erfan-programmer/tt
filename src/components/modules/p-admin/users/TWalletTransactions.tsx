@@ -26,6 +26,11 @@ export default function TWalletTransactionHistoy({
     useState<Transaction | null>(null);
 
   const columns: TableColumn<Transaction>[] = [
+    {
+      title: "ID",
+      field: "id",
+      render: (_value, _row, index) => index,
+    },
     { title: "Date", field: "date" },
     { title: "Amount", field: "amount" },
     { title: "From User", field: "from_user" },
@@ -84,14 +89,30 @@ export default function TWalletTransactionHistoy({
                 Transaction Details
               </h2>
               <div className="text-white space-y-2">
-                <p><strong>ID:</strong> {selectedTransaction.id}</p>
-                <p><strong>Date:</strong> {selectedTransaction.date}</p>
-                <p><strong>Amount:</strong> {selectedTransaction.amount}</p>
-                <p><strong>From User:</strong> {selectedTransaction.from_user}</p>
-                <p><strong>To User:</strong> {selectedTransaction.to_user}</p>
-                <p><strong>Type:</strong> {selectedTransaction.type}</p>
-                <p><strong>Details:</strong> {selectedTransaction.details}</p>
-                <p><strong>Status:</strong> {selectedTransaction.status}</p>
+                <p>
+                  <strong>ID:</strong> {selectedTransaction.id}
+                </p>
+                <p>
+                  <strong>Date:</strong> {selectedTransaction.date}
+                </p>
+                <p>
+                  <strong>Amount:</strong> {selectedTransaction.amount}
+                </p>
+                <p>
+                  <strong>From User:</strong> {selectedTransaction.from_user}
+                </p>
+                <p>
+                  <strong>To User:</strong> {selectedTransaction.to_user}
+                </p>
+                <p>
+                  <strong>Type:</strong> {selectedTransaction.type}
+                </p>
+                <p>
+                  <strong>Details:</strong> {selectedTransaction.details}
+                </p>
+                <p>
+                  <strong>Status:</strong> {selectedTransaction.status}
+                </p>
               </div>
               <div className="flex justify-end">
                 <button

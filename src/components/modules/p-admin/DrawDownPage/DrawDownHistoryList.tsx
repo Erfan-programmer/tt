@@ -24,9 +24,15 @@ interface Props {
 }
 
 export default function DrawDownHistoryList({ data }: Props) {
-  const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
+  const [selectedTransaction, setSelectedTransaction] =
+    useState<Transaction | null>(null);
 
   const columns: TableColumn<Transaction>[] = [
+    {
+      title: "ID",
+      field: "id",
+      render: (_value, _row, index) => index,
+    },
     { title: "Date", field: "date" },
     { title: "TID", field: "tid" },
     { title: "Full Name", field: "fullname" },
@@ -84,7 +90,9 @@ export default function DrawDownHistoryList({ data }: Props) {
               transition={{ duration: 0.2 }}
               onClick={(e) => e.stopPropagation()}
             >
-              <h2 className="text-lg font-semibold mb-4">Transaction Details</h2>
+              <h2 className="text-lg font-semibold mb-4">
+                Transaction Details
+              </h2>
               <div className="space-y-2">
                 {Object.entries(selectedTransaction).map(([key, value]) => (
                   <div
@@ -95,8 +103,7 @@ export default function DrawDownHistoryList({ data }: Props) {
                       {key.replace("_", " ")}
                     </span>
                     <span>
-                      {["deposit", "balance"]
-                        .includes(key)
+                      {["deposit", "balance"].includes(key)
                         ? Number(value).toFixed(2)
                         : key === "dd_percent"
                         ? Number(value).toFixed(0) + "%"

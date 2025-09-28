@@ -11,6 +11,7 @@ import React, { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import Pagination from "@/components/modules/UserPanel/Pagination/Pagination";
 import AnimationTemplate from "@/components/Ui/Modals/p-admin/AnimationTemplate";
+import { FaTimes } from "react-icons/fa";
 
 interface HoldingAccountsInfo {
   counts_by_plan: { name: string; total: number }[];
@@ -155,7 +156,13 @@ export default function HoldingAccountPage() {
 
   return (
     <>
-      <ToastContainer />
+      <ToastContainer
+        closeButton={({ closeToast }) => (
+          <button onClick={closeToast}>
+            <FaTimes className="text-white" />
+          </button>
+        )}
+      />
       <LineTitle
         onClick={() => {
           setShowHoldingAccounts(!showHoldingAccounts);

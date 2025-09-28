@@ -9,7 +9,7 @@ import { loadEncryptedData } from "../EncryptData/SavedEncryptData";
 import CustomAdminInput from "./CustomAdminInput";
 import Image from "next/image";
 
-export type Wallet  = {
+export type Wallet = {
   id: number;
   title: string;
   address: string;
@@ -19,7 +19,7 @@ export type Wallet  = {
   is_active?: number;
   created_at?: string;
   updated_at?: string;
-}
+};
 
 interface DepositWalletsTableProps {
   wallets: Wallet[];
@@ -183,7 +183,11 @@ export default function DepositWalletsTable({
   };
 
   const columns: TableColumn<Wallet>[] = [
-    { title: "ID", field: "id" },
+    {
+      title: "ID",
+      field: "id",
+      render: (_value, _row, index) => index,
+    },
     { title: "Title", field: "title" },
     { title: "Symbol", field: "symbol" },
     { title: "Description", field: "description" },

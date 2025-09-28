@@ -12,19 +12,30 @@ import { useHeader } from "@/contextApi/HeaderContext";
 import { useRouter } from "next/navigation";
 import { apiRequest } from "@/libs/api";
 import { loadUserData } from "@/components/modules/EncryptData/SavedEncryptData";
+import { FaTimes } from "react-icons/fa";
 
 interface TwalletPaymentProps {
   onValidityChange?: (isValid: boolean) => void;
 }
 
-export default function TwalletPayment({ onValidityChange }: TwalletPaymentProps) {
+export default function TwalletPayment({
+  onValidityChange,
+}: TwalletPaymentProps) {
   const [twofaCode, setTwoFaCode] = useState<string>("");
   const [deposit, setDeposit] = useState<string>("");
-  const [errors, setErrors] = useState<{ twofaCode?: string; deposit?: string }>({});
-  const [touched, setTouched] = useState<{ twofaCode?: boolean; deposit?: boolean }>({});
+  const [errors, setErrors] = useState<{
+    twofaCode?: string;
+    deposit?: string;
+  }>({});
+  const [touched, setTouched] = useState<{
+    twofaCode?: boolean;
+    deposit?: boolean;
+  }>({});
   const [showSuccessNotif, setShowSuccessNotif] = useState(false);
 
-  const triggerSubmit = useSelector((state: RootState) => state.payment.triggerSubmit);
+  const triggerSubmit = useSelector(
+    (state: RootState) => state.payment.triggerSubmit
+  );
   const dispatch = useDispatch();
   const { refetch, headerData } = useHeader();
   const router = useRouter();
@@ -33,17 +44,25 @@ export default function TwalletPayment({ onValidityChange }: TwalletPaymentProps
     .string()
     .regex(/^\d+$/, { message: "Amount must be a number" })
     .transform((val) => Number(val))
-    .refine((val) => val % 1000 === 0, { message: "Amount must be a multiple of 1,000" });
+    .refine((val) => val % 1000 === 0, {
+      message: "Amount must be a multiple of 1,000",
+    });
 
-  const validateDeposit = useCallback((value: string) => {
-    const result = depositSchema.safeParse(value);
-    if (!result.success) {
-      setErrors((prev) => ({ ...prev, deposit: result.error.issues[0]?.message || "" }));
-      return false;
-    }
-    setErrors((prev) => ({ ...prev, deposit: "" }));
-    return true;
-  }, [depositSchema]);
+  const validateDeposit = useCallback(
+    (value: string) => {
+      const result = depositSchema.safeParse(value);
+      if (!result.success) {
+        setErrors((prev) => ({
+          ...prev,
+          deposit: result.error.issues[0]?.message || "",
+        }));
+        return false;
+      }
+      setErrors((prev) => ({ ...prev, deposit: "" }));
+      return true;
+    },
+    [depositSchema]
+  );
 
   const validateTwoFaCode = useCallback((value: string) => {
     let error = "";
@@ -128,7 +147,9 @@ export default function TwalletPayment({ onValidityChange }: TwalletPaymentProps
     <>
       {showSuccessNotif && (
         <TitanNotification
-          icon={<IoMdClose className="text-[var(--main-background)] text-2xl" />}
+          icon={
+            <IoMdClose className="text-[var(--main-background)] text-2xl" />
+          }
           btn="Go to Dashboard"
           btnLink="/dashboard"
           btnStyle="bg-[#275EDF]"
@@ -140,18 +161,28 @@ export default function TwalletPayment({ onValidityChange }: TwalletPaymentProps
             Your Account is Fully Activated 🎉
           </div>
           <div className="text-sm mt-2">
-            Your investment process is complete, and your account is now <b>fully active</b>.
+            Your investment process is complete, and your account is now{" "}
+            <b>fully active</b>.
             <br />
-            Go to Your <b>Dashboard</b> to start managing your investments and track your progress.
+            Go to Your <b>Dashboard</b> to start managing your investments and
+            track your progress.
           </div>
         </TitanNotification>
       )}
       <div className="add-user-action-container px-2 sm:px-[2rem]">
-        <ToastContainer />
+        <ToastContainer
+          closeButton={({ closeToast }) => (
+            <button onClick={closeToast}>
+              <FaTimes className="text-white" />
+            </button>
+          )}
+        />
         <div className="add-user-action-desc">
           <span className="text-sm text-[var(--main-background)] dark:text-white">
             Your T-Wallet Balance: $
-            {Number(headerData?.t_wallet) > 0 ? Number(headerData?.t_wallet) : 0}
+            {Number(headerData?.t_wallet) > 0
+              ? Number(headerData?.t_wallet)
+              : 0}
           </span>
         </div>
         <div className="border-standard bg-[#f9f9fe] dark:bg-[#0f163a] rounded-[1em] mt-3 p-5 py-[2rem] space-y-4">

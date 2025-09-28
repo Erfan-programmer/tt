@@ -7,6 +7,7 @@ import { loadEncryptedData } from "../../EncryptData/SavedEncryptData";
 import { apiRequest } from "@/libs/api";
 import { toast, ToastContainer } from "react-toastify";
 import AnimationTemplate from "@/components/Ui/Modals/p-admin/AnimationTemplate";
+import { FaTimes } from "react-icons/fa";
 
 interface UserTransaction {
   id: number;
@@ -64,7 +65,13 @@ export default function UserInformationPage() {
 
   return (
     <>
-      <ToastContainer />
+      <ToastContainer
+        closeButton={({ closeToast }) => (
+          <button onClick={closeToast}>
+            <FaTimes className="text-white" />
+          </button>
+        )}
+      />
       <LineTitle
         onClick={() => {
           setShowLineTile((prev) => ({

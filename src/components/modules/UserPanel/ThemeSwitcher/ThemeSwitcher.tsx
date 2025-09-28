@@ -15,7 +15,7 @@ const ThemeSwitcher = () => {
   if (!mounted) return null;
 
   return (
-    <label className="switch hidden sm:inline-block">
+    <label className="switch hidden sm:inline-block flex-shrink-0">
       <input
         type="checkbox"
         checked={theme === "light"} 

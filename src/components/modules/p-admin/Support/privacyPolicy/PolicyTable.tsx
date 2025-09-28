@@ -33,26 +33,35 @@ export default function PolicyTable({
   onDelete,
 }: PolicyTableProps) {
   const columns: TableColumn<Privacy>[] = [
-    { title: "ID", field: "id" },
+    {
+      title: "ID",
+      field: "id",
+      render: (_value, _row, index) => index,
+    },
     { title: "Title", field: "title" },
- {
+    {
       title: "Description",
       field: "description",
-      render: (_ , privacy: any): React.ReactNode =>
-          <span className="whitespace-nowrap" dangerouslySetInnerHTML={{__html:privacy.description}} />
-            
-    },    {
+      render: (_, privacy: any): React.ReactNode => (
+        <span
+          className="whitespace-nowrap"
+          dangerouslySetInnerHTML={{ __html: privacy.description }}
+        />
+      ),
+    },
+    {
       title: "Created At",
       field: "created_at",
-      render: (_ ,privacy: any): React.ReactNode =>
-          <span className="whitespace-nowrap">
-            {new Date(privacy.created_at).toLocaleDateString("en-GB")}
-          </span>
+      render: (_, privacy: any): React.ReactNode => (
+        <span className="whitespace-nowrap">
+          {new Date(privacy.created_at).toLocaleDateString("en-GB")}
+        </span>
+      ),
     },
     {
       title: "Action",
-      field:"id",
-      render: (_ ,privacy): React.ReactNode => (
+      field: "id",
+      render: (_, privacy): React.ReactNode => (
         <div className="flex gap-2">
           <button
             onClick={() => onEdit(privacy)}
@@ -73,7 +82,11 @@ export default function PolicyTable({
 
   return (
     <>
-      <AdminDynamicTable<any> columns={columns} data={privacies} loading={loading} />
+      <AdminDynamicTable<any>
+        columns={columns}
+        data={privacies}
+        loading={loading}
+      />
       <AdminPagination
         currentPage={page}
         lastPage={lastPage}

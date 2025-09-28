@@ -205,7 +205,13 @@ export default function CreateBlogPage() {
 
   return (
     <>
-      <ToastContainer />
+      <ToastContainer
+  closeButton={({ closeToast }) => (
+    <button onClick={closeToast}>
+      <FaTimes className="text-white" />
+    </button>
+  )}
+/>
 
       <LineTitle
         onClick={() => {

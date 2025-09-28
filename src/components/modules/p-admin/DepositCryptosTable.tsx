@@ -167,7 +167,11 @@ export default function DepositCryptosTable({
   };
 
   const columns: TableColumn<Crypto>[] = [
-    { title: "ID", field: "id" },
+    {
+      title: "ID",
+      field: "id",
+      render: (_value, _row, index) => index ,
+    },
     { title: "Title", field: "title" },
     { title: "Network", field: "network" },
     { title: "Description", field: "description" },

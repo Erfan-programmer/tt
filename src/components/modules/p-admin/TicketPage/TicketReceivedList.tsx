@@ -75,7 +75,11 @@ export default function TicketList({ tickets }: TicketListProps) {
   };
 
   const columns: TableColumn<Ticket>[] = [
-    { title: "#", field: "id" },
+    {
+      title: "ID",
+      field: "id",
+      render: (_value, _row, index) => index,
+    },
     { title: "Subject", field: "subject" },
     {
       title: "Full Name",
@@ -147,7 +151,13 @@ export default function TicketList({ tickets }: TicketListProps) {
   return (
     <>
       <AdminDynamicTable<Ticket> columns={columns} data={tickets} />
-      <ToastContainer />
+      <ToastContainer
+  closeButton={({ closeToast }) => (
+    <button onClick={closeToast}>
+      <FaTimes className="text-white" />
+    </button>
+  )}
+/>
       {/* View Ticket Modal */}
       <AnimatePresence>
         {selectedTicket && (

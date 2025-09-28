@@ -5,7 +5,7 @@ import AdminDynamicTable, {
 import React from "react";
 import Image from "next/image";
 import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
-import {  BlogInlineBoxViewProps } from "@/types/p-admin/dashoard";
+import { BlogInlineBoxViewProps } from "@/types/p-admin/dashoard";
 
 export default function BlogTableView({
   blogs,
@@ -13,7 +13,11 @@ export default function BlogTableView({
   onDelete,
 }: BlogInlineBoxViewProps) {
   const columns: TableColumn<any>[] = [
-    { title: "#", field: "id" },
+    {
+      title: "ID",
+      field: "id",
+      render: (_value, _row, index) => index,
+    },
     {
       title: "Image",
       field: "image",

@@ -7,6 +7,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { apiRequest } from "@/libs/api";
 import { loadEncryptedData } from "@/components/modules/EncryptData/SavedEncryptData";
 import AnimationTemplate from "@/components/Ui/Modals/p-admin/AnimationTemplate";
+import { FaTimes } from "react-icons/fa";
 
 interface Wallet {
   id: number;
@@ -114,7 +115,13 @@ export default function WalletConfigPages() {
         }}
         title="Wallet Address Config"
       />
-      <ToastContainer />
+      <ToastContainer
+  closeButton={({ closeToast }) => (
+    <button onClick={closeToast}>
+      <FaTimes className="text-white" />
+    </button>
+  )}
+/>
       {showLineTitle.wallet_config && (
         <AnimationTemplate>
           <div className="wallet-option-choose-container mt-4">

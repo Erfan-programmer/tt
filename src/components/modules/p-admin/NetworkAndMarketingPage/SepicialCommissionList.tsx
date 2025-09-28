@@ -102,7 +102,11 @@ export default function SpecialCommissionList({
   };
 
   const columns: TableColumn<SpecialCommission>[] = [
-    { title: "Number", field: "id" },
+    {
+      title: "ID",
+      field: "id",
+      render: (_value, _row, index) => index,
+    },
     { title: "User", field: "user", render: (_, row) => `User ${row.user}` },
     {
       title: "Level",

@@ -12,6 +12,7 @@ import TermsTable, { Term } from "./TermsTable";
 import AnimationTemplate from "@/components/Ui/Modals/p-admin/AnimationTemplate";
 import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
+import { FaTimes } from "react-icons/fa";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
@@ -219,7 +220,13 @@ export default function TermsAndConditionPage() {
 
   return (
     <>
-      <ToastContainer />
+      <ToastContainer
+        closeButton={({ closeToast }) => (
+          <button onClick={closeToast}>
+            <FaTimes className="text-white" />
+          </button>
+        )}
+      />
       <LineTitle
         onClick={() => {
           setShowTitle(!showTitle);

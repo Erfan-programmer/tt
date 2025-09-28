@@ -8,6 +8,7 @@ import { useContacts } from "@/contextApi/ContactsContext";
 import { apiRequest } from "@/libs/api";
 import { loadUserData } from "@/components/modules/EncryptData/SavedEncryptData";
 import { useHeader } from "@/contextApi/HeaderContext";
+import { FaTimes } from "react-icons/fa";
 
 export default function AddUserAction() {
   const { refreshContacts } = useContacts();
@@ -91,7 +92,13 @@ export default function AddUserAction() {
 
   return (
     <div className="add-user-action-container px-2 sm:px-[2rem]">
-      <ToastContainer />
+      <ToastContainer
+  closeButton={({ closeToast }) => (
+    <button onClick={closeToast}>
+      <FaTimes className="text-white" />
+    </button>
+  )}
+/>
       <div className="add-user-action-desc my-2">
         <span className="text-[var(--gold)] dark:text-yellow-400">
           Please enter the information carefully.

@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
-import { FaCheck, FaCopy } from "react-icons/fa";
+import { FaCheck, FaCopy, FaTimes } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
 import { IoMdClose } from "react-icons/io";
 import TitanNotification from "@/components/modules/UserPanel/TitanNotification/TitanNotification";
@@ -125,7 +125,13 @@ export default function PaymentTitan({ paymentProp }: PaymentTitanProps) {
 
   return (
     <>
-      <ToastContainer />
+      <ToastContainer
+  closeButton={({ closeToast }) => (
+    <button onClick={closeToast}>
+      <FaTimes className="text-white" />
+    </button>
+  )}
+/>
       {showSuccessNotif && (
         <TitanNotification
           icon={<IoMdClose className="text-[var(--dark-color)] text-2xl" />}

@@ -14,7 +14,13 @@ export interface TransactionHistory {
   wallet_type: string;
   wallet_address: string;
   txid: string;
-  status: "Pending" | "Completed" | "Expired" | "completed" | "pending" | "expired";
+  status:
+    | "Pending"
+    | "Completed"
+    | "Expired"
+    | "completed"
+    | "pending"
+    | "expired";
 }
 
 interface Props {
@@ -22,14 +28,21 @@ interface Props {
 }
 
 export default function WithdrawHistoryList({ transactions }: Props) {
-  const [selectedTransaction, setSelectedTransaction] = useState<TransactionHistory | null>(null);
+  const [selectedTransaction, setSelectedTransaction] =
+    useState<TransactionHistory | null>(null);
 
   const columns: TableColumn<TransactionHistory>[] = [
+    {
+      title: "ID",
+      field: "id",
+      render: (_value, _row, index) => index,
+    },
     { title: "Date", field: "date" },
     {
       title: "Amount",
       field: "amount",
-      render: (_: any, row: TransactionHistory) => formatToTwoDecimals(row.amount),
+      render: (_: any, row: TransactionHistory) =>
+        formatToTwoDecimals(row.amount),
     },
     { title: "User", field: "user" },
     { title: "Full Name", field: "full_name" },
@@ -58,7 +71,7 @@ export default function WithdrawHistoryList({ transactions }: Props) {
           className="p-1 rounded text-blue-500 "
           onClick={() => setSelectedTransaction(row)}
         >
-          <FaEye /> 
+          <FaEye />
         </button>
       ),
     },
@@ -66,7 +79,10 @@ export default function WithdrawHistoryList({ transactions }: Props) {
 
   return (
     <>
-      <AdminDynamicTable<TransactionHistory> columns={columns} data={transactions} />
+      <AdminDynamicTable<TransactionHistory>
+        columns={columns}
+        data={transactions}
+      />
 
       {/* Modal */}
       <AnimatePresence>

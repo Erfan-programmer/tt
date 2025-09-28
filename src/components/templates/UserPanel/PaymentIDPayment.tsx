@@ -1,6 +1,6 @@
 "use client";
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
-import { FaCheck, FaCopy } from "react-icons/fa";
+import { FaCheck, FaCopy, FaTimes } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
 import * as QRCode from "qrcode";
 import TitanNotification from "@/components/modules/UserPanel/TitanNotification/TitanNotification";
@@ -36,7 +36,6 @@ interface PaymentIDPaymentProps {
   payId?: string;
 }
 
-
 export default function PaymentIDPayment({ payId }: PaymentIDPaymentProps) {
   const { paymentID } = useVerify();
   const effectivePayId = useMemo(() => payId || paymentID, [payId, paymentID]);
@@ -71,7 +70,7 @@ export default function PaymentIDPayment({ payId }: PaymentIDPaymentProps) {
       toast.error("Payment ID not found");
       return;
     }
-    
+
     setLoading(true);
     const res = await apiRequest<any>(
       `${process.env.NEXT_PUBLIC_API_URL}/payment/verify`,
@@ -109,14 +108,9 @@ export default function PaymentIDPayment({ payId }: PaymentIDPaymentProps) {
     return `${m}:${s}`;
   };
 
-
-
   useEffect(() => {
     fetchPaymentDetail();
   }, [fetchPaymentDetail]);
-
-
-
 
   useEffect(() => {
     fetchPaymentDetail();
@@ -148,7 +142,13 @@ export default function PaymentIDPayment({ payId }: PaymentIDPaymentProps) {
 
   return (
     <>
-      <ToastContainer />
+      <ToastContainer
+        closeButton={({ closeToast }) => (
+          <button onClick={closeToast}>
+            <FaTimes className="text-white" />
+          </button>
+        )}
+      />
       {showSuccessNotif && (
         <TitanNotification
           icon={

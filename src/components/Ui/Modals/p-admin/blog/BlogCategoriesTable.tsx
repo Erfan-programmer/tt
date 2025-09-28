@@ -92,7 +92,11 @@ export default function BlogCategoriesTable({
   };
 
   const columns: TableColumn<any>[] = [
-    { title: "ID", field: "id" },
+    {
+      title: "ID",
+      field: "id",
+      render: (_value, _row, index) => index,
+    },
     { title: "Title", field: "title" },
     {
       title: "Icon",

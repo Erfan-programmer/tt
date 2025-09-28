@@ -6,8 +6,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import CustomInput from "@/components/Ui/inputs/CustomInput";
 import { toast, ToastContainer } from "react-toastify";
 import { useContacts } from "@/contextApi/ContactsContext";
-import { apiRequest } from "@/libs/api"; 
+import { apiRequest } from "@/libs/api";
 import { loadUserData } from "@/components/modules/EncryptData/SavedEncryptData";
+import { FaTimes } from "react-icons/fa";
 
 const schema = z.object({
   TID: z
@@ -43,41 +44,53 @@ export default function RemoveUserAction() {
     const code = data.twofaCode;
 
     try {
-        const token = loadUserData()?.access_token
+      const token = loadUserData()?.access_token;
       const response = await apiRequest<any>(
         `${process.env.NEXT_PUBLIC_API_URL}/v1/client/deleteContact?tid=${tid}&code=${code}`,
         "POST",
         null,
-        { Authorization : `Bearer ${token}`}
+        { Authorization: `Bearer ${token}` }
       );
 
       if (response.success) {
         toast.success(response.message || "Contact removed successfully", {
           position: "top-right",
           autoClose: 3000,
-          theme: document.documentElement.classList.contains("dark") ? "dark" : "light",
+          theme: document.documentElement.classList.contains("dark")
+            ? "dark"
+            : "light",
         });
         reset();
-        refreshContacts(); 
+        refreshContacts();
       } else {
         toast.error(response.error?.message || "Failed to remove contact", {
           position: "top-right",
           autoClose: 3000,
-          theme: document.documentElement.classList.contains("dark") ? "dark" : "light",
+          theme: document.documentElement.classList.contains("dark")
+            ? "dark"
+            : "light",
         });
       }
     } catch (error: any) {
       toast.error(error.message || "Unexpected error", {
         position: "top-right",
         autoClose: 3000,
-        theme: document.documentElement.classList.contains("dark") ? "dark" : "light",
+        theme: document.documentElement.classList.contains("dark")
+          ? "dark"
+          : "light",
       });
     }
   };
 
   return (
     <div className="add-user-action-container px-2 sm:px-[2rem]">
-      <ToastContainer />
+      <ToastContainer
+        closeButton={({ closeToast }) => (
+          <button onClick={closeToast}>
+            <FaTimes className="text-white" />
+          </button>
+        )}
+      />
       <div className="add-user-action-desc my-2">
         <span className="text-[var(--gold)]">
           Please enter the information carefully.

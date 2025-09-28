@@ -1,3 +1,4 @@
+// DepositHistoryList.tsx
 "use client";
 
 import { useEffect, useState } from "react";
@@ -8,52 +9,28 @@ import { loadUserData } from "@/components/modules/EncryptData/SavedEncryptData"
 
 interface PaymentTransaction {
   id: number;
-  pay_id: string;
+  transaction_id: string;
   amount: string;
-  cryptocurrency: string;
-  txid: string | null;
-  status:
-    | "pending"
-    | "completed"
-    | "failed"
-    | "processed"
-    | "approved"
-    | "rejected"
-    | "expired"
-    | "cancelled";
+  currency: string;
+  transaction_hash: string | null;
+  status: "pending" | "success" | "failed" 
   created_at: string;
-  date?: string;
 }
 
 interface PaymentListResponse {
   data: PaymentTransaction[];
-  meta: {
-    total: number;
-    per_page: number;
-    current_page: number;
-  };
+  meta: { total: number; per_page: number; current_page: number };
 }
 
 const statusColors: Record<string, string> = {
-  completed: "bg-green-500 text-[#383C47] dark:text-white",
-  approved: "bg-green-500 text-[#383C47] dark:text-white",
-  pending: "bg-yellow-400 text-black",
-  processed: "bg-blue-400 text-[#383C47] dark:text-white",
-  expired: "bg-orange-400 text-[#383C47] dark:text-white",
-  cancelled: "bg-gray-400 text-[#383C47] dark:text-white",
-  failed: "bg-red-500 text-[#383C47] dark:text-white",
-  rejected: "bg-red-500 text-[#383C47] dark:text-white",
+  success: "bg-[#00cb08] text-black",
+  failed: "bg-[#ff6060] text-black",
+  pending: "bg-[#ffcc00] text-black",
 };
 
 const ITEMS_PER_PAGE = 6;
 
-export default function DepositHistoryList({
-  value = "all",
-  onChange,
-}: {
-  value?: string;
-  onChange?: (val: string) => void;
-}) {
+export default function DepositHistoryList({ value = "all", onChange }: { value?: string; onChange?: (val: string) => void }) {
   const [selectedStatus, setSelectedStatus] = useState(value);
   const [page, setPage] = useState(1);
   const [transactions, setTransactions] = useState<PaymentTransaction[]>([]);
@@ -61,24 +38,26 @@ export default function DepositHistoryList({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // fetch with apiRequest
   useEffect(() => {
     const fetchDeposits = async () => {
       setLoading(true);
       setError(null);
-
       try {
         const token = loadUserData()?.access_token;
+        const queryParams = new URLSearchParams();
+        if (selectedStatus && selectedStatus !== "all") queryParams.append("filter", selectedStatus);
+        queryParams.append("page", page.toString());
+        queryParams.append("per_page", ITEMS_PER_PAGE.toString());
 
         const response = await apiRequest<PaymentListResponse>(
-          `${process.env.NEXT_PUBLIC_API_URL}/v1/client/wallet/depositList`,
+          `${process.env.NEXT_PUBLIC_API_URL}/v1/client/wallet/depositList?${queryParams.toString()}`,
           "GET",
           undefined,
           { Authorization: `Bearer ${token}` }
         );
 
         if (response.success) {
-          setTransactions(response?.data?.data);
+          setTransactions(response.data.data);
           setTotal(response.data.meta.total);
         } else {
           setError(response.message || "Failed to load deposit list");
@@ -97,10 +76,7 @@ export default function DepositHistoryList({
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "2-digit",
-    });
+    return date.toLocaleDateString("en-GB", { day: "2-digit", month: "2-digit", year: "numeric" });
   };
 
   return (
@@ -110,9 +86,7 @@ export default function DepositHistoryList({
         onChange={(val) => {
           setSelectedStatus(val);
           setPage(1);
-          if (onChange) {
-            onChange(val);
-          }
+          if (onChange) onChange(val);
         }}
       />
 
@@ -128,85 +102,43 @@ export default function DepositHistoryList({
             <table className="w-full border-collapse rounded-lg">
               <thead>
                 <tr className="bg-[#D9D9D9] rounded-t-lg">
-                  <th className="text-center py-3 text-black font-medium px-4">
-                    #
-                  </th>
-                  <th className="text-center py-3 text-black font-medium px-4">
-                    Date
-                  </th>
-                  <th className="text-center py-3 text-black font-medium px-4">
-                    Invoice Number
-                  </th>
-                  <th className="text-center py-3 text-black font-medium px-4">
-                    Amount
-                  </th>
-                  <th className="text-center py-3 text-black font-medium px-4">
-                    Currency
-                  </th>
-                  <th className="text-center py-3 text-black font-medium px-4">
-                    Transaction ID
-                  </th>
-                  <th className="text-center py-3 text-black font-medium px-4">
-                    Status
-                  </th>
+                  <th className="text-center py-3 text-black font-medium px-4">#</th>
+                  <th className="text-center py-3 text-black font-medium px-4">Date</th>
+                  <th className="text-center py-3 text-black font-medium px-4">Invoice Number</th>
+                  <th className="text-center py-3 text-black font-medium px-4">Amount</th>
+                  <th className="text-center py-3 text-black font-medium px-4">Currency</th>
+                  <th className="text-center py-3 text-black font-medium px-4">Transaction ID</th>
+                  <th className="text-center py-3 text-black font-medium px-4">Status</th>
                 </tr>
               </thead>
               <tbody>
                 {loading ? (
                   <tr>
-                    <td colSpan={7} className="text-center py-8">
-                      Loading...
-                    </td>
+                    <td colSpan={7} className="text-center py-8">Loading...</td>
                   </tr>
                 ) : error ? (
                   <tr>
-                    <td colSpan={7} className="text-center py-8 text-red-500">
-                      {error}
-                    </td>
+                    <td colSpan={7} className="text-center py-8 text-red-500">{error}</td>
                   </tr>
                 ) : transactions.length === 0 ? (
                   <tr>
-                    <td colSpan={7} className="text-center py-8">
-                      No transactions found.
-                    </td>
+                    <td colSpan={7} className="text-center py-8">No transactions found.</td>
                   </tr>
                 ) : (
                   transactions.map((item, idx) => (
                     <tr
                       key={item.id}
-                      className={`transition-colors ${
-                        idx % 2 === 0
-                          ? "bg-white dark:bg-[#2A3246]"
-                          : "bg-[#f9f9fe] dark:bg-[#222631]"
-                      }`}
+                      className={`transition-colors ${idx % 2 === 0 ? "bg-white dark:bg-[#2A3246]" : "bg-[#f9f9fe] dark:bg-[#222631]"}`}
                     >
-                      <td className="py-3 text-[var(--dark-color)] dark:text-white text-center px-4">
-                        {(page - 1) * ITEMS_PER_PAGE + idx + 1}
-                      </td>
-                      <td className="py-3 text-[var(--dark-color)] dark:text-white text-center px-4">
-                        {formatDate(item.created_at)}
-                      </td>
-                      <td className="py-3 text-[var(--dark-color)] dark:text-white text-center px-4">
-                        #{item.pay_id}
-                      </td>
-                      <td className="py-3 text-[var(--dark-color)] dark:text-white text-center px-4">
-                        ${item.amount}
-                      </td>
-                      <td className="py-3 text-[var(--dark-color)] dark:text-white text-center px-4">
-                        {item.cryptocurrency}
-                      </td>
-                      <td className="py-3 text-[var(--dark-color)] dark:text-white text-center px-4">
-                        {item.txid || "-"}
-                      </td>
+                      <td className="py-3 text-[var(--dark-color)] dark:text-white text-center px-4">{idx + 1}</td>
+                      <td className="py-3 text-[var(--dark-color)] dark:text-white text-center px-4">{formatDate(item.created_at)}</td>
+                      <td className="py-3 text-[var(--dark-color)] dark:text-white text-center px-4">#{item.transaction_id}</td>
+                      <td className="py-3 text-[var(--dark-color)] dark:text-white text-center px-4">${item.amount}</td>
+                      <td className="py-3 text-[var(--dark-color)] dark:text-white text-center px-4">{item.currency}</td>
+                      <td className="py-3 text-[var(--dark-color)] dark:text-white text-center px-4">{item.transaction_hash || "-"}</td>
                       <td className="py-3 text-center px-4">
-                        <span
-                          className={`px-3 py-1 rounded-full text-[.8rem] font-semibold ${
-                            statusColors[item.status] ||
-                            "bg-gray-300 text-black"
-                          }`}
-                        >
-                          {item.status.charAt(0).toUpperCase() +
-                            item.status.slice(1)}
+                        <span className={`px-3 py-1 rounded-full text-[.8rem] font-semibold ${statusColors[item.status] || "bg-gray-300 text-black"}`}>
+                          {item.status.charAt(0).toUpperCase() + item.status.slice(1)}
                         </span>
                       </td>
                     </tr>
@@ -217,13 +149,7 @@ export default function DepositHistoryList({
           </div>
 
           <div className="flex justify-center mt-6">
-            <Pagination
-              count={pageCount}
-              page={page}
-              onChange={(_, val) => {
-                setPage(val as number);
-              }}
-            />
+            <Pagination count={pageCount} page={page} onChange={(_, val) => setPage(val as number)} />
           </div>
         </div>
       </div>

@@ -88,7 +88,13 @@ export default function AccountList({ accounts  , refetch}: AccountListProps) {
 
   return (
     <div className="use-action-history-container border-standard rounded-xl px-[2rem] py-4 bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] mt-4">
-      <ToastContainer />
+      <ToastContainer
+  closeButton={({ closeToast }) => (
+    <button onClick={closeToast}>
+      <FaTimes className="text-white" />
+    </button>
+  )}
+/>
       <div className="use-action-history-header flex items-center justify-between text-[var(--main-background)] dark:text-white mb-6">
         <p className="text-xl font-semibold">Your Sponsor Plus List</p>
       </div>

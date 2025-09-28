@@ -7,6 +7,7 @@ import BlockUsersSuspendedList from "@/components/modules/p-admin/users/BlockUse
 import { loadEncryptedData } from "@/components/modules/EncryptData/SavedEncryptData";
 import { apiRequest } from "@/libs/api";
 import { toast, ToastContainer } from "react-toastify";
+import { FaTimes } from "react-icons/fa";
 
 export interface SuspendedUser {
   id: number;
@@ -80,7 +81,12 @@ export default function BlockUsersPage() {
 
     setLoading(true);
     try {
-      const res = await apiRequest<ApiResponse<{ suspend_count?: number; suspended_users?: SuspendedUser[] }>>(
+      const res = await apiRequest<
+        ApiResponse<{
+          suspend_count?: number;
+          suspended_users?: SuspendedUser[];
+        }>
+      >(
         `${process.env.NEXT_PUBLIC_API_URL}${url}`,
         "POST",
         { two_fa_code: twoFaCode },
@@ -101,24 +107,24 @@ export default function BlockUsersPage() {
     }
   };
 
- const fetchSuspendedUsers = useCallback(async () => {
-  try {
-    const res = await apiRequest<ApiResponse<SuspendedUsersResponse>>(
-      `${process.env.NEXT_PUBLIC_API_URL}/v1/admin/banedUsers`,
-      "GET",
-      null,
-      { Authorization: `Bearer ${token}` } 
-    );
+  const fetchSuspendedUsers = useCallback(async () => {
+    try {
+      const res = await apiRequest<ApiResponse<SuspendedUsersResponse>>(
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/admin/banedUsers`,
+        "GET",
+        null,
+        { Authorization: `Bearer ${token}` }
+      );
 
-    if (res.success && res.data) {
-      setSuspendedUsers(res.data.data);
-    } else {
-      toast.error("Error fetching suspended users: " + res.message);
+      if (res.success && res.data) {
+        setSuspendedUsers(res.data.data);
+      } else {
+        toast.error("Error fetching suspended users: " + res.message);
+      }
+    } catch (err: any) {
+      toast.error("Error fetching suspended users: " + err.message);
     }
-  } catch (err: any) {
-    toast.error("Error fetching suspended users: " + err.message);
-  }
-}, [token]);
+  }, [token]);
 
   useEffect(() => {
     fetchSuspendedUsers();
@@ -127,19 +133,41 @@ export default function BlockUsersPage() {
   return (
     <>
       <LineTitle onClick={() => {}} title="Block Users" />
-      <ToastContainer />
+      <ToastContainer
+        closeButton={({ closeToast }) => (
+          <button onClick={closeToast}>
+            <FaTimes className="text-white" />
+          </button>
+        )}
+      />
 
       {/* Ban */}
       <AdminTemplateBox title="Ban Account">
-        <CustomAdminInput title="TID" value={banTid} onChange={setBanTid} type="text" />
-        <CustomAdminInput title="2FA Code" value={banTwoFa} onChange={setBanTwoFa} type="text" />
+        <CustomAdminInput
+          title="TID"
+          value={banTid}
+          onChange={setBanTid}
+          type="text"
+        />
+        <CustomAdminInput
+          title="2FA Code"
+          value={banTwoFa}
+          onChange={setBanTwoFa}
+          type="text"
+        />
         <div className="flex items-center mt-4">
           <button
             onClick={() =>
-              handleAction("ban", banTid, banTwoFa, () => {
-                setBanTid("");
-                setBanTwoFa("");
-              }, setLoadingBan)
+              handleAction(
+                "ban",
+                banTid,
+                banTwoFa,
+                () => {
+                  setBanTid("");
+                  setBanTwoFa("");
+                },
+                setLoadingBan
+              )
             }
             disabled={loadingBan}
             className="titan-cancel-btn bg-[#FF6060] text-white hover:opacity-90 transition mt-2 disabled:opacity-50"
@@ -151,15 +179,31 @@ export default function BlockUsersPage() {
 
       {/* Unban */}
       <AdminTemplateBox title="Unban Account">
-        <CustomAdminInput title="TID" value={unbanTid} onChange={setUnbanTid} type="text" />
-        <CustomAdminInput title="2FA Code" value={unbanTwoFa} onChange={setUnbanTwoFa} type="text" />
+        <CustomAdminInput
+          title="TID"
+          value={unbanTid}
+          onChange={setUnbanTid}
+          type="text"
+        />
+        <CustomAdminInput
+          title="2FA Code"
+          value={unbanTwoFa}
+          onChange={setUnbanTwoFa}
+          type="text"
+        />
         <div className="flex items-center mt-4">
           <button
             onClick={() =>
-              handleAction("unban", unbanTid, unbanTwoFa, () => {
-                setUnbanTid("");
-                setUnbanTwoFa("");
-              }, setLoadingUnban)
+              handleAction(
+                "unban",
+                unbanTid,
+                unbanTwoFa,
+                () => {
+                  setUnbanTid("");
+                  setUnbanTwoFa("");
+                },
+                setLoadingUnban
+              )
             }
             disabled={loadingUnban}
             className="titan-btn text-white hover:opacity-90 transition mt-2 disabled:opacity-50"
@@ -178,15 +222,31 @@ export default function BlockUsersPage() {
 
       {/* Delete */}
       <AdminTemplateBox title="Delete Account">
-        <CustomAdminInput title="TID" value={deleteTid} onChange={setDeleteTid} type="text" />
-        <CustomAdminInput title="2FA Code" value={deleteTwoFa} onChange={setDeleteTwoFa} type="text" />
+        <CustomAdminInput
+          title="TID"
+          value={deleteTid}
+          onChange={setDeleteTid}
+          type="text"
+        />
+        <CustomAdminInput
+          title="2FA Code"
+          value={deleteTwoFa}
+          onChange={setDeleteTwoFa}
+          type="text"
+        />
         <div className="flex items-center mt-4">
           <button
             onClick={() =>
-              handleAction("delete", deleteTid, deleteTwoFa, () => {
-                setDeleteTid("");
-                setDeleteTwoFa("");
-              }, setLoadingDelete)
+              handleAction(
+                "delete",
+                deleteTid,
+                deleteTwoFa,
+                () => {
+                  setDeleteTid("");
+                  setDeleteTwoFa("");
+                },
+                setLoadingDelete
+              )
             }
             disabled={loadingDelete}
             className="titan-cancel-btn bg-[#FF6060] text-white hover:opacity-90 transition mt-2 disabled:opacity-50"

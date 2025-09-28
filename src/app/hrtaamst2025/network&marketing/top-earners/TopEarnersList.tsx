@@ -27,8 +27,11 @@ export default function TopEarnersList({ users }: TopEarnersListProps) {
   const [selectedUser, setSelectedUser] = useState<ProfitableUser | null>(null);
 
   const columns: TableColumn<ProfitableUser>[] = [
-    { title: "Position", field: "position" },
-
+    {
+      title: "ID",
+      field: "id",
+      render: (_value, _row, index) => index,
+    },
     { title: "TID", field: "tid" },
     { title: "Start Date", field: "start_date" },
     { title: "Full Name", field: "full_name" },

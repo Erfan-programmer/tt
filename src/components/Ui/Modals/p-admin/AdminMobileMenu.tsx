@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Logout from "./Logout";
 import "./AdminSidebar.css";
 import AdminSidebar from "./AdminSidebar";
@@ -13,18 +13,7 @@ export default function AdminMobileMenu() {
   const router = useRouter();
   const {isSidebarOpen, setIsSidebarOpen} = useVerify();
   const [isLogoutOpen, setIsLogoutOpen] = useState(false);
-  const [isDark, setIsDark] = useState(false); 
 
-useEffect(() => {
-  if (typeof window !== "undefined" && typeof document !== "undefined") {
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme) {
-      setIsDark(savedTheme === "dark");
-    } else {
-      setIsDark(document.documentElement.classList.contains("dark"));
-    }
-  }
-}, []);
 
 
 
@@ -35,25 +24,6 @@ useEffect(() => {
       router.push("/login");
     }, 5000);
   };
-
-const toggleTheme = () => {
-  if (typeof window !== "undefined" && typeof document !== "undefined") {
-    setIsDark((prev) => {
-      const newTheme = !prev;
-      localStorage.setItem("theme", newTheme ? "dark" : "light");
-
-      if (newTheme) {
-        document.documentElement.classList.add("dark");
-      } else {
-        document.documentElement.classList.remove("dark");
-      }
-
-      return newTheme;
-    });
-  }
-};
-
-
 
 
   return (
@@ -105,48 +75,6 @@ const toggleTheme = () => {
       {/* Bottom Mobile Menu */}
       <div className="fixed bottom-0 left-0 right-0  bg-[var(--admin-bg-main)] border-t border-[#ffffff1a] sm:hidden z-[1001] py-2 px-[1rem]">
         <div className="admin-menu-mobile flex justify-between items-center px-2 py-1 max-w-[465px] mx-auto border-2 border-[#6188B4] bg-[var(--admin-bg-main)] rounded-[1rem] shadow-[0_-8px_20px_-6px_rgba(97,136,180,0.3)] ">
-          {/* Theme Switcher Button */}
-          <button
-            onClick={toggleTheme}
-            className="flex flex-col items-center group relative"
-          >
-            <div className="p-2 rounded-lg transition-colors duration-300">
-              {isDark ? (
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M10 1V2M10 18V19M2 10H1M4.31412 4.31412L3.5 3.5M15.6859 4.31412L16.5 3.5M4.31412 15.69L3.5 16.5001M15.6859 15.69L16.5 16.5001M19 10H18M14 10C14 12.2091 12.2091 14 10 14C7.79086 14 6 12.2091 6 10C6 7.79086 7.79086 6 10 6C12.2091 6 14 7.79086 14 10Z"
-                    stroke="#888888"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              ) : (
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M11 4V1M16.5 10V5M12.5 2.5H9.5M19 7.5H14M13.5548 14.8151C14.7829 14.8151 15.9493 14.5506 17 14.0754C15.6867 16.9794 12.7642 19 9.36985 19C4.74731 19 1 15.2527 1 10.6302C1 7.23576 3.02061 4.31331 5.92462 3C5.44944 4.05072 5.18492 5.21708 5.18492 6.44523C5.18492 11.0678 8.93223 14.8151 13.5548 14.8151Z"
-                    stroke="#888888"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              )}
-            </div>
-            {/* Active indicator SVG */}
-          </button>
 
           {/* Withdraw Link */}
           <button

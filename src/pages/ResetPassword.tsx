@@ -66,7 +66,13 @@ export default function ResetPassword() {
 
   return (
     <>
-      {/* <ToastContainer /> */}
+      {/* <ToastContainer
+  closeButton={({ closeToast }) => (
+    <button onClick={closeToast}>
+      <FaTimes className="text-white" />
+    </button>
+  )}
+/> */}
       <div className="sm:mb-[4rem]">
         <div className="formlayout-bg-mobile-forgot-password flex flex-col items-start justify-end pb-8 mb-4 px-[1rem] sm:hidden">
           <motion.h2

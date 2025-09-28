@@ -4,7 +4,7 @@ import LineTitle from "@/components/modules/p-admin/LineTitle";
 import React, { useCallback, useEffect, useState } from "react";
 import BlogCategoriesTable from "./BlogCategoriesTable";
 import LoaderSkeleton from "@/skeletons/my-admin/blogs/CategoryBlog";
-import { FaCloudUploadAlt, FaMinusCircle } from "react-icons/fa";
+import { FaCloudUploadAlt, FaMinusCircle, FaTimes } from "react-icons/fa";
 import { apiRequest } from "@/libs/api";
 import { loadEncryptedData } from "@/components/modules/EncryptData/SavedEncryptData";
 import { ToastContainer, toast } from "react-toastify";
@@ -68,8 +68,7 @@ export default function BlogCategoriesPage() {
     createdAt: apiData.created_at,
   });
 
-const fetchCategories = useCallback(
-  async (pageNumber: number = 1) => {
+  const fetchCategories = useCallback(async (pageNumber: number = 1) => {
     setFetchingList(true);
     try {
       const res = await apiRequest<{ data: CategoryApiData[]; meta: any }>(
@@ -91,13 +90,11 @@ const fetchCategories = useCallback(
     } finally {
       setFetchingList(false);
     }
-  },
-  [] 
-);
+  }, []);
 
-useEffect(() => {
-  fetchCategories();
-}, [fetchCategories]);
+  useEffect(() => {
+    fetchCategories();
+  }, [fetchCategories]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -249,7 +246,13 @@ useEffect(() => {
         </AnimationTemplate>
       )}
 
-      <ToastContainer />
+      <ToastContainer
+        closeButton={({ closeToast }) => (
+          <button onClick={closeToast}>
+            <FaTimes className="text-white" />
+          </button>
+        )}
+      />
     </>
   );
 }

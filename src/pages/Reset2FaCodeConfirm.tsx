@@ -7,6 +7,7 @@ import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { FaTimes } from "react-icons/fa";
 // Assuming you have a file for toast and navigation setup
 // import { toast } from 'react-toastify';
 // import { useRouter } from 'next/navigation'; // or 'next/router' for Pages Router
@@ -54,7 +55,13 @@ export default function Reset2FAConfirm() {
 
   return (
     <>
-      <ToastContainer />
+      <ToastContainer
+        closeButton={({ closeToast }) => (
+          <button onClick={closeToast}>
+            <FaTimes className="text-white" />
+          </button>
+        )}
+      />
       <div className="sm:mb-[4rem]">
         {/* Mobile Background and Text (OK) */}
         <div className="formlayout-bg-mobile-Titan-recover-confirm Account relative Recovery flex flex-col items-start justify-center px-[1rem] sm:hidden">
@@ -74,8 +81,8 @@ export default function Reset2FAConfirm() {
             className="text-[#ddd] block relative z-10"
           >
             Please upload a clear and high-quality selfie of yourself holding
-            the required information sheet. <br /> Make sure your face and all text are
-            fully visible and readable.{" "}
+            the required information sheet. <br /> Make sure your face and all
+            text are fully visible and readable.{" "}
           </motion.span>
         </div>
 
@@ -97,8 +104,8 @@ export default function Reset2FAConfirm() {
               className="titan-light-text block"
             >
               Please upload a clear and high-quality selfie of yourself holding
-              the required information sheet. <br /> Make sure your face and all text
-              are fully visible and readable.
+              the required information sheet. <br /> Make sure your face and all
+              text are fully visible and readable.
             </motion.span>
           </div>
 

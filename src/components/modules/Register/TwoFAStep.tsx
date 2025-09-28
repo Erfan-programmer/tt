@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { toast, ToastContainer } from "react-toastify";
 import { RegisterFormType } from "@/validations/validationSchema";
 import { apiRequest } from "@/libs/api";
+import { FaTimes } from "react-icons/fa";
 
 interface TwoFAStepProps {
   twoFactore: boolean;
@@ -73,7 +74,13 @@ export default function TwoFAStep({
 
   return (
     <>
-      <ToastContainer />
+      <ToastContainer
+        closeButton={({ closeToast }) => (
+          <button onClick={closeToast}>
+            <FaTimes className="text-white" />
+          </button>
+        )}
+      />
       <motion.div
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}

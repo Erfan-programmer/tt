@@ -7,6 +7,7 @@ import { formatToTwoDecimals } from "../../FormatToDecimal";
 
 export interface Payment {
   id: number;
+  position: number;
   date: string;
   invoice_number: string;
   amount: string;
@@ -22,7 +23,10 @@ export default function AdminTranactionsPayment({ data }: { data: Payment[] }) {
   const [selectedPayment, setSelectedPayment] = useState<Payment | null>(null);
 
   const columns: TableColumn<Payment>[] = [
-    { title: "ID", field: "id" },
+    {
+      title: "ID",
+      field: "position",
+    },
     { title: "Date", field: "date" },
     { title: "Invoice Number", field: "invoice_number" },
     {

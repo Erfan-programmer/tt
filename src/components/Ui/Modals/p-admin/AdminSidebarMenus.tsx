@@ -5,11 +5,10 @@ import { CiBoxList } from "react-icons/ci";
 import { BiSolidCategory } from "react-icons/bi";
 import { TiPlus } from "react-icons/ti";
 
-
 export interface SubMenuItem {
   svg?: JSX.Element;
   span: string;
-  link?: string; 
+  link?: string;
   id?: string;
   subItems?: SubMenuItem[];
 }
@@ -21,7 +20,6 @@ export interface MenuItem {
   icon: JSX.Element;
   subItems?: SubMenuItem[];
 }
-
 
 export const menuItems: MenuItem[] = [
   {
@@ -213,48 +211,69 @@ export const menuItems: MenuItem[] = [
         span: "Drawdown",
         link: "/hrtaamst2025/finance/drawdown",
       },
+      {
+        id: "rewards",
+        svg: (
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M10 5V18M10 5H6.46429C5.94332 5 5.4437 4.78929 5.07533 4.41421C4.70695 4.03914 4.5 3.53043 4.5 3C4.5 2.46957 4.70695 1.96086 5.07533 1.58579C5.4437 1.21071 5.94332 1 6.46429 1C9.21429 1 10 5 10 5ZM10 5H13.5357C14.0567 5 14.5563 4.78929 14.9247 4.41421C15.293 4.03914 15.5 3.53043 15.5 3C15.5 2.46957 15.293 1.96086 14.9247 1.58579C14.5563 1.21071 14.0567 1 13.5357 1C10.7857 1 10 5 10 5ZM3 10H17V15.8C17 16.9201 17 17.4802 16.782 17.908C16.5903 18.2843 16.2843 18.5903 15.908 18.782C15.4802 19 14.9201 19 13.8 19H6.2C5.07989 19 4.51984 19 4.09202 18.782C3.71569 18.5903 3.40973 18.2843 3.21799 17.908C3 17.4802 3 16.9201 3 15.8V10ZM2.6 10H17.4C17.9601 10 18.2401 10 18.454 9.89101C18.6422 9.79513 18.7951 9.64215 18.891 9.45399C19 9.24008 19 8.96005 19 8.4V6.6C19 6.03995 19 5.75992 18.891 5.54601C18.7951 5.35785 18.6422 5.20487 18.454 5.10899C18.2401 5 17.9601 5 17.4 5H2.6C2.03995 5 1.75992 5 1.54601 5.10899C1.35785 5.20487 1.20487 5.35785 1.10899 5.54601C1 5.75992 1 6.03995 1 6.6V8.4C1 8.96005 1 9.24008 1.10899 9.45399C1.20487 9.64215 1.35785 9.79513 1.54601 9.89101C1.75992 10 2.03995 10 2.6 10Z"
+              stroke="white"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        ),
+        span: "Rewards",
+        link: "/hrtaamst2025/finance/rewards",
+      },
     ],
   },
-{
-  id: "blogs",
-  title: "Blogs",
-  icon: (
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 20 20"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M19 12.5C18.5 12.376 17.6851 12.3714 17 12.376C16.7709 12.3775 16.9094 12.3678 16.6 12.376C15.7926 12.4012 15.0016 12.7368 15 13.6875C14.9982 14.7004 16 15 17 15C18 15 19 15.2312 19 16.3125C19 17.1251 18.1925 17.4812 17.1861 17.5991C16.3861 17.5991 16 17.625 15 17.5M17 18V19M17 11V12M1 10H12M1 10C1 14.9706 5.02944 19 10 19M1 10C1 5.02944 5.02944 1 10 1M10 19C10.338 19 10.6717 18.9814 11 18.9451M10 19C2.75561 11.08 6.98151 3.7 10 1M10 1C13.9187 1 17.2524 3.50442 18.4879 7M10 1C11.3399 2.19853 12.9177 4.31924 13.6246 7"
-        stroke="white"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  ),
-  subItems: [
-    {
-      id: "list",
-      span: "list",
-      svg: <CiBoxList  size={24} />,
-      link: "/hrtaamst2025/blogs/list",
-    },
-    {
-      id: "create",
-      span: "create",
-      svg: <TiPlus    size={24} />,
-      link: "/hrtaamst2025/blogs/create",
-    },
+  {
+    id: "blogs",
+    title: "Blogs",
+    icon: (
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M19 12.5C18.5 12.376 17.6851 12.3714 17 12.376C16.7709 12.3775 16.9094 12.3678 16.6 12.376C15.7926 12.4012 15.0016 12.7368 15 13.6875C14.9982 14.7004 16 15 17 15C18 15 19 15.2312 19 16.3125C19 17.1251 18.1925 17.4812 17.1861 17.5991C16.3861 17.5991 16 17.625 15 17.5M17 18V19M17 11V12M1 10H12M1 10C1 14.9706 5.02944 19 10 19M1 10C1 5.02944 5.02944 1 10 1M10 19C10.338 19 10.6717 18.9814 11 18.9451M10 19C2.75561 11.08 6.98151 3.7 10 1M10 1C13.9187 1 17.2524 3.50442 18.4879 7M10 1C11.3399 2.19853 12.9177 4.31924 13.6246 7"
+          stroke="white"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    ),
+    subItems: [
       {
-      id: "categories",
-      span: "categories",
-        svg: <BiSolidCategory   size={24} />,
-      link: "/hrtaamst2025/blogs/categories",
-    },
-  ],
-},
+        id: "list",
+        span: "list",
+        svg: <CiBoxList size={24} />,
+        link: "/hrtaamst2025/blogs/list",
+      },
+      {
+        id: "create",
+        span: "create",
+        svg: <TiPlus size={24} />,
+        link: "/hrtaamst2025/blogs/create",
+      },
+      {
+        id: "categories",
+        span: "categories",
+        svg: <BiSolidCategory size={24} />,
+        link: "/hrtaamst2025/blogs/categories",
+      },
+    ],
+  },
   {
     id: "users",
     title: "Users",
@@ -575,22 +594,22 @@ export const menuItems: MenuItem[] = [
         span: "Settings",
         link: "/hrtaamst2025/support/settings",
       },
-        {
+      {
         id: "faqs",
         svg: <FaQuoteRight size={16} />,
         span: "FAQs",
         link: "/hrtaamst2025/support/faqs",
       },
-      
-        {
+
+      {
         id: "privacy",
-        svg: <MdOutlinePrivacyTip  size={24} />,
+        svg: <MdOutlinePrivacyTip size={24} />,
         span: "Privacy & Policy",
         link: "/hrtaamst2025/support/privacy",
       },
-        {
+      {
         id: "term",
-        svg: <FaRegQuestionCircle  size={24} />,
+        svg: <FaRegQuestionCircle size={24} />,
         span: "Terms & Condition",
         link: "/hrtaamst2025/support/terms&condition",
       },

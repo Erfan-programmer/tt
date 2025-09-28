@@ -220,7 +220,11 @@ export default function EmployeeList({ users, refetch }: EmployeeListProps) {
   };
 
   const columns: TableColumn<AdminUser>[] = [
-    { title: "ID", field: "id" },
+    {
+      title: "ID",
+      field: "id",
+      render: (_value, _row, index) => index,
+    },
     { title: "Name", field: "name" },
     { title: "Last Name", field: "lastName" },
     { title: "Email", field: "email" },

@@ -5,6 +5,7 @@ import ToturialBox from "./ToturialBox";
 import { loadEncryptedData } from "../../EncryptData/SavedEncryptData";
 import { apiRequest } from "@/libs/api";
 import { toast, ToastContainer } from "react-toastify";
+import { FaTimes } from "react-icons/fa";
 
 interface ToturialFile {
   file_path: string | null;
@@ -167,7 +168,13 @@ export default function MessageToturialSection() {
 
   return (
     <>
-      <ToastContainer />
+      <ToastContainer
+        closeButton={({ closeToast }) => (
+          <button onClick={closeToast}>
+            <FaTimes className="text-white" />
+          </button>
+        )}
+      />
       <div className="message-toturial-container">
         <p className="text-white mb-4">Tutorials</p>
 

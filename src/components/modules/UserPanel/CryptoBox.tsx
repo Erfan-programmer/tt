@@ -1,25 +1,50 @@
+// CryptoBox.tsx
 import Image from "next/image";
+import Flag from "react-world-flags";
+import { CurrencyItem } from "./CryptoContent";
 
-interface CryptoPropTypes {
-  id: number;
-  from: { img: string; cryptoName: string };
-  to: { img: string; cryptoName: string };
-  price: number;
-  kind: string;
+interface CryptoBoxProps {
+  crypto: CurrencyItem;
+  base: {
+    base: string;
+    flag_url: string;
+  };
 }
-export default function CryptoBox(crypto: { crypto: CryptoPropTypes }) {
+
+export default function CryptoBox({ crypto, base }: CryptoBoxProps) {
   return (
     <div className="crypto-container flex justify-center gap-[2rem] items-center">
-      <div className="crypto-imgs w-[2rem] flex justify-center items-center">
-        <Image width={300} height={300} src={`${process.env.VITE_STORAGE_URL}${crypto.crypto.from.img}`} alt="" className="rounded-[50%]" style={{transform:"translateX(6px)"}}/>
-        <Image width={300} height={300} src={`${process.env.VITE_STORAGE_URL}${crypto.crypto.to.img}`} alt="" className="rounded-[50%] w-12 h-8"/>
+      <div className="crypto-imgs flex justify-center items-center gap-0">
+        {base.base ? (
+          <Image
+            width={100}
+            height={100}
+            src={`${base.flag_url}`}
+            alt={base.base}
+            className="rounded-full w-8 h-6 10-x-6 translate-x-2"
+          />
+        ) : (
+          <Flag code={base.base} className="w-8 h-6 rounded-sm" />
+        )}
+        {crypto.flag_url ? (
+          <Image
+            width={100}
+            height={100}
+            src={`${crypto.flag_url}`}
+            alt={crypto.code}
+            className="rounded-full w-8 h-6"
+          />
+        ) : (
+          <Flag code={crypto.country_code} className="w-8 h-6 rounded-sm" />
+        )}
       </div>
+
       <div className="flex justify-between gap-1 items-center">
         <div className="crypto-names flex justify-center text-[var(--main-background)] dark:text-white">
-          {crypto.crypto.to.cryptoName} / {crypto.crypto.from.cryptoName}
+          {base.base} / {crypto.code}
         </div>
         <div className="crypto-price">
-          <span className={crypto.crypto.kind === "sell" ? "text-[#FF4646]" : "text-[#00CB08]"}>{crypto.crypto.price}</span>
+          <span className="text-[#00CB08]">{crypto.rate}</span>
         </div>
       </div>
     </div>

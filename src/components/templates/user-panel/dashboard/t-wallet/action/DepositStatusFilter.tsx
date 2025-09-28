@@ -1,5 +1,7 @@
+// DepositStatusFilter.tsx
 "use client";
-import { useState, useRef, useEffect } from "react";
+
+import { useEffect, useState, useRef } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoSearch } from "react-icons/io5";
 import { motion, AnimatePresence } from "framer-motion";
@@ -21,10 +23,9 @@ export default function DepositStatusFilter({ value = "all", onChange }: Deposit
   const [searchTerm, setSearchTerm] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const filteredOptions = statusOptions?.filter((option) => {
+  const filteredOptions = statusOptions.filter(option => {
     const searchTermLower = searchTerm.toLowerCase();
-    return option.label.toLowerCase().includes(searchTermLower)
-      || option.abbreviations.some((abbr) => abbr.toLowerCase().includes(searchTermLower));
+    return option.label.toLowerCase().includes(searchTermLower) || option.abbreviations.some(abbr => abbr.toLowerCase().includes(searchTermLower));
   });
 
   useEffect(() => {
@@ -37,7 +38,7 @@ export default function DepositStatusFilter({ value = "all", onChange }: Deposit
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const selectedOption = statusOptions.find((option) => option.id === value) || statusOptions[0];
+  const selectedOption = statusOptions.find(option => option.id === value) || statusOptions[0];
 
   return (
     <div className="custom-input-form min-w-[20vw] w-full sm:w-fit relative" ref={dropdownRef}>
@@ -75,7 +76,7 @@ export default function DepositStatusFilter({ value = "all", onChange }: Deposit
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="w-full bg-[#ffff] dark:bg-[#192879] text-[var(--dark-color)] dark:text-white px-4 py-2 pr-10 rounded-lg outline-none"
                     placeholder="Search status..."
-                    onClick={(e) => { e.stopPropagation(); return null; }}
+                    onClick={(e) => e.stopPropagation()}
                   />
                   <IoSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[var(--dark-color)] dark:text-white w-5 h-5" />
                 </div>
@@ -83,7 +84,7 @@ export default function DepositStatusFilter({ value = "all", onChange }: Deposit
               {filteredOptions.length === 0 ? (
                 <div className="px-4 py-2 text-[var(--dark-color)] dark:text-white">No options found</div>
               ) : (
-                filteredOptions.map((option) => (
+                filteredOptions.map(option => (
                   <div
                     key={option.id}
                     className={`px-4 py-2 cursor-pointer hover:bg-[#ffff] dark:hover:bg-[#192879] transition-colors ${

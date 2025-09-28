@@ -27,6 +27,11 @@ export default function IncreaseTWalletTransaction({
     useState<IncreaseTWalletType | null>(null);
 
   const columns: TableColumn<IncreaseTWalletType>[] = [
+    {
+      title: "ID",
+      field: "id",
+      render: (_value, _row, index) => index,
+    },
     { title: "Date", field: "date" },
     { title: "Invoice", field: "invoice_number" },
     {
@@ -66,7 +71,10 @@ export default function IncreaseTWalletTransaction({
 
   return (
     <>
-      <AdminDynamicTable<IncreaseTWalletType> columns={columns} data={transactions} />
+      <AdminDynamicTable<IncreaseTWalletType>
+        columns={columns}
+        data={transactions}
+      />
 
       <AnimatePresence>
         {selectedTransaction && (

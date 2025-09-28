@@ -15,78 +15,82 @@ export default function UserPanelHeader() {
   const [notifPopUp, setNotifPopUp] = useState(false);
   const { setIsSidebarOpen } = useVerify();
   const { headerData, isLoading } = useHeader();
-  const [notifications, setNotifications] = useState([]);
+  const [notifications, setNotifications] = useState<any[]>([]);
+  const headerRef = useRef<HTMLDivElement>(null);
+
   const getNotification = async () => {
     const token = loadUserData()?.access_token;
-    const res = await apiRequest<{data:any}>(
-      `${process.env.NEXT_PUBLIC_API_URL}/v1/client/getNotifications`,
-      "GET",
-      undefined,
-      { Authorization: `Bearer ${token}` }
-    );
-    if (res.status) {
-      setNotifications(res.data.data);
+    try {
+      const res = await apiRequest<{ data: any }>(
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/client/getNotifications`,
+        "GET",
+        undefined,
+        { Authorization: `Bearer ${token}` }
+      );
+      if (res.status) {
+        setNotifications(res.data.data);
+      }
+    } catch (err) {
+      console.error(err);
     }
   };
 
   useEffect(() => {
     getNotification();
   }, []);
-  const handleNotificationClose = () => {
-    setNotifPopUp(false);
-  };
-  const headerRef = useRef<HTMLDivElement>(null);
 
-  if (isLoading) {
-    return <HeaderSkeleton />;
-  }
-  const unreadCount = notifications?.filter(
-    (notifi: any) => notifi.read_at === null
-  ).length;
+  const handleNotificationClose = () => setNotifPopUp(false);
+
+  if (isLoading) return <HeaderSkeleton />;
+
+  const unreadCount = notifications.filter((notifi) => notifi.read_at === null).length;
 
   return (
     <>
       <header
         ref={headerRef}
-        className={`dashboard-header z-[999] transition-transform duration-1000  ease-in-out "bg-secondary-black-light backdrop-blur-md w-full xl:w-[80%] fixed top-0  right-0`}
+        className="dashboard-header z-[999] transition-transform duration-1000 ease-in-out bg-secondary-black-light backdrop-blur-md w-full xl:w-[80%] fixed top-0 right-0"
       >
-        <div className="w-[97%] sm:w-[95%] mx-auto flex justify-between  items-center h-[12vh] sm:gap-4">
+        <div className="w-[97%] sm:w-[95%] mx-auto flex justify-between items-center h-[12vh] sm:gap-4">
           <button
-            className=" hidden sm:flex xl:hidden w-10 h-10 bg-[#ECECED] dark:bg-[#275edf]   justify-center items-center rounded-lg"
-            onClick={() => {
-              setIsSidebarOpen(true);
-            }}
+            className="hidden sm:flex xl:hidden w-10 h-10 bg-[#ECECED] dark:bg-[#275edf] justify-center items-center rounded-lg"
+            onClick={() => setIsSidebarOpen(true)}
           >
             <FaBars className="text-[var(--main-background)] dark:text-white" />
           </button>
 
-          <div className="hidden md:flex  justify-center gap-4 items-center">
-            <div className="border-1 rounded-xl border-[#444] px-4 py-2 flex justify-center gap-2 items-center w-fit">
-              <div className="text-[var(--main-background)] dark:text-white">
+          <div className="hidden md:flex gap-4 items-center overflow-x-auto flex-nowrap">
+            <div className="border-1 rounded-xl border-[#444] px-4 py-2 flex justify-center gap-2 items-center w-fit flex-shrink-0">
+              <div className="text-[var(--main-background)] dark:text-white whitespace-nowrap">
                 <span>Deposit : </span>
                 <span>${headerData?.deposit || 0}</span>
               </div>
             </div>
-            <div className="border-1 rounded-xl border-[#444] px-4 py-2 flex justify-center gap-2 items-center w-fit">
-              <div className="text-[var(--main-background)] dark:text-white">
+
+            <div className="border-1 rounded-xl border-[#444] px-4 py-2 flex justify-center gap-2 items-center w-fit flex-shrink-0">
+              <div className="text-[var(--main-background)] dark:text-white whitespace-nowrap">
                 <span>T-Wallet : </span>
                 <span>${headerData?.t_wallet || 0}</span>
               </div>
             </div>
-            <div className="border-1 rounded-xl border-[#444] px-4 py-2 flex justify-center gap-2 items-center w-fit text-[var(--main-background)] dark:text-white">
+
+            <div className="border-1 rounded-xl border-[#444] px-4 py-2 flex justify-center gap-2 items-center w-fit flex-shrink-0 text-[var(--main-background)] dark:text-white">
               <span>TID</span>
               <span>{headerData?.t_id || "---"}</span>
             </div>
           </div>
-          <div className="flex justify-between gap-2 sm:gap-4 !text-sm items-center w-full sm:w-auto">
-            <div className="border-standard rounded-[2rem] flex-1 gap-2 flex sm:hidden sm:justify-between flex-wrap justify-center items-center text-[0.8rem] sm:text-md p-1 px-2 mr-2 ">
+
+          <div className="flex justify-between gap-2 sm:gap-4 items-center w-full sm:w-auto flex-nowrap">
+            <div className="border-standard border-[2px]  rounded-[2rem] sm:flex-1 ml-2 sm:ml-0 w-fit gap-2 flex sm:hidden sm:justify-between flex-wrap justify-center items-center text-[0.8rem] sm:text-md p-1 px-4 sm:px-2 mr-2">
               <p className="text-[var(--main-background)] dark:text-white">
                 TID {headerData?.t_id || "---"}
               </p>
             </div>
+
             <ThemeSwitcher />
+
             <div
-              className="w-fit px-2 sm:px-3 py-1 rounded-lg flex gap-2 justify-evenly items-center relative border border-1 border-[#707070] cursor-pointer transition-colors"
+              className="w-fit px-2 sm:px-3 py-1 rounded-lg flex gap-2 justify-evenly items-center relative border border-1 border-[#707070] cursor-pointer transition-colors flex-shrink-0"
               onClick={() => setNotifPopUp(!notifPopUp)}
             >
               <svg
@@ -111,13 +115,13 @@ export default function UserPanelHeader() {
               )}
             </div>
 
-            <span className="text-[var(--box-background)] dark:text-white">
+            <span className="flex-shrink-0 text-[var(--box-background)] dark:text-white">
               {headerData?.rank_icon && (
                 <Image
                   width={400}
                   height={400}
                   alt=""
-                  className="w-20 h-20"
+                  className="w-16 h-16 md:w-12 md:h-12 lg:w-16 lg:h-16 scale-[1.4]"
                   src={`${process.env.NEXT_PUBLIC_API_URL_STORAGE}/${headerData?.rank_icon}`}
                 />
               )}
@@ -125,9 +129,10 @@ export default function UserPanelHeader() {
           </div>
         </div>
       </header>
+
       <div className="h-[60px]" />
 
-      {notifPopUp && notifications && notifications?.length > 0 && (
+      {notifPopUp && notifications.length > 0 && (
         <NotificationContainer
           onClose={handleNotificationClose}
           onRefetch={getNotification}

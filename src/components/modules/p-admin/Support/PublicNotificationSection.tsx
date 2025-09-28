@@ -9,7 +9,7 @@ import { loadEncryptedData } from "../../EncryptData/SavedEncryptData";
 import AdminToggleSwitch from "@/components/Ui/AdminToggleSwitch/AdminToggleSwitch";
 import { motion, AnimatePresence } from "framer-motion";
 import { VscTriangleDown } from "react-icons/vsc";
-import { FaCalendar, FaTrash } from "react-icons/fa";
+import { FaCalendar, FaTimes, FaTrash } from "react-icons/fa";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 
@@ -98,7 +98,13 @@ export default function PublicNotificationSection() {
 
   return (
     <div className="public-notification-section">
-      <ToastContainer />
+      <ToastContainer
+        closeButton={({ closeToast }) => (
+          <button onClick={closeToast}>
+            <FaTimes className="text-white" />
+          </button>
+        )}
+      />
       <p className="text-white">Enter Your Notification</p>
       <div className="border-[2px] rounded-[.5rem] border-[#383C47] p-4">
         <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
@@ -162,7 +168,7 @@ export default function PublicNotificationSection() {
                     className="w-full p-2 rounded-md bg-transparent text-white"
                     calendarClassName="bg-[#1F2937] text-white rounded-lg"
                   />
-                  <FaCalendar className="text-[#383C47] right-2 absolute"/>
+                  <FaCalendar className="text-[#383C47] right-2 absolute" />
                 </div>
               </div>
             </div>

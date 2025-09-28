@@ -7,7 +7,8 @@ import PhoneInput from "@/components/Ui/inputs/PhoneInput";
 import { Typography } from "@mui/material";
 import { apiRequest } from "@/libs/api";
 import { loadUserData } from "@/components/modules/EncryptData/SavedEncryptData";
-import { toast , ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import { FaTimes } from "react-icons/fa";
 
 interface Props {
   rewardId: number;
@@ -71,10 +72,10 @@ export default function TeamReceiveRewardPhysical({ rewardId, goBack }: Props) {
 
       if (res.success) {
         toast.success(res.message || "Shipping info submitted successfully!");
-       setTimeout(()=>{
-        goBack()
-       } , 2000)
-        goBack()
+        setTimeout(() => {
+          goBack();
+        }, 2000);
+        goBack();
       } else {
         toast.error(res.message || "Failed to submit shipping info");
       }
@@ -87,122 +88,128 @@ export default function TeamReceiveRewardPhysical({ rewardId, goBack }: Props) {
 
   return (
     <>
-    <div className="team-account-content px-[2rem] bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] bg-shadow-custom border-standard rounded-xl py-4 mt-5 pb-[2rem]">
-      <div className="team-claim-reward ">
-        <p className="text-[var(--dark-color)] dark:text-white">
-          Please fill in all fields carefully and completely.
-        </p>
-      </div>
-      <div className="w-full h-[1px] bg-standard my-3"></div>
-
-      {/* Inputs */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4  justify-start sm:gap-[2rem] items-start mt-[1rem]">
-        <CustomInput
-          readOnly={false}
-          showStar={true}
-          label="First Name"
-          value={firstname}
-          onChange={setFirstname}
-          required={true}
-          type="text"
-          placeholder="Enter your first name"
-        />
-        <CustomInput
-          readOnly={false}
-          showStar={true}
-          label="Shipping Address"
-          value={shoppingAddress}
-          onChange={setShoppingAddress}
-          required={true}
-          type="text"
-          placeholder="Enter your address"
-        />
-        <CustomInput
-          showStar={true}
-          label="Last Name"
-          readOnly={false}
-          value={lastname}
-          onChange={setLastname}
-          required={true}
-          type="text"
-          placeholder="Enter your last name"
-        />
-        <CustomInput
-          showStar={true}
-          label="Postal Code"
-          readOnly={false}
-          value={postalCard}
-          onChange={setPostalCard}
-          required={true}
-          type="text"
-          placeholder="Enter postal code"
-        />
-      </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4  mt-4">
-        <CustomInput
-          showStar={true}
-          label="Email"
-          readOnly={false}
-          value={email}
-          onChange={setEmail}
-          required={true}
-          type="text"
-          placeholder="Enter email code"
-        />
-        <CountrySelect
-          label="Select Country"
-          value={select_country}
-          className="w-full"
-          onChange={setSelect_country}
-          required={true}
-        />
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
-        <div>
-          <Typography className="mb-2 text-[var(--dark-color)] dark:text-white">
-            Upload Your Selfie and Signed Contract
-          </Typography>
-          <input
-            type="file"
-            onChange={handleFileChange}
-            className="hidden"
-            ref={fileInputRef}
-            accept="image/*,.pdf"
-          />
-          <div
-            className="border-2 border-[#585966] rounded-[1.5rem] mt-2 p-3 cursor-pointer flex items-center justify-center bg-white dark:bg-[var(--sidebar-bg)] text-[#D9D9D9]"
-            onClick={() => fileInputRef.current?.click()}
-          >
-            {file ? file.name : "Click to upload PNG, JPG or PDF"}
-          </div>
+      <div className="team-account-content px-[2rem] bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] bg-shadow-custom border-standard rounded-xl py-4 mt-5 pb-[2rem]">
+        <div className="team-claim-reward ">
+          <p className="text-[var(--dark-color)] dark:text-white">
+            Please fill in all fields carefully and completely.
+          </p>
         </div>
-        <PhoneInput
-          label="Phone Number"
-          value={phoneNumber}
-          onChange={setPhoneNumber}
-          required={true}
-        />
-      </div>
+        <div className="w-full h-[1px] bg-standard my-3"></div>
 
-      {/* Submit Button */}
-      <div className="flex gap-4 mt-[2rem]">
-        <button
-          className="titan-btn w-fit"
-          onClick={handleSubmit}
-          disabled={loading}
-        >
-          {loading ? "Submitting..." : "Submit"}
-        </button>
-        <button
-          className="px-6 py-2 rounded-[.5rem] w-fit bg-gray-400 hover:bg-gray-500"
-          onClick={goBack}
-        >
-          Back
-        </button>
+        {/* Inputs */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4  justify-start sm:gap-[2rem] items-start mt-[1rem]">
+          <CustomInput
+            readOnly={false}
+            showStar={true}
+            label="First Name"
+            value={firstname}
+            onChange={setFirstname}
+            required={true}
+            type="text"
+            placeholder="Enter your first name"
+          />
+          <CustomInput
+            readOnly={false}
+            showStar={true}
+            label="Shipping Address"
+            value={shoppingAddress}
+            onChange={setShoppingAddress}
+            required={true}
+            type="text"
+            placeholder="Enter your address"
+          />
+          <CustomInput
+            showStar={true}
+            label="Last Name"
+            readOnly={false}
+            value={lastname}
+            onChange={setLastname}
+            required={true}
+            type="text"
+            placeholder="Enter your last name"
+          />
+          <CustomInput
+            showStar={true}
+            label="Postal Code"
+            readOnly={false}
+            value={postalCard}
+            onChange={setPostalCard}
+            required={true}
+            type="text"
+            placeholder="Enter postal code"
+          />
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4  mt-4">
+          <CustomInput
+            showStar={true}
+            label="Email"
+            readOnly={false}
+            value={email}
+            onChange={setEmail}
+            required={true}
+            type="text"
+            placeholder="Enter email code"
+          />
+          <CountrySelect
+            label="Select Country"
+            value={select_country}
+            className="w-full"
+            onChange={setSelect_country}
+            required={true}
+          />
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
+          <div>
+            <Typography className="mb-2 text-[var(--dark-color)] dark:text-white">
+              Upload Your Selfie and Signed Contract
+            </Typography>
+            <input
+              type="file"
+              onChange={handleFileChange}
+              className="hidden"
+              ref={fileInputRef}
+              accept="image/*,.pdf"
+            />
+            <div
+              className="border-2 border-[#585966] rounded-[1.5rem] mt-2 p-3 cursor-pointer flex items-center justify-center bg-white dark:bg-[var(--sidebar-bg)] text-[#D9D9D9]"
+              onClick={() => fileInputRef.current?.click()}
+            >
+              {file ? file.name : "Click to upload PNG, JPG or PDF"}
+            </div>
+          </div>
+          <PhoneInput
+            label="Phone Number"
+            value={phoneNumber}
+            onChange={setPhoneNumber}
+            required={true}
+          />
+        </div>
+
+        {/* Submit Button */}
+        <div className="flex gap-4 mt-[2rem]">
+          <button
+            className="titan-btn w-fit"
+            onClick={handleSubmit}
+            disabled={loading}
+          >
+            {loading ? "Submitting..." : "Submit"}
+          </button>
+          <button
+            className="px-6 py-2 rounded-[.5rem] w-fit bg-gray-400 hover:bg-gray-500"
+            onClick={goBack}
+          >
+            Back
+          </button>
+        </div>
       </div>
-    </div>
-    <ToastContainer />
+      <ToastContainer
+        closeButton={({ closeToast }) => (
+          <button onClick={closeToast}>
+            <FaTimes className="text-white" />
+          </button>
+        )}
+      />
     </>
   );
 }

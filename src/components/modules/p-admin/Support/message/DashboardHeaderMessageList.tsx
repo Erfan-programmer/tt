@@ -117,6 +117,11 @@ export default function DashboardHeaderMessageList({
   };
 
   const columns: TableColumn<HeaderMessage>[] = [
+    {
+      title: "ID",
+      field: "id",
+      render: (_value, _row, index) => index,
+    },
     { title: "Title", field: "title" },
     {
       title: "Message",

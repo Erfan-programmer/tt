@@ -196,7 +196,13 @@ export default function SendMessageForm({
  
   return (
     <div className="send-message-container px-[1rem] py-[1rem] bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] bg-shadow-custom border-standard rounded-xl mt-5 pb-[2rem]">
-      <ToastContainer />
+      <ToastContainer
+  closeButton={({ closeToast }) => (
+    <button onClick={closeToast}>
+      <FaTimes className="text-white" />
+    </button>
+  )}
+/>
       <div className="send-message text-[var(--main-background)] dark:text-white px-2 sm:px-[1rem]">
         <p>send new ticket</p>
       </div>

@@ -9,6 +9,7 @@ import LineTitle from "../LineTitle";
 import SettingToggleSwitch from "./SettingToggleSwitch";
 import PermissionsDropdown from "../Support/PermissionDropdown";
 import { toast, ToastContainer } from "react-toastify";
+import { FaTimes } from "react-icons/fa";
 
 interface PermissionItem {
   id: number;
@@ -61,10 +62,7 @@ export default function RolesConfig() {
     setNewRole((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleChangeEditRole = (
-    field: any,
-    value: string | number[]
-  ) => {
+  const handleChangeEditRole = (field: any, value: string | number[]) => {
     if (!editRole) return;
     setEditRole({ ...editRole, [field]: value });
   };
@@ -371,7 +369,13 @@ export default function RolesConfig() {
         </div>
       )}
 
-      <ToastContainer />
+      <ToastContainer
+        closeButton={({ closeToast }) => (
+          <button onClick={closeToast}>
+            <FaTimes className="text-white" />
+          </button>
+        )}
+      />
     </div>
   );
 }

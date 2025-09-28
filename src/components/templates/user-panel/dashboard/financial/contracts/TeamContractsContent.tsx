@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { loadUserData } from "@/components/modules/EncryptData/SavedEncryptData";
 import { apiRequest } from "@/libs/api";
 import { useHeader } from "@/contextApi/HeaderContext";
+import { FaTimes } from "react-icons/fa";
 
 export default function TeamContractsContent() {
   const [contractRenewalData, setContractRenewalData] = useState<any>(null);
@@ -18,7 +19,7 @@ export default function TeamContractsContent() {
     [key: string]: string;
   }>({});
   const [showModal, setShowModal] = useState(false);
- const {headerData} = useHeader()
+  const { headerData } = useHeader();
   const router = useRouter();
 
   // API call for contract renewal list
@@ -37,7 +38,7 @@ export default function TeamContractsContent() {
 
         if (response.success) {
           setContractRenewalData(response.data.data);
-            setSelectedContract(response.data.data);
+          setSelectedContract(response.data.data);
         } else {
           setError(response.message || "Failed to load contract renewal list");
           toast.error(
@@ -63,8 +64,6 @@ export default function TeamContractsContent() {
     }
   }, [contractRenewalData, error]);
 
-
-
   const handleSelect = (id: string, value: string) => {
     setSelectedOptions((prev) => ({ ...prev, [id]: value }));
   };
@@ -85,7 +84,13 @@ export default function TeamContractsContent() {
 
   return (
     <>
-      <ToastContainer />
+      <ToastContainer
+        closeButton={({ closeToast }) => (
+          <button onClick={closeToast}>
+            <FaTimes className="text-white" />
+          </button>
+        )}
+      />
       {showModal && (
         <motion.div
           initial={{ opacity: 0 }}
@@ -172,7 +177,6 @@ export default function TeamContractsContent() {
             {/* Confirm Button */}
             <button
               onClick={async () => {
-
                 setLoading(true);
                 try {
                   const token = loadUserData()?.access_token;
@@ -180,7 +184,7 @@ export default function TeamContractsContent() {
                   const postResponse = await apiRequest<any>(
                     `${process.env.NEXT_PUBLIC_API_URL}/v1/client/contracts/renew`,
                     "POST",
-                    {code:twoFACode},
+                    { code: twoFACode },
                     { Authorization: `Bearer ${token}` }
                   );
 
@@ -242,8 +246,7 @@ export default function TeamContractsContent() {
               </svg>
             </div>
             <h2 className="text-[var(--dark-color)] dark:text-white text-lg font-semibold">
-              Contract Expiration{" "}
-                #{headerData?.t_id}
+              Contract Expiration #{headerData?.t_id}
             </h2>
           </div>
 

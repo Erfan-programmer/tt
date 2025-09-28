@@ -33,26 +33,35 @@ export default function FaqsTable({
   onDelete,
 }: FaqsTableProps) {
   const columns: TableColumn<Faq>[] = [
-    { title: "ID", field: "id" },
+    {
+      title: "ID",
+      field: "id",
+      render: (_value, _row, index) => index,
+    },
     { title: "Title", field: "title" },
- {
+    {
       title: "Description",
       field: "description",
-      render: (_ , faq: any): React.ReactNode =>
-          <span className="whitespace-nowrap" dangerouslySetInnerHTML={{__html:faq.description}} />
-            
-    },    {
+      render: (_, faq: any): React.ReactNode => (
+        <span
+          className="whitespace-nowrap"
+          dangerouslySetInnerHTML={{ __html: faq.description }}
+        />
+      ),
+    },
+    {
       title: "Created At",
       field: "created_at",
-      render: (_ ,faq: any): React.ReactNode =>
-          <span className="whitespace-nowrap">
-            {new Date(faq.created_at).toLocaleDateString("en-GB")}
-          </span>
+      render: (_, faq: any): React.ReactNode => (
+        <span className="whitespace-nowrap">
+          {new Date(faq.created_at).toLocaleDateString("en-GB")}
+        </span>
+      ),
     },
     {
       title: "Action",
-      field:"id",
-      render: (_ ,faq): React.ReactNode => (
+      field: "id",
+      render: (_, faq): React.ReactNode => (
         <div className="flex gap-2">
           <button
             onClick={() => onEdit(faq)}

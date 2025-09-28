@@ -64,7 +64,7 @@ export default function TWalletPage() {
 
   // Pagination state
   const [transactionPage, setTransactionPage] = useState(1);
-  const [transactionPerPage] = useState(10);
+  const [transactionPerPage , setTransactionPerPage] = useState(15);
   const [totalTransactions, setTotalTransactions] = useState(0);
 
   const token = loadEncryptedData()?.token;
@@ -116,6 +116,9 @@ const fetchTransactions = useCallback(
         setTransactions(res?.data?.data);
         setTotalTransactions(
           res?.data?.meta.total || res?.data?.data.length || 0
+        );
+        setTransactionPerPage(
+          res?.data?.meta.per_page
         );
       } else toast.error("Error fetching transactions: " + res.message);
     } catch (err: any) {

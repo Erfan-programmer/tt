@@ -186,24 +186,43 @@ export default function WithdrawBox({
       toast.error("Please select a cryptocurrency.");
       return;
     }
+
+    if (selectedOptions.length === 0) {
+      toast.error(
+        "Please select at least one option (ROI, Commission, Referral)."
+      );
+      return;
+    }
+
     const maxAvailableAmount = selectedOptions
       .map((label) => {
         const option = options.find((opt) => opt.label === label);
         return Number(option?.amount || 0);
       })
       .reduce((acc, cur) => acc + cur, 0);
+
     const submittedAmount = Number(data.amount);
-    if (submittedAmount > maxAvailableAmount) {
+
+    if (selectedOptions.length === 1 && submittedAmount > maxAvailableAmount) {
       toast.error(`Amount cannot exceed the available balance.`);
       return;
     }
+
     setLoading(true);
-    const body = {
+
+    const lowerCaseTypes = selectedOptions.map((t) => t.toLowerCase());
+
+    const body: any = {
       currency: cryptoKey,
       address: data.walletAddress,
       code: data.twoFaCode,
-      amount: submittedAmount,
+      types: lowerCaseTypes,
     };
+
+    if (selectedOptions.length === 1) {
+      body.amount = submittedAmount;
+    }
+
     try {
       const token = loadUserData()?.access_token;
       const res = await apiRequest<any>(
@@ -362,7 +381,7 @@ export default function WithdrawBox({
               <CustomInput
                 readOnly={!isAmountEditable}
                 label={`Amount&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-[var(--gold)] text-sm">(After Fees)</span>`}
-                value={field.value}
+                value={field.value ? parseFloat(field.value).toFixed(2) : ""}
                 onChange={(val) => {
                   field.onChange(val);
                   handleAmountChange(val);

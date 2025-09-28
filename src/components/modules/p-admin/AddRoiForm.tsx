@@ -6,6 +6,7 @@ import { loadEncryptedData } from "../EncryptData/SavedEncryptData";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { TypeDropdown } from "./users/TypeDropdown";
+import { FaTimes } from "react-icons/fa";
 
 interface RoiFormData {
   id: number;
@@ -44,12 +45,13 @@ export default function AddRoiForm({ refetch }: AddRoiProps) {
     );
   };
 
-
   const handlePreview = async (item: RoiFormData) => {
     try {
       setLoading(true);
       const token = loadEncryptedData()?.token;
-      const value_type: "amount" | "percentage" = item.amount ? "amount" : "percentage";
+      const value_type: "amount" | "percentage" = item.amount
+        ? "amount"
+        : "percentage";
       const value: string = item.amount || item.percentage || "";
       let month = 0;
       let year = 0;
@@ -74,7 +76,11 @@ export default function AddRoiForm({ refetch }: AddRoiProps) {
       );
       if (res.success) {
         toast.success("Preview generated successfully");
-        handleChange(item.id, "commission", String(res.data.data.total_commission_payable));
+        handleChange(
+          item.id,
+          "commission",
+          String(res.data.data.total_commission_payable)
+        );
       } else {
         toast.error(res.message || "Failed to generate preview");
       }
@@ -122,7 +128,13 @@ export default function AddRoiForm({ refetch }: AddRoiProps) {
 
   return (
     <>
-      <ToastContainer />
+      <ToastContainer
+        closeButton={({ closeToast }) => (
+          <button onClick={closeToast}>
+            <FaTimes className="text-white" />
+          </button>
+        )}
+      />
       <div className="add-roi-form space-y-4">
         {roiData.map((item) => (
           <div

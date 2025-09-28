@@ -20,6 +20,7 @@ export default function TwalletTransactionPage() {
   });
   const [page, setPage] = useState(1);
   const [totalCount, setTotalCount] = useState(1);
+  const [per_page, setPerPage] = useState(1);
   const perPage = 10;
   const [searchParams, setSearchParams] = useState<{
     filter_by?: string;
@@ -46,6 +47,7 @@ export default function TwalletTransactionPage() {
         data: Transaction[];
         meta: {
           current_page: number;
+          per_page: number;
           total: number;
         };
       }>(
@@ -60,6 +62,7 @@ export default function TwalletTransactionPage() {
       if (res.success) {
         setTransactions(res.data.data || []);
         setPage(res.data.meta.current_page || 1);
+        setPerPage(res.data.meta.per_page || 1);
         setTotalCount(res.data.meta.total || 0);
       } else {
         toast.error("Error fetching transactions: " + res.message);
@@ -148,7 +151,7 @@ export default function TwalletTransactionPage() {
               <TWalletTransactionHistory transactions={transactions} />
               <div className="flex justify-center mt-4">
                 <Pagination
-                  count={Math.ceil(totalCount / perPage)}
+                  count={Math.ceil(totalCount / per_page)}
                   page={page}
                   onChange={(_, value) => setPage(value)}
                 />

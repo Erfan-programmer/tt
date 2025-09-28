@@ -6,6 +6,7 @@ import { useFormContext } from "react-hook-form";
 import { LiaTimesSolid } from "react-icons/lia";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { FaTimes } from "react-icons/fa";
 
 
 
@@ -76,7 +77,13 @@ export default function TitanModal({
   return (
     <>
       {/* Toast container is now handled by react-toastify */}
-      <ToastContainer />
+      <ToastContainer
+  closeButton={({ closeToast }) => (
+    <button onClick={closeToast}>
+      <FaTimes className="text-white" />
+    </button>
+  )}
+/>
 
       <AnimatePresence>
         <motion.div
