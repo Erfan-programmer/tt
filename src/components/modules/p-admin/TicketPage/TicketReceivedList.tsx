@@ -9,6 +9,7 @@ import { loadEncryptedData } from "@/components/modules/EncryptData/SavedEncrypt
 import { motion, AnimatePresence } from "framer-motion";
 import { toast, ToastContainer } from "react-toastify";
 import { useRouter } from "next/navigation";
+import AdminToggleSwitch from "@/components/Ui/AdminToggleSwitch/AdminToggleSwitch";
 
 export interface Ticket {
   id: number;
@@ -23,6 +24,7 @@ export interface Ticket {
   client: {
     id: number;
     tid: number;
+    has_ticket_cooldown: boolean;
     first_name: string;
     last_name: string;
     email: string;
@@ -44,11 +46,12 @@ interface TicketListProps {
   refetch: () => void;
 }
 
-export default function TicketList({ tickets }: TicketListProps) {
+export default function TicketList({ tickets, refetch }: TicketListProps) {
   const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null);
   const [closeModal, setCloseModal] = useState<Ticket | null>(null);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+
   const handleCloseTicket = async (ticketId: number) => {
     try {
       setLoading(true);
@@ -62,8 +65,9 @@ export default function TicketList({ tickets }: TicketListProps) {
       if (res.success) {
         toast.success("Ticket closed successfully!");
         setCloseModal(null);
+        refetch();
       } else {
-        toast.error(res.message || "this token already close");
+        toast.error(res.message || "this ticket already closed");
       }
     } catch (err: any) {
       toast.error(
@@ -71,6 +75,26 @@ export default function TicketList({ tickets }: TicketListProps) {
       );
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleToggleCanSend = async (ticketId: number, value: boolean) => {
+    try {
+      const token = loadEncryptedData()?.token;
+      const res = await apiRequest<any>(
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/admin/toggleTicketCooldown/${ticketId}`,
+        "POST",
+        { enabled: value },
+        { Authorization: `Bearer ${token}` }
+      );
+      if (res.success) {
+        toast.success("Updated successfully");
+        refetch();
+      } else {
+        toast.error(res.message || "Failed to update");
+      }
+    } catch (err: any) {
+      toast.error("Update failed: " + (err?.message || "Unknown error"));
     }
   };
 
@@ -113,7 +137,16 @@ export default function TicketList({ tickets }: TicketListProps) {
         );
       },
     },
-
+    {
+      title: "Can Send Messages",
+      field: "client",
+      render: (_, row) => (
+        <AdminToggleSwitch
+          checked={row.client.has_ticket_cooldown}
+          onChange={(val: boolean) => handleToggleCanSend(row.id, val)}
+        />
+      ),
+    },
     {
       title: "Department",
       field: "department",
@@ -152,13 +185,12 @@ export default function TicketList({ tickets }: TicketListProps) {
     <>
       <AdminDynamicTable<Ticket> columns={columns} data={tickets} />
       <ToastContainer
-  closeButton={({ closeToast }) => (
-    <button onClick={closeToast}>
-      <FaTimes className="text-white" />
-    </button>
-  )}
-/>
-      {/* View Ticket Modal */}
+        closeButton={({ closeToast }) => (
+          <button onClick={closeToast}>
+            <FaTimes className="text-white" />
+          </button>
+        )}
+      />
       <AnimatePresence>
         {selectedTicket && (
           <motion.div
@@ -211,8 +243,6 @@ export default function TicketList({ tickets }: TicketListProps) {
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* Close Ticket Modal */}
       <AnimatePresence>
         {closeModal && (
           <motion.div
