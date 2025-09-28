@@ -243,7 +243,7 @@ export default function DepositWalletsTable({
 
   return (
     <>
-      <AdminDynamicTable<Wallet> columns={columns} data={wallets} />
+      <AdminDynamicTable<Wallet> columns={columns} data={wallets} title="Deposit Wallets List"/>
 
       {/* Edit Modal */}
       {editId && (

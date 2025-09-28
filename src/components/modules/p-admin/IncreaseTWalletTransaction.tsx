@@ -74,6 +74,7 @@ export default function IncreaseTWalletTransaction({
       <AdminDynamicTable<IncreaseTWalletType>
         columns={columns}
         data={transactions}
+        title="Increase T-wallet"
       />
 
       <AnimatePresence>

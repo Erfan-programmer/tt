@@ -149,6 +149,7 @@ export default function SpecialCommissionList({
       <AdminDynamicTable<SpecialCommission>
         columns={columns}
         data={commissionsLevel}
+        title="Special Commission List"
       />
 
       {/* Confirm Delete Modal */}

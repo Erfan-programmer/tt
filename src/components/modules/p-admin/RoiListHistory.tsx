@@ -91,7 +91,7 @@ export default function RoiListHistory({ data }: RoiListHistoryProps) {
 
   return (
     <>
-      <AdminDynamicTable<RoiStatement> columns={columns} data={data} />
+      <AdminDynamicTable<RoiStatement> columns={columns} data={data} title="ROI statement"/>
 
       <AnimatePresence>
         {selectedRoi && (

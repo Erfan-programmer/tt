@@ -93,7 +93,7 @@ export default function IncreaseTWalletTransaction({
 
   return (
     <>
-      <AdminDynamicTable<Transaction> columns={columns} data={transactions} />
+      <AdminDynamicTable<Transaction> columns={columns} data={transactions} title="T-wallet History"/>
 
       <AnimatePresence>
         {selectedTransaction && (

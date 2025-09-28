@@ -82,6 +82,7 @@ export default function WithdrawHistoryList({ transactions }: Props) {
       <AdminDynamicTable<TransactionHistory>
         columns={columns}
         data={transactions}
+        title="Withdraw History"
       />
 
       {/* Modal */}

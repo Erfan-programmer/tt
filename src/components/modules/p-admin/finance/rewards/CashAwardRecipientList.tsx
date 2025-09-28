@@ -1,7 +1,7 @@
 "use client";
 import { FaEdit, FaEye, FaTimes } from "react-icons/fa";
 import { AnimatePresence, motion } from "framer-motion";
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useMemo } from "react";
 import AdminDynamicTable, { TableColumn } from "../../AdminTable";
 import { apiRequest } from "@/libs/api";
 import { toast } from "react-toastify";
@@ -27,7 +27,7 @@ export interface UnClaimerDataType {
   created_at: string;
 }
 
-interface UnClaimerResponse {
+export interface UnClaimerResponse {
   success: boolean;
   message: string;
   data: UnClaimerDataType[];
@@ -41,11 +41,12 @@ interface UnClaimerResponse {
 }
 
 export default function CashAwardRecipientList({
-  type,
+  recipients,
+  refetch
 }: {
-  type: "cash" | "physical";
+  refetch:()=> void,
+  recipients:UnClaimerDataType[]
 }) {
-  const [recipients, setRecipients] = useState<UnClaimerDataType[]>([]);
   const [loading, setLoading] = useState(false);
   const [viewData, setViewData] = useState<UnClaimerDataType | null>(null);
   const [editData, setEditData] = useState<UnClaimerDataType | null>(null);
@@ -53,36 +54,7 @@ export default function CashAwardRecipientList({
   const auth = useMemo(() => {
     return { Authorization: `Bearer ${token}` };
   }, [token]);
-  const fetchRecipients = useCallback(async () => {
-    setLoading(true);
-    try {
-      const endpoint =
-        type === "cash"
-          ? "/v1/admin/unclaimedPrizeCash"
-          : "/v1/admin/unclaimedPrizePhysical";
 
-      const res = await apiRequest<UnClaimerResponse>(
-        `${process.env.NEXT_PUBLIC_API_URL}${endpoint}`,
-        "GET",
-        undefined,
-        auth
-      );
-
-      if (res.success) {
-        setRecipients(res.data.data);
-      } else {
-        toast.error(res.message || "Failed to fetch recipients");
-      }
-    } catch (err: any) {
-      toast.error(err?.message || "Error fetching recipients");
-    } finally {
-      setLoading(false);
-    }
-  }, [type, auth]);
-
-  useEffect(() => {
-    fetchRecipients();
-  }, [fetchRecipients]);
 
   const handleApprove = async (id: number) => {
     if (!id) return;
@@ -97,7 +69,7 @@ export default function CashAwardRecipientList({
       if (res.success) {
         toast.success("Approved successfully!");
         setViewData(null);
-        fetchRecipients();
+        refetch();
       } else {
         toast.error(res.message || "Approval failed");
       }
@@ -121,7 +93,7 @@ export default function CashAwardRecipientList({
       if (res.success) {
         toast.success("Rejected successfully!");
         setViewData(null);
-        fetchRecipients();
+        refetch();
       } else {
         toast.error(res.message || "Rejection failed");
       }

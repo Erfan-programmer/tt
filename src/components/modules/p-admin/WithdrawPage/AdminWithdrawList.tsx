@@ -185,7 +185,7 @@ export default function AdminWithdrawList({ transactions, refetch }: Props) {
 
   return (
     <>
-      <AdminDynamicTable<Transaction> columns={columns} data={transactions} />
+      <AdminDynamicTable<Transaction> columns={columns} data={transactions} title="Withdraw Request" />
 
       <AnimatePresence>
         {selectedTransaction && (

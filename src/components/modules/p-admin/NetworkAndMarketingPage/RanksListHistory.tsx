@@ -138,6 +138,8 @@ export default function RanksListHistory({
         columns={columns}
         data={ranks}
         loading={loading}
+
+        title={`Ranks List: ${ranks.length}`}
       />
       <AnimatePresence>
         {isViewOpen && selectedRank && (

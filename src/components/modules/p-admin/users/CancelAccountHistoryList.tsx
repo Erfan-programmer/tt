@@ -153,7 +153,7 @@ export default function CancelRequestTable({ requests = [], refetch }: Props) {
           </button>
         )}
       />
-      <AdminDynamicTable<CancelRequest> columns={columns} data={requests} />
+      <AdminDynamicTable<CancelRequest> columns={columns} data={requests} title="Cancel History"/>
 
       {showModal && selectedRequest && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">

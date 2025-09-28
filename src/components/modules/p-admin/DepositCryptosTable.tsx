@@ -227,7 +227,7 @@ export default function DepositCryptosTable({
 
   return (
     <>
-      <AdminDynamicTable<Crypto> columns={columns} data={cryptos} />
+      <AdminDynamicTable<Crypto> columns={columns} data={cryptos} title="Withdraw Crypto List"/>
 
       {/* Edit Modal */}
       {editId && (

@@ -196,7 +196,7 @@ export default function SuspendedUsersTable({ transactions = [] }: Props) {
 
   return (
     <>
-      <AdminDynamicTable<SuspendedUser> columns={columns} data={transactions} />
+      <AdminDynamicTable<SuspendedUser> columns={columns} data={transactions} title="List of suspended users" />
       <TransactionModal
         open={modalOpen}
         onClose={() => setModalOpen(false)}

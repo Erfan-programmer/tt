@@ -99,6 +99,7 @@ export default function InvoiceTransactionsTable({
       <AdminDynamicTable<InvoiceTransaction>
         columns={columns}
         data={holdAccounts}
+        title="On holding accounts"
       />
 
       <AnimatePresence>

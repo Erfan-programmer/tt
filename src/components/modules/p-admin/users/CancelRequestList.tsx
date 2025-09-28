@@ -115,7 +115,7 @@ export default function CancelRequestList({ requests = [], refetch }: Props) {
 
   return (
     <>
-      <AdminDynamicTable<CancelRequest> columns={columns} data={requests} />
+      <AdminDynamicTable<CancelRequest> columns={columns} data={requests} title={`Cancel Request Count: ${requests.length}`}/>
 
       {showModal && selectedRequest && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">

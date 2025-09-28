@@ -5,7 +5,6 @@ import LineTitle from "../../LineTitle";
 import PhysicalRewardTab from "./PhysicalRewardTab";
 import CashRewardTab from "./CashRewardTab";
 import AnimationTemplate from "@/components/Ui/Modals/p-admin/AnimationTemplate";
-import AdminSearchBox from "../../AdminSearchBox/AdminSearchBox";
 
 type ActiveTabType = "CASH" | "PHYSICAL" | "";
 
@@ -16,8 +15,7 @@ export default function RewardsPage() {
   );
 
 //   const handleSearch = (filter_by: string, filter_value: string) => {};
-  const handleSearch = () => {};
-  const handleClear = () => {};
+
 
   return (
     <>
@@ -60,34 +58,7 @@ export default function RewardsPage() {
               <span>Physical Rewards</span>
             </motion.button>
           </div>
-          <AdminSearchBox
-            title="Search"
-            filterOptions={[
-              {
-                label: "Full Name",
-                value: "full_name",
-                placeholder: "Enter Full Name...",
-              },
-              {
-                label: "Transaction ID",
-                value: "tid",
-                placeholder: "Enter Transaction ID...",
-              },
-              { label: "Rank", value: "rank", placeholder: "Enter Rank..." },
-              {
-                label: "Account Type",
-                value: "account_type",
-                placeholder: "Enter Account Type...",
-              },
-              {
-                label: "Income",
-                value: "income",
-                placeholder: "Enter Income...",
-              },
-            ]}
-            onSearch={handleSearch}
-            onClear={handleClear}
-          />
+
 
         </AnimationTemplate>
       )}

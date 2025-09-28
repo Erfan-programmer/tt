@@ -26,7 +26,7 @@ export default function AdminDynamicTable<T extends { id: string | number }>({
   return (
     <div className="my-6">
       <div className="table-title text-white">
-        <span>{title ? title : "Table"}</span>
+        <span>{title ? title : ""}</span>
       </div>
       <div className="border-[2px] border-[#383C47] pt-4 px-6 text-center rounded-[.5rem] mt-2">
         <div className="overflow-x-auto transaction-payment-list">
