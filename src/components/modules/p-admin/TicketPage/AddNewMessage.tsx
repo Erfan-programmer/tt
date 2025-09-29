@@ -102,10 +102,10 @@ export default function AddNewMessage({
           <FaPaperclip size={18} />
           <input type="file" className="hidden" onChange={handleFileChange} />
         </label>
-        <input
-          type="text"
+        <textarea
           value={message}
           onChange={(e) => setMessage(e.target.value)}
+          rows={1}
           placeholder="Write a comment..."
           className="flex-1 bg-transparent border border-[#383C47] rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500"
         />
