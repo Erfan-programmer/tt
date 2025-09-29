@@ -40,7 +40,6 @@ export default function DepositWalletsTable({
 
   const token = loadEncryptedData()?.token;
 
-  // ---------- Edit Handlers ----------
   const handleEditClick = (wallet: Wallet) => {
     setEditId(wallet.id);
     setEditData({ ...wallet });
@@ -81,6 +80,7 @@ export default function DepositWalletsTable({
 
     const formData = new FormData();
     formData.append("title", editData.title || "");
+    formData.append("symbol", editData.symbol || "");
     formData.append("address", editData.address || "");
     formData.append("description", editData.description || "");
     if (editData.icon_path instanceof File)
@@ -153,7 +153,6 @@ export default function DepositWalletsTable({
     </div>
   );
 
-  // ---------- Delete Handlers ----------
   const handleDeleteClick = (id: number) => {
     setDeleteId(id);
     setShowDeleteModal(true);
@@ -243,15 +242,17 @@ export default function DepositWalletsTable({
 
   return (
     <>
-      <AdminDynamicTable<Wallet> columns={columns} data={wallets} title="Deposit Wallets List"/>
+      <AdminDynamicTable<Wallet>
+        columns={columns}
+        data={wallets}
+        title="Deposit Wallets List"
+      />
 
-      {/* Edit Modal */}
       {editId && (
         <div className="fixed inset-0 bg-black/40 bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-gray-900 p-6 rounded-xl w-[500px] space-y-4">
             <p className="text-white text-lg font-semibold">Edit Wallet</p>
             <motion.div
-              key={editId}
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
@@ -274,7 +275,7 @@ export default function DepositWalletsTable({
                 onChange={(val) => handleEditChange("description", val)}
               />
               <CustomAdminInput
-                title="Description"
+                title="Symbol"
                 value={editData.symbol || ""}
                 onChange={(val) => handleEditChange("symbol", val)}
               />
@@ -304,7 +305,6 @@ export default function DepositWalletsTable({
         </div>
       )}
 
-      {/* Delete Modal */}
       {showDeleteModal && (
         <div className="fixed inset-0 bg-black/40 bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-gray-900 p-6 rounded-xl">
