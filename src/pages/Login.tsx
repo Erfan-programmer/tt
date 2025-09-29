@@ -14,7 +14,7 @@ import { apiRequest } from "@/libs/api";
 import { saveUserData } from "@/components/modules/EncryptData/SavedEncryptData";
 
 const loginSchema = z.object({
-  TID: z.string().regex(/^\d{5}$/, "TID must be exactly 5 digits."),
+  TID: z.string().regex(/^\d{4,5}$/, "TID must be exactly 5 digits."),
   password: z.string().min(6, "Password must be at least 6 characters"),
   twoFaCode: z
     .string()
