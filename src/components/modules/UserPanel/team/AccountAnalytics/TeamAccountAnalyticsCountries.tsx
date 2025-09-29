@@ -23,7 +23,7 @@ function TeamAccountAnalyticsCountriesSkeleton() {
             key={idx}
             className="bg-[#f9f9fe] dark:bg-[#0F163A] rounded-lg px-4 sm:px-[2rem] py-3 border-standard mt-4"
           >
-            <div className="flex justify-between items-center text-[var(--dark-color)] dark:text-white">
+            <div className="flex justify-between items-center text-[var(--main-background)] dark:text-white">
               <div className="flex items-center gap-3">
                 <div className="w-[5rem] h-[5rem] rounded-full bg-gray-300 dark:bg-gray-600" />
                 <div className="h-4 w-32 bg-gray-200 dark:bg-gray-700 rounded" />
@@ -55,7 +55,7 @@ export default function TeamAccountAnalyticsCountries({
   if (error) return <div>Error loading data</div>;
   return (
     <div className="team-account-analytic-content px-[2rem] bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] bg-shadow-custom border-standard rounded-xl py-4 mt-5">
-      <p className="text-[var(--dark-color)] dark:text-white">
+      <p className="text-[var(--main-background)] dark:text-white">
         Countries of the members in your organization
       </p>
       <div className="mt-4">
@@ -64,7 +64,7 @@ export default function TeamAccountAnalyticsCountries({
             key={country.name + idx}
             className="bg-[#f9f9fe] dark:bg-[#0F163A] rounded-lg px-4 sm:px-[2rem] py-3 border-standard mt-4"
           >
-            <div className="flex justify-between items-center text-[var(--dark-color)] dark:text-white">
+            <div className="flex justify-between items-center text-[var(--main-background)] dark:text-white">
               <div className="flex items-center gap-3">
                 <Image
                   width={400}
@@ -84,7 +84,7 @@ export default function TeamAccountAnalyticsCountries({
                   style={{ width: `${country.progress}%` }}
                 ></div>
               </div>
-              <p className="text-[var(--dark-color)] dark:text-[#D9D9D9]">
+              <p className="text-[var(--main-background)] dark:text-[#D9D9D9]">
                 {country.progress}%
               </p>
             </div>

@@ -245,7 +245,7 @@ export default function TeamContractsContent() {
                 />
               </svg>
             </div>
-            <h2 className="text-[var(--dark-color)] dark:text-white text-lg font-semibold">
+            <h2 className="text-[var(--main-background)] dark:text-white text-lg font-semibold">
               Contract Expiration #{headerData?.t_id}
             </h2>
           </div>
@@ -282,7 +282,7 @@ export default function TeamContractsContent() {
                 className={`${
                   selectedOptions["contract"] === "accept_renewal"
                     ? "text-[var(--gold)]"
-                    : "text-[var(--dark-color)] dark:text-white"
+                    : "text-[var(--main-background)] dark:text-white"
                 }`}
               >
                 I want to renew my account
@@ -329,7 +329,7 @@ export default function TeamContractsContent() {
                 className={`${
                   selectedOptions["contract"] === "not_accept_renewal"
                     ? "text-[var(--loss)]"
-                    : "text-[var(--dark-color)] dark:text-white"
+                    : "text-[var(--main-background)] dark:text-white"
                 }`}
               >
                 I do not want to renew my account

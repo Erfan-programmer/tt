@@ -75,7 +75,7 @@ export default function UserContracts({
             <p className="text-[#383C47] dark:text-white">
               $ {contract.investment_amount}
             </p>
-            <span className="text-[var(--dark-color)] dark:text-[#585966]">
+            <span className="text-[var(--main-background)] dark:text-[#585966]">
               Investment Amount
             </span>
           </div>
@@ -83,7 +83,7 @@ export default function UserContracts({
             <p className="text-[#383C47] dark:text-white">
               {new Date(contract.start_date).toLocaleDateString()}
             </p>
-            <span className="text-[var(--dark-color)] dark:text-[#585966]">
+            <span className="text-[var(--main-background)] dark:text-[#585966]">
               Investment Start Date
             </span>
           </div>
@@ -94,7 +94,7 @@ export default function UserContracts({
             <p className="text-[#383C47] dark:text-white">
               {new Date(contract.end_date).toLocaleDateString()}
             </p>
-            <span className="text-[var(--dark-color)] dark:text-[#585966]">
+            <span className="text-[var(--main-background)] dark:text-[#585966]">
               Contract End Date
             </span>
           </div>
@@ -102,7 +102,7 @@ export default function UserContracts({
             <p className="text-[#383C47] dark:text-white">
               $ {contract.total_income}
             </p>
-            <span className="text-[var(--dark-color)] dark:text-[#585966]">
+            <span className="text-[var(--main-background)] dark:text-[#585966]">
               Total Income
             </span>
           </div>
@@ -121,7 +121,7 @@ export default function UserContracts({
           <span className="underline text-[var(--box-background)] dark:text-white " onClick={handleDownloadContract}>Download contract</span>
           <div className="flex justify-center mt-[2rem] sm:mt-2 mb-4 sm:justify-end">
             <Link
-              className="titan-cancel-btn dark:text-white text-[var(--dark-color)] bg-[var(--dark-color)] transition-all duration-300 hover:shadow-[0_1px_17px_#03071D] dark:bg-white dark:hover:shadow-[0_1px_17px_#fff]"
+              className="titan-cancel-btn dark:text-white text-[var(--main-background)] bg-[var(--main-background)] transition-all duration-300 hover:shadow-[0_1px_17px_#03071D] dark:bg-white dark:hover:shadow-[0_1px_17px_#fff]"
               href={`/dashboard/financial/my-investments/cancel`}
             >
               Contract Cancellation

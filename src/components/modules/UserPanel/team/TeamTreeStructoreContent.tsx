@@ -49,7 +49,7 @@ console.log("selectedTID === referral.tid =>" , selectedTID , referral?.tid)
       <div className="flex items-center">
         {isExpanded && referral.children && (
           <div
-            className="absolute left-[14px] w-[2px] border-l-[2px] border-dashed border-[var(--dark-color)] dark:border-white/30"
+            className="absolute left-[14px] w-[2px] border-l-[2px] border-dashed border-[var(--main-background)] dark:border-white/30"
             style={{ top: "42px", height: "calc(100% - 42px)" }}
           />
         )}
@@ -65,7 +65,7 @@ console.log("selectedTID === referral.tid =>" , selectedTID , referral?.tid)
           </button>
         )}
 
-        <div className="w-8 h-[2px] border-t-[2px] border-dashed border-[var(--dark-color)] dark:border-white/30 ml-3" />
+        <div className="w-8 h-[2px] border-t-[2px] border-dashed border-[var(--main-background)] dark:border-white/30 ml-3" />
 
         <div
           onClick={() => onSelect(referral)}
@@ -91,7 +91,7 @@ console.log("selectedTID === referral.tid =>" , selectedTID , referral?.tid)
             />
           </div>
           <span
-            className={`text-[var(--dark-color)] dark:text-white text-sm font-medium min-w-[120px] px-2 py-1 rounded ${
+            className={`text-[var(--main-background)] dark:text-white text-sm font-medium min-w-[120px] px-2 py-1 rounded ${
               isHighlighted ? "bg-yellow-500" : ""
             }`}
           >
@@ -255,7 +255,7 @@ const expandPathToNode = useCallback(
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Enter TID to view details"
-            className="w-full bg-transparent border border-[#192879] rounded-full px-4 py-2 text-[var(--dark-color)] dark:text-white text-sm"
+            className="w-full bg-transparent border border-[#192879] rounded-full px-4 py-2 text-[var(--main-background)] dark:text-white text-sm"
           />
           {searchTerm && (
             <button
@@ -266,7 +266,7 @@ const expandPathToNode = useCallback(
                 inputRef.current?.blur();
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--dark-color)] dark:text-white"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--main-background)] dark:text-white"
             >
               <FaTimes />
             </button>
@@ -291,11 +291,11 @@ const expandPathToNode = useCallback(
             alt=""
             className="w-16 h-16 relative scale-[1.4] -translate-x-4"
           />
-          <span className="text-[var(--dark-color)] dark:text-white text-sm">You</span>
-          <div className="w-8 h-[2rem] border-l-[2px] border-dashed border-[var(--dark-color)] dark:border-white/30 ml-[.85rem]" />
+          <span className="text-[var(--main-background)] dark:text-white text-sm">You</span>
+          <div className="w-8 h-[2rem] border-l-[2px] border-dashed border-[var(--main-background)] dark:border-white/30 ml-[.85rem]" />
         </div>
 
-        <div className="absolute left-[12.8px] top-16 bottom-0 w-[2px] border-l-[2px] border-dashed border-[var(--dark-color)] dark:border-white/30 ml-[2rem]"></div>
+        <div className="absolute left-[12.8px] top-16 bottom-0 w-[2px] border-l-[2px] border-dashed border-[var(--main-background)] dark:border-white/30 ml-[2rem]"></div>
 
         <div className="space-y-6 ml-[2rem]">
           {referrals.map((referral: ReferralType) => (

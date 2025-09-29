@@ -53,10 +53,10 @@ export default function TeamTreeStructureDetails({ selectedReferral }: TeamTreeS
     return (
       <div className="teamtree-structure-detail-container border-standard bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] min-h-screen w-[100%] rounded-xl bg-shadow-custom">
         <div className="teamtree-structure-detail-header px-[2rem] mt-3">
-          <p className="text-[var(--dark-color)] dark:text-white">Quick Details</p>
+          <p className="text-[var(--main-background)] dark:text-white">Quick Details</p>
         </div>
         <div className="w-full h-[1px] bg-standard my-3 mt-5"></div>
-        <div className="teamtree-structure-detail-wrapper px-[2rem] text-[var(--dark-color)] dark:text-white">
+        <div className="teamtree-structure-detail-wrapper px-[2rem] text-[var(--main-background)] dark:text-white">
           <p className="text-center mt-8">Select a referral to view details</p>
         </div>
       </div>
@@ -82,11 +82,11 @@ export default function TeamTreeStructureDetails({ selectedReferral }: TeamTreeS
   return (
     <div className="teamtree-structure-detail-container border-standard bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] py-4 sm:py-0 sm:min-h-screen w-[95%] sm:w-[100%] max-h-[80vh] overflow-y-auto p-3 sm:p-0 rounded-xl bg-shadow-custom">
       <div className="teamtree-structure-detail-header px-2 sm:px-[2rem] mt-0 sm:mt-3">
-        <p className="text-[var(--dark-color)] dark:text-white">Quick Details</p>
+        <p className="text-[var(--main-background)] dark:text-white">Quick Details</p>
       </div>
       <div className="w-full h-[1px] bg-standard my-3 mt-5"></div>
       {memberDetails && (
-        <div className="teamtree-structure-detail-wrapper px-2 sm:px-[2rem] text-[var(--dark-color)] dark:text-white space-y-4">
+        <div className="teamtree-structure-detail-wrapper px-2 sm:px-[2rem] text-[var(--main-background)] dark:text-white space-y-4">
           <p className="text-lg font-medium">{memberDetails.tid}</p>
           <div className="flex items-center gap-2 flex-wrap ">
             <p className="text-gray-400">Level :</p>

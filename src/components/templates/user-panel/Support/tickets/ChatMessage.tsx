@@ -19,7 +19,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ msg }) => {
         className={`relative max-w-[90%] px-4 py-3 rounded-2xl shadow transition-all duration-300 animate-fade-in
           ${isUser
             ? "bg-blue-500 text-white rounded-br-none self-end"
-            : "bg-gray-200 dark:bg-[#23263a] text-[var(--dark-color)] dark:text-white rounded-bl-none self-start"
+            : "bg-gray-200 dark:bg-[#23263a] text-[var(--main-background)] dark:text-white rounded-bl-none self-start"
           }
         `}
       >

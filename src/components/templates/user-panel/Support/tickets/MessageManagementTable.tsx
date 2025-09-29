@@ -113,7 +113,7 @@ export default function MessageManagementTable({
                     }`}
                   >
                     <td className="py-4 text-[var(--main-background)] dark:text-white text-center px-4">
-                      {ticket.id}
+                      {index + 1 }
                     </td>
                     <td className="py-4 text-[var(--main-background)] dark:text-white text-center px-4">
                       {ticket.ticket_number}

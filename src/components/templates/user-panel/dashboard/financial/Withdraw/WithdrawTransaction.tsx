@@ -31,7 +31,7 @@ function EmptyBox({ whitelistMessage }: { whitelistMessage?: string }) {
             />
           </svg>
         </div>
-        <h3 className="text-sm font-semibold text-[var(--dark-color)] dark:text-white mb-2">
+        <h3 className="text-sm font-semibold text-[var(--main-background)] dark:text-white mb-2">
           Withdraw Temporarily Unavailable
         </h3>
         {whitelistMessage && (
@@ -367,7 +367,7 @@ export default function WithdrawTransaction() {
 
       {
         <div className="withdraw-transaction-container border-standard rounded-xl px-[2rem] py-4 bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] mt-4">
-          <div className="withdraw-transaction-header flex items-center justify-between text-[var(--dark-color)] dark:text-white mb-6">
+          <div className="withdraw-transaction-header flex items-center justify-between text-[var(--main-background)] dark:text-white mb-6">
             <p className="text-xl font-semibold">Withdraw List</p>
           </div>
 
@@ -425,16 +425,16 @@ export default function WithdrawTransaction() {
                           : "bg-[#f9f9fe] dark:bg-[#222631]"
                       }`}
                     >
-                      <td className="py-4 text-[var(--dark-color)] dark:text-white text-center px-4">
+                      <td className="py-4 text-[var(--main-background)] dark:text-white text-center px-4">
                         {index + 1}
                       </td>
-                      <td className="py-4 text-[var(--dark-color)] dark:text-white text-center px-4">
+                      <td className="py-4 text-[var(--main-background)] dark:text-white text-center px-4">
                         {formatToTwoDecimals(Number(transaction.amount))}
                       </td>
-                      <td className="py-4 text-[var(--dark-color)] dark:text-white text-center px-4">
+                      <td className="py-4 text-[var(--main-background)] dark:text-white text-center px-4">
                         {transaction.currency.toUpperCase()}
                       </td>
-                      <td className="py-4 text-[var(--dark-color)] dark:text-white text-center px-4">
+                      <td className="py-4 text-[var(--main-background)] dark:text-white text-center px-4">
                         {transaction.external_address}
                       </td>
                       <td className="py-4 text-center px-4">
@@ -459,7 +459,7 @@ export default function WithdrawTransaction() {
                           </span>
                         </div>
                       </td>
-                      <td className="py-4 text-[var(--dark-color)] dark:text-white text-center px-4">
+                      <td className="py-4 text-[var(--main-background)] dark:text-white text-center px-4">
                         {new Date(transaction.created_at).toLocaleString()}
                       </td>
                       <td className="py-4 text-center px-4">
@@ -545,7 +545,7 @@ export default function WithdrawTransaction() {
                 <div className="px-6 py-5">
                   {/* Transaction Summary */}
                   <div className="mb-6 p-4 bg-gray-50 dark:bg-[#2a2c37] rounded-lg">
-                    <h3 className="text-sm font-semibold text-[var(--dark-color)] dark:text-white mb-3">
+                    <h3 className="text-sm font-semibold text-[var(--main-background)] dark:text-white mb-3">
                       Transaction Summary
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -553,7 +553,7 @@ export default function WithdrawTransaction() {
                         <span className="text-sm text-gray-600 dark:text-gray-400">
                           Amount:
                         </span>
-                        <p className="text-[var(--dark-color)] dark:text-white font-semibold">
+                        <p className="text-[var(--main-background)] dark:text-white font-semibold">
                           {/* {selectedTransaction.roi !== "0.000000" &&
                             `ROI: $${parseFloat(
                               selectedTransaction.roi
@@ -578,7 +578,7 @@ export default function WithdrawTransaction() {
                         <span className="text-sm text-gray-600 dark:text-gray-400">
                           Currency:
                         </span>
-                        <p className="text-[var(--dark-color)] dark:text-white font-semibold">
+                        <p className="text-[var(--main-background)] dark:text-white font-semibold">
                           {selectedTransaction?.cryptocurrency?.toUpperCase()}
                         </p>
                       </div>
@@ -611,7 +611,7 @@ export default function WithdrawTransaction() {
                         <span className="text-sm text-gray-600 dark:text-gray-400">
                           Created:
                         </span>
-                        <p className="text-[var(--dark-color)] dark:text-white font-semibold">
+                        <p className="text-[var(--main-background)] dark:text-white font-semibold">
                           {new Date(
                             selectedTransaction.created_at
                           ).toLocaleString()}
@@ -619,7 +619,7 @@ export default function WithdrawTransaction() {
                       </div>
 
                       <div className="mb-4 flex flex-col gap-1">
-                        <label className="font-semibold text-[var(--dark-color)] dark:text-white">
+                        <label className="font-semibold text-[var(--main-background)] dark:text-white">
                           Gross Amount:
                         </label>
                         <span className="text-gray-700 dark:text-gray-300 ">
@@ -630,7 +630,7 @@ export default function WithdrawTransaction() {
                   </div>
 
                   <div className="mb-4 flex flex-col gap-1">
-                    <label className="font-semibold text-[var(--dark-color)] dark:text-white">
+                    <label className="font-semibold text-[var(--main-background)] dark:text-white">
                       External Address:
                     </label>
                     <span className="text-gray-700 dark:text-gray-300 border-[2px] border-standard rounded-lg px-2 py-1">
@@ -724,7 +724,7 @@ export default function WithdrawTransaction() {
                     <div className="text-center mb-6">
                       {canWithdraw ? (
                         <>
-                          <h3 className="text-xl font-bold text-[var(--dark-color)] dark:text-white mb-2">
+                          <h3 className="text-xl font-bold text-[var(--main-background)] dark:text-white mb-2">
                             Confirm Cancellation
                           </h3>
                           <p className="text-gray-600 dark:text-gray-400 text-base">
@@ -734,7 +734,7 @@ export default function WithdrawTransaction() {
                         </>
                       ) : (
                         <>
-                          <h3 className="text-xl font-bold text-[var(--dark-color)] dark:text-white mb-2">
+                          <h3 className="text-xl font-bold text-[var(--main-background)] dark:text-white mb-2">
                             Cancellation Temporarily Disabled
                           </h3>
                           <p className="text-gray-600 dark:text-gray-400 text-base">

@@ -43,16 +43,16 @@ export default function DepositStatusFilter({ value = "all", onChange }: Deposit
   return (
     <div className="custom-input-form min-w-[20vw] w-full sm:w-fit relative" ref={dropdownRef}>
       <div
-        className={`titan-input-custom-container text-[var(--dark-color)] dark:text-white rounded-[1.5rem] cursor-pointer mt-2 ${
+        className={`titan-input-custom-container text-[var(--main-background)] dark:text-white rounded-[1.5rem] cursor-pointer mt-2 ${
           isOpen ? "titan-input-custom-container-focus" : "border-standard"
         }`}
         onClick={() => setIsOpen(!isOpen)}
       >
         <div className="flex items-center gap-2 flex-1">
-          <span className="text-[var(--dark-color)] dark:text-white">{selectedOption.label}</span>
+          <span className="text-[var(--main-background)] dark:text-white">{selectedOption.label}</span>
         </div>
         <IoIosArrowDown
-          className={`w-6 h-6 text-[var(--dark-color)] dark:text-white transition-transform duration-300 ${
+          className={`w-6 h-6 text-[var(--main-background)] dark:text-white transition-transform duration-300 ${
             isOpen ? "rotate-180" : ""
           }`}
         />
@@ -74,15 +74,15 @@ export default function DepositStatusFilter({ value = "all", onChange }: Deposit
                     type="text"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full bg-[#ffff] dark:bg-[#192879] text-[var(--dark-color)] dark:text-white px-4 py-2 pr-10 rounded-lg outline-none"
+                    className="w-full bg-[#ffff] dark:bg-[#192879] text-[var(--main-background)] dark:text-white px-4 py-2 pr-10 rounded-lg outline-none"
                     placeholder="Search status..."
                     onClick={(e) => e.stopPropagation()}
                   />
-                  <IoSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[var(--dark-color)] dark:text-white w-5 h-5" />
+                  <IoSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[var(--main-background)] dark:text-white w-5 h-5" />
                 </div>
               </div>
               {filteredOptions.length === 0 ? (
-                <div className="px-4 py-2 text-[var(--dark-color)] dark:text-white">No options found</div>
+                <div className="px-4 py-2 text-[var(--main-background)] dark:text-white">No options found</div>
               ) : (
                 filteredOptions.map(option => (
                   <div
@@ -97,7 +97,7 @@ export default function DepositStatusFilter({ value = "all", onChange }: Deposit
                       setIsOpen(false);
                     }}
                   >
-                    <span className="text-[var(--dark-color)] dark:text-white">{option.label}</span>
+                    <span className="text-[var(--main-background)] dark:text-white">{option.label}</span>
                   </div>
                 ))
               )}

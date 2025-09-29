@@ -98,24 +98,24 @@ const selectedOption = options.find((opt) => String(opt.id) === String(value)) |
     >
       <label className="sponsor-label flex justify-start items-start gap-2">
         {required && <FaStar className="text-[#FF6060] w-3 h-3 mt-1" />}
-        <span className="text-[var(--dark-color)] dark:text-white text-md">
+        <span className="text-[var(--main-background)] dark:text-white text-md">
           {label}
         </span>
       </label>
 
       <div
-        className={`titan-input-custom-container text-[var(--dark-color)] dark:text-white rounded-[1.5rem] cursor-pointer mt-2 ${
+        className={`titan-input-custom-container text-[var(--main-background)] dark:text-white rounded-[1.5rem] cursor-pointer mt-2 ${
           isOpen ? "titan-input-custom-container-focus" : "border-standard"
         } ${disabled ? "opacity-50 cursor-not-allowed" : ""}`}
         onClick={handleToggleDropdown}
       >
         <div className="flex items-center justify-between gap-2 flex-1">
-          <span className="text-[var(--dark-color)] dark:text-white text-lg">
+          <span className="text-[var(--main-background)] dark:text-white text-lg">
             {selectedOption?.name ? selectedOption.name : (user ? user?.plan?.name : "Select investment term")}
           </span>
         </div>
         <IoIosArrowDown
-          className={`w-6 h-6 text-[var(--dark-color)] dark:text-white transition-transform duration-300 ${
+          className={`w-6 h-6 text-[var(--main-background)] dark:text-white transition-transform duration-300 ${
             isOpen ? "rotate-180" : ""
           }`}
         />
@@ -137,21 +137,21 @@ const selectedOption = options.find((opt) => String(opt.id) === String(value)) |
                     type="text"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full bg-[#ffff] dark:bg-[#192879] text-[var(--dark-color)] dark:text-white px-4 py-2 pr-10 rounded-lg outline-none"
+                    className="w-full bg-[#ffff] dark:bg-[#192879] text-[var(--main-background)] dark:text-white px-4 py-2 pr-10 rounded-lg outline-none"
                     placeholder="Search investment term..."
                     onClick={(e) => e.stopPropagation()}
                   />
-                  <IoSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[var(--dark-color)] dark:text-white w-5 h-5" />
+                  <IoSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[var(--main-background)] dark:text-white w-5 h-5" />
                 </div>
               </div>
 
               <div className="max-h-60 overflow-y-auto custom-scrollbar">
                 {loading ? (
-                  <div className="px-4 py-2 text-[var(--dark-color)] dark:text-white">
+                  <div className="px-4 py-2 text-[var(--main-background)] dark:text-white">
                     Loading...
                   </div>
                 ) : filteredOptions.length === 0 ? (
-                  <div className="px-4 py-2 text-[var(--dark-color)] dark:text-white">
+                  <div className="px-4 py-2 text-[var(--main-background)] dark:text-white">
                     No options found
                   </div>
                 ) : (
@@ -170,7 +170,7 @@ const selectedOption = options.find((opt) => String(opt.id) === String(value)) |
                         setIsOpen(false);
                       }}
                     >
-                      <span className="text-[var(--dark-color)] dark:text-white">
+                      <span className="text-[var(--main-background)] dark:text-white">
                         {option.name}
                       </span>
                     </div>

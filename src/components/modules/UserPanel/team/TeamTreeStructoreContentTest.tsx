@@ -32,7 +32,7 @@ const ReferralNode: React.FC<{
       <div className="flex items-center">
         {isExpanded && referral?.children && (
           <div
-            className="absolute left-[14px] h-full w-[2px] border-l-[2px] border-dashed border-[var(--dark-color)] dark:border-white/30"
+            className="absolute left-[14px] h-full w-[2px] border-l-[2px] border-dashed border-[var(--main-background)] dark:border-white/30"
             style={{
               top: "42px",
               height: "calc(100% - 42px)",
@@ -55,7 +55,7 @@ const ReferralNode: React.FC<{
           </button>
         )}
 
-        <div className="w-8 h-[2px] border-t-[2px] border-dashed border-[var(--dark-color)] dark:border-white/30 ml-3" />
+        <div className="w-8 h-[2px] border-t-[2px] border-dashed border-[var(--main-background)] dark:border-white/30 ml-3" />
 
         <div
           onClick={() => onSelect(referral)}
@@ -87,7 +87,7 @@ const ReferralNode: React.FC<{
               }}
             />
           </div>
-          <span className="text-[var(--dark-color)] dark:text-white text-sm font-medium min-w-[120px]">
+          <span className="text-[var(--main-background)] dark:text-white text-sm font-medium min-w-[120px]">
             {referral.tid}
           </span>
         </div>
@@ -106,7 +106,7 @@ const ReferralNode: React.FC<{
             {referral?.children?.map((subReferral, index) => (
               <div key={subReferral.tid} className="relative">
                 <div
-                  className="absolute left-[14px] w-[2px] border-l-[2px] border-dashed border-[var(--dark-color)] dark:border-white/30"
+                  className="absolute left-[14px] w-[2px] border-l-[2px] border-dashed border-[var(--main-background)] dark:border-white/30"
                   style={{
                     top: "-1rem",
                     height:
@@ -216,7 +216,7 @@ export default function TeamTreeStructureContent({
           <input
             type="text"
             placeholder="Enter TID to view details"
-            className="w-full bg-transparent border border-[#192879] rounded-full px-4 py-2 text-[var(--dark-color)] dark:text-white text-sm"
+            className="w-full bg-transparent border border-[#192879] rounded-full px-4 py-2 text-[var(--main-background)] dark:text-white text-sm"
           />
           <button className="absolute right-4 top-1/2 -translate-y-1/2">
             <svg
@@ -224,7 +224,7 @@ export default function TeamTreeStructureContent({
               height="20"
               viewBox="0 0 24 24"
               fill="none"
-              className="stroke-[var(--dark-color)] dark:stroke-white"
+              className="stroke-[var(--main-background)] dark:stroke-white"
             >
               <path
                 d="M21 21L16.5 16.5M19 11C19 15.4183 15.4183 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11Z"
@@ -255,13 +255,13 @@ export default function TeamTreeStructureContent({
             className="w-16 h-16 relative scale-[1.4] -translate-x-4"
           />
 
-          <span className="text-[var(--dark-color)] dark:text-white text-sm">
+          <span className="text-[var(--main-background)] dark:text-white text-sm">
             You
           </span>
-          <div className="w-8 h-[2rem] border-l-[2px] border-dashed border-[var(--dark-color)] dark:border-white/30 ml-[.85rem]" />
+          <div className="w-8 h-[2rem] border-l-[2px] border-dashed border-[var(--main-background)] dark:border-white/30 ml-[.85rem]" />
         </div>
 
-        <div className="absolute left-[12.8px] top-16 bottom-0 w-[2px] border-l-[2px] border-dashed border-[var(--dark-color)] dark:border-white/30 ml-[2rem]"></div>
+        <div className="absolute left-[12.8px] top-16 bottom-0 w-[2px] border-l-[2px] border-dashed border-[var(--main-background)] dark:border-white/30 ml-[2rem]"></div>
 
         <div className="space-y-6 ml-[2rem]">
           {isLoading

@@ -81,26 +81,26 @@ export default function PositionSelect({
     >
       <label className="sponsor-label flex justify-start items-start gap-2">
         {required && <FaStar className="text-[#FF6060] w-3 h-2 mt-1 text-2xl" />}
-        <span className="text-[var(--dark-color)] dark:text-white text-md">
+        <span className="text-[var(--main-background)] dark:text-white text-md">
           {label}
         </span>
       </label>
 
       {/* input box */}
       <div
-        className={`titan-input-custom-container text-[var(--dark-color)] dark:text-white rounded-[1.5rem] cursor-pointer mt-2 border-standard hover:border-[var(--primary-color)] transition-colors ${
+        className={`titan-input-custom-container text-[var(--main-background)] dark:text-white rounded-[1.5rem] cursor-pointer mt-2 border-standard hover:border-[var(--primary-color)] transition-colors ${
           disabled ? "opacity-50 cursor-not-allowed" : ""
         } flex items-center justify-between px-4`}
         onClick={() => !disabled && setIsOpen(!isOpen)}
       >
         {/* Value text */}
         <div className="flex-1 flex justify-between items-center gap-2">
-          <span className="text-[var(--dark-color)] dark:text-white text-lg">
+          <span className="text-[var(--main-background)] dark:text-white text-lg">
             {value || "Select position"}
           </span>
           {/* Icon left */}
           <IoIosArrowDown
-            className={`w-8 h-8 text-[var(--dark-color)] dark:text-white transition-transform duration-300 ${
+            className={`w-8 h-8 text-[var(--main-background)] dark:text-white transition-transform duration-300 ${
               isOpen ? "rotate-180" : ""
             }`}
           />
@@ -125,18 +125,18 @@ export default function PositionSelect({
                     type="text"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full bg-[#ffff] dark:bg-[#192879] text-[var(--dark-color)] dark:text-white px-4 py-2 pr-10 rounded-lg outline-none"
+                    className="w-full bg-[#ffff] dark:bg-[#192879] text-[var(--main-background)] dark:text-white px-4 py-2 pr-10 rounded-lg outline-none"
                     placeholder="Search position..."
                     onClick={(e) => e.stopPropagation()}
                   />
-                  <IoSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[var(--dark-color)] dark:text-white w-5 h-5" />
+                  <IoSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[var(--main-background)] dark:text-white w-5 h-5" />
                 </div>
               </div>
 
               {/* options */}
               <div className="max-h-60 overflow-y-auto custom-scrollbar">
                 {filteredOptions.length === 0 ? (
-                  <div className="px-4 py-2 text-[var(--dark-color)] dark:text-white">
+                  <div className="px-4 py-2 text-[var(--main-background)] dark:text-white">
                     No options found
                   </div>
                 ) : (
@@ -173,7 +173,7 @@ export default function PositionSelect({
                         tabIndex={isDisabled ? -1 : 0}
                         aria-disabled={isDisabled}
                       >
-                        <span className="text-[var(--dark-color)] dark:text-white">
+                        <span className="text-[var(--main-background)] dark:text-white">
                           {option.label}
                         </span>
                       </div>

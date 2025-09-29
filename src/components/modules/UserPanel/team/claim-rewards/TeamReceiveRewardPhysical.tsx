@@ -90,7 +90,7 @@ export default function TeamReceiveRewardPhysical({ rewardId, goBack }: Props) {
     <>
       <div className="team-account-content px-[2rem] bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] bg-shadow-custom border-standard rounded-xl py-4 mt-5 pb-[2rem]">
         <div className="team-claim-reward ">
-          <p className="text-[var(--dark-color)] dark:text-white">
+          <p className="text-[var(--main-background)] dark:text-white">
             Please fill in all fields carefully and completely.
           </p>
         </div>
@@ -161,7 +161,7 @@ export default function TeamReceiveRewardPhysical({ rewardId, goBack }: Props) {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
           <div>
-            <Typography className="mb-2 text-[var(--dark-color)] dark:text-white">
+            <Typography className="mb-2 text-[var(--main-background)] dark:text-white">
               Upload Your Selfie and Signed Contract
             </Typography>
             <input

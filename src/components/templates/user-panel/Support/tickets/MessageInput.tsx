@@ -66,7 +66,7 @@ export default function MessageInput({ ticketStatus, isSending, onSend }: Messag
                     </label>
                     <input
                         type="text"
-                        className="flex-1 bg-transparent outline-none px-2 py-2 text-[var(--dark-color)] dark:text-white"
+                        className="flex-1 bg-transparent outline-none px-2 py-2 text-[var(--main-background)] dark:text-white"
                         placeholder={isClosed ? "Ticket is closed" : "Type your message..."}
                         value={message}
                         onChange={e => setMessage(e.target.value)}

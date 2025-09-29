@@ -64,7 +64,7 @@ export default function TeamCommissionDetailsContentStatement({
   statements,
 }: TeamCommissionDetailsContentStatementProps) {
   return (
-    <div className="border-standard team-commission-detail px-[2rem] font-[600] py-[1.5rem] bg-shadow-custom mt-[1rem] bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] rounded-lg text-[var(--dark-color)] dark:text-white">
+    <div className="border-standard team-commission-detail px-[2rem] font-[600] py-[1.5rem] bg-shadow-custom mt-[1rem] bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] rounded-lg text-[var(--main-background)] dark:text-white">
       <h3>Statement</h3>
 
       <div className="overflow-x-auto rounded-[1em] mt-4">
@@ -101,7 +101,7 @@ export default function TeamCommissionDetailsContentStatement({
                   className={`transition-colors ${
                     index % 2 === 0
                       ? "bg-white dark:bg-[#2A3246] text-[#9A9A9A]"
-                      : "bg-[#f9f9fe] dark:bg-[#222631] text-[var(--dark-color)] dark:text-white"
+                      : "bg-[#f9f9fe] dark:bg-[#222631] text-[var(--main-background)] dark:text-white"
                   }`}
                 >
                   <td className="py-4 text-center px-4">{index + 1}</td>

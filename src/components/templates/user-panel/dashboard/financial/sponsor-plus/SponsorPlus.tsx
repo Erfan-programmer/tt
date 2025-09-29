@@ -161,7 +161,7 @@ export default function SponsorPlus({refetch}:{refetch:()=> void}) {
 />
         <div className="new-account">
           <div className="flex items-center gap-1.5 sm:gap-2">
-            <p className="text-[var(--dark-color)] dark:text-white text-[.8rem] sm:text-sm md:text-base">
+            <p className="text-[var(--main-background)] dark:text-white text-[.8rem] sm:text-sm md:text-base">
               Referral Link Setting
             </p>
           </div>
@@ -189,7 +189,7 @@ export default function SponsorPlus({refetch}:{refetch:()=> void}) {
                   {hasSponsor && (
                     <span className="check-icon absolute inset-0 flex items-center justify-center opacity-100 transition-opacity">
                       <svg
-                        className="w-8 h-8 text-white dark:text-[var(--dark-color)]"
+                        className="w-8 h-8 text-white dark:text-[var(--main-background)]"
                         viewBox="0 0 16 16"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
@@ -205,7 +205,7 @@ export default function SponsorPlus({refetch}:{refetch:()=> void}) {
                     </span>
                   )}
                 </span>
-                <span className="text-[var(--dark-color)] dark:text-white text-md select-none">
+                <span className="text-[var(--main-background)] dark:text-white text-md select-none">
                   I want to manually set Sponsor And Refferal Recipient IDs
                 </span>
               </label>
@@ -295,12 +295,12 @@ export default function SponsorPlus({refetch}:{refetch:()=> void}) {
           </>
         ) : (
           <div className={`mt-3 transition-all duration-400 ease-in-out`}>
-            <label className="text-[var(--dark-color)] dark:text-white text-sm font-medium mb-2 block">
+            <label className="text-[var(--main-background)] dark:text-white text-sm font-medium mb-2 block">
               Generated Link:
             </label>
             <div className="flex items-skretch flex-col sm:flex-row sm:items-center gap-4 my-4 sm:my-0">
               <div className="scan-code w-full items-center border-standard overflow-x-auto p-2 text-left rounded-xl pr-[2rem] flex items-center rounded-lg bg-white dark:bg-[var(--sidebar-bg)]">
-                <span className="break-all text-lg text-[var(--dark-color)] dark:text-white">
+                <span className="break-all text-lg text-[var(--main-background)] dark:text-white">
                   {referralCode || "-"}
                 </span>
               </div>
@@ -357,7 +357,7 @@ export default function SponsorPlus({refetch}:{refetch:()=> void}) {
               className="absolute top-2 right-2 bg-gray-100 dark:bg-gray-700 rounded-full p-1 text-2xl z-10 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
               onClick={handleCloseQr}
             >
-              <FaTimes className="text-[var(--dark-color)] dark:text-white" />
+              <FaTimes className="text-[var(--main-background)] dark:text-white" />
             </button>
             {qrImage ? (
               <Image
@@ -370,7 +370,7 @@ export default function SponsorPlus({refetch}:{refetch:()=> void}) {
             ) : (
               <div className="w-full h-40 bg-gray-200 dark:bg-gray-600 animate-pulse rounded-lg" />
             )}
-            <div className="text-center text-[var(--dark-color)] dark:text-white mt-2 break-all text-[.8rem] sm:text-sm md:text-base">
+            <div className="text-center text-[var(--main-background)] dark:text-white mt-2 break-all text-[.8rem] sm:text-sm md:text-base">
               {referralCode}
             </div>
           </div>

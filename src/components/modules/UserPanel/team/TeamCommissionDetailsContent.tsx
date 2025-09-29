@@ -69,7 +69,7 @@ export default function TeamCommissionDetailsContent() {
   return (
     <div className="mt-4">
       {/* {permissionArray.includes("network.commission_details.commissions") && ( */}
-        <div className="border-standard team-commission-detail px-[2rem] font-[600] py-[1.5rem] bg-shadow-custom bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] rounded-lg text-[var(--dark-color)] dark:text-white">
+        <div className="border-standard team-commission-detail px-[2rem] font-[600] py-[1.5rem] bg-shadow-custom bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] rounded-lg text-[var(--main-background)] dark:text-white">
           <p>
             Total Received Commissions: ${" "}
             {commissionData?.data?.total_received_commissions || 0}

@@ -25,7 +25,7 @@ export default function TeamReceiveCashContent() {
   return (
     <div className="team-account-content px-[2rem] bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] bg-shadow-custom border-standard rounded-xl py-4 mt-5 pb-[2rem]">
       <div className="team-claim-reward ">
-        <p className="text-[var(--dark-color)] dark:text-white">
+        <p className="text-[var(--main-background)] dark:text-white">
           Please fill in all fields carefully and completely.
         </p>
       </div>
@@ -118,7 +118,7 @@ export default function TeamReceiveCashContent() {
         />
 
         <div className="w-full md:w-[50%]">
-          <Typography className="mb-4 pb-2 text-[var(--dark-color)] dark:text-white">
+          <Typography className="mb-4 pb-2 text-[var(--main-background)] dark:text-white">
             Upload Your Selfie and Signed Contract
           </Typography>
           <input
@@ -140,7 +140,7 @@ export default function TeamReceiveCashContent() {
                   viewBox="0 0 23 23"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
-                  className="stroke-[var(--dark-color)] dark:stroke-[#D9D9D9]"
+                  className="stroke-[var(--main-background)] dark:stroke-[#D9D9D9]"
                 >
                   <path
                     d="M13.6799 16.9818L11.5585 14.8781C10.5834 13.9111 10.0958 13.4276 9.53455 13.2463C9.04077 13.0868 8.50929 13.0868 8.01551 13.2463C7.45422 13.4276 6.96668 13.9111 5.9916 14.8781L1.0518 19.8533M13.6799 16.9818L14.1016 16.5636C15.0971 15.5764 15.5949 15.0827 16.166 14.9026C16.6683 14.7441 17.2081 14.7503 17.7066 14.9203C18.2734 15.1135 18.7597 15.6185 19.7323 16.6284L20.7647 17.6766M13.6799 16.9818L18.5659 21.954M18.5659 21.954C18.1339 22 17.5793 22 16.8118 22H4.95294C3.56928 22 2.87745 22 2.34896 21.7307C1.88409 21.4939 1.50614 21.1159 1.26928 20.651C1.15544 20.4276 1.08973 20.175 1.0518 19.8533M18.5659 21.954C18.9127 21.9171 19.1804 21.8506 19.4157 21.7307C19.8806 21.4939 20.2586 21.1159 20.4954 20.651C20.7647 20.1225 20.7647 19.4307 20.7647 18.0471V13.3529M9.64706 2.23529H4.95294C3.56928 2.23529 2.87745 2.23529 2.34896 2.50457C1.88409 2.74144 1.50614 3.11939 1.26928 3.58426C1 4.11275 1 4.80458 1 6.18823V18.0471C1 18.8458 1 19.414 1.0518 19.8533M18.2941 8.41176V4.70588M18.2941 4.70588V1M18.2941 4.70588H22M18.2941 4.70588H14.5882"
@@ -150,20 +150,20 @@ export default function TeamReceiveCashContent() {
                 </svg>
                 {!file && (
                   <div className="text-center file-upload-text gap-3">
-                    <p className="text-[var(--dark-color)] dark:text-[#D9D9D9]">
+                    <p className="text-[var(--main-background)] dark:text-[#D9D9D9]">
                       PNG, JPG or PDF
                     </p>
-                    <p className="text-[var(--dark-color)] dark:text-[#D9D9D9] text-sm">
+                    <p className="text-[var(--main-background)] dark:text-[#D9D9D9] text-sm">
                       (Max 800 X 800px)
                     </p>
                   </div>
                 )}
                 {file && (
                   <div className="text-center  file-upload-text gap-3">
-                    <p className="text-[var(--dark-color)] dark:text-[#D9D9D9]">
+                    <p className="text-[var(--main-background)] dark:text-[#D9D9D9]">
                       {file.name}
                     </p>
-                    <p className="text-sm text-[var(--dark-color)] dark:text-[#D9D9D9]">
+                    <p className="text-sm text-[var(--main-background)] dark:text-[#D9D9D9]">
                       {(file.size / (1024 * 1024)).toFixed(2)} MB
                     </p>
                   </div>

@@ -25,7 +25,7 @@ interface Statement {
 }
 function ReferralStatementSkeleton() {
   return (
-    <div className="border-standard px-[2rem] font-[600] py-[1.5rem] bg-shadow-custom mt-[1rem] bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] rounded-lg text-[var(--dark-color)] dark:text-white">
+    <div className="border-standard px-[2rem] font-[600] py-[1.5rem] bg-shadow-custom mt-[1rem] bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] rounded-lg text-[var(--main-background)] dark:text-white">
       <h3 className="mb-4">
         <span className="inline-block w-32 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
       </h3>
@@ -43,7 +43,7 @@ function ReferralStatementSkeleton() {
             </thead>
             <tbody>
               {[...Array(3)].map((_, idx) => (
-                <tr key={idx} className={`transition-colors ${idx % 2 === 0 ? "bg-white dark:bg-[#2A3246] text-[#9A9A9A]" : "bg-[#f9f9fe] dark:bg-[#222631] text-[var(--dark-color)] dark:text-white"}`}>
+                <tr key={idx} className={`transition-colors ${idx % 2 === 0 ? "bg-white dark:bg-[#2A3246] text-[#9A9A9A]" : "bg-[#f9f9fe] dark:bg-[#222631] text-[var(--main-background)] dark:text-white"}`}>
                   {[...Array(5)].map((_, i) => (
                     <td key={i} className="py-4 text-center px-4">
                       <span className="inline-block w-20 h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
@@ -55,7 +55,7 @@ function ReferralStatementSkeleton() {
           </table>
         </div>
         <div className="mt-4">
-          <div className="w-full rounded-xl bg-white text-[var(--dark-color)] p-3 px-4 sm:px-[2rem] flex flex-col sm:flex-row justify-between items-center font-[600] text-sm sm:text-base gap-2 sm:gap-0">
+          <div className="w-full rounded-xl bg-white text-[var(--main-background)] p-3 px-4 sm:px-[2rem] flex flex-col sm:flex-row justify-between items-center font-[600] text-sm sm:text-base gap-2 sm:gap-0">
             <span className="inline-block w-40 h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
             <span className="inline-block w-20 h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
           </div>
@@ -91,7 +91,7 @@ const statements = list.map((item) => ({
 
 
   return (
-    <div className="team-refferal-detail border-standard px-[2rem] py-[1.5rem] bg-shadow-custom mt-[1rem] bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] rounded-lg text-[var(--dark-color)] dark:text-white">
+    <div className="team-refferal-detail border-standard px-[2rem] py-[1.5rem] bg-shadow-custom mt-[1rem] bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] rounded-lg text-[var(--main-background)] dark:text-white">
       <h3 className="text-md">Statement</h3>
 
       <div className="rounded-[1em] mt-4">
@@ -114,7 +114,7 @@ const statements = list.map((item) => ({
           className={`transition-colors ${
             index % 2 === 0
               ? "bg-white dark:bg-[#2A3246] text-[#9A9A9A]"
-              : "bg-[#f9f9fe] dark:bg-[#222631] text-[var(--dark-color)] dark:text-white"
+              : "bg-[#f9f9fe] dark:bg-[#222631] text-[var(--main-background)] dark:text-white"
           }`}
         >
           <td className="py-4 text-center px-4">{statement.id}</td>

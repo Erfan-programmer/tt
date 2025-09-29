@@ -45,7 +45,7 @@ const handleReferralSelect = (referral: ReferralType | null) => {
                     onClick={() => setIsMobileModalOpen(false)}
                     className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800"
                   >
-                    <IoMdClose className="w-6 h-6 text-[var(--dark-color)] dark:text-white" />
+                    <IoMdClose className="w-6 h-6 text-[var(--main-background)] dark:text-white" />
                   </button>
                 </div>
                 <TeamTreeStructureDetails selectedReferral={selectedReferral} />

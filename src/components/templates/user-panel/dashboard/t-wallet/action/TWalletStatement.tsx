@@ -24,7 +24,7 @@ interface WalletListResponse {
 function TWalletStatementSkeleton() {
   return (
     <div className="withdraw-transaction-container border-standard rounded-lg px-4 py-4 bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] mt-4 w-full animate-pulse">
-      <div className="withdraw-transaction-header flex items-center justify-between text-[var(--dark-color)] dark:text-white mb-6">
+      <div className="withdraw-transaction-header flex items-center justify-between text-[var(--main-background)] dark:text-white mb-6">
         <div className="team-claim-reward flex items-center gap-2">
           <div className="h-6 w-24 bg-gray-300 dark:bg-gray-700 rounded" />
         </div>
@@ -125,7 +125,7 @@ export default function TWalletStatement() {
 
   return (
     <div className="withdraw-transaction-container border-standard rounded-lg px-4 py-4 bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] mt-4 w-full">
-      <div className="withdraw-transaction-header flex items-center justify-between text-[var(--dark-color)] dark:text-white mb-6">
+      <div className="withdraw-transaction-header flex items-center justify-between text-[var(--main-background)] dark:text-white mb-6">
         <div className="team-claim-reward flex items-center gap-2">
           <p className="text-base font-medium">Statements</p>
         </div>
@@ -161,19 +161,19 @@ export default function TWalletStatement() {
                       : "bg-[#f9f9fe] dark:bg-[#222631]"
                   }`}
                 >
-                  <td className="text-center py-3 px-4 text-[var(--dark-color)] dark:text-white">
+                  <td className="text-center py-3 px-4 text-[var(--main-background)] dark:text-white">
                     {(page - 1) * itemsPerPage + index + 1}
                   </td>
-                  <td className="text-center py-3 px-4 text-[var(--dark-color)] dark:text-white">
+                  <td className="text-center py-3 px-4 text-[var(--main-background)] dark:text-white">
                     {new Date(transaction.created_at).toLocaleString()}
                   </td>
-                  <td className="text-center py-3 px-4 text-[var(--dark-color)] dark:text-white">
+                  <td className="text-center py-3 px-4 text-[var(--main-background)] dark:text-white">
                     {transaction.type}
                   </td>
-                  <td className="text-center py-3 px-4 text-[var(--dark-color)] dark:text-white">
+                  <td className="text-center py-3 px-4 text-[var(--main-background)] dark:text-white">
                     {transaction.description}
                   </td>
-                  <td className="text-center py-3 px-4 text-[var(--dark-color)] dark:text-white">
+                  <td className="text-center py-3 px-4 text-[var(--main-background)] dark:text-white">
                     {formatToTwoDecimals(transaction.amount)}
                   </td>
                 </tr>

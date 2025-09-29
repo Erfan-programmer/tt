@@ -100,7 +100,7 @@ export default function TitanForm() {
     </button>
   )}
 />
-      <div className="titan-form-title w-[95%] mx-auto text-[var(--dark-color)] dark:text-white">
+      <div className="titan-form-title w-[95%] mx-auto text-[var(--main-background)] dark:text-white">
         <p>Your position & account type</p>
       </div>
       <div className="bg-standard w-full h-[2px] my-4"></div>

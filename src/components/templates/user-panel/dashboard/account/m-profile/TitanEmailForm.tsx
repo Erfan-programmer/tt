@@ -99,7 +99,7 @@ export default function TitanEmailForm() {
   return (
     <div className="titan-form-container mt-[1rem] w-full border-standard bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] rounded-lg py-2">
       <ToastContainer position="top-right" autoClose={3000} theme="light" />
-      <div className="titan-form-title w-[95%] mx-auto text-[var(--dark-color)] dark:text-white">
+      <div className="titan-form-title w-[95%] mx-auto text-[var(--main-background)] dark:text-white">
         <p>Change E-mail</p>
       </div>
       <div className="bg-standard w-full h-[2px] my-4"></div>

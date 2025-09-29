@@ -134,7 +134,7 @@ export default function PaymentTitan({ paymentProp }: PaymentTitanProps) {
 />
       {showSuccessNotif && (
         <TitanNotification
-          icon={<IoMdClose className="text-[var(--dark-color)] text-2xl" />}
+          icon={<IoMdClose className="text-[var(--main-background)] text-2xl" />}
           btn="Go to Dashboard"
           btnLink="/dashboard"
           btnStyle="bg-[#275EDF]"
@@ -160,7 +160,11 @@ export default function PaymentTitan({ paymentProp }: PaymentTitanProps) {
           </div>
           <div className="w-full h-[1px] bg-standard my-2 sm:my-2.5 md:my-3"></div>
           <div className="text-[#FFD600] text-md leading-relaxed mb-2 px-10">
+            <p>
+
             Please complete the payment within the remaining time shown above.
+            </p>
+            <span className="!text-[.8rem]">. Try not to refresh the page , payment will authomatically be paid</span>
           </div>
           <div className="w-[100%] lg:w-[80%] flex flex-wrap gap-x-2 sm:gap-x-4 justify-center items-center mx-auto border-standard bg-[#f9f9fe] dark:bg-[#0f163a] p-2 pt-[1rem] mt-[2rem] rounded-lg">
             <div className="twofacode-img min-w-[80px] bg-[#275EDF] p-2 rounded-lg max-w-[12rem] overflow-hidden min-h-[100px]  flex flex-col items-center">
@@ -176,7 +180,7 @@ export default function PaymentTitan({ paymentProp }: PaymentTitanProps) {
                 />
               )}
             </div>
-            <div className="text-[var(--dark-color)] dark:text-white flex-1 min-w-[200px] my-4">
+            <div className="text-[var(--main-background)] dark:text-white flex-1 min-w-[200px] my-4">
               <div className="flex flex-col gap-1 mb-2 text-center sm:text-left">
                 <span className="font-semibold text-base">
                   Invoice Number:{" "}
@@ -194,7 +198,7 @@ export default function PaymentTitan({ paymentProp }: PaymentTitanProps) {
               </div>
               <div className="flex items-skretch my-4 sm:my-0">
                 <div className="scan-code w-full border-[1px] border-[#383C47] rounded-[.5rem] overflow-x-auto p-2 text-left pr-[2rem] flex flex-wrap items-center">
-                  <span className="break-all text-lg text-[#fff]">
+                  <span className="break-all text-lg text-[#383C47] dark:text-[#fff]">
                     {payment.wallet_address}
                   </span>
                 </div>
@@ -202,7 +206,7 @@ export default function PaymentTitan({ paymentProp }: PaymentTitanProps) {
                   className="flex sm:hidden justify-center gap-3 items-center bg-[var(--box-background)] p-2 px-4 rounded-lg"
                   onClick={handleCopy}
                 >
-                  <FaCopy className="text-[var(--dark-color)]" />
+                  <FaCopy className="text-white" />
                 </button>
               </div>
               <div className="titan-copy mt-4 hidden sm:flex">
@@ -210,13 +214,13 @@ export default function PaymentTitan({ paymentProp }: PaymentTitanProps) {
                   className="flex justify-center gap-3 items-center bg-[var(--box-background)] p-2 min-w-[8rem] sm:px-[2rem] rounded-lg w-full sm:w-auto border border-[#00E0FF] hover:bg-[#00E0FF] hover:text-white transition"
                   onClick={handleCopy}
                 >
-                  <span className="text-[var(--dark-color)] text-sm sm:text-base">
+                  <span className="text-white text-sm sm:text-base">
                     Copy Code
                   </span>
                   {copied ? (
                     <FaCheck className="text-[var(--gold)]" />
                   ) : (
-                    <FaCopy />
+                    <FaCopy className="text-white"/>
                   )}
                 </button>
               </div>

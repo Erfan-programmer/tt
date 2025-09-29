@@ -5,6 +5,7 @@ import ProfitAndLossSkeleton from "@/skeletons/User-Panel/dashboard/ProfitAndLos
 import { apiRequest } from "@/libs/api";
 import { loadUserData } from "@/components/modules/EncryptData/SavedEncryptData";
 import Image from "next/image";
+import { FaArrowsLeftRight } from "react-icons/fa6";
 
 interface ProfitAndLossItem {
   value: number;
@@ -151,7 +152,7 @@ export default function ProfitAndLoss() {
           <p className="text-[var(--main-background)] dark:text-white">
             Profit and Loss
           </p>
-          <div className="profit-and-loss-numers flex jusfity-center gap-1 items-center text-[var(--profit)]">
+          <div className="profit-and-loss-numers flex jusfity-center gap-1 items-center ">
             {profitAndLossData &&
             profitAndLossData?.overall_performance_percentage > 0 ? (
               <>
@@ -160,7 +161,15 @@ export default function ProfitAndLoss() {
                   +{profitAndLossData.overall_performance_percentage}%
                 </span>
               </>
-            ) : (
+            ) : profitAndLossData?.overall_performance_percentage === 0 ?  (
+              <>
+                <FaArrowsLeftRight className="text-[var(--normal)] " />
+                <span className="!text-[var(--normal)]">
+                  {profitAndLossData.overall_performance_percentage}%
+                </span>
+              </>
+
+            ): (
               <>
                 <FaArrowRight className="text-[var(--loss)] rotate-30" />
                 <span className="text-[var(--loss)]">

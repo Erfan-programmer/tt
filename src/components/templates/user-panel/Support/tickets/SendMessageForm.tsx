@@ -238,7 +238,7 @@ export default function SendMessageForm({
           </label>
           <input
             type="text"
-            className="rounded-[2rem] p-2 border-standard border-[2px] w-full placeholder:text-[#d0d0d0] text-[var(--main-background)] dark:text-white"
+            className="rounded-[2rem] p-2 border-standard border-[2px] w-full placeholder:text-gray-400 text-[var(--main-background)] dark:text-white"
             placeholder="Enter ticket subject"
             value={formData.subject}
             onChange={(e) => handleChange("subject", e.target.value)}

@@ -1,6 +1,6 @@
 export default function TutorialBoxSkeleton() {
   return (
-    <div className="support-tutorial-content border-standard mt-3 sm:mt-4 md:mt-[2rem] rounded-lg sm:rounded-xl bg-[#d9d9d9] dark:bg-[#0B102D] p-2 sm:p-3 flex flex-col sm:flex-row justify-between pl-3 sm:pl-4 md:pl-[3rem] items-center gap-2 sm:gap-4 w-full sm:w-[80%] md:w-[45%] text-[var(--dark-color)] dark:text-white animate-pulse">
+    <div className="support-tutorial-content border-standard mt-3 sm:mt-4 md:mt-[2rem] rounded-lg sm:rounded-xl bg-[#d9d9d9] dark:bg-[#0B102D] p-2 sm:p-3 flex flex-col sm:flex-row justify-between pl-3 sm:pl-4 md:pl-[3rem] items-center gap-2 sm:gap-4 w-full sm:w-[80%] md:w-[45%] text-[var(--main-background)] dark:text-white animate-pulse">
       <div className="flex items-center gap-2">
         <div className="w-12 h-12 bg-gray-300 dark:bg-gray-700 rounded-full" />
         <div className="support-download w-full sm:w-auto flex flex-col gap-1">

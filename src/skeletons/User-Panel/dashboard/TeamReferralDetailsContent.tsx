@@ -77,10 +77,10 @@ export default function TeamReferralDetailsContent() {
 
   return (
     <div className="mt-4">
-      <div className="team-refferal-detail border-standard px-[2rem] font-[600] py-[1.5rem] bg-shadow-custom bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] rounded-lg text-[var(--dark-color)] dark:text-white">
+      <div className="team-refferal-detail border-standard px-[2rem] font-[600] py-[1.5rem] bg-shadow-custom bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] rounded-lg text-[var(--main-background)] dark:text-white">
         <p>Total Number of Direct Sales: {totalDirectSales}</p>
       </div>
-      <div className="team-refferal-detail border-standard px-[2rem] font-[600] py-[1.5rem] bg-shadow-custom mt-[1rem] bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] rounded-lg text-[var(--dark-color)] dark:text-white">
+      <div className="team-refferal-detail border-standard px-[2rem] font-[600] py-[1.5rem] bg-shadow-custom mt-[1rem] bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] rounded-lg text-[var(--main-background)] dark:text-white">
         <p>Total referral income: $ {totalReferralIncome}</p>
       </div>
 

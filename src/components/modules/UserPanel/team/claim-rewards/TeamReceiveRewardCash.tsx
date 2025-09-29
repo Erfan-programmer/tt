@@ -86,7 +86,7 @@ export default function TeamReceiveRewardCash({
       <ToastContainer position="top-center" autoClose={3000} />
       <div className="team-account-content px-[2rem] bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] bg-shadow-custom border-standard rounded-xl py-4 mt-5 pb-[2rem]">
         <div className="team-claim-reward ">
-          <p className="text-[var(--dark-color)] dark:text-white">
+          <p className="text-[var(--main-background)] dark:text-white">
             Claim Prize in Crypto
           </p>
         </div>

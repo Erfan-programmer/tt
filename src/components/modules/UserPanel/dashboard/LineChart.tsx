@@ -191,8 +191,8 @@ const getColorForLabel = (label: string) => {
       return "#4CAF50";
     case "Commission":
       return "#FFA500";
-    case "Ref":
-      return "#0088cc";
+    case "Referral":
+      return "#275EDF";
     default:
       return "#4CAF50";
   }

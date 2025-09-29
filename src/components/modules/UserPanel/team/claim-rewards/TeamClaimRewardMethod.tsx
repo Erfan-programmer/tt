@@ -156,7 +156,7 @@ export default function TeamClaimRewardMethod({
             )}
 
             <div className="team-claim-reward px-4 sm:px-[2rem] flex flex-col sm:flex-row gap-4 sm:gap-2 justify-between items-center flex-wrap">
-              <p className="text-[var(--dark-color)] dark:text-white">
+              <p className="text-[var(--main-background)] dark:text-white">
                 Congratulations! You got {reward.rank.name} Rank Reward
               </p>
               <div className="flex flex-col items-end gap-2">
@@ -191,7 +191,7 @@ export default function TeamClaimRewardMethod({
             <div className="w-full h-[1px] bg-standard my-3"></div>
 
             <div className="team-account-content-wrapper px-2 sm:px-[2rem]">
-              <p className="text-[var(--dark-color)] dark:text-white">
+              <p className="text-[var(--main-background)] dark:text-white">
                 {reward.prize_description ||
                   reward.rank.description ||
                   "Select your preferred method of reward."}
@@ -222,7 +222,7 @@ export default function TeamClaimRewardMethod({
                         } flex justify-between rounded-[2rem] py-3 border-standard p-2 items-center gap-3 md:ml-[2rem] sm:w-[40%] cursor-pointer`}
                         onClick={() => handleSelect(reward.id, r.type)}
                       >
-                        <span className="text-[var(--dark-color)] dark:text-white">
+                        <span className="text-[var(--main-background)] dark:text-white">
                           {r.type === "cash"
                             ? `Cash: ${r.amount.toLocaleString()}`
                             : `Physical: ${r.description}`}

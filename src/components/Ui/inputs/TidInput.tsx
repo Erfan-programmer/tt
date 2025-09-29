@@ -97,12 +97,12 @@ function TIDSuggestions({
       style={{ top: "-1.5rem", bottom: "auto" }}
     >
       <div className="flex flex-col gap-2 p-2 px-4 relative z-50">
-        <div className="flex items-center gap-2 text-[var(--dark-color)] dark:text-white mb-2">
+        <div className="flex items-center gap-2 text-[var(--main-background)] dark:text-white mb-2">
           <svg
             width="22"
             height="22"
             viewBox="0 0 22 22"
-            className="stroke-[var(--dark-color)] dark:stroke-white"
+            className="stroke-[var(--main-background)] dark:stroke-white"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
@@ -206,12 +206,12 @@ const TidInput: React.FC<TidInputProps> = ({
     <>
       <div className={`custom-input-form ${className}`}>
         <label className="sponsor-label flex justify-start items-start gap-2">
-          <span className="text-[var(--dark-color)] dark:text-white text-md w-full">
+          <span className="text-[var(--main-background)] dark:text-white text-md w-full">
             TID of the Recipient
           </span>
         </label>
         <label
-          className={`titan-input-custom-container relative text-[var(--dark-color)] dark:text-white mt-2 rounded-[1.5rem] ${
+          className={`titan-input-custom-container relative text-[var(--main-background)] dark:text-white mt-2 rounded-[1.5rem] ${
             localError
               ? "border-[#FF6060]"
               : value

@@ -39,7 +39,7 @@ export function PaymentSkeleton() {
         <div className="twofacode-img min-w-[80px] bg-[#275EDF] p-2 rounded-lg max-w-[12rem] overflow-hidden min-h-[100px] hidden sm:flex flex-col items-center">
           <div className="w-32 h-32 bg-gray-300 dark:bg-gray-700 rounded-lg" />
         </div>
-        <div className="text-[var(--dark-color)] dark:text-white flex-1 min-w-[200px]">
+        <div className="text-[var(--main-background)] dark:text-white flex-1 min-w-[200px]">
           <div className="scan-container text-left">
             <div className="flex flex-col gap-1 mb-2">
               <div className="h-4 w-40 bg-gray-300 dark:bg-gray-700 rounded" />

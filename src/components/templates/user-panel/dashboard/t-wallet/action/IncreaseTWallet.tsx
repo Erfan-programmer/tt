@@ -65,7 +65,7 @@ export default function IncreaserTWallet() {
             viewBox="0 0 31 27"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 stroke-[var(--dark-color)] dark:stroke-white"
+            className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 stroke-[var(--main-background)] dark:stroke-white"
           >
             <path
               d="M13.8889 22.875H6.15556C4.35094 22.875 3.44864 22.875 2.75936 22.5344C2.15306 22.2348 1.66013 21.7567 1.3512 21.1687C1 20.5002 1 19.6252 1 17.875V6C1 4.24984 1 3.37475 1.3512 2.70628C1.66013 2.11827 2.15306 1.64021 2.75936 1.3406C3.44864 1 4.35094 1 6.15556 1H24.8444C26.6491 1 27.5514 1 28.2406 1.3406C28.8469 1.64021 29.3399 2.11827 29.6488 2.70628C30 3.37475 30 4.24984 30 6V11.9375M1 7.25H30M25.1667 26V16.625M30 21.3138L20.3333 21.3125"
@@ -74,7 +74,7 @@ export default function IncreaserTWallet() {
             />
           </svg>
 
-          <p className="text-[var(--dark-color)] dark:text-white text-[.8rem] sm:text-sm md:text-base">
+          <p className="text-[var(--main-background)] dark:text-white text-[.8rem] sm:text-sm md:text-base">
             Increase T-Wallet
           </p>
         </div>

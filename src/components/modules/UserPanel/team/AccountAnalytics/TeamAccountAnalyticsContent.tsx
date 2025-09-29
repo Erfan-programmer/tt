@@ -36,7 +36,7 @@ function TeamAccountAnalyticsSkeleton() {
           <div className="w-[3rem] sm:w-[5rem] h-[3rem] sm:h-[5rem] rounded-full bg-gray-300 dark:bg-gray-600" />
           <div className="h-6 w-24 bg-gray-300 dark:bg-gray-600 rounded" />
         </div>
-        <div className="mt-4 text-[var(--dark-color)] dark:text-white text-sm sm:text-base space-y-2">
+        <div className="mt-4 text-[var(--main-background)] dark:text-white text-sm sm:text-base space-y-2">
           {[...Array(9)].map((_, idx) => (
             <div
               key={idx}
@@ -79,11 +79,11 @@ export default function TeamAccountAnalyticsContent({
             className="w-[3rem] sm:w-[5rem] h-[3rem] sm:h-[5rem] rounded-full"
             alt=""
           />
-          <p className="text-[var(--dark-color)] dark:text-white text-sm sm:text-base">
+          <p className="text-[var(--main-background)] dark:text-white text-sm sm:text-base">
             TID ${main_stats?.tid}
           </p>
         </div>
-        <div className="mt-4 text-[var(--dark-color)] dark:text-white text-sm sm:text-base">
+        <div className="mt-4 text-[var(--main-background)] dark:text-white text-sm sm:text-base">
           <div className="bg-white dark:bg-[#3B3F45] rounded-xl px-3 sm:px-[2rem] py-2 flex justify-between items-center mb-1">
             <p>Your Rank</p>
             <p>{main_stats?.rank ?? "-"}</p>

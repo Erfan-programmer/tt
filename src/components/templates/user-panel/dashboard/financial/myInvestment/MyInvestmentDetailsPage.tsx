@@ -267,7 +267,7 @@ If you have received more than 80% of your investment amount in profits from Tit
 />
       <div className="user-contacts-container border-standard rounded-xl py-4 bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] mt-4">
         <div className="user-contact-header flex flex-col sm:flex-row items-center px-2 sm:px-[2rem]">
-          <p className="text-[var(--dark-color)] dark:text-white text-lg sm:text-xl">
+          <p className="text-[var(--main-background)] dark:text-white text-lg sm:text-xl">
             Cancel Contract and Refund Details
           </p>
         </div>
@@ -394,7 +394,7 @@ If you have received more than 80% of your investment amount in profits from Tit
             maxLength={100}
           />
           <div className="w-full md:w-[50%]">
-            <Typography className="mb-4 text-[var(--dark-color)] dark:text-white">
+            <Typography className="mb-4 text-[var(--main-background)] dark:text-white">
               Upload Your Selfie and Signed Contract
             </Typography>
             <input
@@ -411,21 +411,21 @@ If you have received more than 80% of your investment amount in profits from Tit
               <div className="flex justify-center items-center w-full gap-3">
                 {!file ? (
                   <div className="text-center file-upload-text gap-3">
-                    <p className="text-[var(--dark-color)] dark:text-[#D9D9D9]">
+                    <p className="text-[var(--main-background)] dark:text-[#D9D9D9]">
                       PNG, JPG or PDF
                     </p>
-                    <p className="text-[var(--dark-color)] dark:text-[#D9D9D9] text-sm">
+                    <p className="text-[var(--main-background)] dark:text-[#D9D9D9] text-sm">
                       (Max 800 X 800px)
                     </p>
                   </div>
                 ) : (
                   <div className="text-center file-upload-text gap-3">
-                    <p className="text-[var(--dark-color)] dark:text-[#D9D9D9]">
+                    <p className="text-[var(--main-background)] dark:text-[#D9D9D9]">
                       {file.name.length > 30
                         ? file.name.slice(0, 30) + "..."
                         : file.name}
                     </p>
-                    <p className="text-sm text-[var(--dark-color)] dark:text-[#D9D9D9]">
+                    <p className="text-sm text-[var(--main-background)] dark:text-[#D9D9D9]">
                       {(file.size / (1024 * 1024)).toFixed(2)} MB
                     </p>
                   </div>
@@ -453,7 +453,7 @@ If you have received more than 80% of your investment amount in profits from Tit
             )}
             {!previewUrl && file && (
               <div className="relative mt-4 p-3 border rounded-lg bg-gray-100 dark:bg-gray-800">
-                <p className="truncate text-sm text-[var(--dark-color)] dark:text-[#D9D9D9]">
+                <p className="truncate text-sm text-[var(--main-background)] dark:text-[#D9D9D9]">
                   {file.name}
                 </p>
                 <p className="text-[.8rem] text-gray-500">
@@ -484,7 +484,7 @@ If you have received more than 80% of your investment amount in profits from Tit
             />
             <button
               type="submit"
-              className="titan-cancel-btn text-white dark:text-[var(--dark-color)] bg-[var(--dark-color)] shadow-[0_1px_17px_#03071D] dark:bg-white dark:shadow-[0_1px_17px_#fff] mt-4 w-full md:w-auto"
+              className="titan-cancel-btn text-white dark:text-[var(--main-background)] bg-[var(--main-background)] shadow-[0_1px_17px_#03071D] dark:bg-white dark:shadow-[0_1px_17px_#fff] mt-4 w-full md:w-auto"
             >
               Submit Cancellation Request
             </button>

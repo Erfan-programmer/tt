@@ -93,7 +93,7 @@ export default function DepositHistoryList({ value = "all", onChange }: { value?
       <div className="team-account-content px-3 sm:px-4 md:px-[1rem] py-3 sm:py-4 md:py-[1rem] bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] bg-shadow-custom border-standard rounded-lg sm:rounded-xl mt-3 sm:mt-4 md:mt-5 pb-4 sm:pb-6 md:pb-[2rem]">
         <div className="team-claim-reward">
           <div className="flex items-center gap-1.5 sm:gap-2">
-            <p className="text-[var(--dark-color)] dark:text-white text-[.8rem] sm:text-sm md:text-base">
+            <p className="text-[var(--main-background)] dark:text-white text-[.8rem] sm:text-sm md:text-base">
               All Transactions
             </p>
           </div>
@@ -130,12 +130,12 @@ export default function DepositHistoryList({ value = "all", onChange }: { value?
                       key={item.id}
                       className={`transition-colors ${idx % 2 === 0 ? "bg-white dark:bg-[#2A3246]" : "bg-[#f9f9fe] dark:bg-[#222631]"}`}
                     >
-                      <td className="py-3 text-[var(--dark-color)] dark:text-white text-center px-4">{idx + 1}</td>
-                      <td className="py-3 text-[var(--dark-color)] dark:text-white text-center px-4">{formatDate(item.created_at)}</td>
-                      <td className="py-3 text-[var(--dark-color)] dark:text-white text-center px-4">#{item.transaction_id}</td>
-                      <td className="py-3 text-[var(--dark-color)] dark:text-white text-center px-4">${item.amount}</td>
-                      <td className="py-3 text-[var(--dark-color)] dark:text-white text-center px-4">{item.currency}</td>
-                      <td className="py-3 text-[var(--dark-color)] dark:text-white text-center px-4">{item.transaction_hash || "-"}</td>
+                      <td className="py-3 text-[var(--main-background)] dark:text-white text-center px-4">{idx + 1}</td>
+                      <td className="py-3 text-[var(--main-background)] dark:text-white text-center px-4">{formatDate(item.created_at)}</td>
+                      <td className="py-3 text-[var(--main-background)] dark:text-white text-center px-4">#{item.transaction_id}</td>
+                      <td className="py-3 text-[var(--main-background)] dark:text-white text-center px-4">${item.amount}</td>
+                      <td className="py-3 text-[var(--main-background)] dark:text-white text-center px-4">{item.currency}</td>
+                      <td className="py-3 text-[var(--main-background)] dark:text-white text-center px-4">{item.transaction_hash || "-"}</td>
                       <td className="py-3 text-center px-4">
                         <span className={`px-3 py-1 rounded-full text-[.8rem] font-semibold ${statusColors[item.status] || "bg-gray-300 text-black"}`}>
                           {item.status.charAt(0).toUpperCase() + item.status.slice(1)}
