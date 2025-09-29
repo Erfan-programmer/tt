@@ -47,7 +47,6 @@ export default function GoldRewardPopup({
     }
   }, [popupData]);
 
-  // ✅ اصلاح شده: استفاده از یک mutation مشترک به جای دو mutation
   const readPopupMutation = useMutation({
     mutationFn: async (id: string) => {
       const res: ApiResponse = await apiRequest<any>(`/popup/read?id=${id}`, "GET");
@@ -159,7 +158,6 @@ export default function GoldRewardPopup({
                   <h3 className="text-lg sm:text-xl text-[#FAD594] font-semibold text-center mb-2 px-2 w-[90%]">
                     {item.subtitle || "YOU'VE REACHED GOLD"}
                   </h3>
-                  {/* ✅ اصلاح شده: lazy load برای تصاویر */}
                   <Image
                     width={300}
                     height={300}

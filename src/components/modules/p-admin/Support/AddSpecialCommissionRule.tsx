@@ -258,7 +258,6 @@ export default function AddSpecialCommissionRule() {
       );
       if (res.success) {
         toast.success("Special message created successfully!");
-        // --- ریست کردن فرم ---
         setRule({
           title: "",
           message_content: "",

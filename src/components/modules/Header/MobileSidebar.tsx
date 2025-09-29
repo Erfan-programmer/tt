@@ -14,7 +14,6 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { FaUser } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import SVGComponent from "../site_icon";
 import { menuItems } from "./MenuItem";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
@@ -22,6 +21,7 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.share
 import TitanModal from "@/components/Ui/Modals/TitanModal";
 import CustomModal from "../CustomModal";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 interface MobileSidebarProps {
   isSidebarOpen: boolean;
@@ -38,16 +38,15 @@ const MobileSidebar: React.FC<MobileSidebarProps> = ({
   toggleSidebar,
   menuItemsList,
   handleMenuItemClick,
-  isScrolled,
   user,
 }) => {
   // 1. Add state to control the visibility of the modal
   const [showRegistrationModal, setShowRegistrationModal] = useState(false);
-  const router = useRouter()
+  const router = useRouter();
   // 2. Define the new onClick handler for the Register button
   const [isOpen, setIsOpen] = useState(false);
   const handleRegisterClick = () => {
-    router.push("/register")
+    router.push("/register");
     // setIsOpen(true);
   };
 
@@ -68,7 +67,14 @@ const MobileSidebar: React.FC<MobileSidebarProps> = ({
             >
               {/* The rest of your sidebar content */}
               <div className="flex justify-between items-center mb-6">
-                <SVGComponent isScrolled={isScrolled} />
+                <Image
+
+                  src="/titan-main-avatar.png"
+                  className="w-24"
+                  width={300}
+                  height={300}
+                  alt="titan logo"
+                />
               </div>
               <ul className="space-y-4">
                 <li>

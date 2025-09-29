@@ -48,21 +48,18 @@ export default function AdminCountrySelect({
   const [loading, setLoading] = useState(true);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // تغییر از useCallback به useMemo برای ایجاد تابع Debounced
   const debouncedHandler = useMemo(
     () => debounce((val: string) => setDebouncedSearch(val), 500),
     []
   );
 
-  // این useEffect مدیریت فراخوانی debounce و cleanup را همزمان انجام می‌دهد
   useEffect(() => {
     debouncedHandler(searchTerm);
 
-    // مهم: در هنگام تغییر searchTerm یا حذف کامپوننت، debounce لغو می‌شود
     return () => {
       debouncedHandler.cancel();
     };
-  }, [searchTerm, debouncedHandler]); // debouncedHandler ثابت است
+  }, [searchTerm, debouncedHandler]); 
 
   useEffect(() => {
     async function fetchCountries() {
@@ -73,12 +70,11 @@ export default function AdminCountrySelect({
           : `${process.env.NEXT_PUBLIC_API_URL}/v1/countries`;
         const res = await apiRequest<ApiResponse<Country[]>>(url);
         if (res.success) {
-          // برای اطمینان از اینکه res.data.data یک آرایه است، یک بررسی اضافه می‌کنیم
           const dataArray = Array.isArray(res.data.data) ? res.data.data : [];
           setCountries(dataArray as Country[]);
         } else {
           console.error(res.message);
-          setCountries([]); // در صورت خطا، لیست را خالی می‌کند
+          setCountries([]); 
         }
       } catch (err) {
         console.error("Failed to fetch countries:", err);
@@ -88,9 +84,8 @@ export default function AdminCountrySelect({
       }
     }
     fetchCountries();
-  }, [debouncedSearch]); // فقط زمانی که debouncedSearch تغییر کند، اجرا می‌شود
+  }, [debouncedSearch]); 
 
-  // انتخاب پیش‌فرض
   useEffect(() => {
     if (defaultCountry) {
       onChange(String(defaultCountry.id));
@@ -221,7 +216,6 @@ export default function AdminCountrySelect({
                     </div>
                   ))
                 )}
-                {/* نمایش وضعیت لودینگ اولیه */}
                  {loading && debouncedSearch === "" && (
                      <div className="px-4 py-2 text-gray-500 text-sm">
                        Loading countries...

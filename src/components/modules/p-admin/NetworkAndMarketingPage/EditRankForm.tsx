@@ -459,7 +459,6 @@ const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
           </>
         )}
 
-        {/* Image upload */}
  <div className="w-full relative">
   <label className="block text-white mb-2 text-md font-medium">Rank Image</label>
   <label
@@ -468,7 +467,6 @@ const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
   >
     {fileSize ? `Size: ${fileSize}` : "Upload Image"}
 
-    {/* Input رو اینجا داخل label میذاریم */}
     <input
       id="rankImage"
       type="file"

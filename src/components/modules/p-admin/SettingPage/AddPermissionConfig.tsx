@@ -23,7 +23,6 @@ export default function AddPermissionConfig() {
 
   // const handleSave = async () => {
   //   if (!formData.permissionName || !formData.description || !formData.ceo2fa) {
-  //     alert("لطفاً همه فیلدها را پر کنید.");
   //     return;
   //   }
 

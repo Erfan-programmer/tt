@@ -13,6 +13,7 @@ import { removeUserData } from "@/components/modules/EncryptData/SavedEncryptDat
 import { menuItems } from "./UserSidebarMenus";
 import Image from "next/image";
 import { useHeader } from "@/contextApi/HeaderContext";
+import { LuBadgeCheck } from "react-icons/lu";
 
 export interface SubMenuItem {
   svg?: JSX.Element;
@@ -22,10 +23,13 @@ export interface SubMenuItem {
 }
 
 export default function UserPanelSidebar() {
-  const { activeItem, setActiveItem, isSidebarOpen, setIsSidebarOpen } = useVerify();
+  const { activeItem, setActiveItem, isSidebarOpen, setIsSidebarOpen } =
+    useVerify();
   const [isLogoutOpen, setIsLogoutOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [openDropdowns, setOpenDropdowns] = useState<{ [key: string]: boolean }>({});
+  const [openDropdowns, setOpenDropdowns] = useState<{
+    [key: string]: boolean;
+  }>({});
   const router = useRouter();
   const pathname: any = usePathname();
 
@@ -80,9 +84,9 @@ export default function UserPanelSidebar() {
     removeUserData();
     router.push("/login");
   };
-  const {headerData} = useHeader()
-  const isVerified = headerData?.verified
-  const permissions = headerData?.permission
+  const { headerData } = useHeader();
+  const isVerified = headerData?.verified;
+  const permissions = headerData?.permission;
 
   const permiateUTC = new Date();
   const formatter = new Intl.DateTimeFormat("en-GB", {
@@ -95,17 +99,19 @@ export default function UserPanelSidebar() {
     hour12: true,
   });
   const parts = formatter.formatToParts(permiateUTC);
-  const getPart = (type: string) => parts.find((p) => p.type === type)?.value || "";
-  const utcTimeString = `${getPart("year")}/${getPart("month")}/${getPart("day")} ${getPart(
-    "hour"
-  )}:${getPart("minute")} ${getPart("dayPeriod")}`;
+  const getPart = (type: string) =>
+    parts.find((p) => p.type === type)?.value || "";
+  const utcTimeString = `${getPart("year")}/${getPart("month")}/${getPart(
+    "day"
+  )} ${getPart("hour")}:${getPart("minute")} ${getPart("dayPeriod")}`;
 
-  
   const renderLinks = (item: any) => {
     const hiddenInMobile = ["dashboard", "withdraw"].includes(item.id);
     if (isMobile && hiddenInMobile) return null;
 
-    const isActive = activeItem === item.id || (pathname === `/dashboard` && item.id === "dashboard");
+    const isActive =
+      activeItem === item.id ||
+      (pathname === `/dashboard` && item.id === "dashboard");
     const isDropdownOpen = openDropdowns[item.id] || false;
 
     return (
@@ -125,7 +131,9 @@ export default function UserPanelSidebar() {
           </div>
           {item.subItems.length > 0 && (
             <GoTriangleDown
-              className={`transition-transform duration-300 ${isDropdownOpen ? "rotate-180" : ""}`}
+              className={`transition-transform duration-300 ${
+                isDropdownOpen ? "rotate-180" : ""
+              }`}
             />
           )}
         </div>
@@ -140,27 +148,53 @@ export default function UserPanelSidebar() {
               className="overflow-hidden"
             >
               <div className="submenu-container">
-                {item.subItems.filter((subItem: any) =>
+                {item.subItems
+                  .filter((subItem: any) =>
                     permissions?.some((permission) => {
                       const parts = permission.split(".");
-                      return parts.length > 1 && parts[1] === subItem?.id?.toLowerCase();
+                      return (
+                        parts.length > 1 &&
+                        parts[1] === subItem?.id?.toLowerCase()
+                      );
                     })
-                  ).map((subItem: any, index: number) => (
-                  <Link
-                    key={index}
-                    href={subItem.id?.toLowerCase() === "verification" && isVerified ? "javascript:void(0);" : subItem?.link}
-                    className={`submenu-item flex ${isVerified && subItem?.id?.toLowerCase() === "verification" ? " !text-green-400 opacity-50" : "opacity-100"} items-center rounded-[1rem] gap-3 ${
-                      pathname?.startsWith(subItem.link) ? "border border-[#004ada] active-before" : ""
-                    }`}
-                    onClick={(e: any) => e.stopPropagation()}
-                  >
-                    {subItem.svg}
-                    <span>{subItem.span}</span>
-                    {isVerified && subItem?.id?.toLowerCase() === "verification" && (
-                      <span className="text-gray-400">verified</span>
-                    )}
-                  </Link>
-                ))}
+                  )
+                  .map((subItem: any, index: number) => (
+                    <Link
+                      key={index}
+                      href={
+                        subItem.id?.toLowerCase() === "verification" &&
+                        isVerified
+                          ? "javascript:void(0);"
+                          : subItem?.link
+                      }
+                      className={`submenu-item flex ${
+                        isVerified &&
+                        subItem?.id?.toLowerCase() === "verification"
+                          ? " !text-green-400 opacity-50"
+                          : "opacity-100"
+                      } items-center rounded-[1rem] gap-3 ${
+                        pathname?.startsWith(subItem.link)
+                          ? "border border-[#004ada] active-before"
+                          : ""
+                      }`}
+                      onClick={(e: any) => e.stopPropagation()}
+                    >
+                      {isVerified &&
+                      subItem?.id?.toLowerCase() === "verification" ? (
+                        <LuBadgeCheck className="text-[1.5rem]" />
+                      ) : (
+                        <>{subItem.svg}</>
+                      )}
+                      {isVerified &&
+                      subItem?.id?.toLowerCase() === "verification" ? (
+                        <>
+                          <span className="!text-green-400">verified</span>
+                        </>
+                      ) : (
+                        <span>{subItem.span}</span>
+                      )}
+                    </Link>
+                  ))}
               </div>
             </motion.div>
           )}
@@ -199,31 +233,42 @@ export default function UserPanelSidebar() {
 
       <div className="sidebar-items w-[95%] mx-auto mt-[1rem] overflow-x-auto">
         <ul className="sidear-items-container">
-          {menuItems.filter(menu=> permissions?.includes(menu?.id?.toLowerCase())).map((item) =>
-            item.subItems.length === 0 ? (
-              item.id === "logout" ? (
+          {menuItems
+            .filter((menu) => permissions?.includes(menu?.id?.toLowerCase()))
+            .map((item) =>
+              item.subItems.length === 0 ? (
+                item.id === "logout" ? (
+                  <div
+                    key={item.id}
+                    onClick={() => handleItemClick(item.id)}
+                    className={`text-[#585966] ${
+                      activeItem === item.id ? "open" : ""
+                    }`}
+                  >
+                    {renderLinks(item)}
+                  </div>
+                ) : (
+                  <Link
+                    href={`/${item.link}`}
+                    key={item.id}
+                    className={`text-[#585966] ${
+                      activeItem === item.id ? "open" : ""
+                    }`}
+                  >
+                    {renderLinks(item)}
+                  </Link>
+                )
+              ) : (
                 <div
                   key={item.id}
-                  onClick={() => handleItemClick(item.id)}
-                  className={`text-[#585966] ${activeItem === item.id ? "open" : ""}`}
+                  className={`text-[#585966] ${
+                    activeItem === item.id ? "open" : ""
+                  }`}
                 >
                   {renderLinks(item)}
                 </div>
-              ) : (
-                <Link
-                  href={`/${item.link}`}
-                  key={item.id}
-                  className={`text-[#585966] ${activeItem === item.id ? "open" : ""}`}
-                >
-                  {renderLinks(item)}
-                </Link>
               )
-            ) : (
-              <div key={item.id} className={`text-[#585966] ${activeItem === item.id ? "open" : ""}`}>
-                {renderLinks(item)}
-              </div>
-            )
-          )}
+            )}
         </ul>
       </div>
 

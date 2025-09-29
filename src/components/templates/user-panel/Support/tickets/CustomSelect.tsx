@@ -104,7 +104,7 @@ export default function CustomSelect({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="absolute z-50 w-full mt-1" // اضافه شده position: absolute
+            className="absolute z-50 w-full mt-1"
           >
             <div className="bg-[#d9d9d9] dark:bg-[#0f163a] border-2 border-[#585966] rounded-[1rem] overflow-hidden shadow-lg">
               <div className="p-3 border-b-2 border-[#585966]">

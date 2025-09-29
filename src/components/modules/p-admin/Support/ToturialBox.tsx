@@ -83,7 +83,6 @@ const renderFilePreview = () => {
       );
     }
 
-    // برای سایر فایل‌ها
     return (
       <div className="flex flex-col items-center gap-2">
         <FaFileAlt className="text-4xl text-gray-400" />

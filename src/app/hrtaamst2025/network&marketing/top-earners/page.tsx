@@ -3,7 +3,7 @@ import AdminSearchBox from "@/components/modules/p-admin/AdminSearchBox/AdminSea
 import LineTitle from "@/components/modules/p-admin/LineTitle";
 import React, { useState, useEffect, useCallback } from "react";
 import TopEarnersList, { ProfitableUser } from "./TopEarnersList";
-import Pagination from "@/components/modules/UserPanel/Pagination/Pagination"; // فرض بر این است که کامپوننت Pagination دارید
+import Pagination from "@/components/modules/UserPanel/Pagination/Pagination";
 import { apiRequest } from "@/libs/api";
 import { loadEncryptedData } from "@/components/modules/EncryptData/SavedEncryptData";
 

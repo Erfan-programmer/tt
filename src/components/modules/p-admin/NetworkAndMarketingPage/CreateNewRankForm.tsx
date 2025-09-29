@@ -164,7 +164,7 @@ export default function CreateNewRankForm({refetch}:CreateNewRankFormProp) {
       return;
     }
 
-    setIsSaving(true); // شروع pending
+    setIsSaving(true);
     const token = loadEncryptedData()?.token;
     const payload: any = {
       name: formData.name,

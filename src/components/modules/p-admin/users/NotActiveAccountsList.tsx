@@ -74,7 +74,7 @@ export default function NotActiveAccountsList({ data }: Props) {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
               transition={{ duration: 0.3 }}
-              onClick={(e) => e.stopPropagation()} // جلوگیری از بسته شدن modal هنگام کلیک داخل آن
+              onClick={(e) => e.stopPropagation()} 
             >
               <h2 className="text-2xl font-bold mb-4">User Details</h2>
               <div className="space-y-2">

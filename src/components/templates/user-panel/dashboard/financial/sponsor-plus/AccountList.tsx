@@ -146,7 +146,7 @@ export default function AccountList({ accounts  , refetch}: AccountListProps) {
                   }`}
                 >
                   <td className="py-4 text-[var(--main-background)] dark:text-white text-center px-4 whitespace-nowrap">
-                    {index + 1 + (currentPage - 1) * 10 /* شماره‌گذاری با صفحه */}
+                    {index + 1 + (currentPage - 1) * 10 }
                   </td>
                   <td className="py-4 text-[var(--main-background)] dark:text-white text-center px-4 whitespace-nowrap">
                     {account.token}

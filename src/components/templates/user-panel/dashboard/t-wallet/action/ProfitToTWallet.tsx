@@ -144,19 +144,27 @@ export default function ProfitToTWallet() {
   const isAmountEditable = selectedOptions.length === 1;
   const displayAmount = selectedOptions.length > 1 ? totalSelected : amount;
 
-  const handleAmountChange = (val: string) => {
-    if (!isAmountEditable) return;
-    const num = Number(val);
-    if (isNaN(num)) return;
-    if (singleSelectedOption) {
-      if (num < 0) setAmount("0");
-      else if (num > singleSelectedOption.amount)
-        setAmount(singleSelectedOption.amount.toString());
-      else setAmount(val);
-    } else {
-      setAmount(val);
-    }
-  };
+const handleAmountChange = (val: string) => {
+  if (!isAmountEditable || !singleSelectedOption) return;
+
+  const num = Number(val);
+  if (isNaN(num) || num < 0) {
+    setAmount("0");
+    return;
+  }
+
+  const rawMax = Number(singleSelectedOption.amount) || 0;
+  const maxAfterFee = singleSelectedOption.feeApplies
+    ? rawMax - (rawMax * feePercent) / 100
+    : rawMax;
+
+  if (num > maxAfterFee) {
+    setAmount(maxAfterFee.toString());
+  } else {
+    setAmount(val);
+  }
+};
+
 
   useEffect(() => {
     if (selectedOptions.length === 1) {

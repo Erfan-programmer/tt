@@ -58,8 +58,8 @@ export default function BlogListPage() {
       const res = await apiRequest<{ message: string }>(
         `${process.env.NEXT_PUBLIC_API_URL}/v1/admin/deleteBlogs/${deleteModal.id}`,
         "DELETE",
-        undefined, // body هیچ چیزی نیست
-        { Authorization: `Bearer ${token}` } // token در هدر
+        undefined, 
+        { Authorization: `Bearer ${token}` }
       );
 
       if (res.success && res.data) {

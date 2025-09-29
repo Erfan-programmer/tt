@@ -14,7 +14,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import React, { useState, useEffect } from "react";
-import SVGComponent from "../site_icon";
 import { IoMdClose } from "react-icons/io";
 import "./Header.css";
 import Link from "next/link";
@@ -26,6 +25,7 @@ import TitanModalField from "@/components/Ui/Modals/TitanModalField";
 import { useForm, FormProvider } from "react-hook-form";
 import MobileSidebar from "./MobileSidebar";
 import CustomModal from "../CustomModal";
+import Image from "next/image";
 
 interface FormModalState {
   newInvestment: boolean;
@@ -116,7 +116,7 @@ function HeaderTest() {
       >
         <div className="w-[95%] flex flex-wrap items-center justify-between mx-auto p-4">
           <div className="flex w-full  gap-5 sm:gap-0 justify-between items-center">
-            <SVGComponent isScrolled={isScrolled} />
+            <Image src="/titan-main-avatar.png" className="w-24" width={300} height={300} alt="titan logo" />
             {pathname === "/" ? null : (
               <>
                 {!isToggle && (
