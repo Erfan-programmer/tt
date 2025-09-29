@@ -84,7 +84,7 @@ export default function TicketList({ tickets, refetch }: TicketListProps) {
       const res = await apiRequest<any>(
         `${process.env.NEXT_PUBLIC_API_URL}/v1/admin/toggleTicketCooldown/${ticketId}`,
         "POST",
-        { enabled: value },
+        { enabled: !value },
         { Authorization: `Bearer ${token}` }
       );
       if (res.success) {

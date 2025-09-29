@@ -176,10 +176,30 @@ export default function WithdrawBox({
     getValues,
   ]);
 
-  const handleAmountChange = (value: string) => {
-    setValue("amount", value);
-    if (selectedOptions.length === 1) setUserModifiedAmount(true);
-  };
+ const handleAmountChange = (val: string) => {
+  if (!isAmountEditable) return; 
+  const num = Number(val);
+  if (isNaN(num)) return; 
+
+  if (singleSelectedOption) {
+    const lowerCaseLabel = singleSelectedOption.label.toLowerCase();
+    let maxAmount = Number(singleSelectedOption.amount);
+    if (lowerCaseLabel === "roi" || lowerCaseLabel === "commission") {
+      const fee = system_percent ? Number(system_percent) / 100 : 0;
+      maxAmount = maxAmount * (1 - fee);
+    }
+
+    if (num < 0) setValue("amount", "0");
+    else if (num > maxAmount) setValue("amount", maxAmount.toFixed(2));
+    else setValue("amount", val);
+  } else {
+    setValue("amount", val);
+  }
+
+  setUserModifiedAmount(true);
+};
+
+
 
   const onSubmit = async (data: WithdrawFormType) => {
     if (!cryptoKey) {
@@ -257,7 +277,7 @@ export default function WithdrawBox({
             viewBox="0 0 31 28"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            className=" stroke-[var(--main-background)] dark:stroke-white"
+            className=" stroke-[var(--dark-colorark:stroke-white"
           >
             <path
               d="M17.1111 23.7513L24.8444 23.75C26.6491 23.75 27.5514 23.75 28.2406 23.3958C28.8469 23.0842 29.3399 22.587 29.6488 21.9755C30 21.2803 30 20.3702 30 18.55V6.2C30 4.37983 30 3.46974 29.6488 2.77453C29.3399 2.163 28.8469 1.66582 28.2406 1.35423C27.5514 1 26.6491 1 24.8444 1H6.15556C4.35094 1 3.44863 1 2.75936 1.35423C2.15306 1.66582 1.66013 2.163 1.3512 2.77453C1 3.46974 1 4.37983 1 6.2V17.25M1 7.5H28.3889M10.6667 23.7513L1 23.75M10.6667 23.7513L7.44444 20.5M10.6667 23.7513L7.44444 27"
@@ -265,7 +285,7 @@ export default function WithdrawBox({
               strokeLinejoin="round"
             />
           </svg>
-          <p className="text-[var(--main-background)] dark:text-white text-[.8rem] sm:text-sm md:text-base">
+          <p className="text-[var(--da--dark-colortext-white text-[.8rem] sm:text-sm md:text-base">
             Withdraw Profits
           </p>
         </div>
@@ -285,14 +305,13 @@ export default function WithdrawBox({
               onClick={() => handleSelect(option.label)}
             >
               <div className="flex items-center flex-wrap gap-1 sm:gap-1.5 md:gap-2">
-                <span className="text-[var(--main-background)] dark:text-[#D9D9D9] text-[.8rem] sm:text-sm md:text-base">
+                <span className="text-[var(--dark-c--dark-color-[#D9D9D9] text-[.8rem] sm:text-sm md:text-base">
                   {option.label}:
                 </span>
                 {option.amount != 0 ? (
                   <>
                     <span
-                      className={`text-[var(--main-background)] ${
-                        option.label.toLocaleLowerCase() !== "referral"
+                      className={`text-[var(--dark-color--dark-color               option.label.toLocaleLowerCase() !== "referral"
                           ? "line-through !text-[.8rem] "
                           : ""
                       } dark:text-white`}
@@ -356,17 +375,17 @@ export default function WithdrawBox({
             className="register-inputs-reward-special bg-[#d9d9d9] dark:bg-[#123b90] flex justify-between rounded-[1rem] sm:rounded-[1.5rem] md:rounded-[2rem] py-3 border-standard px-2 sm:px-3 items-center gap-1.5 sm:gap-2 md:gap-3 bg-[#123B90] flex-1 w-full sm:w-auto"
           >
             <div className="flex items-center flex-wrap gap-1 sm:gap-1.5 md:gap-2">
-              <span className="text-[var(--main-background)] dark:text-[#D9D9D9] text-[.8rem] sm:text-sm md:text-base">
+              <span className="text-[var(--dark-color)] d--dark-color9] text-[.8rem] sm:text-sm md:text-base">
                 Total
               </span>
             </div>
-            <p className="text-[var(--main-background)] dark:text-white text-[.8rem] sm:text-sm md:text-base">
+            <p className="text-[var(--dark-color)] dark:--dark-color[.8rem] sm:text-sm md:text-base">
               $ {totalAll}
             </p>
           </motion.div>
         </div>
         <div className="px-[2rem] mx-auto my-2">
-          <span className="text-[var(--main-background)] dark:text-white text-[.8rem] sm:text-sm md:text-base">
+          <span className="text-[var(--dark-color)] dark:text--dark-colorem] sm:text-sm md:text-base">
             Company Fee: {system_percent}%
           </span>
         </div>
@@ -381,7 +400,8 @@ export default function WithdrawBox({
               <CustomInput
                 readOnly={!isAmountEditable}
                 label={`Amount&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-[var(--gold)] text-sm">(After Fees)</span>`}
-                value={field.value ? parseFloat(field.value).toFixed(2) : ""}
+                value={field.value ? field.value : field.value.toString()}
+
                 onChange={(val) => {
                   field.onChange(val);
                   handleAmountChange(val);
