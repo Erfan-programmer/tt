@@ -450,7 +450,7 @@ export default function WithdrawTransaction() {
                         <div className="flex flex-col items-center gap-2">
                           <span
                             className={`text-sm ${
-                              statusColors[transaction.status] ||
+                              statusColors[transaction.status?.toLowerCase()] ||
                               "text-blue-500"
                             }`}
                           >
