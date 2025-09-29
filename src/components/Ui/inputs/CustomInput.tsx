@@ -17,6 +17,7 @@ interface CustomInputProps {
   readOnly: boolean;
   onChange: (value: string) => void;
   onBlur?: () => void;
+  onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
   showStar?: boolean;
   placeholder?: string;
   required?: boolean;
@@ -40,6 +41,7 @@ export default function CustomInput({
   onChange,
   showStar,
   onBlur,
+  onFocus,
   name,
   placeholder = "",
   required = false,
@@ -54,18 +56,15 @@ export default function CustomInput({
   validationType,
   onlyNumber = false,
 }: CustomInputProps) {
-  // Ensure value is always a string
   const safeValue = value || "";
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const [localError, setLocalError] = useState<string>("");
   const errorTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const containsNonEnglishLetter = (value: string): boolean => {
-    return /[^\x00-\x7F]/.test(value);
-  };
-  const validateAlphabetOnly = (value: string): boolean => {
-    return !containsNonEnglishLetter(value);
-  };
+  const containsNonEnglishLetter = (value: string) =>
+    /[^\x00-\x7F]/.test(value);
+  const validateAlphabetOnly = (value: string) =>
+    !containsNonEnglishLetter(value);
 
   const validateInput = (value: string) => {
     if (required && !value) {
@@ -78,14 +77,12 @@ export default function CustomInput({
       return;
     }
 
-    // Email validation
     if (type === "email" && value) {
       const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
       if (!emailRegex.test(value)) {
         setLocalError("Please enter a valid email address");
         return;
       }
-      // Check if it's a Gmail address
       if (!value.toLowerCase().endsWith("@gmail.com")) {
         setLocalError(
           "Please enter a valid Gmail address (e.g., user@gmail.com)"
@@ -117,7 +114,6 @@ export default function CustomInput({
 
     onChange(newValue);
 
-    // Only validate email if the field has been touched or has a value
     if (type === "email" && (newValue.length > 0 || isFocused)) {
       validateInput(newValue);
     } else if (type !== "email") {
@@ -127,59 +123,43 @@ export default function CustomInput({
 
   const handleBlur = () => {
     setIsFocused(false);
-    if (onBlur) {
-      onBlur();
-    }
+    if (onBlur) onBlur();
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Tab") {
-      setIsFocused(false);
-      return;
-    }
+    if (e.key === "Tab") setIsFocused(false);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const isPersian = /[\u0600-\u06FF]/.test(e.key);
     const isDigit = /\d/.test(e.key);
     if (onlyNumber) {
-      if (isPersian) {
-        setLocalError("type only latin numbers");
+      if (isPersian || !isDigit) {
+        setLocalError(
+          isPersian ? "type only latin numbers" : "just type numbers"
+        );
         if (errorTimeoutRef.current) clearTimeout(errorTimeoutRef.current);
         errorTimeoutRef.current = setTimeout(() => setLocalError(""), 1000);
         e.preventDefault();
         return;
       }
-      if (!isDigit) {
-        setLocalError("just type numbers");
-        if (errorTimeoutRef.current) clearTimeout(errorTimeoutRef.current);
-        errorTimeoutRef.current = setTimeout(() => setLocalError(""), 1000);
-        e.preventDefault();
-        return;
-      }
-    } else if (validationType === "password") {
-      if (isPersian) {
-        setLocalError("You cannot type Persian/Arabic characters.");
-        if (errorTimeoutRef.current) clearTimeout(errorTimeoutRef.current);
-        errorTimeoutRef.current = setTimeout(() => setLocalError(""), 1000);
-        e.preventDefault();
-        return;
-      }
-    } else {
-      if (isPersian) {
-        setLocalError("You can type latin characters only.");
-        if (errorTimeoutRef.current) clearTimeout(errorTimeoutRef.current);
-        errorTimeoutRef.current = setTimeout(() => setLocalError(""), 1000);
-        e.preventDefault();
-        return;
-      }
+    } else if (validationType === "password" && isPersian) {
+      setLocalError("You cannot type Persian/Arabic characters.");
+      if (errorTimeoutRef.current) clearTimeout(errorTimeoutRef.current);
+      errorTimeoutRef.current = setTimeout(() => setLocalError(""), 1000);
+      e.preventDefault();
+      return;
+    } else if (isPersian) {
+      setLocalError("You can type latin characters only.");
+      if (errorTimeoutRef.current) clearTimeout(errorTimeoutRef.current);
+      errorTimeoutRef.current = setTimeout(() => setLocalError(""), 1000);
+      e.preventDefault();
     }
   };
 
   const showError = !readOnly && (hasError || localError);
   const errorText = errorMessage || localError;
 
-  // Password visibility toggle
   const [showPassword, setShowPassword] = useState(false);
   const isPasswordType = type === "password";
   const inputType = isPasswordType && showPassword ? "text" : type;
@@ -194,13 +174,14 @@ export default function CustomInput({
           <span
             className="text-[var(--main-background)] dark:text-white text-md w-full"
             dangerouslySetInnerHTML={{ __html: label }}
-          ></span>
+          />
         ) : (
           <span className="text-[var(--main-background)] dark:text-white text-md w-full">
             {label}
           </span>
         )}
       </label>
+
       <label
         className={`titan-input-custom-container text-[var(--main-background)] dark:text-white mt-2 rounded-[1.5rem] ${
           readOnly
@@ -213,7 +194,10 @@ export default function CustomInput({
         } ${
           isFocused && !readOnly ? "titan-input-custom-container-focus" : ""
         }`}
-        onFocus={() => !readOnly && setIsFocused(true)}
+        onFocus={(e: any) => {
+          if (!readOnly) setIsFocused(true);
+          if (onFocus) onFocus(e);
+        }}
         onBlur={handleBlur}
         role="textbox"
         aria-label={`${label} input`}
@@ -240,7 +224,7 @@ export default function CustomInput({
           onKeyDown={handleKeyDown}
           onKeyPress={handleKeyPress}
         />
-        {/* Password visibility toggle */}
+
         {isPasswordType && !readOnly && (
           <button
             type="button"
@@ -261,23 +245,17 @@ export default function CustomInput({
             {showPassword ? <FaEyeSlash /> : <FaEye />}
           </button>
         )}
+
         {!readOnly &&
           (showError ? (
-            <IoMdCloseCircle
-              className={`${
-                !readOnly ? "opacity-100" : "opacity-0"
-              } w-7 h-7 text-[#FF6060]`}
-            />
+            <IoMdCloseCircle className="w-7 h-7 text-[#FF6060]" />
           ) : (
             safeValue.trim().length > 0 && (
-              <FaCheckCircle
-                className={`${
-                  !readOnly ? "opacity-100" : "opacity-0"
-                } w-7 h-7w-7 h-7 text-[#00CB08] transition-opacity duration-300`}
-              />
+              <FaCheckCircle className="w-7 h-7 text-[#00CB08] transition-opacity duration-300" />
             )
           ))}
       </label>
+
       {showError && errorText && (
         <span className="text-[#FF6060] text-sm mt-1 block">{errorText}</span>
       )}

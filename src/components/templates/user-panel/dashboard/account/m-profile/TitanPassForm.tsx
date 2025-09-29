@@ -128,6 +128,8 @@ export default function TitanPassForm({ profile }: TitanPassFormProps) {
       toast.error("An error occurred while updating profile.");
     }
   };
+  const [isFocusedFirstName, setIsFocusedFirstName] = useState(false);
+  const [isFocusedLastName, setIsFocusedLastName] = useState(false);
 
   return (
     <div className="titan-form-container mt-[1rem] w-full border-standard bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] rounded-lg py-2">
@@ -148,42 +150,60 @@ export default function TitanPassForm({ profile }: TitanPassFormProps) {
             name="first_name"
             control={control}
             rules={{ required: true, maxLength: 100 }}
-            render={({ field }) => (
-              <CustomInput
-                className="w-[100%] md:w-[47%]"
-                label="Firstname"
-                readOnly={headerData?.verified as any}
-                {...field}
-                value={maskValue(field.value, 2)}
-                onChange={field.onChange}
-                required
-                type="text"
-                placeholder="Enter your First name"
-                hasError={!!errors.first_name}
-                errorMessage={errors.first_name ? "Firstname is required" : ""}
-              />
-            )}
+            render={({ field }) => {
+              const displayValue = isFocusedFirstName
+                ? field.value
+                : maskValue(field.value, 2);
+
+              return (
+                <CustomInput
+                  className="w-[100%] md:w-[47%]"
+                  label="Firstname"
+                  readOnly={headerData?.verified as any}
+                  {...field}
+                  value={displayValue}
+                  onChange={field.onChange}
+                  onFocus={() => setIsFocusedFirstName(true)}
+                  onBlur={() => setIsFocusedFirstName(false)}
+                  required
+                  type="text"
+                  placeholder="Enter your First name"
+                  hasError={!!errors.first_name}
+                  errorMessage={
+                    errors.first_name ? "Firstname is required" : ""
+                  }
+                />
+              );
+            }}
           />
 
           <Controller
             name="last_name"
             control={control}
             rules={{ required: true, maxLength: 100 }}
-            render={({ field }) => (
-              <CustomInput
-                className="w-[100%] md:w-[47%]"
-                label="Lastname"
-                {...field}
-                value={maskValue(field.value, 2)}
-                onChange={field.onChange}
-                required
-                readOnly={headerData?.verified as any}
-                type="text"
-                placeholder="Enter your Last name"
-                hasError={!!errors.last_name}
-                errorMessage={errors.last_name ? "Lastname is required" : ""}
-              />
-            )}
+            render={({ field }) => {
+              const displayValue = isFocusedLastName
+                ? field.value
+                : maskValue(field.value, 2);
+
+              return (
+                <CustomInput
+                  className="w-[100%] md:w-[47%]"
+                  label="Lastname"
+                  readOnly={headerData?.verified as any}
+                  {...field}
+                  value={displayValue}
+                  onChange={field.onChange}
+                  onFocus={() => setIsFocusedLastName(true)}
+                  onBlur={() => setIsFocusedLastName(false)}
+                  required
+                  type="text"
+                  placeholder="Enter your Last name"
+                  hasError={!!errors.last_name}
+                  errorMessage={errors.last_name ? "Lastname is required" : ""}
+                />
+              );
+            }}
           />
 
           <Controller
@@ -278,7 +298,6 @@ export default function TitanPassForm({ profile }: TitanPassFormProps) {
                 className="w-[100%] md:w-[47%]"
                 label="2FA Code"
                 {...field}
-                
                 readOnly={headerData?.verified as any}
                 value={field.value || ""}
                 onChange={field.onChange}
