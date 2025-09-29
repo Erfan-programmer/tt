@@ -10,6 +10,7 @@ import { apiRequest } from "@/libs/api";
 import { loadUserData } from "@/components/modules/EncryptData/SavedEncryptData";
 import { FaTimes } from "react-icons/fa";
 import { useState } from "react";
+import { useHeader } from "@/contextApi/HeaderContext";
 
 interface TitanPassFormProps {
   profile: {
@@ -40,8 +41,6 @@ interface UpdatePersonalInfoRequest {
   prefix_number: number;
 }
 
-
-
 export default function TitanPassForm({ profile }: TitanPassFormProps) {
   const {
     control,
@@ -58,20 +57,18 @@ export default function TitanPassForm({ profile }: TitanPassFormProps) {
       country: profile.country?.id ? String(profile.country.id) : "",
       gender: profile.gender || "",
       fa_code: "",
-      prefix_number: profile?.id ,
+      prefix_number: profile?.id,
     },
   });
 
+  const maskValue = (value: string, visibleChars = 2) => {
+    if (!value) return "";
+    if (value.length <= visibleChars) return value;
+    return (
+      value.slice(0, visibleChars) + "*".repeat(value.length - visibleChars)
+    );
+  };
 
-
-const maskValue = (value: string, visibleChars = 2) => {
-  if (!value) return "";
-  if (value.length <= visibleChars) return value;
-  return value.slice(0, visibleChars) + "*".repeat(value.length - visibleChars);
-};
-
-
-  
   const first_name = watch("first_name");
   const last_name = watch("last_name");
   const country = watch("country");
@@ -80,7 +77,8 @@ const maskValue = (value: string, visibleChars = 2) => {
   const prefix_number = watch("prefix_number");
   const fa_code = watch("fa_code");
 
-  const [isLoading , setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
+  const { headerData } = useHeader();
   const onSubmit = async () => {
     const changedFields: Partial<{
       first_name: string;
@@ -109,7 +107,7 @@ const maskValue = (value: string, visibleChars = 2) => {
     }
     const token = loadUserData()?.access_token;
     try {
-      setIsLoading(true)
+      setIsLoading(true);
       const res = await apiRequest<any>(
         `${process.env.NEXT_PUBLIC_API_URL}/v1/client/editProfile`,
         "POST",
@@ -119,14 +117,13 @@ const maskValue = (value: string, visibleChars = 2) => {
 
       if (res.success) {
         toast.success("Profile updated successfully!");
-      setIsLoading(false)
-      
-    } else {
-        setIsLoading(false)
+        setIsLoading(false);
+      } else {
+        setIsLoading(false);
         toast.error(res.message || "Failed to update profile.");
       }
     } catch (err) {
-      setIsLoading(false)
+      setIsLoading(false);
       console.error(err);
       toast.error("An error occurred while updating profile.");
     }
@@ -135,12 +132,12 @@ const maskValue = (value: string, visibleChars = 2) => {
   return (
     <div className="titan-form-container mt-[1rem] w-full border-standard bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] rounded-lg py-2">
       <ToastContainer
-  closeButton={({ closeToast }) => (
-    <button onClick={closeToast}>
-      <FaTimes className="text-white" />
-    </button>
-  )}
-/>
+        closeButton={({ closeToast }) => (
+          <button onClick={closeToast}>
+            <FaTimes className="text-white" />
+          </button>
+        )}
+      />
       <div className="titan-form-title w-[95%] mx-auto text-[var(--main-background)] dark:text-white">
         <p>Personal Information</p>
       </div>
@@ -155,7 +152,7 @@ const maskValue = (value: string, visibleChars = 2) => {
               <CustomInput
                 className="w-[100%] md:w-[47%]"
                 label="Firstname"
-                readOnly={false}
+                readOnly={headerData?.verified as any}
                 {...field}
                 value={maskValue(field.value, 2)}
                 onChange={field.onChange}
@@ -180,7 +177,7 @@ const maskValue = (value: string, visibleChars = 2) => {
                 value={maskValue(field.value, 2)}
                 onChange={field.onChange}
                 required
-                readOnly={false}
+                readOnly={headerData?.verified as any}
                 type="text"
                 placeholder="Enter your Last name"
                 hasError={!!errors.last_name}
@@ -199,6 +196,7 @@ const maskValue = (value: string, visibleChars = 2) => {
                 label="Gender"
                 value={field.value || ""}
                 onChange={field.onChange}
+                disbaled={headerData?.verified as any}
                 required
               />
             )}
@@ -226,6 +224,7 @@ const maskValue = (value: string, visibleChars = 2) => {
               <CountrySelect
                 className="w-[100%] md:w-[47%]"
                 label="Select Country"
+                disbaled={headerData?.verified as any}
                 value={field.value || ""}
                 onChange={(val) => {
                   field.onChange(val);
@@ -251,18 +250,16 @@ const maskValue = (value: string, visibleChars = 2) => {
                 className="w-[100%] md:w-[47%]"
                 label="Phone Number"
                 value={field.value || ""}
+                disabled={headerData?.verified as any}
                 onChange={field.onChange}
                 required
                 defaultDialCode={profile.dial_code}
-                onPrefixChange={(country) =>
-                {
-
-                  console.log("country =>" , country);
+                onPrefixChange={(country) => {
+                  console.log("country =>", country);
                   setValue("prefix_number", country.id, {
                     shouldDirty: true,
-                  })
-                }
-                }
+                  });
+                }}
               />
             )}
           />
@@ -281,7 +278,8 @@ const maskValue = (value: string, visibleChars = 2) => {
                 className="w-[100%] md:w-[47%]"
                 label="2FA Code"
                 {...field}
-                readOnly={false}
+                
+                readOnly={headerData?.verified as any}
                 value={field.value || ""}
                 onChange={field.onChange}
                 required
@@ -300,7 +298,13 @@ const maskValue = (value: string, visibleChars = 2) => {
         </div>
 
         <div className="titan-form-footer flex justify-center sm:justify-end items-center my-[3rem] w-[95%] mx-auto">
-          <button className={`titan-btn ${isLoading ? "!bg-gray-400" : ""} opacity-100`} type="submit">
+          <button
+            disabled={headerData?.verified as any}
+            className={`titan-btn ${
+              isLoading || headerData?.verified ? "!bg-gray-400" : ""
+            } opacity-100`}
+            type="submit"
+          >
             {isLoading ? "Saving ..." : "Save"}
           </button>
         </div>

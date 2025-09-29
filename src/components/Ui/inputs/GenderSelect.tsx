@@ -35,12 +35,14 @@ interface GenderSelectProps {
   value: string;
   onChange: (value: string) => void;
   required?: boolean;
+  disbaled?: boolean;
   className?: string;
 }
 
 export default function GenderSelect({
   label,
   value,
+  disbaled,
   onChange,
   required = false,
   className = "",
@@ -100,15 +102,15 @@ export default function GenderSelect({
             ? "titan-input-custom-container-focus"
             : "border-standard"
         }`}
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => disbaled ? null : setIsOpen(!isOpen)}
       >
         <div className="flex items-center gap-2 flex-1">
-          <span className="text-[var(--main-background)] dark:text-white">
+          <span className={`text-[var(--main-background)] dark:text-white ${disbaled ? "opacity-40" : ""}`}>
             {selectedOption ? selectedOption.label : "Select gender"}
           </span>
         </div>
         <IoIosArrowDown
-          className={`w-6 h-6 text-[var(--main-background)] dark:text-white transition-transform duration-300 ${
+          className={`w-6 h-6 text-[var(--main-background)] dark:text-white transition-transform duration-300 ${disbaled ? "opacity-40" : ""} ${
             isOpen ? "rotate-180" : ""
           }`}
         />

@@ -28,6 +28,7 @@ interface CountrySelectProps {
   onChange: (value: string) => void;
   required?: boolean;
   className?: string;
+  disbaled?:boolean;
   defaultCountry?: Country;
   refElement?: any;
 }
@@ -36,6 +37,7 @@ export default function CountrySelect({
   label,
   value,
   onChange,
+  disbaled,
   required = false,
   className = "",
   defaultCountry,
@@ -131,9 +133,9 @@ export default function CountrySelect({
       <div
         className="titan-input-custom-container flex items-center justify-between px-3 py-2 mt-3
         text-[var(--main-background)] dark:text-white rounded-[1.5rem] cursor-pointer border-standard"
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => disbaled ? null : setIsOpen(!isOpen)}
       >
-        <div className="flex items-center gap-2 flex-1">
+        <div className={`flex items-center gap-2 flex-1 ${disbaled ? "opacity-60" : ""}`}>
           {selectedCountry && (
             <Flag code={selectedCountry.code} className="w-6 h-4 rounded-sm" />
           )}
@@ -195,8 +197,8 @@ export default function CountrySelect({
                         setSearchTerm("");
                       }}
                     >
-                      <Flag code={country.code} className="w-6 h-4 rounded-sm" />
-                      <span className="text-[var(--box-background)] dark:text-white text-sm">
+                      <Flag code={country.code} className={`w-6 h-4 rounded-sm ${disbaled ? "opacity-40" : ""}`} />
+                      <span className={`text-[var(--box-background)] dark:text-white text-sm ${disbaled ? "opacity-40" : ""}`}>
                         {country.name}
                       </span>
                       <span className="text-gray-400 dark:text-gray-500 text-[.8rem] ml-auto">

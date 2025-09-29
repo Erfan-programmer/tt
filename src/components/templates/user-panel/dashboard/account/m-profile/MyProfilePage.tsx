@@ -15,26 +15,25 @@ export default function MyProfile() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const fetchProfile = async () => {
+    setLoading(true);
+    const token = loadUserData()?.access_token;
+    const res = await apiRequest<any>(
+      `${process.env.NEXT_PUBLIC_API_URL}/v1/client/profile`,
+      "GET",
+      undefined,
+      { Authorization: `Bearer ${token}` }
+    );
+
+    if (res.success) {
+      setProfile(res.data.data);
+    } else {
+      setError(res.message || "Failed to load profile");
+    }
+
+    setLoading(false);
+  };
   useEffect(() => {
-    const fetchProfile = async () => {
-      setLoading(true);
-      const token = loadUserData()?.access_token;
-      const res = await apiRequest<any>(
-        `${process.env.NEXT_PUBLIC_API_URL}/v1/client/profile`,
-        "GET",
-        undefined,
-        { Authorization: `Bearer ${token}` }
-      );
-
-      if (res.success) {
-        setProfile(res.data.data);
-      } else {
-        setError(res.message || "Failed to load profile");
-      }
-
-      setLoading(false);
-    };
-
     fetchProfile();
   }, []);
 
@@ -50,7 +49,9 @@ export default function MyProfile() {
 
       {profile && (
         <>
-          {profile.plan.type.toLowerCase() === "contract_free" && <TitanForm />}
+          {profile.plan.type.toLowerCase() === "contract_free" && (
+            <TitanForm refetch={fetchProfile} />
+          )}
 
           {/* permissionArray.includes("account.profile.personal_info") && <TitanPassForm /> */}
           <TitanPassForm profile={profile} />

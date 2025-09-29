@@ -98,7 +98,7 @@ export default function DashboardHeaderMessageList({
     try {
       const res = await apiRequest<any>(
         `${process.env.NEXT_PUBLIC_API_URL}/v1/admin/deleteHeaderMessage/${id}`,
-        "DELETE",
+        "POST",
         undefined,
         { Authorization: `Bearer ${token}` }
       );

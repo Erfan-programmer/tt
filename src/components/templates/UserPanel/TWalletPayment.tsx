@@ -155,12 +155,12 @@ export default function TwalletPayment({
           btnStyle="bg-[#275EDF]"
           onClose={() => setShowSuccessNotif(false)}
         >
-          <div className="font-bold text-lg mb-2">
+          <div className="font-bold text-lg mb-2 text-white">
             Congratulations!
             <br />
             Your Account is Fully Activated 🎉
           </div>
-          <div className="text-sm mt-2">
+          <div className="text-sm mt-2 text-white">
             Your investment process is complete, and your account is now{" "}
             <b>fully active</b>.
             <br />

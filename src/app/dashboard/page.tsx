@@ -1,5 +1,6 @@
 "use client";
 import TeamBuilderTournoments from "@/components/modules/phase2/Tournoments/TeamBuilderTournoments";
+import HeaderClientMessage from "@/components/templates/user-panel/dashboard/HeaderClientMessage";
 import HealthCheck from "@/components/templates/user-panel/dashboard/HealthCheck";
 import InvestmentPendingActivation from "@/components/templates/user-panel/dashboard/InvestmentPendingActivation";
 import MessageNotification from "@/components/templates/user-panel/dashboard/MessageNotification";
@@ -19,6 +20,7 @@ export default function Page() {
   return (
     <div className="titan-content-container mt-[1rem]">
       {/* {permissionArray.includes("dashboard.infobox1") && ( */}
+      <HeaderClientMessage />
       <InvestmentPendingActivation />
       <UserAccountCondition />
       {/* // )} */}

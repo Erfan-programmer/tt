@@ -18,13 +18,12 @@ export default function DashboardHaederMessage({
   color_end,
 }: DashboardHeaderMessageProps) {
   return (
-<div
-  className="border-[#383C47] border-[1px] p-6 bg-[#090D23] rounded-xl relative overflow-hidden"
-  style={{
-    background: `linear-gradient(to right, ${color_start}, ${color_end})`,
-  }}
->
-
+    <div
+      className="border-[#383C47] border-[1px] p-6 bg-[#090D23] rounded-xl relative overflow-hidden"
+      style={{
+        background: `linear-gradient(to right, ${color_start}, ${color_end})`,
+      }}
+    >
       <div className="text-white font-bold text-2xl">
         <p>{title}</p>
       </div>

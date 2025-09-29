@@ -1,6 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
-import { useHeader } from "@/contextApi/HeaderContext";
+import { useState } from "react";
 import CustomInput from "@/components/Ui/inputs/CustomInput";
 import { apiRequest } from "@/libs/api";
 import { toast, ToastContainer } from "react-toastify";
@@ -11,8 +10,7 @@ import PositionSelect from "./PositionSelect";
 import InvestmentPlanSelect from "./InvestmentPlanSelect";
 import { FaTimes } from "react-icons/fa";
 
-export default function TitanForm() {
-  const { headerData } = useHeader();
+export default function TitanForm({refetch}:{refetch:()=> void}) {
   const { user } = useAuth();
   const [position, setPosition] = useState<string>(user?.user_type || "");
   const [amount, setAmount] = useState<string>("");
@@ -28,20 +26,7 @@ export default function TitanForm() {
   const [loading, setLoading] = useState(false);
   const token = loadUserData()?.access_token;
 
-  useEffect(() => {
-    const fetchInvestmentTerms = async () => {
-      setLoading(true);
-      const res = await apiRequest<{ data: string[] }>(
-        `${process.env.NEXT_PUBLIC_API_URL}/v1/client/investmentTerms`,
-        "GET",
-        null,
-        { Authorization: `Bearer ${token}` }
-      );
-      if (!res.success) toast.error(res.error?.message || "Failed to fetch investment terms");
-      setLoading(false);
-    };
-    fetchInvestmentTerms();
-  }, [position, headerData, token]);
+
 
   const handleTwoFaChange = (value: string) => {
     if (!/^\d{6}$/.test(value) && value.length > 0)
@@ -58,7 +43,6 @@ export default function TitanForm() {
       setErrors((prev) => ({ ...prev, amount: "" }));
     }
   };
-
   const handleBlur = (field: "twoFaCode" | "amount") =>
     setTouched((prev) => ({ ...prev, [field]: true }));
 
@@ -80,6 +64,7 @@ export default function TitanForm() {
       if (res.success) {
         toast.success(res.message || "Upgraded to investor successfully");
         setTwoFaCode("");
+        refetch()
         setAmount("");
       } else toast.error(res.error?.message || "Failed to upgrade");
     } catch (err: any) {
@@ -100,7 +85,7 @@ export default function TitanForm() {
     </button>
   )}
 />
-      <div className="titan-form-title w-[95%] mx-auto text-[var(--main-background)] dark:text-white">
+      <div className="titan-form-title w-[95%] mx-auto text-[var(--dark-colorark:text-white">
         <p>Your position & account type</p>
       </div>
       <div className="bg-standard w-full h-[2px] my-4"></div>

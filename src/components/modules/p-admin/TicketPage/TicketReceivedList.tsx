@@ -81,14 +81,16 @@ export default function TicketList({ tickets, refetch }: TicketListProps) {
   const handleToggleCanSend = async (ticketId: number, value: boolean) => {
     try {
       const token = loadEncryptedData()?.token;
+      console.log("value  , ticketID =>", ticketId ,  value);
       const res = await apiRequest<any>(
         `${process.env.NEXT_PUBLIC_API_URL}/v1/admin/toggleTicketCooldown/${ticketId}`,
         "POST",
-        { enabled: !value },
+        { enabled: value },
         { Authorization: `Bearer ${token}` }
       );
+
       if (res.success) {
-        toast.success("Updated successfully");
+        toast.success(res.message || "Updated successfully");
         refetch();
       } else {
         toast.error(res.message || "Failed to update");
@@ -118,19 +120,19 @@ export default function TicketList({ tickets, refetch }: TicketListProps) {
         let color = "gray";
         switch (value?.status?.toLowerCase()) {
           case "open":
-            color = "green";
+            color = "text-green-400";
             break;
           case "client_reply":
-            color = "blue";
+            color = "text-blue-400";
             break;
           case "admin_reply":
-            color = "orange";
+            color = "text-orange-400";
             break;
           case "closed":
-            color = "red";
+            color = "text-red-400";
             break;
           default:
-            color = "gray";
+            color = "text-gray-400";
         }
         return (
           <span style={{ color, fontWeight: "bold" }}>{value.status}</span>
@@ -143,7 +145,9 @@ export default function TicketList({ tickets, refetch }: TicketListProps) {
       render: (_, row) => (
         <AdminToggleSwitch
           checked={row.client.has_ticket_cooldown}
-          onChange={(val: boolean) => handleToggleCanSend(row.id, val)}
+          onChange={(val: boolean) => {
+            handleToggleCanSend(row.client.id, val);
+          }}
         />
       ),
     },

@@ -25,6 +25,7 @@ interface PhoneInputProps {
   value: string;
   onChange: (value: string) => void;
   required?: boolean;
+  disabled?: boolean;
   className?: string;
   onPrefixChange?: (country: Country) => void;
   defaultDialCode?: string;
@@ -32,6 +33,7 @@ interface PhoneInputProps {
 
 export default function PhoneInput({
   label,
+  disabled,
   value,
   onChange,
   required = false,
@@ -149,9 +151,9 @@ export default function PhoneInput({
         <div className="relative w-52">
           <div
             className="titan-input-custom-container text-[var(--box-background)] dark:text-white rounded-[1.5rem] cursor-pointer flex items-center justify-between px-2 py-1"
-            onClick={() => setIsOpen(!isOpen)}
+            onClick={() => disabled ? null :  setIsOpen(!isOpen)}
           >
-            <div className="flex items-center gap-1 text-black dark:text-white">
+            <div className={`flex items-center gap-1 text-black dark:text-white ${disabled ? "opacity-40" : ""}`}>
               {selectedCountry && (
                 <Flag
                   code={selectedCountry.code}
@@ -197,7 +199,7 @@ export default function PhoneInput({
           value={value}
           onChange={(e) => {onChange(e.target.value)}}
           placeholder="Enter phone number"
-          className="flex-1 titan-input-custom-container w-[11rem] sm:w-auto rounded-[1.5rem] px-4 py-2 border border-dashed border-gray-400 dark:border-gray-600 text-[var(--main-background)] dark:text-white"
+          className={`flex-1 titan-input-custom-container w-[11rem] sm:w-auto rounded-[1.5rem] px-4 py-2 border border-dashed border-gray-400 dark:border-gray-600 text-[var(--main-background)] dark:text-white ${disabled ? "opacity-40" : ""} `}
         />
       </div>
     </div>

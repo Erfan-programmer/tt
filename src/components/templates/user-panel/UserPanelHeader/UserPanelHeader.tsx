@@ -43,7 +43,7 @@ export default function UserPanelHeader() {
 
   if (isLoading) return <HeaderSkeleton />;
 
-  const unreadCount = notifications.filter((notifi) => notifi.read_at === null).length;
+  const unreadCount = notifications?.filter((notifi) => notifi.read_at === null).length;
 
   return (
     <>

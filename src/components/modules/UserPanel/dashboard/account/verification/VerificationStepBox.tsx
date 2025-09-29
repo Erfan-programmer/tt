@@ -129,9 +129,9 @@ export default function VerificationStepBox({
           }}
         >
           {status === "approved" ? (
-            <FaCheck className="text-[var(--main-background)]" />
+            <FaCheck className="text-white dark:text-[var(--main-background)]" />
           ) : (
-            <FaXmark className="text-[var(--main-background)] cursor-pointer" />
+            <FaXmark className="text-white dark:text-[var(--main-background)] cursor-pointer" />
           )}
         </div>
       )}

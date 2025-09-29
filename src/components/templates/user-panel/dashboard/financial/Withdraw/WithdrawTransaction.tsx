@@ -623,7 +623,7 @@ export default function WithdrawTransaction() {
                           Gross Amount:
                         </label>
                         <span className="text-gray-700 dark:text-gray-300 ">
-                          $ {selectedTransaction?.gross_amount}
+                          $ {parseFloat(selectedTransaction?.gross_amount).toFixed(2)}
                         </span>
                       </div>
                     </div>

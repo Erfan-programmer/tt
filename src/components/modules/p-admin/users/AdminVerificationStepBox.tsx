@@ -5,6 +5,9 @@ import ImageMagnifire from "../ImageMagnifire";
 import Image from "next/image";
 import { apiRequest } from "@/libs/api";
 import { loadEncryptedData } from "../../EncryptData/SavedEncryptData";
+import { FaTrash } from "react-icons/fa";
+import { useUserDocuments } from "@/contextApi/DocumentContext";
+import { useParams } from "next/navigation";
 
 interface DocumentItem {
   id: number;
@@ -30,6 +33,8 @@ export default function AdminVerificationStepBox({
   const [rejectReason, setRejectReason] = useState("");
   const [status, setStatus] = useState<DocumentItem["status"]>(data.status);
   const [loading, setLoading] = useState(false);
+  const { fetchUserInfo } = useUserDocuments();
+  const params = useParams();
 
   const rotateClockwise = () => setRotation((prev) => prev + 90);
   const rotateCounterClockwise = () => setRotation((prev) => prev - 90);
@@ -59,8 +64,6 @@ export default function AdminVerificationStepBox({
         setStatus(newStatus);
         setShowRejectModal(false);
         setRejectReason("");
-      } else {
-        console.error(res.message || "Verification failed");
       }
     } catch (err) {
       console.error("API error:", err);
@@ -69,14 +72,37 @@ export default function AdminVerificationStepBox({
     }
   };
 
+  const handleDeleteDocument = async () => {
+    const token = loadEncryptedData()?.token;
+    try {
+      const res = await apiRequest<any>(
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/admin/documents/${data.id}/delete/${params?.id}`,
+        "POST",
+        undefined,
+        { Authorization: `Bearer ${token}` }
+      );
+
+      if (res.success) {
+        fetchUserInfo(Number(params?.id));
+      }
+    } catch (err) {
+      console.error("API error:", err);
+    }
+  };
+
   return (
     <div className="admin-verification-step-box flex flex-col">
-      {/* Main Box */}
-      <div className="flex flex-col items-center justify-center border-[2px] rounded-[.5rem] overflow-hidden border-[#383C47] w-[90%] mx-auto h-64">
-        <div className="verification-image flex items-center justify-between gap-4">
+      <div className="flex flex-col items-center justify-center border-[2px] relative rounded-[.5rem] overflow-hidden border-[#383C47] w-[100%] sm:w-[90%] mx-auto h-64">
+        <button
+          onClick={handleDeleteDocument}
+          className="absolute top-0 p-1 right-0 z-[9999]"
+        >
+          <FaTrash className="text-red-400" size={24} />
+        </button>
+        <div className="verification-image flex items-center justify-between gap-4 ">
           <button
             onClick={rotateCounterClockwise}
-            className="flex items-center justify-center"
+            className="flex items-center justify-center translate-x-4"
           >
             <LuRotateCw className="text-[#275EDF] text-2xl scale-x-[-1]" />
           </button>
@@ -92,14 +118,13 @@ export default function AdminVerificationStepBox({
 
           <button
             onClick={rotateClockwise}
-            className="flex items-center justify-center"
+            className="flex items-center justify-center -translate-x-4"
           >
             <LuRotateCw className="text-[#275EDF] text-2xl" />
           </button>
         </div>
       </div>
 
-      {/* Status */}
       <p className="text-center mt-2 text-sm text-gray-400">
         Type: {data.type} | Status:{" "}
         <span
@@ -115,7 +140,6 @@ export default function AdminVerificationStepBox({
         </span>
       </p>
 
-      {/* Buttons */}
       <div className="flex flex-col gap-2 w-[90%] mx-auto mt-4">
         {status === "pending" && (
           <>
@@ -181,7 +205,6 @@ export default function AdminVerificationStepBox({
         )}
       </div>
 
-      {/* Preview Modal */}
       {showPreview && (
         <div
           className="fixed inset-0 bg-black/40  bg-opacity-70 backdrop-blur-sm flex items-center justify-center z-[9999]"
@@ -209,7 +232,6 @@ export default function AdminVerificationStepBox({
         </div>
       )}
 
-      {/* Reject Modal */}
       {showRejectModal && (
         <div
           className="fixed inset-0 bg-black/40  bg-opacity-70 backdrop-blur-sm flex items-center justify-center z-[10000]"
