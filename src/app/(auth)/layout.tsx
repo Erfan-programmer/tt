@@ -106,14 +106,14 @@ export default function FormLayout({ children, subtitle }: FormLayoutProps) {
                         >
                           <Image
                             width={800}
-                            className="w-auto"
                             height={800}
-                            src={`${
+                            className="w-auto"
+                            src={
                               pathKey === "forgot-password" ||
                               pathKey === "reset-password"
                                 ? "/3c3fa8f9fb03e29bb146ad7.png"
                                 : "/titan-main-avatar.png"
-                            }  `}
+                            }
                             alt="Titan Avatar"
                           />
                         </motion.div>
