@@ -163,7 +163,7 @@ export default function TitanPassForm({ profile }: TitanPassFormProps) {
                   {...field}
                   value={displayValue}
                   onChange={field.onChange}
-                  onFocus={() => setIsFocusedFirstName(true)}
+                  onFocus={() =>  setIsFocusedFirstName(headerData?.verified ? false : true )}
                   onBlur={() => setIsFocusedFirstName(false)}
                   required
                   type="text"
@@ -193,8 +193,9 @@ export default function TitanPassForm({ profile }: TitanPassFormProps) {
                   readOnly={headerData?.verified as any}
                   {...field}
                   value={displayValue}
+
                   onChange={field.onChange}
-                  onFocus={() => setIsFocusedLastName(true)}
+                  onFocus={() => setIsFocusedLastName(headerData?.verified ? false : true)}
                   onBlur={() => setIsFocusedLastName(false)}
                   required
                   type="text"
@@ -271,7 +272,7 @@ export default function TitanPassForm({ profile }: TitanPassFormProps) {
                 label="Phone Number"
                 value={field.value || ""}
                 disabled={headerData?.verified as any}
-                onChange={field.onChange}
+                onChange={ field.onChange}
                 required
                 defaultDialCode={profile.dial_code}
                 onPrefixChange={(country) => {

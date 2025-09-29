@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { FaEdit, FaEye } from "react-icons/fa";
 import AdminDynamicTable, { TableColumn } from "../AdminTable";
 import { CancelRequest } from "./CancelAccountPage";
@@ -28,18 +28,19 @@ export default function CancelRequestList({ requests = [], refetch }: Props) {
     setShowModal(true);
   };
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-    setSelectedRequest(null);
-    setRejectReason("");
-    setShowTextarea(false);
-  };
+const handleCloseModal = useCallback(() => {
+  setShowModal(false);
+  setSelectedRequest(null);
+  setRejectReason("");
+  setShowTextarea(false);
+}, []);
 
-  const handleOutsideClick = (e: MouseEvent) => {
-    if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
-      handleCloseModal();
-    }
-  };
+
+const handleOutsideClick = useCallback((e: MouseEvent) => {
+  if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+    handleCloseModal();
+  }
+}, [handleCloseModal]);
 
   useEffect(() => {
     if (showModal) {
@@ -48,7 +49,7 @@ export default function CancelRequestList({ requests = [], refetch }: Props) {
       document.removeEventListener("mousedown", handleOutsideClick);
     }
     return () => document.removeEventListener("mousedown", handleOutsideClick);
-  }, [showModal]);
+  }, [showModal , handleOutsideClick]);
 
   const handleAction = async (action: "approve" | "reject") => {
     if (!selectedRequest) return;
