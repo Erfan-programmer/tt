@@ -530,7 +530,7 @@ export default function WithdrawTransaction() {
               >
                 {/* Header with blue accent and close button */}
                 <div className="flex items-center justify-between px-6 py-4 rounded-t-2xl bg-[#275EDF] dark:bg-[#275EDF]">
-                  <h2 className="text-sm font-bold text-[#383C47] dark:text-white">
+                  <h2 className="text-sm font-bold text-white">
                     Transaction Details
                   </h2>
                   <button
@@ -579,7 +579,7 @@ export default function WithdrawTransaction() {
                           Currency:
                         </span>
                         <p className="text-[var(--main-background)] dark:text-white font-semibold">
-                          {selectedTransaction?.cryptocurrency?.toUpperCase()}
+                          {selectedTransaction?.currency}
                         </p>
                       </div>
                       <div>
