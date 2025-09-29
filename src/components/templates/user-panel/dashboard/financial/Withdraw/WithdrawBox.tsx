@@ -270,7 +270,7 @@ export default function WithdrawBox({
   return (
     <div className="withdraw-container border-standard rounded-xl py-4 bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] mt-4">
       <div className="withdraw-header">
-        <div className="flex items-center gap-1.5 sm:gap-2 px-[2rem] mb-2">
+        <div className="flex items-center gap-1.5 sm:gap-2  mb-2">
           <svg
             width="24"
             height="24"

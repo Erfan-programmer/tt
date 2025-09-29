@@ -352,7 +352,7 @@ export default function WithdrawTransaction() {
 
   console.log("selectedTransaction =>", selectedTransaction);
   return (
-    <>
+    <div className="my-10">
       {withdrawLoading ? (
         <>
           <WithdrawSkeleton />
@@ -879,6 +879,6 @@ export default function WithdrawTransaction() {
         draggable
         pauseOnHover
       />
-    </>
+    </div>
   );
 }
