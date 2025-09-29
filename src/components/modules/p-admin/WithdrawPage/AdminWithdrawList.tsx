@@ -37,70 +37,70 @@ export default function AdminWithdrawList({ transactions, refetch }: Props) {
   >(null);
   const [inputValue, setInputValue] = useState("");
 
-  const handleApprove = async () => {
-    if (!selectedTransaction?.id) return;
-    try {
-      const response = await apiRequest(
-        `${process.env.NEXT_PUBLIC_API_URL}/v1/admin/withdrawals/${selectedTransaction.id}/approve`,
-        "POST",
-        null,
-        { Authorization: `Bearer ${loadEncryptedData()?.token}` }
-      );
-      if (response.success) {
-        toast.success(response.message || "Withdraw approved!");
-        resetModal();
-        refetch();
-      } else {
-        toast.error(response.message);
-      }
-    } catch (err: any) {
-      toast.error("Error approving withdraw: " + err.message);
+ // داخل handleApprove
+const handleApprove = async () => {
+  if (!selectedTransaction?.id) return;
+  try {
+    const response = await apiRequest(
+      `${process.env.NEXT_PUBLIC_API_URL}/v1/admin/withdrawals/${selectedTransaction.id}/approve`,
+      "POST",
+      { transaction_hash: inputValue }, // ← مقدار ورودی کاربر اینجا ارسال می‌شود
+      { Authorization: `Bearer ${loadEncryptedData()?.token}` }
+    );
+    if (response.success) {
+      toast.success(response.message || "Withdraw approved!");
+      resetModal();
+      refetch();
+    } else {
+      toast.error(response.message);
     }
-  };
+  } catch (err: any) {
+    toast.error("Error approving withdraw: " + err.message);
+  }
+};
 
-  const handleReject = async () => {
-    if (!selectedTransaction?.id) return;
-    try {
-      const response = await apiRequest(
-        `${process.env.NEXT_PUBLIC_API_URL}/v1/admin/withdrawals/${
-          selectedTransaction.id
-        }/reject?reason=${encodeURIComponent(inputValue)}`,
-        "POST",
-        null,
-        { Authorization: `Bearer ${loadEncryptedData()?.token}` }
-      );
-      if (response.success) {
-        toast.success(response.message || "Withdraw rejected!");
-        resetModal();
-        refetch();
-      } else {
-        toast.error(response.message);
-      }
-    } catch (err: any) {
-      toast.error("Error rejecting withdraw: " + err.message);
+const handleReject = async () => {
+  if (!selectedTransaction?.id) return;
+  try {
+    const response = await apiRequest(
+      `${process.env.NEXT_PUBLIC_API_URL}/v1/admin/withdrawals/${selectedTransaction.id}/reject`,
+      "POST",
+      { reason: inputValue }, 
+      { Authorization: `Bearer ${loadEncryptedData()?.token}` }
+    );
+    if (response.success) {
+      toast.success(response.message || "Withdraw rejected!");
+      resetModal();
+      refetch();
+    } else {
+      toast.error(response.message);
     }
-  };
+  } catch (err: any) {
+    toast.error("Error rejecting withdraw: " + err.message);
+  }
+};
 
-  const handleComplete = async () => {
-    if (!selectedTransaction?.id) return;
-    try {
-      const response = await apiRequest(
-        `${process.env.NEXT_PUBLIC_API_URL}/v1/admin/withdrawals/${selectedTransaction.id}/complete?transaction_hash=${inputValue}`,
-        "POST",
-        null,
-        { Authorization: `Bearer ${loadEncryptedData()?.token}` }
-      );
-      if (response.success) {
-        toast.success(response.message || "Withdraw completed!");
-        resetModal();
-        refetch();
-      } else {
-        toast.error(response.message);
-      }
-    } catch (err: any) {
-      toast.error("Error completing withdraw: " + err.message);
+const handleComplete = async () => {
+  if (!selectedTransaction?.id) return;
+  try {
+    const response = await apiRequest(
+      `${process.env.NEXT_PUBLIC_API_URL}/v1/admin/withdrawals/${selectedTransaction.id}/complete`,
+      "POST",
+      { transaction_hash: inputValue }, 
+      { Authorization: `Bearer ${loadEncryptedData()?.token}` }
+    );
+    if (response.success) {
+      toast.success(response.message || "Withdraw completed!");
+      resetModal();
+      refetch();
+    } else {
+      toast.error(response.message);
     }
-  };
+  } catch (err: any) {
+    toast.error("Error completing withdraw: " + err.message);
+  }
+};
+
 
   const resetModal = () => {
     setModalType(null);
