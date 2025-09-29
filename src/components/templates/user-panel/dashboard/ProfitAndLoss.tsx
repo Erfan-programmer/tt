@@ -127,7 +127,7 @@ export default function ProfitAndLoss() {
                 data?.value > 0 ? (
                   "+" + data?.value
                 ) : (
-                  "-" + data?.value
+                  "" + data?.value
                 )
               ) : (
                 <Image src={"/TradeDesk.png"} width={300} height={300} alt="" />
@@ -157,7 +157,7 @@ export default function ProfitAndLoss() {
             profitAndLossData?.overall_performance_percentage > 0 ? (
               <>
                 <FaArrowRight className="text-[var(--profit)] rotate-315" />
-                <span className="text-[var(--profit)">
+                <span className="text-[var(--profit)]">
                   +{profitAndLossData.overall_performance_percentage}%
                 </span>
               </>

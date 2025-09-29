@@ -97,7 +97,7 @@ export default function CancelContractForm() {
   const [contractLoading, setContractLoading] = useState(false);
   const [contractError, setContractError] = useState<boolean>(false);
   const [contractBody, setContractBody] = useState<contractBodyTypes>();
-
+  const [show70Error, setShow70Error] = useState("");
   const [showPendingModal, setShowPendingModal] = useState(false);
   useEffect(() => {
     setContractLoading(true);
@@ -114,6 +114,10 @@ export default function CancelContractForm() {
 
         if (response.status === 403) {
           setShowPendingModal(true);
+        }
+        if (response.status === 402) {
+          setShowPendingModal(true);
+          setShow70Error(response.message);
         } else if (response.success) {
           setContractBody(response.data.data);
         } else {
@@ -259,12 +263,12 @@ If you have received more than 80% of your investment amount in profits from Tit
 If you have received more than 80% of your investment amount in profits from Titan Investments during this period, you will not be able to cancel your contract and must wait until its legal end date."
       />
       <ToastContainer
-  closeButton={({ closeToast }) => (
-    <button onClick={closeToast}>
-      <FaTimes className="text-white" />
-    </button>
-  )}
-/>
+        closeButton={({ closeToast }) => (
+          <button onClick={closeToast}>
+            <FaTimes className="text-white" />
+          </button>
+        )}
+      />
       <div className="user-contacts-container border-standard rounded-xl py-4 bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] mt-4">
         <div className="user-contact-header flex flex-col sm:flex-row items-center px-2 sm:px-[2rem]">
           <p className="text-[var(--main-background)] dark:text-white text-lg sm:text-xl">
@@ -590,17 +594,23 @@ If you have received more than 80% of your investment amount in profits from Tit
             >
               <TitanNotification
                 icon={
-                  <IoIosTimer className="text-[var(--main-background)] dark:text-white text-2xl" />
+                  <IoIosTimer className="text-[var(--main-background)]  text-2xl" />
                 }
                 className="border-1"
                 btn="dashboard"
                 btnLink="/dashboard"
                 btnStyle="bg-[var(--success)]"
               >
-                Your cancellation request is pending! Our team will review it,
-                and you will be notified once the verification is complete.
-                Please note that the review process may take up to 10 business
-                days, depending on your nationality.
+                {show70Error ? (
+                  <span className="text-white">{show70Error}</span>
+                ) : (
+                  <span className="text-white">
+                    Your cancellation request is pending! Our team will review
+                    it, and you will be notified once the verification is
+                    complete. Please note that the review process may take up to
+                    10 business days, depending on your nationality.
+                  </span>
+                )}
               </TitanNotification>
             </div>
           </motion.div>
