@@ -13,6 +13,7 @@ import { useAuth } from "@/contextApi/AuthContext";
 import { usePayment } from "@/contextApi/PaymentProvider";
 import { useHeader } from "@/contextApi/HeaderContext";
 import { useVerify } from "@/contextApi/TitanContext";
+import { useRouter } from "next/navigation";
 
 interface PaymentTitanProps {
   paymentProp?: PaymentData;
@@ -33,29 +34,31 @@ export default function PaymentTitan({ paymentProp }: PaymentTitanProps) {
   const [timer, setTimer] = useState(29 * 60 + 30);
   const [copied, setCopied] = useState(false);
   const [showSuccessNotif, setShowSuccessNotif] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string>("");
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const { refetch } = useHeader();
-  
+
   useEffect(() => {
-    if (!CLIENT_ID || typeof window === 'undefined') return;
+    if (!CLIENT_ID || typeof window === "undefined") return;
 
     let echoInstance: any;
-    
+
     import("@/libs/PusherConfig")
       .then((module) => {
         echoInstance = module.default;
-        
+
         const privateChannel = echoInstance.private(`client.${CLIENT_ID}`);
 
-        privateChannel.listen(".payment.success", (data: { message: string }) => {
-          setMessage(data.message);
-          setShowSuccessNotif(true);
-          setTimeout(() => {
-            refetch();
-          }, 1500);
-        });
+        privateChannel.listen(
+          ".payment.success",
+          (data: { message: string }) => {
+            setMessage(data.message);
+            setShowSuccessNotif(true);
+            setTimeout(() => {
+              refetch();
+            }, 1500);
+          }
+        );
 
         return () => {
           if (privateChannel) {
@@ -67,25 +70,17 @@ export default function PaymentTitan({ paymentProp }: PaymentTitanProps) {
       .catch((error) => {
         console.error("Failed to load PusherConfig:", error);
       });
-      
+
     return () => {
-        if (echoInstance) {
-            echoInstance.leave(`client.${CLIENT_ID}`);
-        }
-    }
+      if (echoInstance) {
+        echoInstance.leave(`client.${CLIENT_ID}`);
+      }
+    };
   }, [CLIENT_ID, refetch]);
 
-  const handleSubmit = async () => {
-    setLoading(true);
-    setTimeout(() => {
-      toast.success("Payment verified successfully");
-      setShowSuccessNotif(true);
 
-      setLoading(false);
-    }, 1500);
-  };
 
-  const {setAccountActivation} = useVerify()
+  const { setAccountActivation } = useVerify();
 
   useEffect(() => {
     intervalRef.current = setInterval(() => {
@@ -121,20 +116,31 @@ export default function PaymentTitan({ paymentProp }: PaymentTitanProps) {
       toast.error("Failed to copy wallet address");
     }
   }, [payment]);
+  const router = useRouter();
 
 
+
+  const handleClick = () => {
+    if (paymentEncoded) {
+      router.push("/dashboard/t-wallet/action");
+    } else {
+      setAccountActivation("METHOD");
+    }
+  };
   return (
     <>
       <ToastContainer
-  closeButton={({ closeToast }) => (
-    <button onClick={closeToast}>
-      <FaTimes className="text-white" />
-    </button>
-  )}
-/>
+        closeButton={({ closeToast }) => (
+          <button onClick={closeToast}>
+            <FaTimes className="text-white" />
+          </button>
+        )}
+      />
       {showSuccessNotif && (
         <TitanNotification
-          icon={<IoMdClose className="text-[var(--main-background)] text-2xl" />}
+          icon={
+            <IoMdClose className="text-[var(--main-background)] text-2xl" />
+          }
           btn="Go to Dashboard"
           btnLink="/dashboard"
           btnStyle="bg-[#275EDF]"
@@ -161,10 +167,12 @@ export default function PaymentTitan({ paymentProp }: PaymentTitanProps) {
           <div className="w-full h-[1px] bg-standard my-2 sm:my-2.5 md:my-3"></div>
           <div className="text-[#FFD600] text-md leading-relaxed mb-2 px-10">
             <p>
-
-            Please complete the payment within the remaining time shown above.
+              Please complete the payment within the remaining time shown above.
             </p>
-            <span className="!text-[.8rem]">. Try not to refresh the page , payment will authomatically be paid</span>
+            <span className="!text-[.8rem]">
+              . Try not to refresh the page , payment will authomatically be
+              paid
+            </span>
           </div>
           <div className="w-[100%] lg:w-[80%] flex flex-wrap gap-x-2 sm:gap-x-4 justify-center items-center mx-auto border-standard bg-[#f9f9fe] dark:bg-[#0f163a] p-2 pt-[1rem] mt-[2rem] rounded-lg">
             <div className="twofacode-img min-w-[80px] bg-[#275EDF] p-2 rounded-lg max-w-[12rem] overflow-hidden min-h-[100px]  flex flex-col items-center">
@@ -220,23 +228,16 @@ export default function PaymentTitan({ paymentProp }: PaymentTitanProps) {
                   {copied ? (
                     <FaCheck className="text-[var(--gold)]" />
                   ) : (
-                    <FaCopy className="text-white"/>
+                    <FaCopy className="text-white" />
                   )}
                 </button>
               </div>
             </div>
           </div>
           <div className="flex justify-center mt-4 gap-4">
-            <button
-              className={`payment-btn w-fit titan-btn ${
-                loading ? "!bg-gray-400" : ""
-              }`}
-              onClick={handleSubmit}
-              disabled={loading}
-            >
-              {loading ? "Verifying..." : "Submit"}
+            <button className="titan-btn !bg-gray-400" onClick={handleClick}>
+              Back
             </button>
-            <button className="titan-btn !bg-gray-400" onClick={()=> {setAccountActivation("METHOD")}}>Back</button>
           </div>
         </div>
       )}
