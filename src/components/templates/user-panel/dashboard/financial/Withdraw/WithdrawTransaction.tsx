@@ -341,6 +341,15 @@ export default function WithdrawTransaction() {
   //   } else if (Array.isArray(permissions?.data?.body)) {
   //     permissionArray = permissions.data.body;
   //   }
+  const statusColors: Record<string, string> = {
+  pending: "text-yellow-500",
+  completed: "text-green-500",
+  processed: "text-[#00FF90]",
+  approved: "text-green-500",
+  canceled: "text-red-500",
+  rejected: "text-red-400",
+};
+
   console.log("selectedTransaction =>", selectedTransaction);
   return (
     <>
@@ -441,17 +450,8 @@ export default function WithdrawTransaction() {
                         <div className="flex flex-col items-center gap-2">
                           <span
                             className={`text-sm ${
-                              transaction.status === "pending"
-                                ? "text-yellow-500"
-                                : transaction.status === "completed"
-                                ? "text-green-500"
-                                : transaction.status === "processed"
-                                ? "text-[#00FF90]"
-                                : transaction.status === "approved"
-                                ? "text-green-500"
-                                : transaction.status === "canceled"
-                                ? "text-red-500"
-                                : "text-blue-500"
+                              statusColors[transaction.status] ||
+                              "text-blue-500"
                             }`}
                           >
                             {transaction.status.charAt(0).toUpperCase() +
@@ -623,7 +623,10 @@ export default function WithdrawTransaction() {
                           Gross Amount:
                         </label>
                         <span className="text-gray-700 dark:text-gray-300 ">
-                          $ {parseFloat(selectedTransaction?.gross_amount).toFixed(2)}
+                          ${" "}
+                          {parseFloat(
+                            selectedTransaction?.gross_amount
+                          ).toFixed(2)}
                         </span>
                       </div>
                     </div>
