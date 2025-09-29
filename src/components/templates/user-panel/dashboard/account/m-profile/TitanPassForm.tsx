@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { apiRequest } from "@/libs/api";
 import { loadUserData } from "@/components/modules/EncryptData/SavedEncryptData";
 import { FaTimes } from "react-icons/fa";
+import { useState } from "react";
 
 interface TitanPassFormProps {
   profile: {
@@ -61,6 +62,8 @@ export default function TitanPassForm({ profile }: TitanPassFormProps) {
     },
   });
 
+
+
 const maskValue = (value: string, visibleChars = 2) => {
   if (!value) return "";
   if (value.length <= visibleChars) return value;
@@ -76,6 +79,8 @@ const maskValue = (value: string, visibleChars = 2) => {
   const mobile = watch("phone_number");
   const prefix_number = watch("prefix_number");
   const fa_code = watch("fa_code");
+
+  const [isLoading , setIsLoading] = useState(false)
   const onSubmit = async () => {
     const changedFields: Partial<{
       first_name: string;
@@ -104,6 +109,7 @@ const maskValue = (value: string, visibleChars = 2) => {
     }
     const token = loadUserData()?.access_token;
     try {
+      setIsLoading(true)
       const res = await apiRequest<any>(
         `${process.env.NEXT_PUBLIC_API_URL}/v1/client/editProfile`,
         "POST",
@@ -113,10 +119,14 @@ const maskValue = (value: string, visibleChars = 2) => {
 
       if (res.success) {
         toast.success("Profile updated successfully!");
-      } else {
+      setIsLoading(false)
+      
+    } else {
+        setIsLoading(false)
         toast.error(res.message || "Failed to update profile.");
       }
     } catch (err) {
+      setIsLoading(false)
       console.error(err);
       toast.error("An error occurred while updating profile.");
     }
@@ -290,8 +300,8 @@ const maskValue = (value: string, visibleChars = 2) => {
         </div>
 
         <div className="titan-form-footer flex justify-center sm:justify-end items-center my-[3rem] w-[95%] mx-auto">
-          <button className="titan-btn opacity-100" type="submit">
-            Save
+          <button className={`titan-btn ${isLoading ? "!bg-gray-400" : ""} opacity-100`} type="submit">
+            {isLoading ? "Saving ..." : "Save"}
           </button>
         </div>
       </form>

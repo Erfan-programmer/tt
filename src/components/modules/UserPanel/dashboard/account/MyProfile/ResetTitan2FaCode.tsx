@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { toast } from "react-toastify";
+import { toast , ToastContainer } from "react-toastify";
 import TitanNotification from "../../../TitanNotification/TitanNotification";
 import { IoMdClose } from "react-icons/io";
 import { apiRequest } from "@/libs/api";
@@ -16,7 +16,6 @@ interface Props {
   userEmail: string;
   handleResetToken: (data: TwoFaData) => void;
 }
-
 
 export default function ResetTitan2FaCode({
   userEmail,
@@ -80,6 +79,7 @@ export default function ResetTitan2FaCode({
 
   return (
     <>
+    <ToastContainer />
       {showUnauthorizedModal && (
         <TitanNotification
           icon={
@@ -105,11 +105,17 @@ export default function ResetTitan2FaCode({
             value={code}
             onChange={(e) => setCode(e.target.value)}
             maxLength={6}
-            className="absolute inset-0 opacity-0 w-full h-full cursor-pointer z-10 text-[#383C47] dark:text-white"
+            className="absolute inset-0 opacity-0 w-full h-full cursor-pointer z-10 
+             text-gray-900 dark:text-white 
+             border-2 border-gray-700 dark:border-gray-300"
             autoComplete="off"
           />
+
           <div
-            className="w-full h-full text-white flex items-center px-4 py-2 rounded-lg border bg-transparent text-xl tracking-widest select-none min-h-[48px]"
+            className="w-full h-full flex items-center px-4 py-2 rounded-lg border 
+             bg-transparent text-xl tracking-widest select-none min-h-[48px] 
+             text-gray-900 dark:text-white 
+             border-gray-700 dark:border-gray-300"
             style={{ letterSpacing: "0.5em", zIndex: 1 }}
             onClick={() => inputRef.current?.focus()}
           >

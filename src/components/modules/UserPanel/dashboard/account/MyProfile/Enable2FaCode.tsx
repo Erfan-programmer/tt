@@ -18,7 +18,12 @@ interface Enable2FaProps {
   onBackToStep1?: () => void;
 }
 
-export default function Enable2FaCode({ secretKey, qrCodeUrl, userEmail, onBackToStep1 }: Enable2FaProps) {
+export default function Enable2FaCode({
+  secretKey,
+  qrCodeUrl,
+  userEmail,
+  onBackToStep1,
+}: Enable2FaProps) {
   const inputLength = 6;
   const [code, setCode] = useState<string[]>(Array(inputLength).fill(""));
   const inputRefs = useRef<HTMLInputElement[]>([]);
@@ -26,9 +31,10 @@ export default function Enable2FaCode({ secretKey, qrCodeUrl, userEmail, onBackT
   const [showNotification, setShowNotification] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
 
-
+  const [isLoading , setIsLoading] = useState(false)
   const confirm2FA = async (): Promise<ApiResponse> => {
     const token = loadUserData()?.access_token;
+    setIsLoading(true)
     const verificationCode = code.join("");
 
     return await apiRequest<any>(
@@ -39,13 +45,16 @@ export default function Enable2FaCode({ secretKey, qrCodeUrl, userEmail, onBackT
     );
   };
 
-  const { mutate: handleConfirm2FA, } = useMutation({
+  const { mutate: handleConfirm2FA } = useMutation({
     mutationFn: confirm2FA,
     onSuccess: (res: ApiResponse) => {
       setShowNotification(true);
-      setNotificationMessage(res.message || "2FA enabled successfully");
-    },
-    onError: (error: any) => {
+    setIsLoading(false)
+    
+    setNotificationMessage(res.message || "2FA enabled successfully");
+  },
+  onError: (error: any) => {
+      setIsLoading(false)
       setShowNotification(true);
       setNotificationMessage(error?.message || "Error enabling 2FA");
     },
@@ -86,7 +95,23 @@ export default function Enable2FaCode({ secretKey, qrCodeUrl, userEmail, onBackT
       .slice(0, inputLength);
     setCode(newCode);
     const lastFilledIndex = newCode.findIndex((char) => char === "");
-    inputRefs.current[lastFilledIndex > 0 ? lastFilledIndex : inputLength - 1]?.focus();
+    inputRefs.current[
+      lastFilledIndex > 0 ? lastFilledIndex : inputLength - 1
+    ]?.focus();
+  };
+
+  const handleApple = () => {
+    window.open(
+      "https://apps.apple.com/us/app/google-authenticator/id388497605",
+      "_blank"
+    );
+  };
+
+  const handleGooglePlay = () => {
+    window.open(
+      "https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en&pli=1",
+      "_blank"
+    );
   };
 
   const handleVerify2FA = () => {
@@ -105,10 +130,20 @@ export default function Enable2FaCode({ secretKey, qrCodeUrl, userEmail, onBackT
       />
       {showNotification && (
         <TitanNotification
-          icon={<IoMdClose className="text-[var(--main-background)] text-2xl" />}
-          className={notificationMessage.includes("successfully") ? "border-success" : "border-failed"}
+          icon={
+            <IoMdClose className="text-[var(--main-background)] text-2xl" />
+          }
+          className={
+            notificationMessage.includes("successfully")
+              ? "border-success"
+              : "border-failed"
+          }
           btn="Close"
-          btnStyle={notificationMessage.includes("successfully") ? "bg-[var(--profit)]" : "bg-[var(--loss)]"}
+          btnStyle={
+            notificationMessage.includes("successfully")
+              ? "bg-[var(--profit)]"
+              : "bg-[var(--loss)]"
+          }
           onClose={() => {
             setShowNotification(false);
             if (notificationMessage.includes("successfully") && onBackToStep1) {
@@ -116,7 +151,10 @@ export default function Enable2FaCode({ secretKey, qrCodeUrl, userEmail, onBackT
             }
           }}
         >
+          <span className="text-white">
+
           {notificationMessage}
+          </span>
         </TitanNotification>
       )}
 
@@ -124,13 +162,20 @@ export default function Enable2FaCode({ secretKey, qrCodeUrl, userEmail, onBackT
         <div className="titan-form-title w-[95%] mx-auto text-[var(--main-background)] dark:text-white">
           <p>
             Two factor authentication (2FA) strengthens access security by
-            requiring two methods to verify your identity. Make sure you backup your QR code and secret.
+            requiring two methods to verify your identity. Make sure you backup
+            your QR code and secret.
           </p>
         </div>
 
         <div className="sm:w-[85%] flex flex-col sm:flex-row gap-2 sm:gap-x-4 items-center mx-auto border-standard bg-[#f9f9fe] dark:bg-[#0f163a] p-2 py-[1rem] mt-[2rem] rounded-lg">
-          <div className="twofacode-img bg-white w-[14rem] h-[14rem] md:w-[15rem] md:h-[15rem] rounded-xl overflow-hidden p-[1rem]">
-            <Image width={600} height={600} className="w-full h-full" src={qrCodeUrl as string} alt="2FA QR Code" />
+          <div className="twofacode-img bg-[var(--main-background)] dark:bg-white w-[14rem] h-[14rem] md:w-[15rem] md:h-[15rem] rounded-xl overflow-hidden p-[1rem]">
+            <Image
+              width={600}
+              height={600}
+              className="w-full h-full"
+              src={qrCodeUrl as string}
+              alt="2FA QR Code"
+            />
           </div>
           <div className="text-[var(--main-background)] dark:text-white">
             <div className="scan-container">
@@ -141,7 +186,11 @@ export default function Enable2FaCode({ secretKey, qrCodeUrl, userEmail, onBackT
               <span>{secretKey}</span>
             </div>
 
-            <div className={`coppied-text text-[--main-background] ${copied ? "opacity-100" : "opacity-0"}`}>
+            <div
+              className={`coppied-text text-[--main-background] ${
+                copied ? "opacity-100" : "opacity-0"
+              }`}
+            >
               <span>QR code copied...</span>
             </div>
 
@@ -159,7 +208,10 @@ export default function Enable2FaCode({ secretKey, qrCodeUrl, userEmail, onBackT
 
         <div className="titan-form-body mt-4 flex-wrap flex justify-between gap-[1rem] items-start w-[95%] mx-auto">
           <ol className="text-[var(--main-background)] dark:text-white">
-            <li>1. You must set up your Google Authenticator app before proceeding.</li>
+            <li>
+              1. You must set up your Google Authenticator app before
+              proceeding.
+            </li>
             <li>2. Enter the 6-digit code provided by Google Authenticator.</li>
           </ol>
         </div>
@@ -189,15 +241,33 @@ export default function Enable2FaCode({ secretKey, qrCodeUrl, userEmail, onBackT
       <div className="flex flex-col-reverse sm:flex-row justify-between items-center mt-4">
         <div className="mt-[2rem]">
           <div className="flex justify-start items-center flex-wrap gap-5 mb-4">
-            <button className="flex items-center gap-3 min-w-fit w-[80%] mx-auto sm:mx-0 sm:w-[40%] md:w-[30%] xl:w-[20%] text-left titan-btn-download-white">
-              <Image width={200} height={200} src="/8abf638d4b14347baf79d8c45d671cfe.png" className="w-[2rem]" alt="" />
+            <button
+              onClick={handleApple}
+              className="flex items-center gap-3 min-w-fit w-[80%] mx-auto sm:mx-0 sm:w-[40%] md:w-[30%] xl:w-[20%] text-left titan-btn-download-white"
+            >
+              <Image
+                width={200}
+                height={200}
+                src="/8abf638d4b14347baf79d8c45d671cfe.png"
+                className="w-[2rem]"
+                alt=""
+              />
               <p>
                 Download On <br />
                 <span className="font-[600]">The App Store</span>
               </p>
             </button>
-            <button className="flex items-center gap-3 min-w-fit w-[80%] mx-auto sm:mx-0 sm:w-[40%] md:w-[30%] xl:w-[20%] text-left  titan-btn-download-white">
-              <Image width={200} height={200} src="/69baf10bd9b43094878263a082232abf.png" className="w-[3rem]" alt="" />
+            <button
+              onClick={handleGooglePlay}
+              className="flex items-center gap-3 min-w-fit w-[80%] mx-auto sm:mx-0 sm:w-[40%] md:w-[30%] xl:w-[20%] text-left  titan-btn-download-white"
+            >
+              <Image
+                width={200}
+                height={200}
+                src="/69baf10bd9b43094878263a082232abf.png"
+                className="w-[3rem]"
+                alt=""
+              />
               <p>
                 Get It On <br /> <span className="font-[600]">Google Play</span>
               </p>
@@ -205,10 +275,10 @@ export default function Enable2FaCode({ secretKey, qrCodeUrl, userEmail, onBackT
           </div>
         </div>
         <button
-          className="titan-btn disabled:opacity-50 disabled:cursor-not-allowed"
+          className={`titan-btn ${isLoading ? "!bg-gray-400" : ""} disabled:opacity-50 disabled:cursor-not-allowed`}
           onClick={handleVerify2FA}
         >
-          Enable 2FA
+          {isLoading ? "Enabling ..." : "Enable 2FA"}
         </button>
       </div>
     </>

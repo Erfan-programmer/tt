@@ -108,10 +108,13 @@ export default function VerificationContent() {
 
                 btnStyle="bg-[var(--success)]"
               >
+                <span className="text-white">
+
                 Your documents have been successfully submitted! Our team will
                 review them, and you will be notified once the verification is
                 complete. Please note that the review process may take up to 10
                 business days, depending on your nationality.
+                </span>
               </TitanNotification>
             ) : verifyResult === "failed" ? (
               <TitanNotification
@@ -122,7 +125,7 @@ export default function VerificationContent() {
                 btn="ok"
                 btnStyle="bg-[var(--loss)]"
               >
-                <span>
+                <span className="text-white">
                   Your Verification Was Unsuccessful Unfortunately, your
                   submitted documents did not meet our verification
                   requirements. Please review the guidelines carefully and
@@ -137,7 +140,7 @@ export default function VerificationContent() {
                 btn="OK"
                 btnStyle="bg-[#275EDF]"
               >
-                <span>
+                <span className="text-white">
                   Your documents have been successfully submitted! Our team will
                   review them, and you will be notified once the verification is
                   complete. Please note that the review process may take up to

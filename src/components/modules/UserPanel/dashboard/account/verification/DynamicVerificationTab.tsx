@@ -5,6 +5,7 @@ import { useVerificationList } from "@/contextApi/VerificationListContext";
 import VerificationStepBox from "./VerificationStepBox";
 import { loadUserData } from "@/components/modules/EncryptData/SavedEncryptData";
 import { apiRequest } from "@/libs/api";
+import { useState } from "react";
 
 export interface StepItem {
   key: string;
@@ -23,6 +24,7 @@ export default function DynamicVerificationTab({
 }: TabItemVerificationProps) {
   const { fileSectionPairs, setFileSectionPairs } = useVerify();
   const { refetch } = useVerificationList();
+  const [isLoading , setIsLoading] = useState(false)
 
   const handleSubmit = async () => {
     const currentTypeFiles = fileSectionPairs?.filter(
@@ -67,6 +69,7 @@ export default function DynamicVerificationTab({
     }
 
     try {
+      setIsLoading(true)
       const token = loadUserData()?.access_token;
       const response = await apiRequest<any>(
         `${process.env.NEXT_PUBLIC_API_URL}/v1/client/documents/upload`,
@@ -76,17 +79,20 @@ export default function DynamicVerificationTab({
           Authorization: `Bearer ${token}`,
         }
       );
-
+      
       if (response.success) {
+        setIsLoading(false)
         toast.success(response.message);
         setFileSectionPairs([]);
         refetch();
       } else {
-        toast.error(`Error: ${response.message}`);
+        toast.error(`${response.message}`);
+        setIsLoading(false)
         console.error(response.error);
       }
     } catch (err: any) {
       console.error("Unexpected Error:", err);
+      setIsLoading(false)
       toast.error("Error uploading documents.");
     }
   };
@@ -118,8 +124,8 @@ export default function DynamicVerificationTab({
       </div>
 
       <div className="flex justify-center my-4 md:justify-end">
-        <button className="titan-btn w-[80%] md:w-[25%]" onClick={handleSubmit}>
-          Submit
+        <button className={`titan-btn ${isLoading ? "!bg-gray-400" : ""} w-[80%] md:w-[25%]`} onClick={handleSubmit}>
+          {isLoading ? "Submitting..." : "Submit"}
         </button>
       </div>
     </div>
