@@ -217,6 +217,7 @@ export default function TitanEmailForm() {
               <CustomInput
                 className="w-full sm:w-[47%]"
                 label="2FA Code"
+                type="number"
                 value={field.value}
                 onChange={(val) => field.onChange(val)}
                 required

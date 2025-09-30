@@ -129,7 +129,7 @@ export default function TeamReceiveRewardCash({
               setValue("twoFaCode", val, { shouldValidate: true })
             }
             required={true}
-            type="text"
+            type="number"
             placeholder="Enter 2FA code"
             maxLength={6}
             hasError={!!errors.twoFaCode}

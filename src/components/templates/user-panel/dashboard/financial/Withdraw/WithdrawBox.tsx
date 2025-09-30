@@ -176,30 +176,28 @@ export default function WithdrawBox({
     getValues,
   ]);
 
- const handleAmountChange = (val: string) => {
-  if (!isAmountEditable) return; 
-  const num = Number(val);
-  if (isNaN(num)) return; 
+  const handleAmountChange = (val: string) => {
+    if (!isAmountEditable) return;
+    const num = Number(val);
+    if (isNaN(num)) return;
 
-  if (singleSelectedOption) {
-    const lowerCaseLabel = singleSelectedOption.label.toLowerCase();
-    let maxAmount = Number(singleSelectedOption.amount);
-    if (lowerCaseLabel === "roi" || lowerCaseLabel === "commission") {
-      const fee = system_percent ? Number(system_percent) / 100 : 0;
-      maxAmount = maxAmount * (1 - fee);
+    if (singleSelectedOption) {
+      const lowerCaseLabel = singleSelectedOption.label.toLowerCase();
+      let maxAmount = Number(singleSelectedOption.amount);
+      if (lowerCaseLabel === "roi" || lowerCaseLabel === "commission") {
+        const fee = system_percent ? Number(system_percent) / 100 : 0;
+        maxAmount = maxAmount * (1 - fee);
+      }
+
+      if (num < 0) setValue("amount", "0");
+      else if (num > maxAmount) setValue("amount", maxAmount.toFixed(2));
+      else setValue("amount", val);
+    } else {
+      setValue("amount", val);
     }
 
-    if (num < 0) setValue("amount", "0");
-    else if (num > maxAmount) setValue("amount", maxAmount.toFixed(2));
-    else setValue("amount", val);
-  } else {
-    setValue("amount", val);
-  }
-
-  setUserModifiedAmount(true);
-};
-
-
+    setUserModifiedAmount(true);
+  };
 
   const onSubmit = async (data: WithdrawFormType) => {
     if (!cryptoKey) {
@@ -401,7 +399,6 @@ export default function WithdrawBox({
                 readOnly={!isAmountEditable}
                 label={`Amount&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-[var(--gold)] text-sm">(After Fees)</span>`}
                 value={field.value ? field.value : field.value.toString()}
-
                 onChange={(val) => {
                   field.onChange(val);
                   handleAmountChange(val);
@@ -466,7 +463,7 @@ export default function WithdrawBox({
                 className="mt-[1rem] w-full sm:w-[50%]"
                 onChange={(val) => field.onChange(val)}
                 required={true}
-                type="text"
+                type="number"
                 placeholder="Enter 2FA code"
                 validateLatinOnly={true}
                 maxLength={6}

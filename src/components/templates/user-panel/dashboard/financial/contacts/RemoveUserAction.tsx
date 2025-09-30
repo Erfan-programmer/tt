@@ -129,7 +129,7 @@ export default function RemoveUserAction() {
               value={field.value}
               onChange={field.onChange}
               required={true}
-              type="text"
+              type="number"
               placeholder="Enter 2FA code"
               validateLatinOnly={true}
               onlyNumber={true}

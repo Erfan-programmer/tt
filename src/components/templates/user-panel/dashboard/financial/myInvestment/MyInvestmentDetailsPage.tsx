@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import {
   Table,
   TableBody,
@@ -102,7 +102,7 @@ export default function CancelContractForm() {
   const [showPendingModal, setShowPendingModal] = useState(false);
   const router = useRouter();
 
-  const fetchData = async () => {
+   const fetchData = useCallback(async () => {
     const token = loadUserData()?.access_token;
     try {
       const response = await apiRequest<any>(
@@ -117,26 +117,25 @@ export default function CancelContractForm() {
         console.log("message =>", response.message);
         router.back();
         setShowPendingModal(true);
-      }
-      if (response.status === 402) {
+      } else if (response.status === 402) {
         setShowPendingModal(true);
         setShow70Error(response.message);
       } else if (response.success) {
         setContractBody(response.data.data);
       } else {
-        setContractError("Failed to fetch contract details." as any);
+        setContractError(response.message || "Failed to fetch contract details." as any);
       }
     } catch (err: any) {
       setContractError(err.message || "Something went wrong.");
     } finally {
       setContractLoading(false);
     }
-  };
+  }, [router]); 
+
   useEffect(() => {
     setContractLoading(true);
-
     fetchData();
-  }, [router]);
+  }, [fetchData]); 
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selected = event.target.files?.[0] || null;
@@ -486,7 +485,7 @@ If you have received more than 80% of your investment amount in profits from Tit
               className="w-full md:w-[50%]"
               onChange={(value: string) => setTwoFaCode(value)}
               required={true}
-              type="text"
+              type="number"
               placeholder="Enter 2FA code"
               validateLatinOnly={true}
               maxLength={6}

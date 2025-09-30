@@ -182,14 +182,14 @@ export default function SponsorPlus({refetch}:{refetch:()=> void}) {
                 <span
                   className={`custom-radio w-7 h-7 border-2 border-[#275edf] dark:border-white rounded-lg flex items-center justify-center relative transition-colors duration-200 ${
                     hasSponsor
-                      ? "bg-[#275edf] dark:bg-[#275edf]"
+                      ? "[var(--main-background)]"
                       : "bg-white dark:bg-transparent"
                   }`}
                 >
                   {hasSponsor && (
                     <span className="check-icon absolute inset-0 flex items-center justify-center opacity-100 transition-opacity">
                       <svg
-                        className="w-8 h-8 text-white dark:text-[var(--main-background)]"
+                        className="w-12 h-12 sm:w-8 sm:h-8  text-white "
                         viewBox="0 0 16 16"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"

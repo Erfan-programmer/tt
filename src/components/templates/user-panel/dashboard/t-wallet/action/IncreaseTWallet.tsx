@@ -95,7 +95,7 @@ export default function IncreaserTWallet() {
             value={depositAmount}
             onChange={setDepositAmount}
             required={true}
-            type="tel"
+            type="number"
             placeholder="Enter deposit amount"
             validateLatinOnly={true}
             minLength={1}

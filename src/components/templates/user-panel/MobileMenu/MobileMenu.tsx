@@ -6,6 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import Logout from "@/components/modules/UserPanel/Logout/Logout";
 import ActiveIndicator from "@/components/modules/UserPanel/ActiveIndicator";
 import UserPanelSidebar from "../UserPanelSidebar/UserPanelSidebar";
+import { useTheme } from "next-themes";
 
 const MobileMenu = () => {
   const pathname = usePathname();
@@ -23,18 +24,17 @@ const MobileMenu = () => {
     }
   }, []);
 
- const isActive = (path: string) => {
-  const currentPath = pathname || "";
+  const isActive = (path: string) => {
+    const currentPath = pathname || "";
 
-  const relativePath = currentPath.replace(/^\/dashboard/, "") || "/";
+    const relativePath = currentPath.replace(/^\/dashboard/, "") || "/";
 
-  const checkPath = path.replace(/^\/dashboard/, "") || "/";
+    const checkPath = path.replace(/^\/dashboard/, "") || "/";
 
-  if (relativePath === "/" && checkPath === "/") return true;
+    if (relativePath === "/" && checkPath === "/") return true;
 
-  return relativePath.startsWith(checkPath);
-};
-
+    return relativePath.startsWith(checkPath);
+  };
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -42,14 +42,7 @@ const MobileMenu = () => {
       router.push("/login");
     }, 5000);
   };
-
-  const toggleTheme = () => {
-    setIsDark((prev) => {
-      const newTheme = !prev;
-      localStorage.setItem("theme", newTheme ? "dark" : "light");
-      return newTheme;
-    });
-  };
+  const { theme, setTheme } = useTheme();
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
@@ -57,7 +50,7 @@ const MobileMenu = () => {
     if (isDark) document.documentElement.classList.add("dark");
     else document.documentElement.classList.remove("dark");
   }, [isDark]);
-const handleSidebarToggle = () => setIsSidebarOpen(false);
+  const handleSidebarToggle = () => setIsSidebarOpen(false);
 
   return (
     <>
@@ -101,7 +94,7 @@ const handleSidebarToggle = () => setIsSidebarOpen(false);
               />
             </svg>
           </button>
-<UserPanelSidebar onToggle={handleSidebarToggle}/>
+          <UserPanelSidebar onToggle={handleSidebarToggle} />
         </div>
       </div>
 
@@ -109,12 +102,13 @@ const handleSidebarToggle = () => setIsSidebarOpen(false);
       <div className="fixed bottom-0 left-0 right-0 bg-[#d9d9d9] dark:bg-[#19276e] border-t border-[#ffffff1a] sm:hidden z-[1001] py-2 px-[1rem]">
         <div className="flex justify-between items-center px-2 py-1 max-w-[465px] mx-auto border-2 border-[#6188B4] bg-white dark:bg-[#0e1e57] rounded-[1rem] shadow-[0_-8px_20px_-6px_rgba(97,136,180,0.3)] overflow-x-auto overflow-y-hidden">
           {/* Theme Switcher Button */}
+
           <button
-            onClick={toggleTheme}
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
             className="flex flex-col items-center group relative"
           >
             <div className="p-2 rounded-lg transition-colors duration-300">
-              {isDark ? (
+              {theme === "dark" ? (
                 <svg
                   width="20"
                   height="20"
@@ -125,9 +119,9 @@ const handleSidebarToggle = () => setIsSidebarOpen(false);
                   <path
                     d="M10 1V2M10 18V19M2 10H1M4.31412 4.31412L3.5 3.5M15.6859 4.31412L16.5 3.5M4.31412 15.69L3.5 16.5001M15.6859 15.69L16.5 16.5001M19 10H18M14 10C14 12.2091 12.2091 14 10 14C7.79086 14 6 12.2091 6 10C6 7.79086 7.79086 6 10 6C12.2091 6 14 7.79086 14 10Z"
                     stroke="#888888"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
                 </svg>
               ) : (
@@ -141,16 +135,14 @@ const handleSidebarToggle = () => setIsSidebarOpen(false);
                   <path
                     d="M11 4V1M16.5 10V5M12.5 2.5H9.5M19 7.5H14M13.5548 14.8151C14.7829 14.8151 15.9493 14.5506 17 14.0754C15.6867 16.9794 12.7642 19 9.36985 19C4.74731 19 1 15.2527 1 10.6302C1 7.23576 3.02061 4.31331 5.92462 3C5.44944 4.05072 5.18492 5.21708 5.18492 6.44523C5.18492 11.0678 8.93223 14.8151 13.5548 14.8151Z"
                     stroke="#888888"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
                 </svg>
               )}
             </div>
-            {/* Active indicator SVG */}
           </button>
-
           {/* Withdraw Link */}
           <button
             onClick={() => router.push("/dashboard/financial/withdraw")}

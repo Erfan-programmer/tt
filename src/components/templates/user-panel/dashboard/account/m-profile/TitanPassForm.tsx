@@ -307,7 +307,7 @@ export default function TitanPassForm({ profile }: TitanPassFormProps) {
                 onlyNumber={true}
                 minLength={6}
                 maxLength={6}
-                type="text"
+                type="number"
                 hasError={!!errors.fa_code}
                 errorMessage={
                   errors.fa_code ? "2FA code must be a 6-digit number" : ""

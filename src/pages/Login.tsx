@@ -222,7 +222,7 @@ export default function Login() {
                     onlyNumber
                     minLength={6}
                     maxLength={6}
-                    type="text"
+                    type="number"
                   />
                 </motion.div>
 

@@ -18,7 +18,7 @@ export default function TWalletTothers() {
   const [twofaError, setTwofaError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const { headerData , refetch } = useHeader();
+  const { headerData, refetch } = useHeader();
   const token = loadUserData()?.access_token;
 
   const handleSubmit = async () => {
@@ -60,12 +60,14 @@ export default function TWalletTothers() {
       toast.success(res.message, {
         position: "top-right",
         autoClose: 3000,
-        theme: document.documentElement.classList.contains("dark") ? "dark" : "light",
+        theme: document.documentElement.classList.contains("dark")
+          ? "dark"
+          : "light",
       });
       setAmount("");
       setTid("");
       setTwoFaCode("");
-      refetch()
+      refetch();
     } else {
       toast.error(res.message || "Transfer failed");
     }
@@ -74,12 +76,12 @@ export default function TWalletTothers() {
   return (
     <div className="team-account-content px-3 sm:px-4 md:px-[1rem] py-3 sm:py-4 md:py-[1rem] bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] bg-shadow-custom border-standard rounded-lg sm:rounded-xl mt-3 sm:mt-4 md:mt-5 pb-4 sm:pb-6 md:pb-[2rem]">
       <ToastContainer
-  closeButton={({ closeToast }) => (
-    <button onClick={closeToast}>
-      <FaTimes className="text-white" />
-    </button>
-  )}
-/>
+        closeButton={({ closeToast }) => (
+          <button onClick={closeToast}>
+            <FaTimes className="text-white" />
+          </button>
+        )}
+      />
       <div className="team-claim-reward">
         <div className="flex items-center gap-1.5 sm:gap-2">
           <svg
@@ -141,7 +143,9 @@ export default function TWalletTothers() {
           onChange={setTid}
           className="w-full sm:w-2/3 md:w-[50%] mt-3 sm:mt-4 md:mt-[1rem]"
         />
-        {tidError && <div className="text-red-500 text-[.8rem] mt-1">{tidError}</div>}
+        {tidError && (
+          <div className="text-red-500 text-[.8rem] mt-1">{tidError}</div>
+        )}
 
         <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-end gap-3 sm:gap-4 mt-4 sm:mt-6 md:mt-[2rem]">
           <CustomInput
@@ -151,7 +155,7 @@ export default function TWalletTothers() {
             value={twofaCode}
             onChange={setTwoFaCode}
             required={true}
-            type="text"
+            type="number"
             placeholder="Enter 2FA code"
             validateLatinOnly={true}
             maxLength={6}

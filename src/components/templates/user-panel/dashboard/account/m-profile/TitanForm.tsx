@@ -135,7 +135,7 @@ export default function TitanForm({refetch}:{refetch:()=> void}) {
           onlyNumber={true}
           minLength={6}
           maxLength={6}
-          type="text"
+          type="number"
           hasError={touched.twoFaCode && !!errors.twoFaCode}
           errorMessage={touched.twoFaCode ? errors.twoFaCode : ""}
         />

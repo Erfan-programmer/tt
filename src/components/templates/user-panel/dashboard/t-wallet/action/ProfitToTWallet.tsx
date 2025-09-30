@@ -390,7 +390,7 @@ const handleAmountChange = (val: string) => {
               value={twofaCode}
               onChange={setTwoFaCode}
               required={true}
-              type="text"
+              type="number"
               placeholder="Enter 2FA code"
               validateLatinOnly={true}
               maxLength={6}

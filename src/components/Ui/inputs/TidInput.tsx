@@ -225,7 +225,7 @@ const TidInput: React.FC<TidInputProps> = ({
           aria-label="TID input"
         >
           <input
-            type="text"
+          type="number"
             value={value || ""}
             onChange={handleInputChange}
             className="titan-input-custom w-full border-none outline-none bg-transparent"

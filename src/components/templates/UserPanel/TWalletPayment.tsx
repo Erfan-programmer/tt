@@ -214,7 +214,7 @@ export default function TwalletPayment({
             validateLatinOnly={true}
             minLength={6}
             maxLength={6}
-            type="text"
+            type="number"
             hasError={touched.twofaCode && !!errors.twofaCode}
             errorMessage={touched.twofaCode ? errors.twofaCode : ""}
           />

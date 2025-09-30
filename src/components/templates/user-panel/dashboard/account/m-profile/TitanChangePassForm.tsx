@@ -217,7 +217,7 @@ export default function TitanChangePassForm() {
                 validateLatinOnly={true}
                 minLength={6}
                 maxLength={6}
-                type="text"
+                type="number"
                 hasError={!!errors.twoFaCode}
                 errorMessage={errors.twoFaCode?.message as string}
               />
