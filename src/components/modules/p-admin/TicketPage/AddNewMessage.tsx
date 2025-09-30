@@ -16,22 +16,27 @@ export default function AddNewMessage({
   onSentSuccess?: () => void;
 }) {
   const [message, setMessage] = useState("");
-  const [file, setFile] = useState<File | null>(null);
+  const [files, setFiles] = useState<File[]>([]);
   const [isSending, setIsSending] = useState(false);
+const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const newFiles = e.target.files ? Array.from(e.target.files) : [];
+  if (newFiles.length > 0) {
+    setFiles((prev) => [...prev, ...newFiles]);
+  }
+};
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) setFile(e.target.files[0]);
+
+  const removeFile = (index: number) => {
+    setFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const removeFile = () => setFile(null);
-
   const handleSend = async () => {
-    if (!message.trim() && !file) return;
+    if (!message.trim() && files.length === 0) return;
     setIsSending(true);
     try {
       const formData = new FormData();
       formData.append("message", message);
-      if (file) formData.append("attachment", file);
+      files.forEach((file) => formData.append("attachments[]", file));
       const token = loadEncryptedData()?.token;
       await apiRequest<any>(
         `${process.env.NEXT_PUBLIC_API_URL}/v1/admin/tickets/${ticketId}/reply`,
@@ -40,7 +45,7 @@ export default function AddNewMessage({
         { Authorization: `Bearer ${token}` },
       );
       setMessage("");
-      setFile(null);
+      setFiles([]);
       if (onSentSuccess) onSentSuccess();
     } catch (err) {
       console.error(err);
@@ -50,57 +55,58 @@ export default function AddNewMessage({
   };
 
   const renderFilePreview = () => {
-    if (!file) return null;
-    const fileType = file.type;
-    const fileURL = URL.createObjectURL(file);
-    return (
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.9 }}
-        transition={{ duration: 0.2 }}
-        className="relative inline-block"
-      >
-        <button
-          onClick={removeFile}
-          className="absolute -top-2 -right-2 bg-red-600 hover:bg-red-700 text-white rounded-full w-6 h-6 flex items-center justify-center shadow-md"
+    return files.map((file, i) => {
+      const fileType = file.type;
+      const fileURL = URL.createObjectURL(file);
+      return (
+        <motion.div
+          key={i}
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.9 }}
+          transition={{ duration: 0.2 }}
+          className="relative inline-block"
         >
-          <FaTimes size={12} />
-        </button>
-        {fileType.startsWith("image/") && (
-          <Image
-            width={1000}
-            height={1000}
-            src={fileURL}
-            alt="preview"
-            className="max-w-[150px] max-h-[150px] rounded-md border border-gray-600"
-          />
-        )}
-        {fileType.startsWith("video/") && (
-          <video
-            src={fileURL}
-            controls
-            className="max-w-[200px] max-h-[150px] rounded-md border border-gray-600"
-          />
-        )}
-        {!fileType.startsWith("image/") && !fileType.startsWith("video/") && (
-          <div className="text-gray-300 text-sm border border-gray-600 px-3 py-2 rounded-md bg-[#2a2b31]">
-            <p>{file.name}</p>
-            <p>{(file.size / 1024 / 1024).toFixed(2)} MB</p>
-          </div>
-        )}
-      </motion.div>
-    );
+          <button
+            onClick={() => removeFile(i)}
+            className="absolute -top-2 -right-2 bg-red-600 hover:bg-red-700 text-white rounded-full w-6 h-6 flex items-center justify-center shadow-md"
+          >
+            <FaTimes size={12} />
+          </button>
+          {fileType.startsWith("image/") && (
+            <Image
+              width={1000}
+              height={1000}
+              src={fileURL}
+              alt="preview"
+              className="max-w-[150px] max-h-[150px] rounded-md border border-gray-600"
+            />
+          )}
+          {fileType.startsWith("video/") && (
+            <video
+              src={fileURL}
+              controls
+              className="max-w-[200px] max-h-[150px] rounded-md border border-gray-600"
+            />
+          )}
+          {!fileType.startsWith("image/") && !fileType.startsWith("video/") && (
+            <div className="text-gray-300 text-sm border border-gray-600 px-3 py-2 rounded-md bg-[#2a2b31]">
+              <p>{file.name}</p>
+              <p>{(file.size / 1024 / 1024).toFixed(2)} MB</p>
+            </div>
+          )}
+        </motion.div>
+      );
+    });
   };
 
   return (
     <div className="fixed bottom-0 right-0 w-full bg-[#1E1F25] border-t border-[#383C47] px-4 py-3 flex flex-col gap-2 xl:w-[80%] ml-auto z-[10002]">
-      <AnimatePresence>{file && <div>{renderFilePreview()}</div>}</AnimatePresence>
+      <AnimatePresence>{files.length > 0 && <div className="flex gap-2 flex-wrap">{renderFilePreview()}</div>}</AnimatePresence>
       <div className={`flex items-center relative gap-3 ${status !== "closed" ? "opacity-100" : "opacity-50"}`}>
-
         <label className="cursor-pointer text-gray-300 hover:text-white">
           <FaPaperclip size={18} />
-          <input type="file" className="hidden" onChange={handleFileChange} />
+          <input type="file" className="hidden" onChange={handleFileChange} multiple />
         </label>
         <textarea
           value={message}

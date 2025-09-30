@@ -26,6 +26,7 @@ interface TicketReply {
   replier: {
     first_name: string;
     last_name: string;
+    name: string;
     tid: number;
   };
   attachments: TicketReplyAttachment[];
@@ -85,7 +86,7 @@ export default function AdminTicketDetailPage() {
   if (error) return <p className="text-center py-8 text-red-500">{error}</p>;
   if (!ticket)
     return <p className="text-center py-8 text-white">No ticket found.</p>;
- console.log("reply.attachement , " , ticket.replies)
+  console.log("reply.attachement , ", ticket.replies);
   return (
     <>
       <div className="flex justify-between items-center mb-4">
@@ -111,15 +112,21 @@ export default function AdminTicketDetailPage() {
             <div
               key={reply.id}
               className={`user-request border-[2px] border-[#383C47] px-6 py-4 rounded-[.5rem] w-[80%] text-white ${
-                reply.replier_label?.toLowerCase()?.includes("admin")
+                !reply.replier_label?.toLowerCase()?.includes("client")
                   ? "ml-auto"
                   : ""
               }`}
             >
               <p className="font-bold">
-                {reply.replier.first_name} {reply.replier.last_name}{" "}
-                {reply.replier_label.includes("Client") &&
-                  `(TID ${reply.replier.tid})`}
+                {reply.replier_label.toLowerCase()?.includes("client") ? (
+                  <>
+                    {reply.replier.first_name} {reply.replier.last_name}{" "}
+                    {reply.replier_label.includes("Client") &&
+                      `(TID ${reply.replier.tid})`}
+                  </>
+                ) : (
+                  reply.replier?.name
+                )}
               </p>
               <div
                 className="mt-2"

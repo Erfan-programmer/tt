@@ -39,7 +39,7 @@ export async function apiRequest<T>(
       if (typeof window !== "undefined") {
         if (typeof window !== "undefined") {
           const redirectTo = window.location.pathname.includes("hrtaamst2025")
-            ? "/hrtaamst2025/auth/login"
+            ? "/hrtaamst2025/auth/sign-in"
             : "/login";
 
           setTimeout(() => {

@@ -64,11 +64,11 @@ export default function MessageInput({ ticketStatus, isSending, onSend }: Messag
                             disabled={isSending || isClosed}
                         />
                     </label>
-                    <input
-                        type="text"
+                    <textarea
                         className="flex-1 bg-transparent outline-none px-2 py-2 text-[var(--main-background)] dark:text-white"
                         placeholder={isClosed ? "Ticket is closed" : "Type your message..."}
                         value={message}
+                        rows={1}
                         onChange={e => setMessage(e.target.value)}
                         disabled={isSending || isClosed}
                         autoFocus

@@ -186,7 +186,7 @@ export default function VerificationStepBox({
                   stroke="#D9D9D9"
                   stroke-width="2"
                   stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinejoin="round"
                 />
               </svg>
             )}

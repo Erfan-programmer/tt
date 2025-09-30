@@ -5,6 +5,7 @@ import HealthCheck from "@/components/templates/user-panel/dashboard/HealthCheck
 import InvestmentPendingActivation from "@/components/templates/user-panel/dashboard/InvestmentPendingActivation";
 import MessageNotification from "@/components/templates/user-panel/dashboard/MessageNotification";
 import ProfitAndLoss from "@/components/templates/user-panel/dashboard/ProfitAndLoss";
+import TitanBonusShieldProfitAndLoss from "@/components/templates/user-panel/dashboard/TitanBonusShieldProfitAndLoss";
 import TournomentRewards from "@/components/templates/user-panel/dashboard/TournomentRewards";
 import TradingProfitChart from "@/components/templates/user-panel/dashboard/TradingProfitChart";
 import UserAccountCondition from "@/components/templates/user-panel/dashboard/UserAccountCondition";
@@ -35,6 +36,7 @@ export default function Page() {
 
       {/* {permiss0ionArray.includes("dashboard.profit_loss") && */}
       <ProfitAndLoss />
+      <TitanBonusShieldProfitAndLoss />
       {/* //  } */}
       {/* {permissionArray.includes("dashboard.profit_network") && ( */}
       <TradingProfitChart />

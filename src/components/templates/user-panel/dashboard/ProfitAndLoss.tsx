@@ -39,15 +39,14 @@ export default function ProfitAndLoss() {
     setError(null);
     try {
       const token = loadUserData()?.access_token;
-      const response =
-        await apiRequest<any>(
-          `${process.env.NEXT_PUBLIC_API_URL}/v1/client/contracts/profitLossReport`,
-          "GET",
-          undefined,
-          {
-            Authorization: `Bearer ${token}`,
-          }
-        );
+      const response = await apiRequest<any>(
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/client/contracts/profitLossReport`,
+        "GET",
+        undefined,
+        {
+          Authorization: `Bearer ${token}`,
+        }
+      );
 
       if (!response.success) {
         setError(response.error?.message || "Server connection error");
@@ -100,20 +99,24 @@ export default function ProfitAndLoss() {
             ? " bg-gray-300 dark:bg-[#393939] border-white"
             : data?.value > 0
             ? "shadow-[inset_0_0_10px_#00CB08] bg-transparent border-[#00CB08]"
-            : data?.value < 0 ? "shadow-[inset_0_0_10px_#FF6060] border-[#FF6060] bg-transparent" : "shadow-[inset_0_0_10px_#ffcc00] border-[var(--normal)] bg-transparent"
+            : data?.value < 0
+            ? "shadow-[inset_0_0_10px_#FF6060] border-[#FF6060] bg-transparent"
+            : "shadow-[inset_0_0_10px_#ffcc00] border-[var(--normal)] bg-transparent"
         }`}
       >
-        {!data?.outside && !data?.empty && data?.value ? (
+        {data?.value ? (
           <>
-            <span className="absolute left-0 top-0">
-              <Image
-                src={"/0b910453f3055a293d84b2f5a91b6b887d6ac817.png"}
-                width={200}
-                height={200}
-                alt=""
-                className="w-8"
-              />
-            </span>
+            {data.is_loss_covered && (
+              <span className="absolute left-0 top-0">
+                <Image
+                  src={"/0b910453f3055a293d84b2f5a91b6b887d6ac817.png"}
+                  width={200}
+                  height={200}
+                  alt=""
+                  className="w-8"
+                />
+              </span>
+            )}
             <span
               className={`${
                 data === null
@@ -161,15 +164,14 @@ export default function ProfitAndLoss() {
                   +{profitAndLossData.overall_performance_percentage}%
                 </span>
               </>
-            ) : profitAndLossData?.overall_performance_percentage === 0 ?  (
+            ) : profitAndLossData?.overall_performance_percentage === 0 ? (
               <>
                 <FaArrowsLeftRight className="text-[var(--normal)] " />
                 <span className="!text-[var(--normal)]">
                   {profitAndLossData.overall_performance_percentage}%
                 </span>
               </>
-
-            ): (
+            ) : (
               <>
                 <FaArrowRight className="text-[var(--loss)] rotate-30" />
                 <span className="text-[var(--loss)]">
