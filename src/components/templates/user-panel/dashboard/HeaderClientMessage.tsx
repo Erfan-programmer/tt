@@ -14,6 +14,7 @@ interface HeaderMessage {
   image: string;
   color_start: string;
   color_end: string;
+  text_color: string;
   published_at: string;
 }
 
@@ -92,28 +93,54 @@ export default function HeaderClientMessage() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
             transition={{ duration: 0.5 }}
-            className="border-[#383C47] border-[1px] mb-4 p-6 bg-[#090D23] rounded-xl relative overflow-hidden"
-            style={{
-              background: `linear-gradient(to right, ${msg.color_start}, ${msg.color_end})`,
-            }}
+            className="
+              border-[#383C47] border-[1px] 
+              mb-4 p-6 
+              rounded-xl relative overflow-hidden
+            "
           >
-            <div className="text-white font-bold text-2xl">
-              <p>{msg.title}</p>
+            <div
+              className="
+                absolute inset-0 
+                sm:bg-[#090D23] 
+                bg-[#090D23]/70 
+                backdrop-blur-xl sm:backdrop-blur-0
+              "
+              style={{
+                background: `linear-gradient(to right, ${msg.color_start}, ${msg.color_end})`,
+              }}
+            />
+
+            {/* Content */}
+            <div className="relative z-10">
+              <div>
+                <p
+                  className="title"
+                  style={{ color: msg.text_color || "#fff" }}
+                >
+                  {msg.title}
+                </p>
+              </div>
+              <div className="team-tournoment-description mt-2 w-[100%] sm:w-[80%]">
+                <span
+                  className="description"
+                  style={{ color: msg.text_color || "#fff", opacity: 0.8 }}
+                  dangerouslySetInnerHTML={{ __html: msg.message }}
+                />
+              </div>
+              <div className="team-tournoment-btn mt-8 flex justify-center sm:justify-start">
+                <button
+                  onClick={() => handleSeen(msg.id)}
+                  className={`titan-btn ${
+                    isLoading ? "!bg-gray-400" : ""
+                  } flex items-center justify-center gap-4 text-white px-6 py-2 rounded-2xl tournoment-btn transition-all duration-300 hover:drop-shadow-[0_0_px_#1A68FF4D]`}
+                >
+                  <span>Ok</span>
+                </button>
+              </div>
             </div>
-            <div className="team-tournoment-description mt-2 w-[100%] sm:w-[80%]">
-              <span
-                className="text-white text-sm"
-                dangerouslySetInnerHTML={{ __html: msg.message }}
-              />
-            </div>
-            <div className="team-tournoment-btn mt-8 flex justify-center sm:justify-start">
-              <button
-                onClick={() => handleSeen(msg.id)}
-                className={`titan-btn ${isLoading ? "!bg-gray-400" : ""} flex items-center justify-center gap-4 text-white px-6 py-2 rounded-2xl tournoment-btn transition-all duration-300 hover:drop-shadow-[0_0_px_#1A68FF4D]`}
-              >
-                <span>Ok</span>
-              </button>
-            </div>
+
+            {/* Image */}
             <Image
               src={`${process.env.NEXT_PUBLIC_API_URL_STORAGE}/${msg.image}`}
               alt=""
@@ -141,7 +168,6 @@ export default function HeaderClientMessage() {
           </>
         )}
 
-        {/* Pagination Dots */}
         {messages.length > 1 && (
           <div className="flex justify-center gap-2 mt-2">
             {messages.map((_, idx) => (

@@ -20,6 +20,7 @@ export interface HeaderMessage {
   image: string;
   color_start: string;
   color_end: string;
+  text_color: string;
   published_at: string;
   created_at: string;
   updated_at: string;
@@ -45,6 +46,8 @@ export default function DashboardHeaderMessageList({
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [colorStart, setColorStart] = useState<string>("#FF7B00");
   const [colorEnd, setColorEnd] = useState<string>("#FFB800");
+  const [textColor, setTextColor] = useState<string>("#FFFFFF");
+
   const token = loadEncryptedData()?.token;
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,6 +70,7 @@ export default function DashboardHeaderMessageList({
     data.append("message_content", editMessage.message);
     data.append("color_start", colorStart);
     data.append("color_end", colorEnd);
+    data.append("text_color", textColor);
     data.append("published_at", selectedDate.toISOString());
     if (file) data.append("image", file);
 
@@ -161,6 +165,22 @@ export default function DashboardHeaderMessageList({
       },
     },
     {
+      title: "Text Color",
+      field: "text_color",
+      render: (_v, row) => (
+        <div
+          className="w-16 h-8 rounded mx-auto flex items-center justify-center text-sm font-medium"
+          style={{
+            backgroundColor: "#222",
+            color: row.text_color,
+          }}
+        >
+          Aa
+        </div>
+      ),
+    },
+
+    {
       title: "Color Start",
       field: "color_start",
       render: (_v, row) => (
@@ -198,6 +218,7 @@ export default function DashboardHeaderMessageList({
               setSelectedDate(new Date(row.published_at));
               setColorStart(row.color_start);
               setColorEnd(row.color_end);
+              setTextColor(row.text_color);
             }}
           >
             <FaEdit />
@@ -243,6 +264,7 @@ export default function DashboardHeaderMessageList({
                 image={selectedMessage.image}
                 color_start={selectedMessage.color_start}
                 color_end={selectedMessage.color_end}
+                text_color={selectedMessage.text_color}
                 published_at={selectedMessage.published_at}
               />
               <div className="flex justify-end mt-4">
@@ -304,6 +326,15 @@ export default function DashboardHeaderMessageList({
                   type="color"
                   value={colorEnd}
                   onChange={(e) => setColorEnd(e.target.value)}
+                  className="w-20 h-8 p-0 border-0"
+                />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-white mb-1">Text Color</span>
+                <input
+                  type="color"
+                  value={textColor}
+                  onChange={(e) => setTextColor(e.target.value)}
                   className="w-20 h-8 p-0 border-0"
                 />
               </div>

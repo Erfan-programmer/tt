@@ -249,7 +249,7 @@ export default function UserAccountCondition() {
         <div className="hidden md:flex justify-between items-start w-full">
           <div className="user-account-condition-price w-[30%] lg:border-r-2 border-[var(--main-background)] dark:lg:border-white ">
             <div className="price-title flex gap-4 items-center text-[var(--main-background)] dark:text-white">
-              <span>$ {Number(dashboardData?.total_income)?.toFixed()}</span>
+              <span>$ {parseFloat(String(dashboardData?.total_income))?.toFixed(2)}</span>
             </div>
             <div className="user-account-condition-income flex justify-start gap-2 items-center">
               <span className="text-[#585966]">Total Income </span>

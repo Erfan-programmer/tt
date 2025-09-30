@@ -7,7 +7,7 @@ type BoxPropsType = {
 }
 export default function Box({data}:BoxPropsType) {
   return (
-    <Link href={data.id ==1 ? `/${data?.link}` : ""}
+    <Link href={data?.link}
       className={`${Style.option_box} w-[15rem] rounded-3xl border-t-[.03rem] border-[#fff] h-[18rem]  `}
     >
       <div className="option-box-title mb-10 m-3">

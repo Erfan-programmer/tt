@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import "@/styles/p-admin/TimerTournoment.css";
 import { motion, AnimatePresence } from "framer-motion";
 
-// --- Interfaces for type safety ---
 interface IRemainingTime {
   days: number | string;
   hours: number | string;
@@ -15,7 +14,6 @@ interface ITimerProps {
   countdownTimestampMs: number;
 }
 
-// --- Utility Function to calculate remaining time ---
 const getRemainingTime = (timestamp: number): IRemainingTime => {
   const totalSeconds = (timestamp - Date.now()) / 1000;
   if (totalSeconds < 0) {
@@ -38,7 +36,6 @@ const getRemainingTime = (timestamp: number): IRemainingTime => {
   };
 };
 
-// --- Custom Hook to manage countdown logic ---
 const defaultRemainingTime: IRemainingTime = {
   days: "00",
   hours: "00",
@@ -61,7 +58,6 @@ const useCountdown = (countdownTimestampMs: number): IRemainingTime => {
   return remainingTime;
 };
 
-// --- Animated Number Component ---
 const AnimatedNumber = ({
   number,
   label,
@@ -93,7 +89,6 @@ const AnimatedNumber = ({
   );
 };
 
-// --- Main Countdown Timer Component with Tailwind CSS ---
 const TimerTournoment = ({
   countdownTimestampMs,
 }: ITimerProps): JSX.Element => {
@@ -102,24 +97,31 @@ const TimerTournoment = ({
   return (
     <>
       <div className="timer-tournoment-title mb-6">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+        <h2 className="text-lg md:text-xl  font-bold text-gray-900 dark:text-white">
           Team Builders Tournament
         </h2>
       </div>
       <div
-        className="flex mb-4 justify-center items-center w-full sm:w-fit mx-auto p-5 rounded-lg shadow-xl relative overflow-x-auto sidebar-item
-                bg-white dark:bg-[#202020] bg-gradient-to-t dark:from-[#202020] dark:to-[#000] text-gray-900 dark:text-white"
+        className="
+          flex flex-wrap sm:flex-nowrap
+          mb-4 justify-center items-center
+          w-full sm:w-fit mx-auto p-5 rounded-lg shadow-xl 
+          relative 
+          bg-white dark:bg-[#202020] 
+          bg-gradient-to-t dark:from-[#202020] dark:to-[#000] 
+          text-gray-900 dark:text-white
+        "
       >
         <AnimatedNumber number={days} label="Days" />
-        <span className="text-4xl md:text-5xl font-light text-gray-500 dark:text-[#555] mx-2">
+        <span className="hidden sm:block text-4xl md:text-5xl font-light text-gray-500 dark:text-[#555] mx-2">
           |
         </span>
         <AnimatedNumber number={hours} label="Hours" />
-        <span className="text-4xl md:text-5xl font-light text-gray-500 dark:text-[#555] mx-2">
+        <span className="hidden sm:block text-4xl md:text-5xl font-light text-gray-500 dark:text-[#555] mx-2">
           |
         </span>
         <AnimatedNumber number={minutes} label="Min" />
-        <span className="text-4xl md:text-5xl font-light text-gray-500 dark:text-[#555] mx-2">
+        <span className="hidden sm:block text-4xl md:text-5xl font-light text-gray-500 dark:text-[#555] mx-2">
           |
         </span>
         <AnimatedNumber number={seconds} label="Sec" />

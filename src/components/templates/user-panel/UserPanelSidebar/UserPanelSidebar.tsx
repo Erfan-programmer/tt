@@ -22,7 +22,7 @@ export interface SubMenuItem {
   id?: string;
 }
 
-export default function UserPanelSidebar() {
+export default function UserPanelSidebar({onToggle}:{onToggle?:()=> void}) {
   const { activeItem, setActiveItem, isSidebarOpen, setIsSidebarOpen } =
     useVerify();
   const [isLogoutOpen, setIsLogoutOpen] = useState(false);
@@ -78,6 +78,8 @@ export default function UserPanelSidebar() {
       return;
     }
     setActiveItem(itemId);
+      if (isMobile) {
+  }
   };
 
   const handleLogout = () => {
@@ -159,41 +161,43 @@ export default function UserPanelSidebar() {
                     })
                   )
                   .map((subItem: any, index: number) => (
-                    <Link
-                      key={index}
-                      href={
-                        subItem.id?.toLowerCase() === "verification" &&
-                        isVerified
-                          ? "javascript:void(0);"
-                          : subItem?.link
-                      }
-                      className={`submenu-item flex ${
-                        isVerified &&
-                        subItem?.id?.toLowerCase() === "verification"
-                          ? " !text-green-400 opacity-50"
-                          : "opacity-100"
-                      } items-center rounded-[1rem] gap-3 ${
-                        pathname?.startsWith(subItem.link)
-                          ? "border border-[#004ada] active-before"
-                          : ""
-                      }`}
-                      onClick={(e: any) => e.stopPropagation()}
-                    >
-                      {isVerified &&
-                      subItem?.id?.toLowerCase() === "verification" ? (
-                        <LuBadgeCheck className="text-[1.5rem]" />
-                      ) : (
-                        <>{subItem.svg}</>
-                      )}
-                      {isVerified &&
-                      subItem?.id?.toLowerCase() === "verification" ? (
-                        <>
-                          <span className="!text-green-400">verified</span>
-                        </>
-                      ) : (
-                        <span>{subItem.span}</span>
-                      )}
-                    </Link>
+                   <Link
+  key={index}
+  href={
+    subItem.id?.toLowerCase() === "verification" && isVerified
+      ? "javascript:void(0);"
+      : subItem?.link
+  }
+  className={`submenu-item flex ${
+    isVerified && subItem?.id?.toLowerCase() === "verification"
+      ? " !text-green-400 opacity-50"
+      : "opacity-100"
+  } items-center rounded-[1rem] gap-3 ${
+    pathname?.startsWith(subItem.link) ? "border border-[#004ada] active-before" : ""
+  }`}
+  onClick={(e) => {
+    e.stopPropagation(); 
+    if (!(
+      subItem.id?.toLowerCase() === "verification" && isVerified
+    )) {
+      setActiveItem(item.id);
+      setIsSidebarOpen(false);
+      if (onToggle) onToggle(); 
+    }
+  }}
+>
+  {isVerified && subItem?.id?.toLowerCase() === "verification" ? (
+    <LuBadgeCheck className="text-[1.5rem]" />
+  ) : (
+    <>{subItem.svg}</>
+  )}
+  {isVerified && subItem?.id?.toLowerCase() === "verification" ? (
+    <span className="!text-green-400">verified</span>
+  ) : (
+    <span>{subItem.span}</span>
+  )}
+</Link>
+
                   ))}
               </div>
             </motion.div>

@@ -5,7 +5,6 @@ export interface Replier {
   email: string;
   mobile: string;
   user_type: string;
-
   tid?: number;
   referrer_id?: number | null;
   sponsor_id?: number | null;
@@ -32,13 +31,13 @@ export interface Reply {
   replier: Replier;
 }
 
-
 export interface ContractLast {
   id: number;
   client_id: number;
   plan_id: number;
   contract_number: string;
   investment_amount: string;
+  canCancelContract: boolean;
   current_balance: string;
   total_income: string;
   total_roi_income: string;
@@ -57,9 +56,6 @@ export interface ContractLast {
   created_at: string;
   updated_at: string;
 }
-
-
-
 
 export interface Wallet {
   id: number;
@@ -81,8 +77,6 @@ export interface Crypto {
   created_at?: string;
   updated_at?: string;
 }
-
-
 
 export interface CashRewardRecipient {
   id: number;

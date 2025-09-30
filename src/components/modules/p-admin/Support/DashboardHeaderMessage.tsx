@@ -9,20 +9,33 @@ import { Dialog } from "@headlessui/react";
 import { apiRequest } from "@/libs/api";
 import { toast } from "react-toastify";
 import { loadEncryptedData } from "../../EncryptData/SavedEncryptData";
+
 interface DashboardHeaderMessageProps {
   refetch: () => void;
 }
-export default function DashboardHeaderMessage({ refetch }: DashboardHeaderMessageProps) {
+
+export default function DashboardHeaderMessage({
+  refetch,
+}: DashboardHeaderMessageProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [formData, setFormData] = useState<{ rankImage: File | null }>({ rankImage: null });
+  const [formData, setFormData] = useState<{ rankImage: File | null }>({
+    rankImage: null,
+  });
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [wallet, setWallet] = useState({ id: 1, title: "", date: "" });
   const [message, setMessage] = useState("");
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+
+  // BG Colors
   const [colorArray, setColorArray] = useState<string[]>(["#FF7B00", "#FFB800"]);
   const [tempColor1, setTempColor1] = useState(colorArray[0]);
   const [tempColor2, setTempColor2] = useState(colorArray[1]);
   const [colorPickerOpen, setColorPickerOpen] = useState(false);
+
+  // Text Color
+  const [textColor, setTextColor] = useState<string>("#FFFFFF");
+  const [tempTextColor, setTempTextColor] = useState<string>(textColor);
+  const [textColorPickerOpen, setTextColorPickerOpen] = useState(false);
 
   const token = loadEncryptedData()?.token;
 
@@ -50,6 +63,7 @@ export default function DashboardHeaderMessage({ refetch }: DashboardHeaderMessa
     data.append("image", formData.rankImage);
     data.append("color_start", colorArray[0]);
     data.append("color_end", colorArray[1]);
+    data.append("text_color", textColor);
     data.append("published_at", selectedDate.toISOString());
 
     try {
@@ -67,6 +81,7 @@ export default function DashboardHeaderMessage({ refetch }: DashboardHeaderMessa
         setPreviewImage(null);
         setSelectedDate(null);
         setColorArray(["#FF7B00", "#FFB800"]);
+        setTextColor("#FFFFFF");
         refetch();
       } else {
         toast.error(res.message || "Failed to create message");
@@ -84,20 +99,29 @@ export default function DashboardHeaderMessage({ refetch }: DashboardHeaderMessa
 
   return (
     <div className="public-notification-section mt-8">
-      <p className="text-white text-lg font-medium mb-2">Create Your Special Message</p>
+      <p className="text-white text-lg font-medium mb-2">
+        Create Your Special Message
+      </p>
       <div className="border-[2px] rounded-[.5rem] border-[#383C47] p-4 mt-2">
         <div className="flex flex-col md:flex-row items-start gap-4">
           <div className="flex items-start gap-8">
             <div className="flex flex-col">
-              <div className="w-92 relative">
+              <div className="relative">
                 <div
                   onClick={() => fileInputRef.current?.click()}
                   className="relative w-44 h-36 border border-[#555] rounded-[.5rem] bg-transparent cursor-pointer hover:bg-[#275EDF] flex items-center justify-center transition"
                 >
-                  {!previewImage && <span className="text-white">Upload Image</span>}
+                  {!previewImage && (
+                    <span className="text-white">Upload Image</span>
+                  )}
                   {previewImage && (
                     <>
-                      <Image src={previewImage} alt="Preview" fill className="object-contain rounded-[.5rem]" />
+                      <Image
+                        src={previewImage}
+                        alt="Preview"
+                        fill
+                        className="object-contain rounded-[.5rem]"
+                      />
                       <button
                         type="button"
                         className="absolute top-1 right-1 text-white bg-black/50 rounded-full p-1 hover:bg-red-600 transition"
@@ -112,15 +136,36 @@ export default function DashboardHeaderMessage({ refetch }: DashboardHeaderMessa
                     </>
                   )}
                 </div>
-                <input ref={fileInputRef} id="rankImage" type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
+                <input
+                  ref={fileInputRef}
+                  id="rankImage"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  className="hidden"
+                />
               </div>
-              <button className="titan-btn mt-2" onClick={() => setColorPickerOpen(true)}>BG Color</button>
+
+              <button
+                className="titan-btn mt-2 w-fit"
+                onClick={() => setColorPickerOpen(true)}
+              >
+                BG Color
+              </button>
+              <button
+                className="titan-btn mt-2 w-fit"
+                onClick={() => setTextColorPickerOpen(true)}
+              >
+                Text Color
+              </button>
             </div>
             <div className="flex flex-col gap-2">
               <CustomAdminInput
                 title="Enter Title"
                 value={wallet.title}
-                onChange={(val) => handleWithdrawChange(wallet.id, "title", val)}
+                onChange={(val) =>
+                  handleWithdrawChange(wallet.id, "title", val)
+                }
               />
             </div>
           </div>
@@ -151,14 +196,27 @@ export default function DashboardHeaderMessage({ refetch }: DashboardHeaderMessa
             value={wallet.date}
             onChange={(val) => handleWithdrawChange(wallet.id, "date", val)}
           />
-          <button className="admin-titan-cancel mt-8 text-white" onClick={handleSubmit}>Save & Send</button>
+          <button
+            className="admin-titan-cancel mt-8 text-white"
+            onClick={handleSubmit}
+          >
+            Save & Send
+          </button>
         </div>
       </div>
-      <Dialog open={colorPickerOpen} onClose={() => setColorPickerOpen(false)} className="relative z-50">
+
+      {/* BG Color Picker */}
+      <Dialog
+        open={colorPickerOpen}
+        onClose={() => setColorPickerOpen(false)}
+        className="relative z-50"
+      >
         <div className="fixed inset-0 bg-black/50" aria-hidden="true" />
         <div className="fixed inset-0 flex items-center justify-center p-4">
           <Dialog.Panel className="bg-[#1F2937] rounded-lg p-4 w-full max-w-md">
-            <Dialog.Title className="text-white text-lg mb-2">Select Gradient Colors</Dialog.Title>
+            <Dialog.Title className="text-white text-lg mb-2">
+              Select Gradient Colors
+            </Dialog.Title>
             <div className="flex gap-4">
               <div className="flex flex-col items-center">
                 <span className="text-white mb-1">Color 1</span>
@@ -170,8 +228,60 @@ export default function DashboardHeaderMessage({ refetch }: DashboardHeaderMessa
               </div>
             </div>
             <div className="mt-4 flex justify-end gap-2">
-              <button className="px-4 py-2 bg-gray-600 text-white rounded" onClick={() => setColorPickerOpen(false)}>Cancel</button>
-              <button className="px-4 py-2 bg-orange-600 text-white rounded" onClick={() => { setColorArray([tempColor1, tempColor2]); setColorPickerOpen(false); }}>Apply</button>
+              <button
+                className="px-4 py-2 bg-gray-600 text-white rounded"
+                onClick={() => setColorPickerOpen(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-4 py-2 bg-orange-600 text-white rounded"
+                onClick={() => {
+                  setColorArray([tempColor1, tempColor2]);
+                  setColorPickerOpen(false);
+                }}
+              >
+                Apply
+              </button>
+            </div>
+          </Dialog.Panel>
+        </div>
+      </Dialog>
+
+      {/* Text Color Picker */}
+      <Dialog
+        open={textColorPickerOpen}
+        onClose={() => setTextColorPickerOpen(false)}
+        className="relative z-50"
+      >
+        <div className="fixed inset-0 bg-black/50" aria-hidden="true" />
+        <div className="fixed inset-0 flex items-center justify-center p-4">
+          <Dialog.Panel className="bg-[#1F2937] rounded-lg p-4 w-full max-w-md">
+            <Dialog.Title className="text-white text-lg mb-2">
+              Select Text Color
+            </Dialog.Title>
+            <div className="flex justify-center">
+              <HexColorPicker
+                color={tempTextColor}
+                onChange={setTempTextColor}
+              />
+            </div>
+            <div className="mt-4 flex justify-end gap-2">
+              <button
+                className="px-4 py-2 bg-gray-600 text-white rounded"
+                onClick={() => setTextColorPickerOpen(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-4 py-2 bg-blue-600 text-white rounded"
+                onClick={() => {
+                  setTextColor(tempTextColor);
+                  setTextColorPickerOpen(false);
+                }}
+              >
+                Apply
+              </button>
             </div>
           </Dialog.Panel>
         </div>

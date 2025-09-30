@@ -89,11 +89,17 @@ export default function DashboardClientWrapper({
           <UserPanelSidebar />
         </div>
 
-        <div className="dashoard-content min-h-[100vh] pb-[1rem] w-full h-auto sm:w-[100%] xl:w-[80%] sm:ml-auto md:mx-auto">
+        <div
+          className={`
+            dashoard-content min-h-[100vh] pb-[1rem] w-full h-auto sm:w-[100%] xl:w-[80%] sm:ml-auto md:mx-auto
+            bg-gradient-to-b
+            from-white to-gray-300 dark:from-[#080a1d] dark:to-[#1b2972]
+          `}
+        >
+          {" "}
           <div className="dashoard-content-bottom mb-20">
             <UserPanelHeader />
           </div>
-
           <div className="dashoard-content-bottom pb-[1rem] mb-[70px] sm:mb-0">
             {isLoading ? (
               <div className="flex justify-center items-center h-[80vh]">

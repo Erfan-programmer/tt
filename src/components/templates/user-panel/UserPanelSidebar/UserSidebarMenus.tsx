@@ -352,7 +352,7 @@ export const menuItems: MenuItem[] = [
         link: "/dashboard/team/rank-progression",
       },
       {
-        id: "claim_reward",
+        id: "account_analytics",
         svg: (
           <svg
             width="20"

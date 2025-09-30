@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { Puff } from "react-loader-spinner";
 
 interface RankReward {
-  type: "cash" | "physical";
+  type: "cash" | "physical" | "claim_reward";
   description: string;
   cash_value: number;
   amount: number;
@@ -51,31 +51,31 @@ export default function TeamClaimRewardMethod({
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchRewards = async () => {
-      setIsLoading(true);
-      setError(null);
-      try {
-        const token = loadUserData()?.access_token;
-        const res = await apiRequest<{data:RewardItem[]}>(
-          `${process.env.NEXT_PUBLIC_API_URL}/v1/client/prizes/unclaimed`,
-          "GET",
-          null,
-          { Authorization: `Bearer ${token}` }
-        );
+  const fetchRewards = async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const token = loadUserData()?.access_token;
+      const res = await apiRequest<{ data: RewardItem[] }>(
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/client/prizes/unclaimed`,
+        "GET",
+        null,
+        { Authorization: `Bearer ${token}` }
+      );
 
-        if (res.success) {
-          setRewards(res.data?.data);
-        } else {
-          setError(res.message || "Failed to fetch rewards");
-        }
-      } catch (err: any) {
-        setError(err.message || "Something went wrong");
-      } finally {
-        setIsLoading(false);
+      if (res.success) {
+        setRewards(res.data?.data);
+      } else {
+        setError(res.message || "Failed to fetch rewards");
       }
-    };
+    } catch (err: any) {
+      setError(err.message || "Something went wrong");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchRewards();
   }, []);
 
@@ -106,6 +106,8 @@ export default function TeamClaimRewardMethod({
           setRewardId(reward.id);
           if (selectedMethod === "cash") setRewardType("cashReward");
           if (selectedMethod === "physical") setRewardType("physical_reward");
+          if (selectedMethod === "claim_reward") setRewardType("claim_reward");
+          fetchRewards();
         } else {
           toast.error(res.message || "Failed to claim reward");
         }
@@ -124,6 +126,27 @@ export default function TeamClaimRewardMethod({
     }
   };
 
+  const handleClaimToRef = async (reward: RewardItem) => {
+    try {
+      const token = loadUserData()?.access_token;
+      const res = await apiRequest(
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/client/prizes/unclaimed/${reward.id}/claimToRef`,
+        "POST",
+        {},
+        { Authorization: `Bearer ${token}` }
+      );
+
+      if (res.success) {
+        toast.success("Reward claimed to referral successfully!");
+        fetchRewards();
+      } else {
+        toast.error(res.message || "Failed to claim reward to referral");
+      }
+    } catch (err: any) {
+      toast.error(err.message || "Error claiming reward to referral");
+    }
+  };
+
   if (isLoading) return <div className="p-8">Loading rewards...</div>;
   if (error) return <div className="p-8 text-center text-red-500">{error}</div>;
   if (!rewards || rewards.length === 0)
@@ -133,6 +156,7 @@ export default function TeamClaimRewardMethod({
     <>
       {rewards.map((reward) => {
         const isPendingConfirmed = reward.status === "pending_to_confirmed";
+        const selectedMethod = selectedOptions[reward.id];
 
         return (
           <div
@@ -207,7 +231,8 @@ export default function TeamClaimRewardMethod({
                     ?.filter(
                       (r) =>
                         reward.status === "pending_choice" ||
-                        r.type === "physical"
+                        r.type === "physical" ||
+                        r.type === "claim_reward"
                     )
                     .map((r) => (
                       <motion.div
@@ -216,7 +241,7 @@ export default function TeamClaimRewardMethod({
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5 }}
                         className={`register-inputs-reward ${
-                          selectedOptions[reward.id] === r.type
+                          selectedMethod === r.type
                             ? "selected"
                             : "unselected"
                         } flex justify-between rounded-[2rem] py-3 border-standard p-2 items-center gap-3 md:ml-[2rem] sm:w-[40%] cursor-pointer`}
@@ -225,26 +250,36 @@ export default function TeamClaimRewardMethod({
                         <span className="text-[var(--main-background)] dark:text-white">
                           {r.type === "cash"
                             ? `Cash: ${r.amount.toLocaleString()}`
-                            : `Physical: ${r.description}`}
+                            : r.type === "physical"
+                            ? `Physical: ${r.description}`
+                            : `Claim Reward`}
                         </span>
                       </motion.div>
                     ))}
 
-                  <button
-                    onClick={() => handleClaimReward(reward)}
-                    className={`titan-btn w-[50%] mx-auto sm:w-[30%] text-center md:mx-0
-        ${
-          reward.status === "pending_choice" && !selectedOptions[reward.id]
-            ? "!bg-gray-400 cursor-not-allowed"
-            : ""
-        }`}
-                    disabled={
-                      reward.status === "pending_choice" &&
-                      !selectedOptions[reward.id]
-                    }
-                  >
-                    Claim
-                  </button>
+                  <div className="flex gap-2 sm:flex-row flex-wrap sm:items-center flex-col">
+                    <button
+                      onClick={() => handleClaimReward(reward)}
+                      className={`titan-btn  text-center md:mx-0 ${
+                        reward.status === "pending_choice" &&
+                        !selectedMethod
+                          ? "!bg-gray-400 cursor-not-allowed"
+                          : ""
+                      }`}
+                      disabled={reward.status === "pending_choice" && !selectedMethod}
+                    >
+                      Claim
+                    </button>
+
+                    {reward.status === "pending_choice" && (
+                      <button
+                        onClick={() => handleClaimToRef(reward)}
+                        className="titan-btn w-fit text-center md:mx-0 bg-purple-500 hover:bg-purple-600"
+                      >
+                        Claim to Referral
+                      </button>
+                    )}
+                  </div>
                 </div>
               )}
           </div>

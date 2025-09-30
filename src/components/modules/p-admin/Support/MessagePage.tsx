@@ -31,6 +31,7 @@ export interface HeaderMessage {
   image: string;
   color_start: string;
   color_end: string;
+  text_color: string;
   published_at: string;
   created_at: string;
   updated_at: string;

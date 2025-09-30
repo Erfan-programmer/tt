@@ -15,6 +15,9 @@ export interface UnClaimerDataType {
   cash_value: string;
   type: string;
   status: string;
+  client: {
+    tid: number;
+  };
   shipping_first_name: string | null;
   shipping_last_name: string | null;
   shipping_address: string | null;
@@ -141,9 +144,14 @@ export default function CashAwardHistoryRecipientList({
       render: (value: any) =>
         value ? new Date(value).toLocaleDateString() : "-",
     },
-    { title: "User", field: "client_id" },
+    {
+      title: "User",
+      field: "client",
+      render: (_value, row) => row.client?.tid || "-",
+    },
     { title: "Rank", field: "rank_id" },
     { title: "Prize", field: "prize_description" },
+    { title: "Currency", field: "currency" },
     { title: "Wallet Type", field: "type" },
     { title: "Wallet Address", field: "wallet_address" },
     {
@@ -229,7 +237,7 @@ export default function CashAwardHistoryRecipientList({
                   {new Date(viewData.created_at).toLocaleDateString()}
                 </p>
                 <p>
-                  <strong>User:</strong> {viewData.client_id}
+                  <strong>User:</strong> {viewData.client?.tid}
                 </p>
                 <p>
                   <strong>Rank:</strong> {viewData.rank_id}
@@ -287,7 +295,7 @@ export default function CashAwardHistoryRecipientList({
                   {new Date(editData.created_at).toLocaleDateString()}
                 </p>
                 <p>
-                  <strong>User:</strong> {editData.client_id}
+                  <strong>User:</strong> {editData.client?.tid}
                 </p>
                 <p>
                   <strong>Rank:</strong> {editData.rank_id}

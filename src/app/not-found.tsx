@@ -1,11 +1,11 @@
-"use client"
-import { motion } from 'framer-motion';
-import Image from 'next/image';
-import Link from 'next/link';
+"use client";
+import { motion } from "framer-motion";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function NotFound() {
   return (
-    <div className="relative min-h-screen">
+    <div className="relative min-h-screen bg-[#050A13]">
       {/* Background Image Container with Aspect Ratio */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         {/* Use a container with a fixed aspect ratio */}
@@ -13,15 +13,15 @@ export default function NotFound() {
           <Image
             src="/404.png"
             alt="404 Error"
-            fill // Fills the parent container
-            style={{ objectFit: 'cover' }}
-            sizes="(max-width: 768px) 100vw, 50vw" // Add sizes prop for better performance
+            width={1400}
+            height={1400}
+            className="h-full w-full object-contain sm:object-cover"
           />
         </div>
         {/* Dark Overlay */}
         <div className="absolute inset-0 bg-black/60 bg-opacity-40"></div>
       </div>
-      
+
       {/* Rest of your content remains the same */}
       {/* Logos - Top Left */}
       <motion.div
@@ -45,7 +45,8 @@ export default function NotFound() {
             404 - Page Not Found!
           </h1>
           <p className="text-base sm:text-lg text-gray-200 mb-6 sm:mb-8 px-4 sm:px-0">
-            Looks like you&apos;ve drifted off course. The page you&apos;re searching for is nowhere to be found.
+            Looks like you&apos;ve drifted off course. The page you&apos;re
+            searching for is nowhere to be found.
           </p>
 
           {/* Action Button */}
@@ -55,7 +56,10 @@ export default function NotFound() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.6 }}
           >
-            <Link href={"/"} className="w-full sm:w-auto px-6 sm:px-8 py-3 border-2 border-white text-white rounded-lg hover:text-black font-semibold hover:bg-white transition-colors duration-200 text-sm sm:text-base">
+            <Link
+              href={"/"}
+              className="w-full sm:w-auto px-6 sm:px-8 py-3 border-2 border-white text-white rounded-lg hover:text-black font-semibold hover:bg-white transition-colors duration-200 text-sm sm:text-base"
+            >
               Go to Homepage
             </Link>
           </motion.div>

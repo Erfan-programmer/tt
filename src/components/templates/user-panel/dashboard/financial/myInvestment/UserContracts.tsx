@@ -9,13 +9,9 @@ export default function UserContracts({
 }) {
   const start = new Date(contract.start_date).getTime();
   const end = new Date(contract.end_date).getTime();
-  const progress = Math.min(
-    100,
-    Math.round(end - start)
-  );
+  const progress = Math.min(100, Math.round(end - start));
 
-
-    const handleDownloadContract = async () => {
+  const handleDownloadContract = async () => {
     try {
       const token = loadUserData()?.access_token;
       if (!token) throw new Error("No access token found");
@@ -37,20 +33,36 @@ export default function UserContracts({
 
       const a = document.createElement("a");
       a.href = url;
-      a.download = `Contract_${contract.contract_number}.png`; 
+      a.download = `Contract_${contract.contract_number}.png`;
       document.body.appendChild(a);
       a.click();
       a.remove();
       window.URL.revokeObjectURL(url);
-    } catch  {
-    }
+    } catch {}
   };
+
+function getRemainingTime(start: string | Date, end: string | Date) {
+  const startDate = new Date(start);
+  const endDate = new Date(end);
+  const  diff = endDate.getTime() - startDate.getTime();
+
+  if (diff <= 0) return "Expired";
+
+  const minutes = Math.floor(diff / (1000 * 60));
+  const hours = Math.floor(diff / (1000 * 60 * 60));
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+  if (days >= 1) return `${days} day/s`;
+  if (hours >= 1) return `${hours} hour/s`;
+  return `${minutes} minute/s`;
+}
+
 
   return (
     <div className="user-contacts-container border-standard rounded-xl mt-[2rem] py-5 pb-4 bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)]">
       <div className="user-contact-header flex items-center gap-3 px-2 sm:px-[2rem]">
         <svg
-        className="stroke-[#00cb08] dark:stroke-[#A8FFAE]"
+          className="stroke-[#00cb08] dark:stroke-[#A8FFAE]"
           width="20"
           height="20"
           viewBox="0 0 20 20"
@@ -110,7 +122,8 @@ export default function UserContracts({
 
         <div className="user-progress-bar-container mt-[2rem]">
           <span className="user-progress-bar-label dark:text-white mb-3">
-            Remaining Time for the ${contract.current_balance} Contract
+            Remaining Time for the ${contract.current_balance} Contract:{" "}
+            {getRemainingTime(contract.start_date, contract.end_date)}
           </span>
           <div className="w-full rounded-lg border-standard overflow-hidden h-[2rem] relative mt-3 mb-1">
             <div
@@ -118,14 +131,22 @@ export default function UserContracts({
               style={{ width: `${progress}%` }}
             ></div>
           </div>
-          <span className="underline text-[var(--box-background)] dark:text-white " onClick={handleDownloadContract}>Download contract</span>
+          <span
+            className="underline text-[var(--box-background)] dark:text-white "
+            onClick={handleDownloadContract}
+          >
+            Download contract
+          </span>
           <div className="flex justify-center mt-[2rem] sm:mt-2 mb-4 sm:justify-end">
-            <Link
+            {contract?.canCancelContract && (
+
+              <Link
               className="titan-cancel-btn dark:text-white text-[var(--main-background)] bg-[var(--main-background)] transition-all duration-300 hover:shadow-[0_1px_17px_#03071D] dark:bg-white dark:hover:shadow-[0_1px_17px_#fff]"
               href={`/dashboard/financial/my-investments/cancel`}
-            >
+              >
               Contract Cancellation
             </Link>
+            )}
           </div>
         </div>
       </div>

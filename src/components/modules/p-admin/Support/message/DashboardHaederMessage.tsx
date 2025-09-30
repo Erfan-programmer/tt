@@ -6,6 +6,7 @@ interface DashboardHeaderMessageProps {
   message: string;
   image: string;
   color_start: string;
+  text_color: string;
   color_end: string;
   published_at: string;
 }
@@ -16,6 +17,7 @@ export default function DashboardHaederMessage({
   image,
   color_start,
   color_end,
+  text_color,
 }: DashboardHeaderMessageProps) {
   return (
     <div
@@ -24,15 +26,18 @@ export default function DashboardHaederMessage({
         background: `linear-gradient(to right, ${color_start}, ${color_end})`,
       }}
     >
-      <div className="text-white font-bold text-2xl">
+      <div className="title" style={{ color: text_color || "#fff" }}>
         <p>{title}</p>
       </div>
+
       <div className="team-tournoment-description mt-2 w-[100%] sm:w-[80%]">
         <span
-          className="text-white text-sm"
+          className="description"
+          style={{ color: text_color || "#fff", opacity: 0.8 }}
           dangerouslySetInnerHTML={{ __html: message }}
         />
       </div>
+
       <div className="team-tournoment-btn mt-8 flex justify-center sm:justify-start">
         <button className="flex items-center justify-center gap-4 text-white px-6 py-2 rounded-2xl bg-[#004ADA] tournoment-btn transition-all duration-300  hover:drop-shadow-[0_0_px_#1A68FF4D] py-2">
           <svg

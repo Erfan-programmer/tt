@@ -70,6 +70,12 @@ export default function SettingPage() {
             >
               <span>Employee</span>
             </Link>
+            <Link
+              href="settings/configs"
+              className="w-56 h-20 flex text-white hover:text-[#1A68FF] items-center transition-all duration-400 hover:border-[#1A68FF] justify-center border-[2px] rounded-[.5rem] border-[var(--admin-border-color)]"
+            >
+              <span>Configs</span>
+            </Link>
           </div>
         </AnimationTemplate>
       )}

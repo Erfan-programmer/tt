@@ -117,7 +117,7 @@ const statements = list.map((item) => ({
               : "bg-[#f9f9fe] dark:bg-[#222631] text-[var(--main-background)] dark:text-white"
           }`}
         >
-          <td className="py-4 text-center px-4">{statement.id}</td>
+          <td className="py-4 text-center px-4">{index}</td>
           <td className="py-4 text-center px-4">{statement.date}</td>
           <td className="py-4 text-center px-4">{statement.tid}</td>
           <td className="py-4 text-center px-4">$ {formatToTwoDecimals(statement.invest_amount)}</td>

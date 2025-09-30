@@ -23,6 +23,7 @@ import { FaTimes, FaMinus } from "react-icons/fa";
 import Image from "next/image";
 import TitanNotification from "@/components/modules/UserPanel/TitanNotification/TitanNotification";
 import { IoIosTimer } from "react-icons/io";
+import { useRouter } from "next/navigation";
 
 const StyledTableCell = styled(TableCell)(({}) => ({
   padding: "12px 16px",
@@ -99,39 +100,43 @@ export default function CancelContractForm() {
   const [contractBody, setContractBody] = useState<contractBodyTypes>();
   const [show70Error, setShow70Error] = useState("");
   const [showPendingModal, setShowPendingModal] = useState(false);
+  const router = useRouter();
+
+  const fetchData = async () => {
+    const token = loadUserData()?.access_token;
+    try {
+      const response = await apiRequest<any>(
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/client/contracts/cancellationPreview`,
+        "GET",
+        undefined,
+        { Authorization: `Bearer ${token}` }
+      );
+
+      if (response.status === 403) {
+        setShow70Error(response.message);
+        console.log("message =>", response.message);
+        router.back();
+        setShowPendingModal(true);
+      }
+      if (response.status === 402) {
+        setShowPendingModal(true);
+        setShow70Error(response.message);
+      } else if (response.success) {
+        setContractBody(response.data.data);
+      } else {
+        setContractError("Failed to fetch contract details." as any);
+      }
+    } catch (err: any) {
+      setContractError(err.message || "Something went wrong.");
+    } finally {
+      setContractLoading(false);
+    }
+  };
   useEffect(() => {
     setContractLoading(true);
 
-    const fetchData = async () => {
-      const token = loadUserData()?.access_token;
-      try {
-        const response = await apiRequest<any>(
-          `${process.env.NEXT_PUBLIC_API_URL}/v1/client/contracts/cancellationPreview`,
-          "GET",
-          undefined,
-          { Authorization: `Bearer ${token}` }
-        );
-
-        if (response.status === 403) {
-          setShowPendingModal(true);
-        }
-        if (response.status === 402) {
-          setShowPendingModal(true);
-          setShow70Error(response.message);
-        } else if (response.success) {
-          setContractBody(response.data.data);
-        } else {
-          setContractError("Failed to fetch contract details." as any);
-        }
-      } catch (err: any) {
-        setContractError(err.message || "Something went wrong.");
-      } finally {
-        setContractLoading(false);
-      }
-    };
-
     fetchData();
-  }, []);
+  }, [router]);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selected = event.target.files?.[0] || null;
