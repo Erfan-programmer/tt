@@ -45,7 +45,7 @@ function LatestNewBox({ lastNewInfo }: LastNewboxType) {
             initial={{ y: "20px" }}
             whileInView={{ y: "0" }}
             transition={{ duration: 0.5 }}
-            className="text-[#383C47] dark:text-white"
+            className="text-white"
           >
             {lastNewInfo.description}
           </motion.p>

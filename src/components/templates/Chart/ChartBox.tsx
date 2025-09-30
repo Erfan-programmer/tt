@@ -174,7 +174,7 @@ function ChartBox() {
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
                   transition={{ duration: 1, delay: 2.6 }}
-                  className="text-[#383C47] dark:text-white"
+                  className="text-white"
                 >
                   <AnimatedCounter from={0} to={250} />%
                 </motion.span>
@@ -254,7 +254,7 @@ function ChartBox() {
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
                   transition={{ duration: 1, delay: 2.6 }}
-                  className="text-[#383C47] dark:text-white"
+                  className="text-white"
                 >
                   <AnimatedCounter from={0} to={101} />%
                 </motion.span>

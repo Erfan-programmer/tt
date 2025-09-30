@@ -7,7 +7,7 @@ export default function FinancialWithdraw() {
       <TitanNotice
         title="Withdrawal Notice"
         description={` Withdrawals Policy Notice
-    <ul style="list-style: disc; padding-left: 20px;">
+    <ul style="list-style: disc; ">
             <li>
              Withdrawals are processed from the 1st to the 5th of each month.
             </li>

@@ -32,6 +32,11 @@ interface FormModalState {
   claimProfit: boolean;
 }
 
+export interface UserInfoType {
+  first_name: string;
+  last_name: string;
+  icon_path: string;
+}
 function HeaderTest() {
   const pathname = usePathname();
   const [isToggle, setIsToggle] = useState(false);
@@ -81,11 +86,27 @@ function HeaderTest() {
   const methods = useForm({ mode: "onChange" });
   const router = useRouter();
   const [user, setUser] = useState<boolean>(false);
+  const [userInfo, setUserInfo] = useState<UserInfoType>({
+    first_name: "",
+    last_name: "",
+    icon_path: "",
+  });
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const savedUser = localStorage.getItem("user");
-    if (savedUser && savedUser !== "undefined") setUser(true);
-  }, [user]);
+
+    const savedUser = JSON.parse(localStorage.getItem("user") || "null");
+
+    if (savedUser && savedUser !== "undefined") {
+      setUser(true);
+      setUserInfo((prev) => ({
+        ...prev,
+        first_name: savedUser?.first_name,
+        last_name: savedUser?.last_name,
+        icon_path: savedUser?.rank?.icon_path,
+      }));
+      console.log("savedUser =>", userInfo);
+    }
+  }, [user , userInfo]);
 
   const handleMenuItemClick = (item: string) => {
     if (item.toLowerCase() === "withdraw") {
@@ -116,7 +137,13 @@ function HeaderTest() {
       >
         <div className="w-[95%] flex flex-wrap items-center justify-between mx-auto p-4">
           <div className="flex w-full  gap-5 sm:gap-0 justify-between items-center">
-            <Image src="/titan-main-avatar.png" className="w-24" width={300} height={300} alt="titan logo" />
+            <Image
+              src="/titan-main-avatar.png"
+              className="w-24"
+              width={300}
+              height={300}
+              alt="titan logo"
+            />
             {pathname === "/" ? null : (
               <>
                 {!isToggle && (
@@ -136,7 +163,7 @@ function HeaderTest() {
                       animate={{ width: "" }}
                       transition={{ duration: 2, delay: 3.5, ease: "linear" }}
                       className={`font-medium flex flex-col mt-4 transition-all duration-2000 border navbar_ul rounded-lg  dark:bg-[#222335] bg-[#222335] md:flex-row md:space-x-8  rtl:space-x-reverse md:mt-0 md:border-0  dark:border-gray-700 ${
-                        isScrolled ? "" : "w-full sm:w-[calc(100%-100px)]"
+                        isScrolled ? "" : `w-full ${user ? "sm:w-[calc(100%-12rem)]" : "sm:w-[80%]"} `
                       }`}
                       style={{ transition: "all 1s" }}
                     >
@@ -169,6 +196,7 @@ function HeaderTest() {
                         ...(user ? [] : ["Login"]),
                       ].map((item, index) => (
                         <motion.li
+                        className="transiation-all hover:bg-[#363848] duration-300 px-4 rounded"
                           key={index}
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
@@ -186,7 +214,11 @@ function HeaderTest() {
                           }
                         >
                           <Link
-                            href={item.toLowerCase() === "login" ? "/login" : `/titan-algotrade#${item.toLowerCase()}`}
+                            href={
+                              item.toLowerCase() === "login"
+                                ? "/login"
+                                : `/titan-algotrade#${item.toLowerCase()}`
+                            }
                             className={`block p-1 px-3 xm:px-1 text-gray-200 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:px-3 md:py-2  md:hover:text-blue-500  dark:hover:text-white md:dark:hover:bg-transparent`}
                           >
                             {item}
@@ -208,7 +240,7 @@ function HeaderTest() {
                           } `}
                         ></div>
                         {user ? (
-                          <UserMenu />
+                          <UserMenu userInfo={userInfo} />
                         ) : (
                           <button
                             className={`${

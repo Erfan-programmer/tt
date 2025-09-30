@@ -30,7 +30,7 @@ function UserQuestions() {
                 initial={{ opacity: 0, filter: "blur(10px)" }}
                 whileInView={{ opacity: 1, filter: "blur(0px)" }}
                 transition={{ duration: 1, delay: 0.5 }}
-                className="text-[#383C47] dark:text-white"
+                className="text-white"
               >
                 {" "}
                 all your Questions{" "}

@@ -12,9 +12,9 @@ type DataItem = { name: string; value: number; color: string };
 const pieData: DataItem[] = [
   { name: "Real Estate", value: 25, color: "#FF00D0" },
   { name: "Crypto", value: 15, color: "#FF0004" },
-  { name: "Stock", value: 30, color: "#00FF3C" },
+  { name: "Stock", value:25, color: "#00FF3C" },
   { name: "Cash & Liquidity", value: 10, color: "#d0d0d0" },
-  { name: "Gold & Precious Metals", value: 20, color: "#FFC800" },
+  { name: "Gold & Precious Metals", value: 15, color: "#FFC800" },
   { name: "TITAN INVESTMENTS", value: 20, color: "#0057FF" },
 ];
 

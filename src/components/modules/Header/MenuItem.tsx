@@ -2,6 +2,7 @@
 
 import { FaAngleDown, FaUser } from "react-icons/fa";
 import Link from "next/link";
+import { UserInfoType } from "./HeaderTest";
 
 interface MenuItem {
   label: string;
@@ -89,18 +90,18 @@ export const menuItems: MenuItem[] = [
   //   ),
   // },
 ];
-export default function UserMenu() {
+export default function UserMenu({ userInfo }: { userInfo: UserInfoType }) {
   return (
     <div className="relative group hidden md:block">
       {/* Toggle Button */}
       <button className="bg-white px-4 py-2 rounded-lg flex w-fit items-center gap-2 text-[#222] font-semibold shadow hover:bg-gray-50 transition">
         <FaAngleDown className="transition-transform duration-200 group-hover:rotate-180" />
         <FaUser className="text-lg" />
-        <span className="text-sm whitespace-nowrap">User Panel</span>
+        <span className="text-sm whitespace-nowrap">{userInfo?.first_name} {userInfo?.last_name}</span>
       </button>
 
       {/* Menu */}
-      <ul className="absolute w-44 -right-10 rounded-lg overflow-hidden bg-[var(--main-background)] text-white top-full mt-2 shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+      <ul className="absolute w-44 -right-0 rounded-lg overflow-hidden bg-[var(--main-background)] text-white top-full mt-2 shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
         {menuItems.map((item) => (
           <li key={item.label}>
             <Link

@@ -16,9 +16,9 @@ export default function WealthyInvestIntroduction() {
   const portfolioList = [
     "25% Real Estate",
     "15% Crypto",
-    "30% Stocks",
+    "25% Stocks",
     "10% Cash & Liquidity",
-    "20% Gold & Precious Metals",
+    "15% Gold & Precious Metals",
     "20% TITAN INVESTMENTS",
     "This isn’t a one-size-fits-all solution, but it’s a smart starting point for building long-term wealth.",
   ];
@@ -55,7 +55,7 @@ export default function WealthyInvestIntroduction() {
           >
             {text.includes("TITAN INVESTMENTS") ? (
               <>
-                <span className="text-[#383C47] dark:text-white">TITAN INVESTMENTS </span>
+                <span className="text-white">TITAN INVESTMENTS </span>
                 {text.replace("TITAN INVESTMENTS ", "")}
               </>
             ) : (
@@ -81,7 +81,7 @@ export default function WealthyInvestIntroduction() {
           {portfolioList.map((text, i) => (
             <motion.li
               key={i}
-              className={activeIndex === i ? "text-[#383C47] dark:text-white" : "text-gray-400"}
+              className={activeIndex === i ? "text-white" : "text-gray-400"}
               initial={{ opacity: 0, y: 20, x: 50, filter: "blur(2px)" }}
               viewport={{ once: true }}
               whileInView={{ opacity: 1, y: 0, x: 0, filter: "blur(0px)" }}

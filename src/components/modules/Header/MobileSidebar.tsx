@@ -101,7 +101,7 @@ const MobileSidebar: React.FC<MobileSidebarProps> = ({
                     <Accordion
                       sx={{
                         bgcolor: "#363848",
-                        borderRadius: "8px",
+                        borderRadius: "1rem",
                         boxShadow: 1,
                         color: "#fff",
                       }}

@@ -20,7 +20,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import {FaUser } from "react-icons/fa";
-import UserMenu, { menuItems } from "./MenuItem";
+import { menuItems } from "./MenuItem";
 
 function Header() {
   const router = usePathname();
@@ -186,7 +186,8 @@ useEffect(() => {
                     } `}
                   ></div>
                   {isLoging ? (
-                    <UserMenu />
+                    // <UserMenu userInfo={userInfo}/>
+                    <></>
                   ) : (
                     <button
                       className={`${isScrolled && "mr-2"} topBarBg py-2 px-8 md:px-5 text-[#222] font-semibold flex justify-center items-center gap-2 transition-all duration-1000 `}
