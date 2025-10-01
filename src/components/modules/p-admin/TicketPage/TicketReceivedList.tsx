@@ -81,7 +81,6 @@ export default function TicketList({ tickets, refetch }: TicketListProps) {
   const handleToggleCanSend = async (ticketId: number, value: boolean) => {
     try {
       const token = loadEncryptedData()?.token;
-      console.log("value  , ticketID =>", ticketId ,  value);
       const res = await apiRequest<any>(
         `${process.env.NEXT_PUBLIC_API_URL}/v1/admin/toggleTicketCooldown/${ticketId}`,
         "POST",

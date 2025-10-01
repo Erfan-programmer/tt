@@ -37,14 +37,14 @@ export default function AdminWithdrawList({ transactions, refetch }: Props) {
   >(null);
   const [inputValue, setInputValue] = useState("");
 
- // داخل handleApprove
 const handleApprove = async () => {
   if (!selectedTransaction?.id) return;
   try {
     const response = await apiRequest(
       `${process.env.NEXT_PUBLIC_API_URL}/v1/admin/withdrawals/${selectedTransaction.id}/approve`,
       "POST",
-      { transaction_hash: inputValue }, // ← مقدار ورودی کاربر اینجا ارسال می‌شود
+      { transaction_hash: inputValue }
+      ,
       { Authorization: `Bearer ${loadEncryptedData()?.token}` }
     );
     if (response.success) {

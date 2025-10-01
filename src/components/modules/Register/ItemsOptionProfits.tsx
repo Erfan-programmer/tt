@@ -80,7 +80,6 @@ export default function ItemsOptionProfits({
   commission,
   plan,
 }: ItemsOptionProfitsType) {
-  console.log("plan =>" , plan)
   const items = [
     {
       active: !!(user_per && company_per),

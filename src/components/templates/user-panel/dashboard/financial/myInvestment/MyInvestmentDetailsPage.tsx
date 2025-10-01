@@ -114,7 +114,6 @@ export default function CancelContractForm() {
 
       if (response.status === 403) {
         setShow70Error(response.message);
-        console.log("message =>", response.message);
         router.back();
         setShowPendingModal(true);
       } else if (response.status === 402) {

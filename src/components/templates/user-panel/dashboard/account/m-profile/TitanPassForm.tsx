@@ -276,7 +276,6 @@ export default function TitanPassForm({ profile }: TitanPassFormProps) {
                 required
                 defaultDialCode={profile.dial_code}
                 onPrefixChange={(country) => {
-                  console.log("country =>", country);
                   setValue("prefix_number", country.id, {
                     shouldDirty: true,
                   });

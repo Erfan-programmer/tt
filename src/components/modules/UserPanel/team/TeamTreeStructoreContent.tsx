@@ -43,7 +43,6 @@ const ReferralNode: React.FC<{
       nodeRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
     }
   }, [isHighlighted]);
-  console.log("selectedTID === referral.tid =>", selectedTID, referral?.tid);
   return (
     <div className="relative" ref={nodeRef}>
       <div className="flex items-center">

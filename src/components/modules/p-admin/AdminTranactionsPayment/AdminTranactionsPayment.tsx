@@ -118,7 +118,6 @@ export default function AdminTranactionsPayment({ data }: { data: Payment[] }) {
               <h2 className="text-xl font-bold mb-4">Payment Details</h2>
               <div className="space-y-2">
                 {Object.entries(selectedPayment).map(([key, value]) => {
-                  // اگر key plan باشه، plan.name را نشان بده
                   if (key === "plan") {
                     return (
                       <div

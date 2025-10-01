@@ -101,13 +101,6 @@ export default function PhoneInput({
               countryToSelect = defaultCountry;
             }
 
-            console.log(
-              "default country =>",
-              defaultCountry,
-              defaultDialCode,
-              countryData
-            );
-
             setSelectedCountry(countryToSelect);
 
             // 4. CHANGE: Use the ref to call the function without dependency

@@ -40,9 +40,7 @@ export default function TitanBonusShieldProfitAndLoss() {
         setLossData(undefined);
         return;
       }
-
       setLossData(response.data?.data);
-      console.log("res", response.data.data);
     } catch (err) {
       setError("Unexpected error");
       console.error(err);
@@ -113,7 +111,6 @@ export default function TitanBonusShieldProfitAndLoss() {
         </div>
       </div>
 
-      {/* جدول */}
       <div className="bg-white dark:bg-[#171b29] rounded-lg text-[var(--main-background)] dark:text-white py-3 mt-[1rem] px-3 overflow-x-auto">
         <table className="w-full border-separate border-spacing-2 min-w-[1000px]">
           <thead>

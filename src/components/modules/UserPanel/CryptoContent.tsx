@@ -47,7 +47,6 @@ export default function CryptoContent() {
         { Authorization: `Bearer ${token}` }
       );
       if (res.success) {
-        console.log("res.data" , res.data)
         setBase({base:res.data.base , flag_url:res.data.flag_url });
         setCryptoDatas(res.data.data);
       }

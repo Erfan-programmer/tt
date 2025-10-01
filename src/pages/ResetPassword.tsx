@@ -44,7 +44,7 @@ export default function ResetPassword() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`, // اگر نیاز هست
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
             tid: data.tid,

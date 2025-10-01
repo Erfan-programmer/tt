@@ -254,7 +254,6 @@ export default function WithdrawTransaction() {
     setSelectedTransaction(transaction);
     setModalFadeOut(false);
     setModalOpen(true);
-    console.log("transaction", transaction);
   };
 
   const handleCloseModal = () => {
@@ -350,7 +349,6 @@ export default function WithdrawTransaction() {
   rejected: "text-red-400",
 };
 
-  console.log("selectedTransaction =>", selectedTransaction);
   return (
     <div className="my-10">
       {withdrawLoading ? (

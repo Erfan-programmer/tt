@@ -165,7 +165,7 @@ export default function UserInformationDetailPage({ id }: { id: number }) {
         }}
         title="Transaction History"
       />
-      {showLineTitle.trans_history && <UsersTransactionHistory />}ّ
+      {showLineTitle.trans_history && <UsersTransactionHistory />}
     </>
   );
 }

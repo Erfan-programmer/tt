@@ -62,7 +62,6 @@ export default function TeamAccountAnalyticsCountries({
   isLoading,
   error,
 }: CountriesProps) {
-  console.log("countries =>", countries);
   if (isLoading) return <TeamAccountAnalyticsCountriesSkeleton />;
   if (error) return <div>Error loading data</div>;
   return (
