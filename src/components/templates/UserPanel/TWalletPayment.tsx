@@ -41,33 +41,32 @@ export default function TwalletPayment({
   const { refetch, headerData } = useHeader();
   const router = useRouter();
   const { user } = useAuth();
-   const depositSchema = z
-  .string()
-  .regex(/^\d+$/, { message: "Amount must be a number" })
-  .transform((val) => Number(val))
-  .superRefine((val, ctx) => {
-    const planType = user?.plan?.type?.toLowerCase();
-    const minInv = Number(user?.plan?.min_investment ?? 0);
+  const depositSchema = z
+    .string()
+    .regex(/^\d+$/, { message: "Amount must be a number" })
+    .transform((val) => Number(val))
+    .superRefine((val, ctx) => {
+      const planType = user?.plan?.type?.toLowerCase();
+      const minInv = Number(user?.plan?.min_investment ?? 0);
 
-    if (planType === "contract_free" || planType === "investor") {
-      if (val % minInv !== 0) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: `Amount must be a multiple of ${minInv}`,
-        });
+      if (planType === "contract_free" || planType === "investor") {
+        if (val % minInv !== 0) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: `Amount must be a multiple of ${minInv}`,
+          });
+        }
       }
-    }
 
-    if (planType === "investor") {
-      if (val < minInv) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: `Amount must be at least ${minInv}`,
-        });
+      if (planType === "investor") {
+        if (val < minInv) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: `Amount must be at least ${minInv}`,
+          });
+        }
       }
-    }
-  });
-
+    });
 
   const validateDeposit = useCallback(
     (value: string) => {
@@ -211,7 +210,11 @@ export default function TwalletPayment({
             className="w-full"
             readOnly={user?.plan?.type?.toLowerCase() === "marketer"}
             label="Deposit Amount"
-            value={deposit}
+            value={
+              user?.plan?.type?.toLowerCase() === "marketer"
+                ? String(user?.plan?.min_investment ?? "")
+                : deposit
+            }
             min={Number(user?.plan?.min_investment ?? 0)}
             onChange={handleDepositChange}
             onBlur={() => handleBlur("deposit")}
