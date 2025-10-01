@@ -166,7 +166,11 @@ export default function DirectPayment({
           className="w-full"
           readOnly={user?.plan?.type?.toLowerCase() === "marketer"}
           label="Deposit Amount"
-          value={deposit}
+          value={
+            user?.plan?.type?.toLowerCase() === "marketer"
+              ? String(user?.plan?.min_investment ?? "")
+              : deposit
+          }
           min={Number(user?.plan?.min_investment ?? 0)}
           onChange={handleDepositChange}
           onBlur={handleDepositBlur}

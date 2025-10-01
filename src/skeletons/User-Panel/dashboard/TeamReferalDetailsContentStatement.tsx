@@ -2,7 +2,6 @@ import React from "react";
 import Pagination from "@/components/modules/UserPanel/Pagination/Pagination";
 import { formatToTwoDecimals } from "@/components/modules/FormatToDecimal";
 
-
 interface PaginationProps {
   current_page?: number;
   last_page?: number;
@@ -133,10 +132,18 @@ export default function TeamReferalDetailsContentStatement({
                     <td className="py-4 text-center px-4">{statement.date}</td>
                     <td className="py-4 text-center px-4">{statement.tid}</td>
                     <td className="py-4 text-center px-4">
-                      $ {formatToTwoDecimals(statement.invest_amount)}
+                      {statement.invest_amount ? (
+                        <>$ {formatToTwoDecimals(statement.invest_amount)}</>
+                      ) : (
+                        <span>Tournament Bonus</span>
+                      )}
                     </td>
+
                     <td className="py-4 text-center px-4 text-[#00FF90]">
-                      $ {formatToTwoDecimals(statement.income)}
+                      ${" "}
+                      {statement.income
+                        ? formatToTwoDecimals(statement.income)
+                        : statement.income}
                     </td>
                   </tr>
                 ))
