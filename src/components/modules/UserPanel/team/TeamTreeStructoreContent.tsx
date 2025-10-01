@@ -43,7 +43,7 @@ const ReferralNode: React.FC<{
       nodeRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
     }
   }, [isHighlighted]);
-console.log("selectedTID === referral.tid =>" , selectedTID , referral?.tid)
+  console.log("selectedTID === referral.tid =>", selectedTID, referral?.tid);
   return (
     <div className="relative" ref={nodeRef}>
       <div className="flex items-center">
@@ -65,16 +65,25 @@ console.log("selectedTID === referral.tid =>" , selectedTID , referral?.tid)
           </button>
         )}
 
-        <div className="w-8 h-[2px] border-t-[2px] border-dashed border-[var(--main-background)] dark:border-white/30 ml-3" />
+        <div className="w-8 relative h-[2px] border-t-[2px] border-dashed border-[var(--main-background)] dark:border-white/30 ml-3"></div>
+        {referral.children?.length === 0 && (
+          <div className="w-14 rotate-90 absolute -left-4 bottom-12 border-t-[2px] border-dashed border-[var(--main-background)] dark:border-white/30" />
+        )}
 
         <div
           onClick={() => onSelect(referral)}
-          className={`flex ${selectedTID === referral.tid ? "bg-[#ddd] dark:bg-[#223060]" : "bg-[#f0f0f059] dark:bg-[#22306076]"} items-center gap-2 rounded-lg h-[42px] px-6 relative z-10 cursor-pointer transition-colors
-            ${referral.status === "pending"
-              ? "border border-[var(--normal)]"
-              : referral.status === "closed"
-              ? "border border-[var(--loss)]"
-              : "border border-none"}
+          className={`flex ${
+            selectedTID === referral.tid
+              ? "bg-[#ddd] dark:bg-[#223060]"
+              : "bg-[#f0f0f059] dark:bg-[#22306076]"
+          } items-center gap-2 rounded-lg h-[42px] px-6 relative z-100 cursor-pointer transition-colors
+            ${
+              referral.status === "pending"
+                ? "border border-[var(--normal)]"
+                : referral.status === "closed"
+                ? "border border-[var(--loss)]"
+                : "border border-none"
+            }
             `}
         >
           <div className="w-12 h-12 rounded-full overflow-auto">
@@ -156,54 +165,65 @@ export default function TeamTreeStructureContent({
     });
   };
 
-const findReferralByTID = useCallback(
-  (node: ReferralType, tid: string): ReferralType | null => {
-    if (node.tid === tid) return node;
-    if (node.children) {
+  const findReferralByTID = useCallback(
+    (node: ReferralType, tid: string): ReferralType | null => {
+      if (node.tid === tid) return node;
+      if (node.children) {
+        for (const child of node.children) {
+          const found = findReferralByTID(child, tid);
+          if (found) return found;
+        }
+      }
+      return null;
+    },
+    []
+  );
+
+  const expandPathToNode = useCallback(
+    (
+      node: ReferralType,
+      tid: string,
+      expanded: Set<string> = new Set()
+    ): boolean => {
+      if (node.tid === tid) return true;
+      if (!node.children) return false;
+
       for (const child of node.children) {
-        const found = findReferralByTID(child, tid);
-        if (found) return found;
+        if (expandPathToNode(child, tid, expanded)) {
+          expanded.add(node.tid);
+          return true;
+        }
       }
-    }
-    return null;
-  },
-  []
-);
-
-const expandPathToNode = useCallback(
-  (node: ReferralType, tid: string, expanded: Set<string> = new Set()): boolean => {
-    if (node.tid === tid) return true;
-    if (!node.children) return false;
-
-    for (const child of node.children) {
-      if (expandPathToNode(child, tid, expanded)) {
-        expanded.add(node.tid);
-        return true;
-      }
-    }
-    return false;
-  },
-  []
-);
+      return false;
+    },
+    []
+  );
 
   useEffect(() => {
-    const handler = setTimeout(() => setDebouncedSearch(searchTerm.trim()), 400);
+    const handler = setTimeout(
+      () => setDebouncedSearch(searchTerm.trim()),
+      400
+    );
     return () => clearTimeout(handler);
   }, [searchTerm]);
 
- useEffect(() => {
-  if (!debouncedSearch || !data) return;
-  const found = findReferralByTID(data, debouncedSearch);
-  if (found) {
-    const newExpanded = new Set<string>();
-    expandPathToNode(data, found.tid, newExpanded);
-    setExpandedNodes(newExpanded);
-    setHighlightedTID(found.tid);
-  } else {
-    setHighlightedTID(null);
-  }
-}, [debouncedSearch, data, findReferralByTID, expandPathToNode]);
+  useEffect(() => {
+    if (!debouncedSearch || !data) return;
 
+    const searchTid = debouncedSearch.startsWith("TID-")
+      ? debouncedSearch
+      : `TID-${debouncedSearch}`;
+
+    const found = findReferralByTID(data, searchTid);
+    if (found) {
+      const newExpanded = new Set<string>();
+      expandPathToNode(data, found.tid, newExpanded);
+      setExpandedNodes(newExpanded);
+      setHighlightedTID(found.tid);
+    } else {
+      setHighlightedTID(null);
+    }
+  }, [debouncedSearch, data, findReferralByTID, expandPathToNode]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -291,11 +311,11 @@ const expandPathToNode = useCallback(
             alt=""
             className="w-16 h-16 relative scale-[1.4] -translate-x-4"
           />
-          <span className="text-[var(--main-background)] dark:text-white text-sm">You</span>
+          <span className="text-[var(--main-background)] dark:text-white text-sm">
+            You
+          </span>
           <div className="w-8 h-[2rem] border-l-[2px] border-dashed border-[var(--main-background)] dark:border-white/30 ml-[.85rem]" />
         </div>
-
-        <div className="absolute left-[12.8px] top-16 bottom-0 w-[2px] border-l-[2px] border-dashed border-[var(--main-background)] dark:border-white/30 ml-[2rem]"></div>
 
         <div className="space-y-6 ml-[2rem]">
           {referrals.map((referral: ReferralType) => (

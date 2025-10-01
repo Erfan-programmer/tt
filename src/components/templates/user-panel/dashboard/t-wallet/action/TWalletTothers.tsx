@@ -9,9 +9,12 @@ import { useHeader } from "@/contextApi/HeaderContext";
 import { apiRequest } from "@/libs/api";
 import { loadUserData } from "@/components/modules/EncryptData/SavedEncryptData";
 import { FaTimes } from "react-icons/fa";
+import { useWalletStatement } from "@/contextApi/WalletStatementContext";
 
 export default function TWalletTothers() {
   const [amount, setAmount] = useState<string>("");
+  const { fetchTransactions } = useWalletStatement();
+
   const [tid, setTid] = useState<string>("");
   const [twofaCode, setTwoFaCode] = useState<string>("");
   const [tidError, setTidError] = useState("");
@@ -66,6 +69,7 @@ export default function TWalletTothers() {
       });
       setAmount("");
       setTid("");
+      fetchTransactions()
       setTwoFaCode("");
       refetch();
     } else {

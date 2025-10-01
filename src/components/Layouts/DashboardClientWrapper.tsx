@@ -120,7 +120,7 @@ export default function DashboardClientWrapper({
                   {accountActivation === "METHOD" ? (
                     <PaymentMethod />
                   ) : accountActivation === "LAW" ? (
-                    <AcountActivation type={user?.plan?.type || ""} />
+                    <AcountActivation type={user?.plan?.type || ""} plan={user?.plan?.id}/>
                   ) : (
                     <PaymentTitan />
                   )}

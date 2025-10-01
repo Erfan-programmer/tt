@@ -130,7 +130,7 @@ const fetchStatus = useCallback(async () => {
   return (
     <>
       {status === "active" && activeDetails && (
-        <div className="titan-form-container my-6 px-6 py-2 rounded-lg">
+        <div className="titan-form-container my-6 px-6 py-2 rounded-lg bg-[#F4F7FD] dark:bg-[#090D23]">
           <TimerTournoment
             countdownTimestampMs={new Date(activeDetails.ends_at).getTime()}
           />
@@ -146,7 +146,7 @@ const fetchStatus = useCallback(async () => {
       {status === "can_start" && (
         <>
           <div className="titan-form-container border border-[#383C47] dark:border-[#383C47] my-6 p-6 bg-white dark:bg-[#090D23] sm:bg-[linear-gradient(to_right,_#ffffff,_#cfe2ff)] dark:sm:bg-[linear-gradient(to_right,_#090D23,_#1651C6)] rounded-xl relative">
-            <div className="font-bold text-2xl text-gray-900 dark:text-white">
+            <div className="font-bold text-xl lg:text-2xl text-gray-900 dark:text-white">
               <p>Team Builders Tournament</p>
             </div>
             <div className="team-tournoment-description mt-2 w-[100%] sm:w-[80%]">
@@ -185,7 +185,7 @@ const fetchStatus = useCallback(async () => {
               alt=""
               width={200}
               height={200}
-              style={{ opacity: 0.4 }}
+              style={{ opacity: 0.3 }}
               className="absolute blur-[.08px] top-1/2 right-[50%] translate-x-1/2 sm:translate-x-0 -translate-y-[50%] sm:right-0 sm:top-0 sm:translate-y-0 -scale-x-[1] z-[2]"
             />
           </div>

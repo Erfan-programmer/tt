@@ -97,7 +97,7 @@ export default function TitanBonusShieldProfitAndLoss() {
     return <div className="text-center text-red-500 py-8">{error}</div>;
 
   return (
-    <div className="profit-and-loss mt-[1rem] w-full bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] rounded-lg p-4">
+    <div className="profit-and-loss mt-[1rem] w-full bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] rounded-lg p-4 border-standard">
       <div className="flex justify-between items-center gap-2 mb-4">
         <div className="flex items-center gap-2">
           <Image

@@ -309,7 +309,8 @@ export default function WithdrawBox({
                 {option.amount != 0 ? (
                   <>
                     <span
-                      className={`text-[var(--dark-color--dark-color               option.label.toLocaleLowerCase() !== "referral"
+                      className={`text-[var(--dark-color)] ${
+                        option.label.toLocaleLowerCase() !== "referral"
                           ? "line-through !text-[.8rem] "
                           : ""
                       } dark:text-white`}

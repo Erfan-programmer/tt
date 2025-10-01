@@ -29,6 +29,7 @@ interface CustomInputProps {
   validateLatinOnly?: boolean;
   minLength?: number;
   maxLength?: number;
+  min?: number;
   customValidation?: ValidationRule;
   validationType?: "tid" | "password" | "faCode" | "text";
   onlyNumber?: boolean;
@@ -38,6 +39,7 @@ export default function CustomInput({
   label,
   value,
   readOnly,
+  min,
   onChange,
   showStar,
   onBlur,
@@ -205,6 +207,7 @@ export default function CustomInput({
         <input
           readOnly={readOnly}
           type={inputType}
+          min={min}
           value={safeValue}
           name={name}
           onChange={handleInputChange}

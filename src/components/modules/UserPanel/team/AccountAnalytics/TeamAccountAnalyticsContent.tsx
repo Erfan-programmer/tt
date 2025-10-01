@@ -80,7 +80,7 @@ export default function TeamAccountAnalyticsContent({
             alt=""
           />
           <p className="text-[var(--main-background)] dark:text-white text-sm sm:text-base">
-            TID ${main_stats?.tid}
+            TID {main_stats?.tid}
           </p>
         </div>
         <div className="mt-4 text-[var(--main-background)] dark:text-white text-sm sm:text-base">

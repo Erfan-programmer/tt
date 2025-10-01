@@ -21,7 +21,7 @@ export default function ClaimRewardPage() {
     <>
       <TitanNotice
         title="Notice"
-        description="Note: Please be aware that if you choose the cash equivalent option, Titan Investments will credit your account with 20% more than the current value of the reward. This ensures that when the 20% company fee is deducted during withdrawal, you will receive the full amount."
+        description="Titan Investments recommends selecting the cash equivalent option for greater convenience and faster access to your rewards. After reviewing the process, the company will either transfer the amount to the referral section of your account or, alternatively, you may receive your reward directly by providing your wallet address."
       />
 
       {rewardState.type === "claim_reward" && (

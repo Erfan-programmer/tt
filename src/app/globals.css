@@ -706,7 +706,7 @@ input {
 }
 
 .border-standard {
-  border-color: #585966;
+  border: 1px solid #58596695 ;
 }
 
 /* Custom Scrollbar */

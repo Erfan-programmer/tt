@@ -13,7 +13,7 @@ const ProgressBar = ({ start_value, end_value , current_value }: ProgressBarProp
   const percent = total > 0 ? ((current_value / total) * 100) : 20;
 
   return (
-    <div className="w-full h-8 sm:h-12 bg-[#f9f9fe] dark:bg-[#D9D9D9] rounded-md overflow-hidden flex flex-row-reverse p-[3px] border border-black relative">
+    <div className="w-full h-8 sm:h-12 bg-[#ddd] dark:bg-[#D9D9D9] rounded-md overflow-hidden flex flex-row-reverse p-[3px] border border-black relative">
       <div
         className="absolute left-0 top-0 h-full bg-[#275EDF] transition-all duration-300"
         style={{ width: `${100 - percent}%` }}
@@ -65,7 +65,7 @@ export default function TeamRankProgessionBarContent({
   if (loading || !currentRank) return <TeamRankBarSkeleton />;
 
   return (
-    <div className="team-account-analytic-content px-4 sm:px-[2rem] bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] bg-shadow-custom border-standard rounded-xl py-4 mt-5">
+    <div className="team-account-analytic-content px-4 sm:px-[2rem] bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] bg-shadow-custom border-standard rounded-xl py-4 my-5">
       <div className="border-standard rounded-xl bg-[#f9f9fe] dark:bg-[#0f163a] p-4 sm:p-6 mt-4 sm:mt-6">
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4">
           <div className="text-[var(--main-background)] dark:text-white">

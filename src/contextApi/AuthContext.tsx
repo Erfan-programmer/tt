@@ -31,6 +31,7 @@ interface User {
     duration_months: number;
     user_percentage: string;
     company_percentage: string;
+    min_investment: string;
     withdrawal_fee_percentage: string;
   };
   wallet?: {

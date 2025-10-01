@@ -74,7 +74,7 @@ export default function TeamBuildersTournamentModal({
         toast.success(res.message || "Tournament started successfully!");
         onStartTournament();
         onClose();
-        refetch()
+        refetch();
       } else {
         toast.error(res.message || "Failed to start tournament.");
       }
@@ -85,6 +85,16 @@ export default function TeamBuildersTournamentModal({
       setIsStarting(false);
     }
   };
+
+  function formatNumber(value: number) {
+    if (value >= 1_000_000) {
+      return (value / 1_000_000).toFixed(1).replace(/\.0$/, "") + "M";
+    }
+    if (value >= 1_000) {
+      return (value / 1_000).toFixed(1).replace(/\.0$/, "") + "K";
+    }
+    return value.toString();
+  }
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setAgreed(event.target.checked);
@@ -116,7 +126,7 @@ export default function TeamBuildersTournamentModal({
             </span>
           </div>
         </div>
-        <div className="border-[2px] border-gray-300 dark:border-[#555555] px-4 py-3 rounded-lg bg-gray-100 dark:bg-[#161E36] mt-4">
+        <div className="border-[2px] border-gray-300 dark:border-[#555555] px-4 py-3 rounded-lg w-full bg-gray-100 dark:bg-[#161E36] mt-4">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-full bg-blue-500 dark:bg-[#1A68FF] flex items-center justify-center">
               <span className="text-white dark:text-gray-900">2</span>
@@ -150,18 +160,18 @@ export default function TeamBuildersTournamentModal({
             {details?.rewards.map((reward, index) => (
               <div
                 key={index}
-                className="border-[2px] rounded-[3rem] w-[95%] border-orange-700 dark:border-[#713F00] flex items-center gap-8 text-gray-900 dark:text-white pr-4"
+                className="border-[2px] rounded-[3rem] w-full sm:w-[95%] border-orange-700 dark:border-[#713F00] flex items-center gap-8 text-gray-900 dark:text-white pr-4"
               >
                 <Image
                   src={`${process.env.NEXT_PUBLIC_API_URL_STORAGE}/${reward.icon_path}`}
                   alt={`${reward.name} medal`}
                   width={1000}
                   height={1000}
-                  className="w-20 h-20 scale-150"
+                  className="w-16 h-16 sm:w-20 sm:h-20 scale-150"
                 />
                 <span>{reward.name}</span>
                 <p className="font-bold text-xl">
-                  {reward.tournament_prize_amount}
+                  <span>$ {formatNumber(Number(reward.tournament_prize_amount))}</span>
                 </p>
               </div>
             ))}

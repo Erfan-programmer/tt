@@ -10,7 +10,7 @@ import CloseTicketModal from "./CloseTicketModal";
 import ChatMessageList from "./ChatMessageList";
 import MessageInput from "./MessageInput";
 import { apiRequest } from "@/libs/api";
-import { Reply } from "@/types/p-admin/Message";
+import { DepartmentType, Reply } from "@/types/p-admin/Message";
 import { loadUserData } from "@/components/modules/EncryptData/SavedEncryptData";
 
 interface Props {
@@ -27,7 +27,7 @@ interface TicketData {
   last_reply_at: string;
   created_at: string;
   updated_at: string;
-  department: { id: number; name: string };
+  department: DepartmentType;
   attachments: any[];
   replies: Reply[];
 }
@@ -148,6 +148,7 @@ export default function SingleTicketDetailPage({ ticketId }: Props) {
       <div className="flex-1 overflow-y-hidden pt-4 pb-24 md:pb-32 flex justify-center">
         <ChatMessageList
           messages={ticket.replies}
+          department={ticket.department}
           isLoading={isLoading}
           chatEndRef={chatEndRef}
           scrollContainerRef={scrollContainerRef}

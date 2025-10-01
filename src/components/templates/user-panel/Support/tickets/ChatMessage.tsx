@@ -1,5 +1,5 @@
 "use client";
-import { Reply } from "@/types/p-admin/Message";
+import { DepartmentType, Reply } from "@/types/p-admin/Message";
 import React, { useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
@@ -7,9 +7,10 @@ import { FaTimes } from "react-icons/fa";
 
 interface ChatMessageProps {
   msg: Reply;
+  department:DepartmentType
 }
 
-export default function ChatMessage({ msg }: ChatMessageProps) {
+export default function ChatMessage({ msg , department }: ChatMessageProps) {
   const [modalImage, setModalImage] = useState<string | null>(null);
   const isUser = msg.replier_type === "App\\Models\\Client";
   const senderName = isUser
@@ -20,7 +21,6 @@ export default function ChatMessage({ msg }: ChatMessageProps) {
 
   const openModal = (src: string) => setModalImage(src);
   const closeModal = () => setModalImage(null);
-
   return (
     <div className={`flex w-full ${isUser ? "justify-end" : "justify-start"}`}>
       <div
@@ -31,8 +31,8 @@ export default function ChatMessage({ msg }: ChatMessageProps) {
           }
         `}
       >
-        <div className={`text-[.8rem] font-bold mb-1 ${isUser ? "text-right" : "text-left"}`}>
-          {senderName}
+        <div className={`text-[.8rem] border-b-[1px] border-white/20 dark:border-black/20 font-bold mb-1 ${isUser ? "text-right" : "text-left"}`}>
+          {isUser ? senderName : department?.name}
         </div>
         <div
           className={`whitespace-pre-line break-words pb-2 ${isUser ? "text-right" : "text-left"}`}

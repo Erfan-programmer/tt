@@ -118,7 +118,7 @@ export default function TeamCommissionDetailsContentStatement({
                       statement.income > 0 && "text-[#00FF90]"
                     }`}
                   >
-                    $ {statement.income}
+                    $ {parseFloat(String(statement.income)).toFixed(2)}
                   </td>
                 </tr>
               ))}

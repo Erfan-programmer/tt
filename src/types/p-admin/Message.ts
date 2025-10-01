@@ -19,6 +19,12 @@ export interface Replier {
   verify_at?: string;
 }
 
+export interface DepartmentType {
+  id: number;
+  name: string;
+  created_at: string;
+  updated_at: string;
+}
 export interface Reply {
   id: number;
   ticket_id: number;
@@ -27,6 +33,8 @@ export interface Reply {
   message: string;
   created_at: string;
   updated_at: string;
+  department: DepartmentType;
+
   attachments: any[];
   replier: Replier;
 }

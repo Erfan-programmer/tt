@@ -91,22 +91,19 @@ function HeaderTest() {
     last_name: "",
     icon_path: "",
   });
-  useEffect(() => {
-    if (typeof window === "undefined") return;
+ useEffect(() => {
+  const savedUser = JSON.parse(localStorage.getItem("user") || "null");
 
-    const savedUser = JSON.parse(localStorage.getItem("user") || "null");
+  if (savedUser && savedUser !== "undefined") {
+    setUser(true);
+    setUserInfo({
+      first_name: savedUser.first_name,
+      last_name: savedUser.last_name,
+      icon_path: savedUser?.rank?.icon_path || "",
+    });
+  }
+}, []); 
 
-    if (savedUser && savedUser !== "undefined") {
-      setUser(true);
-      setUserInfo((prev) => ({
-        ...prev,
-        first_name: savedUser?.first_name,
-        last_name: savedUser?.last_name,
-        icon_path: savedUser?.rank?.icon_path,
-      }));
-      console.log("savedUser =>", userInfo);
-    }
-  }, [user , userInfo]);
 
   const handleMenuItemClick = (item: string) => {
     if (item.toLowerCase() === "withdraw") {

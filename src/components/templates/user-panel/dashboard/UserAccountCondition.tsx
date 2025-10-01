@@ -249,7 +249,9 @@ export default function UserAccountCondition() {
         <div className="hidden md:flex justify-between items-start w-full">
           <div className="user-account-condition-price w-[30%] lg:border-r-2 border-[var(--main-background)] dark:lg:border-white ">
             <div className="price-title flex gap-4 items-center text-[var(--main-background)] dark:text-white">
-              <span>$ {parseFloat(String(dashboardData?.total_income))?.toFixed(2)}</span>
+              <span>
+                $ {parseFloat(String(dashboardData?.total_income))?.toFixed(2)}
+              </span>
             </div>
             <div className="user-account-condition-income flex justify-start gap-2 items-center">
               <span className="text-[#585966]">Total Income </span>
@@ -335,24 +337,21 @@ export default function UserAccountCondition() {
                 />
               </div>
             </div>
-            {headerData?.verified && (
-              <div className="verified-label bg-[#0c286b] px-3 py-1 rounded-lg flex items-center gap-2 text-[#00CB08]">
-                <span className="">verified</span>
-                <LuBadgeCheck className=" text-xl" />
+              <div className="verified-label absolute top-1 right-2 bg-[#0c286b] rounded-lg flex items-center gap-2 text-[#00CB08]">
+                <span className="text-[.8rem]">{headerData?.verified ? "Verified" : "Not Verified" }</span>
               </div>
-            )}
           </div>
 
           <div
-            className={`grid ${
-              userPosition === "contract" ? "grid-cols-2" : "grid-cols-3"
+            className={`flex flex-wrap mt-2 ${
+              userPosition === "contract" ? "sm:grid-cols-2" : "grid-cols-3"
             } gap-4 mt-8`}
           >
             {userPosition === "contract" ? (
               <>
                 <div className="flex flex-col items-center">
                   <span className="text-[var(--main-background)] dark:text-white text-md font-medium">
-                     {dashboardData?.start_of_investment}
+                    {dashboardData?.start_of_investment}
                   </span>
                   <span className="text-[#8E92BC] text-sm mt-1">
                     Start Of Investment
@@ -398,28 +397,28 @@ export default function UserAccountCondition() {
           </div>
         </div>
       </div>
-      <div className="grid sm:hidden grid-cols-2 gap-4 mt-8">
-        <div className="bg-gradient-to-b to-[#d9d9d9] text-center dark:to-[#090d23] from-[#fff] dark:from-[#275edf] border border-[#1E3A8A] rounded-xl p-4">
-          <div className="text-[var(--main-background)]  dark:text-white text-2xl font-bold">
-            <span>
-              $ {Number(dashboardData?.total_annual_sales)?.toFixed(0)}
-            </span>
-          </div>
-          <div className="flex items-center gap-2 mb-2 justify-center">
-            <FaCableCar className="text-[#8E92BC]" />
-            <span className="text-[#8E92BC]">Annual Sales</span>
-          </div>
-        </div>
-        <div className="bg-gradient-to-b to-[#d9d9d9] text-center dark:to-[#090d23] from-[#fff] dark:from-[#275edf] border border-[#1E3A8A] rounded-xl p-4">
-          <div className="text-[var(--main-background)]  dark:text-white text-2xl font-bold">
-            $ {dashboardData?.next_rank_needed}K
-          </div>
-          <div className="flex items-center gap-2 mb-2 justify-center">
-            <IoTrendingUpOutline className="text-[#8E92BC]" />
-            <span className="text-[#8E92BC]">To Rank Up</span>
-          </div>
-        </div>
-      </div>
+   <div className="grid grid-cols-1 sm:grid-cols-2 sm:hidden gap-4 mt-8 auto-rows-auto">
+  <div className="bg-gradient-to-b to-[#d9d9d9] text-center dark:to-[#090d23] from-[#fff] dark:from-[#275edf] border border-[#1E3A8A] rounded-xl px-4 py-3 flex flex-col items-center justify-center">
+    <div className="text-[var(--main-background)] dark:text-white text-lg sm:text-2xl font-bold">
+      <span>$ {Number(dashboardData?.total_annual_sales)?.toFixed(0)}</span>
+    </div>
+    <div className="flex items-center gap-2 justify-center mt-1">
+      <FaCableCar className="text-[#8E92BC]" />
+      <span className="text-[#8E92BC] text-sm sm:text-base">Annual Sales</span>
+    </div>
+  </div>
+
+  <div className="bg-gradient-to-b to-[#d9d9d9] text-center dark:to-[#090d23] from-[#fff] dark:from-[#275edf] border border-[#1E3A8A] rounded-xl px-4 py-3 flex flex-col items-center justify-center">
+    <div className="text-[var(--main-background)] dark:text-white text-lg sm:text-2xl font-bold">
+      $ {dashboardData?.next_rank_needed}
+    </div>
+    <div className="flex items-center gap-2 justify-center mt-1">
+      <IoTrendingUpOutline className="text-[#8E92BC]" />
+      <span className="text-[#8E92BC] text-sm sm:text-base">To Rank Up</span>
+    </div>
+  </div>
+</div>
+
     </>
   );
 }

@@ -10,6 +10,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useHeader } from "@/contextApi/HeaderContext";
 import { loadUserData } from "@/components/modules/EncryptData/SavedEncryptData";
 import { apiRequest } from "@/libs/api";
+import { useWalletStatement } from "@/contextApi/WalletStatementContext";
 
 interface WalletOption {
   key: "roi" | "referral" | "commission";
@@ -24,6 +25,8 @@ export default function ProfitToTWallet() {
   const [twofaCode, setTwoFaCode] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [twofaError, setTwofaError] = useState<string>("");
+    const { fetchTransactions } = useWalletStatement();
+
   const [walletInfos, setWalletInfos] = useState({
     roi: 0,
     commission: 0,
@@ -224,6 +227,7 @@ const handleAmountChange = (val: string) => {
         toast.success(res.message || "Transfer successful!");
         setTwoFaCode("");
         setSelectedOptions([]);
+        fetchTransactions()
         fetchTWalletDetails();
         setAmount("");
         refetchTWalletInfo();

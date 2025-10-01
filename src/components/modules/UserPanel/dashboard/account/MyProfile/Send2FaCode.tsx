@@ -87,8 +87,9 @@ export default function Send2FaCode({
     <>
       <TitanNotice
         title="Notice"
-        description="To enhance security measures, users are required to activate two-factor authentication for their accounts. Users who do not activate two-factor authentication will not be able to perform transactions within their accounts. Scan this QR code with your Google Authenticator App. Alternatively, you can use the code: *Before enabling two-factor authentication, make sure to take a backup of the QR-Code image and store it securely in a safe place If you lose your two-factor authentication barcode or code after activating it, for any reason, there will be a $25 fee charged by the company for recovery.."
-      />
+        description="To enhance security measures, users are required to activate two-factor authentication for their accounts. Users who do not activate two-factor authentication will not be able to perform transactions within their accounts. Scan this QR code with your Google Authenticator App. Alternatively, you can use the code:"
+        warning="
+         *Before enabling two-factor authentication, make sure to take a backup of the QR-Code image and store it securely in a safe place If you lose your two-factor authentication barcode or code after activating it, for any reason, there will be a $25 fee charged by the company for recovery.." />
       {showUnauthorizedModal && (
         <TitanNotification
           icon={<IoMdClose className="text-[var(--main-background)] text-2xl" />}

@@ -5,14 +5,35 @@ import AdminDynamicTable, { TableColumn } from "../AdminTable";
 import { AnimatePresence, motion } from "framer-motion";
 import { formatToTwoDecimals } from "../../FormatToDecimal";
 
+export interface Plan {
+  id: number;
+  name: string;
+  type: string;
+  duration_months: number;
+  min_investment: string;
+  user_percentage: string;
+  company_percentage: string;
+  withdrawal_fee_percentage: string;
+  can_earn_referral: boolean;
+  can_earn_commission: boolean;
+  can_earn_annual_sales: boolean;
+  has_loss_coverage: boolean;
+  has_bonus_shield: boolean;
+  is_active: boolean;
+  is_tournament_eligible: boolean;
+  tournament_duration_days: number | null;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface Payment {
   id: number;
-  position: number;
   date: string;
   invoice_number: string;
   amount: string;
   from: string | null;
   to: string | null;
+  plan: Plan | null;
   account_type: string;
   invoice_currency: string;
   txid: string | null;
@@ -23,10 +44,7 @@ export default function AdminTranactionsPayment({ data }: { data: Payment[] }) {
   const [selectedPayment, setSelectedPayment] = useState<Payment | null>(null);
 
   const columns: TableColumn<Payment>[] = [
-    {
-      title: "ID",
-      field: "position",
-    },
+    { title: "ID", field: "id" },
     { title: "Date", field: "date" },
     { title: "Invoice Number", field: "invoice_number" },
     {
@@ -36,7 +54,11 @@ export default function AdminTranactionsPayment({ data }: { data: Payment[] }) {
     },
     { title: "From", field: "from" },
     { title: "To", field: "to" },
-    { title: "Account Type", field: "account_type" },
+    {
+      title: "Account Type",
+      field: "plan",
+      render: (_, row: Payment) => row.plan?.name || row.account_type || "-",
+    },
     { title: "Invoice Currency", field: "invoice_currency" },
     { title: "TxID", field: "txid" },
     {
@@ -95,21 +117,36 @@ export default function AdminTranactionsPayment({ data }: { data: Payment[] }) {
               </button>
               <h2 className="text-xl font-bold mb-4">Payment Details</h2>
               <div className="space-y-2">
-                {Object.entries(selectedPayment).map(([key, value]) => (
-                  <div
-                    key={key}
-                    className="flex justify-between border-b border-gray-600 py-1"
-                  >
-                    <span className="font-semibold capitalize">
-                      {key.replace("_", " ")}
-                    </span>
-                    <span>
-                      {key === "amount"
-                        ? formatToTwoDecimals(value as string | number)
-                        : value?.toString() || "-"}
-                    </span>
-                  </div>
-                ))}
+                {Object.entries(selectedPayment).map(([key, value]) => {
+                  // اگر key plan باشه، plan.name را نشان بده
+                  if (key === "plan") {
+                    return (
+                      <div
+                        key={key}
+                        className="flex justify-between border-b border-gray-600 py-1"
+                      >
+                        <span className="font-semibold capitalize">Account Type</span>
+                        <span>{(value as Plan)?.name || selectedPayment.account_type || "-"}</span>
+                      </div>
+                    );
+                  }
+
+                  return (
+                    <div
+                      key={key}
+                      className="flex justify-between border-b border-gray-600 py-1"
+                    >
+                      <span className="font-semibold capitalize">
+                        {key.replace("_", " ")}
+                      </span>
+                      <span>
+                        {key === "amount"
+                          ? formatToTwoDecimals(value as string | number)
+                          : value?.toString() || "-"}
+                      </span>
+                    </div>
+                  );
+                })}
               </div>
             </motion.div>
           </motion.div>

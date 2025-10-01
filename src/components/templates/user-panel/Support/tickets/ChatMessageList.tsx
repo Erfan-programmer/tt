@@ -1,19 +1,21 @@
 import { useEffect } from "react";
 import ChatMessageSkeleton from "@/skeletons/User-Panel/ChatMessageSkeleton";
 import ChatMessage from "./ChatMessage";
-import { Reply } from "@/types/p-admin/Message";
+import { DepartmentType, Reply } from "@/types/p-admin/Message";
 
 interface ChatMessageListProps {
   messages: Reply[];
   isLoading: boolean;
   chatEndRef: React.RefObject<HTMLDivElement>;
   scrollContainerRef: React.RefObject<HTMLDivElement>;
+  department: DepartmentType;
   onScroll: () => void;
 }
 
 export default function ChatMessageList({
   messages,
   isLoading,
+  department,
   chatEndRef,
   scrollContainerRef,
   onScroll,
@@ -34,7 +36,6 @@ export default function ChatMessageList({
       </div>
     );
   }
-
   return (
     <div
       ref={scrollContainerRef}
@@ -46,7 +47,9 @@ export default function ChatMessageList({
           This is the beginning of your conversation.
         </div>
       ) : (
-        messages.map((msg) => <ChatMessage key={msg.id} msg={msg} />)
+        messages.map((msg) => (
+          <ChatMessage key={msg.id} msg={msg} department={department} />
+        ))
       )}
       <div ref={chatEndRef} />
     </div>

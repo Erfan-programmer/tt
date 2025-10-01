@@ -1,13 +1,54 @@
+"use client";
 import TitanNotice from "@/components/modules/UserPanel/TitanNotice/TitanNotice";
 import WithdrawTransaction from "./WithdrawTransaction";
+import { useHeader } from "@/contextApi/HeaderContext";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import TitanNotification from "@/components/modules/UserPanel/TitanNotification/TitanNotification";
+import { IoMdClose } from "react-icons/io";
 
 export default function FinancialWithdraw() {
+  const { headerData } = useHeader();
+  const router = useRouter();
+  const [showNotif, setShowNotif] = useState(false);
+
+  useEffect(() => {
+    if (!headerData?.verified) {
+      setShowNotif(true);
+      const timer = setTimeout(() => {
+        router.push("/dashboard/account/verification");
+      }, 2000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [headerData, router]);
+
+  const handleCloseNotif = () => {
+    setShowNotif(false);
+  };
+
   return (
     <>
-      <TitanNotice
-        title="Withdrawal Notice"
-        description={` Withdrawals Policy Notice
-    <ul style="list-style: disc; ">
+      {showNotif && (
+        <TitanNotification
+          icon={
+            <IoMdClose className="text-[var(--main-background)] text-2xl" />
+          }
+          className="border-failed"
+          btn="Verify Now"
+          btnStyle="bg-[var(--loss)]"
+          onClose={handleCloseNotif}
+        >
+          Verify your account to proceed with withdrawal.
+        </TitanNotification>
+      )}
+
+      {headerData?.verified && (
+        <>
+          <TitanNotice
+            title="Withdrawal Notice"
+            description={` Withdrawals Policy Notice
+            <ul style="list-style: disc; ">
             <li>
              Withdrawals are processed from the 1st to the 5th of each month.
             </li>
@@ -22,11 +63,13 @@ export default function FinancialWithdraw() {
             Withdrawals are processed and transferred within 10 business days.
             </li>
           </ul>
-        <p class="withdraw-notice-important-note">
-        Important Note: <br/>
-        Please ensure that your wallet address and blockchain network are entered accurately when submitting a withdrawal request. The investor bears full responsibility for providing correct information. In case of errors in the wallet address or network type, the company cannot trace or recover the funds.</p>`}
-      />
-      <WithdrawTransaction />
+            <p class="withdraw-notice-important-note">
+            Important Note: <br/>
+            Please ensure that your wallet address and blockchain network are entered accurately when submitting a withdrawal request. The investor bears full responsibility for providing correct information. In case of errors in the wallet address or network type, the company cannot trace or recover the funds.</p>`}
+          />
+          <WithdrawTransaction />
+        </>
+      )}
     </>
   );
 }

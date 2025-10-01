@@ -69,7 +69,7 @@ const MobileMenu = () => {
 
       {/* Sidebar Container */}
       <div
-        className={`fixed top-0 left-0 h-full w-[70%] bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] z-[1000] transform transition-transform duration-300 ease-in-out sm:hidden ${
+        className={`fixed top-0 left-0 h-full w-[80%] bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] z-[1000] transform transition-transform duration-300 ease-in-out sm:hidden ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >

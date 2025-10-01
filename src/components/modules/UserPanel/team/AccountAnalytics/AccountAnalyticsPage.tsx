@@ -56,14 +56,14 @@ export default function AccountAnalyticsPage() {
       <TitanNotice
         title="Notice"
         description={`If your contract has expired, you may either renew your account or cancel it and request withdrawal.
-For users with Silver rank or above, renewal requires a 5% fee based on your total income.
-For users below Silver rank, renewal is free of charge.
-The renewal fee can be either automatically deducted from your account balance or paid directly by you.
-Upon renewal, the system will automatically issue a two-year contract for your account.
-If your total income exceeds 5 times your initial investment, your initial capital will no longer be refundable.
-If you choose not to renew, you must follow the official account cancellation process.
-`}
-warning="Warning: If you do not renew or cancel your contract within the next six months, your account will be permanently closed and inaccessible."
+        For users with Silver rank or above, renewal requires a 5% fee based on your total income.
+        For users below Silver rank, renewal is free of charge.
+        The renewal fee can be either automatically deducted from your account balance or paid directly by you.
+        Upon renewal, the system will automatically issue a two-year contract for your account.
+        If your total income exceeds 5 times your initial investment, your initial capital will no longer be refundable.
+        If you choose not to renew, you must follow the official account cancellation process.
+        `}
+        warning="Warning: If you do not renew or cancel your contract within the next six months, your account will be permanently closed and inaccessible."
       />
       {/* {permissionArray.includes("network.account_analytics.account_analytics") && ( */}
       <TeamAccountAnalyticsContent

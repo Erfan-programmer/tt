@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import { apiRequest } from "@/libs/api";
 import { loadUserData } from "@/components/modules/EncryptData/SavedEncryptData";
 import { FaTimes } from "react-icons/fa";
+import { useAuth } from "@/contextApi/AuthContext";
 
 interface TwalletPaymentProps {
   onValidityChange?: (isValid: boolean) => void;
@@ -39,14 +40,34 @@ export default function TwalletPayment({
   const dispatch = useDispatch();
   const { refetch, headerData } = useHeader();
   const router = useRouter();
+  const { user } = useAuth();
+   const depositSchema = z
+  .string()
+  .regex(/^\d+$/, { message: "Amount must be a number" })
+  .transform((val) => Number(val))
+  .superRefine((val, ctx) => {
+    const planType = user?.plan?.type?.toLowerCase();
+    const minInv = Number(user?.plan?.min_investment ?? 0);
 
-  const depositSchema = z
-    .string()
-    .regex(/^\d+$/, { message: "Amount must be a number" })
-    .transform((val) => Number(val))
-    .refine((val) => val % 1000 === 0, {
-      message: "Amount must be a multiple of 1,000",
-    });
+    if (planType === "contract_free" || planType === "investor") {
+      if (val % minInv !== 0) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: `Amount must be a multiple of ${minInv}`,
+        });
+      }
+    }
+
+    if (planType === "investor") {
+      if (val < minInv) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: `Amount must be at least ${minInv}`,
+        });
+      }
+    }
+  });
+
 
   const validateDeposit = useCallback(
     (value: string) => {
@@ -188,9 +209,10 @@ export default function TwalletPayment({
         <div className="border-standard bg-[#f9f9fe] dark:bg-[#0f163a] rounded-[1em] mt-3 p-5 py-[2rem] space-y-4">
           <CustomInput
             className="w-full"
-            readOnly={false}
+            readOnly={user?.plan?.type?.toLowerCase() === "marketer"}
             label="Deposit Amount"
             value={deposit}
+            min={Number(user?.plan?.min_investment ?? 0)}
             onChange={handleDepositChange}
             onBlur={() => handleBlur("deposit")}
             required={true}
@@ -202,6 +224,7 @@ export default function TwalletPayment({
             hasError={touched.deposit && !!errors.deposit}
             errorMessage={touched.deposit ? errors.deposit : ""}
           />
+
           <CustomInput
             className="w-full"
             readOnly={false}

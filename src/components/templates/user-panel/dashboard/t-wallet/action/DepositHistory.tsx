@@ -9,6 +9,7 @@ import { loadUserData } from "@/components/modules/EncryptData/SavedEncryptData"
 
 interface PaymentTransaction {
   id: number;
+  position: number;
   transaction_id: string;
   amount: string;
   currency: string;
@@ -130,7 +131,7 @@ export default function DepositHistoryList({ value = "all", onChange }: { value?
                       key={item.id}
                       className={`transition-colors ${idx % 2 === 0 ? "bg-white dark:bg-[#2A3246]" : "bg-[#f9f9fe] dark:bg-[#222631]"}`}
                     >
-                      <td className="py-3 text-[var(--main-background)] dark:text-white text-center px-4">{idx + 1}</td>
+                      <td className="py-3 text-[var(--main-background)] dark:text-white text-center px-4">{item.position}</td>
                       <td className="py-3 text-[var(--main-background)] dark:text-white text-center px-4">{formatDate(item.created_at)}</td>
                       <td className="py-3 text-[var(--main-background)] dark:text-white text-center px-4">#{item.transaction_id}</td>
                       <td className="py-3 text-[var(--main-background)] dark:text-white text-center px-4">${item.amount}</td>

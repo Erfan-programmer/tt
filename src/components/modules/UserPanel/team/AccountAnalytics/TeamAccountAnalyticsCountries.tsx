@@ -1,10 +1,10 @@
-import Image from "next/image";
+import Flag from "react-world-flags";
 
 interface Country {
-  image: string;
-  name: string;
-  progress: number;
-  amount: string;
+  country_name: string;
+  country_flag: string;
+  total_sales: number;
+  percentage: number;
 }
 
 interface CountriesProps {
@@ -45,12 +45,24 @@ function TeamAccountAnalyticsCountriesSkeleton() {
     </div>
   );
 }
+ const formattedPrice = (price: number) => {
+  if (price >= 1_000_000_000) {
+    return (price / 1_000_000_000).toFixed(1).replace(/\.0$/, "") + "B";
+  } else if (price >= 1_000_000) {
+    return (price / 1_000_000).toFixed(1).replace(/\.0$/, "") + "M";
+  } else if (price >= 1_000) {
+    return (price / 1_000).toFixed(1).replace(/\.0$/, "") + "K";
+  } else {
+    return price.toString();
+  }
+};
 
 export default function TeamAccountAnalyticsCountries({
   countries,
   isLoading,
   error,
 }: CountriesProps) {
+  console.log("countries =>", countries);
   if (isLoading) return <TeamAccountAnalyticsCountriesSkeleton />;
   if (error) return <div>Error loading data</div>;
   return (
@@ -61,31 +73,28 @@ export default function TeamAccountAnalyticsCountries({
       <div className="mt-4">
         {countries.map((country, idx) => (
           <div
-            key={country.name + idx}
+            key={country.country_name + idx}
             className="bg-[#f9f9fe] dark:bg-[#0F163A] rounded-lg px-4 sm:px-[2rem] py-3 border-standard mt-4"
           >
             <div className="flex justify-between items-center text-[var(--main-background)] dark:text-white">
-              <div className="flex items-center gap-3">
-                <Image
-                  width={400}
-                  height={400}
-                  src={`${process.env.NEXT_PUBLIC_API_URL}${country.image}`}
-                  className="w-[5rem] h-[5rem] rounded-full"
-                  alt={country.name}
+              <div className="flex w-20 h-20 items-center gap-3 rounded-full overflow-hidden">
+                <Flag
+                  code={country.country_flag}
+                  className="w-full h-full rounded-sm object-cover"
                 />
-                <p>{country.name}</p>
+                <p>{country.country_name}</p>
               </div>
-              <p>{country.amount}</p>
+              <p>$ {formattedPrice(country.total_sales)}</p>
             </div>
             <div className="flex justify-between items-center gap-4 mt-3">
               <div className="w-full rounded-xl bg-white overflow-hidden h-[.8rem] p-[1px] relative">
                 <div
                   className={`bg-[#1a68ff] rounded-xl p-[2px] h-full flex items-center justify-center min-w-fit`}
-                  style={{ width: `${country.progress}%` }}
+                  style={{ width: `${country.percentage}%` }}
                 ></div>
               </div>
               <p className="text-[var(--main-background)] dark:text-[#D9D9D9]">
-                {country.progress}%
+                {country.percentage}%
               </p>
             </div>
           </div>

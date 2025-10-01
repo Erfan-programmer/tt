@@ -10,14 +10,15 @@ import TournomentRewards from "@/components/templates/user-panel/dashboard/Tourn
 import TradingProfitChart from "@/components/templates/user-panel/dashboard/TradingProfitChart";
 import UserAccountCondition from "@/components/templates/user-panel/dashboard/UserAccountCondition";
 import UserWalletSummary from "@/components/templates/user-panel/dashboard/UserWalletSummary";
+import { useAuth } from "@/contextApi/AuthContext";
 import { AchievementType } from "@/types/Layout/FormLayout";
 import React, { useState } from "react";
 
-
-
 export default function Page() {
-  const [achievements, setAchievements] = useState<AchievementType[] | undefined>();
-
+  const [achievements, setAchievements] = useState<
+    AchievementType[] | undefined
+  >();
+  const { user } = useAuth();
   return (
     <div className="titan-content-container mt-[1rem]">
       {/* {permissionArray.includes("dashboard.infobox1") && ( */}
@@ -29,13 +30,17 @@ export default function Page() {
       // twallet_action={permissionArray.includes("dashboard.twallet_action")}
       // sponsor_plus={permissionArray.includes("dashboard.sponsor_plus")}
       />
-      <TeamBuilderTournoments setAchievements={setAchievements}/>
+      <TeamBuilderTournoments setAchievements={setAchievements} />
       {/* {permissionArray.includes("dashboard.capital_health") &&  */}
-      <HealthCheck />
-      {/* // } */}
+      {user?.plan?.type?.toLowerCase() !== "marketer" && (
+        <>
+          {/* // } */}
+          <HealthCheck />
 
-      {/* {permiss0ionArray.includes("dashboard.profit_loss") && */}
-      <ProfitAndLoss />
+          {/* {permiss0ionArray.includes("dashboard.profit_loss") && */}
+          <ProfitAndLoss />
+        </>
+      )}
       <TitanBonusShieldProfitAndLoss />
       {/* //  } */}
       {/* {permissionArray.includes("dashboard.profit_network") && ( */}

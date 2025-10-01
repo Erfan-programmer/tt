@@ -65,7 +65,7 @@ export default function TeamTreeStructureDetails({ selectedReferral }: TeamTreeS
 
   if (loading) {
     return (
-      <div className="teamtree-structure-detail-container border-standard bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] min-h-screen w-[100%] rounded-xl bg-shadow-custom flex items-center justify-center">
+      <div className="teamtree-structure-detail-container border-standard bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] h-[60vh] sm:h-auto sm:min-h-screen w-[100%] rounded-xl bg-shadow-custom flex items-center justify-center">
         Loading...
       </div>
     );
@@ -80,7 +80,7 @@ export default function TeamTreeStructureDetails({ selectedReferral }: TeamTreeS
   }
 
   return (
-    <div className="teamtree-structure-detail-container border-standard bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] py-4 sm:py-0 sm:min-h-screen w-[95%] sm:w-[100%] max-h-[80vh] overflow-y-auto p-3 sm:p-0 rounded-xl bg-shadow-custom">
+    <div className="teamtree-structure-detail-container border-standard bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] py-4 sm:py-0 sm:min-h-screen w-[100%] sm:w-[100%] max-h-[80vh] overflow-y-auto p-3 sm:p-0 rounded-xl bg-shadow-custom">
       <div className="teamtree-structure-detail-header px-2 sm:px-[2rem] mt-0 sm:mt-3">
         <p className="text-[var(--main-background)] dark:text-white">Quick Details</p>
       </div>
@@ -94,7 +94,7 @@ export default function TeamTreeStructureDetails({ selectedReferral }: TeamTreeS
           </div>
           <div className="flex items-center gap-2 flex-wrap ">
             <p className="text-gray-400">Position :</p>
-            <p>{memberDetails.position}</p>
+            <p>{memberDetails?.plan?.name}</p>
           </div>
           <div className="flex items-center gap-2 flex-wrap ">
             <p className="text-gray-400">Deposit :</p>

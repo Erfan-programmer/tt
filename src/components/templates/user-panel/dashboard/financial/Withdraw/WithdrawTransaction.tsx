@@ -369,7 +369,7 @@ export default function WithdrawTransaction() {
               total={withdrawDetail.total}
             />
           ) : (
-            <EmptyBox whitelistMessage="Withdrawals are temporarily disabled." />
+            <EmptyBox whitelistMessage="Please try again during the scheduled withdrawal period or contact support for assistance. The withdrawal portal is available from the 1st to the 5th of each month." />
           )}
         </>
       )}

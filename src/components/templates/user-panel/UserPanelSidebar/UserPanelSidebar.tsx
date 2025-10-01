@@ -22,7 +22,11 @@ export interface SubMenuItem {
   id?: string;
 }
 
-export default function UserPanelSidebar({onToggle}:{onToggle?:()=> void}) {
+export default function UserPanelSidebar({
+  onToggle,
+}: {
+  onToggle?: () => void;
+}) {
   const { activeItem, setActiveItem, isSidebarOpen, setIsSidebarOpen } =
     useVerify();
   const [isLogoutOpen, setIsLogoutOpen] = useState(false);
@@ -78,8 +82,8 @@ export default function UserPanelSidebar({onToggle}:{onToggle?:()=> void}) {
       return;
     }
     setActiveItem(itemId);
-      if (isMobile) {
-  }
+    if (isMobile) {
+    }
   };
 
   const handleLogout = () => {
@@ -161,43 +165,67 @@ export default function UserPanelSidebar({onToggle}:{onToggle?:()=> void}) {
                     })
                   )
                   .map((subItem: any, index: number) => (
-                   <Link
-  key={index}
-  href={
-    subItem.id?.toLowerCase() === "verification" && isVerified
-      ? "javascript:void(0);"
-      : subItem?.link
-  }
-  className={`submenu-item flex ${
-    isVerified && subItem?.id?.toLowerCase() === "verification"
-      ? " !text-green-400 opacity-50"
-      : "opacity-100"
-  } items-center rounded-[1rem] gap-3 ${
-    pathname?.startsWith(subItem.link) ? "border border-[#004ada] active-before" : ""
-  }`}
-  onClick={(e) => {
-    e.stopPropagation(); 
-    if (!(
-      subItem.id?.toLowerCase() === "verification" && isVerified
-    )) {
-      setActiveItem(item.id);
-      setIsSidebarOpen(false);
-      if (onToggle) onToggle(); 
-    }
-  }}
->
-  {isVerified && subItem?.id?.toLowerCase() === "verification" ? (
-    <LuBadgeCheck className="text-[1.5rem]" />
-  ) : (
-    <>{subItem.svg}</>
-  )}
-  {isVerified && subItem?.id?.toLowerCase() === "verification" ? (
-    <span className="!text-green-400">verified</span>
-  ) : (
-    <span>{subItem.span}</span>
-  )}
-</Link>
-
+                    <Link
+                      key={index}
+                      href={
+                        (subItem.id?.toLowerCase() === "verification" &&
+                          isVerified) ||
+                        (subItem.id?.toLowerCase() === "withdraw" &&
+                          !isVerified)
+                          ? "javascript:void(0);"
+                          : subItem?.link
+                      }
+                      className={`submenu-item flex items-center rounded-[1rem] gap-3 ${
+                        (isVerified &&
+                          subItem?.id?.toLowerCase() === "verification") ||
+                        (!isVerified &&
+                          subItem?.id?.toLowerCase() === "withdraw")
+                          ? "opacity-50 cursor-not-allowed"
+                          : "opacity-100 cursor-pointer"
+                      } ${
+                        pathname?.startsWith(subItem.link)
+                          ? "border border-[#004ada] active-before"
+                          : ""
+                      }`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (
+                          !(
+                            (subItem.id?.toLowerCase() === "verification" &&
+                              isVerified) ||
+                            (subItem.id?.toLowerCase() === "withdraw" &&
+                              !isVerified)
+                          )
+                        ) {
+                          setActiveItem(item.id);
+                          setIsSidebarOpen(false);
+                          if (onToggle) onToggle();
+                        }
+                      }}
+                    >
+                      {isVerified &&
+                      subItem?.id?.toLowerCase() === "verification" ? (
+                        <LuBadgeCheck className="text-[1.5rem]" />
+                      ) : (
+                        <>{subItem.svg}</>
+                      )}
+                      <div className="flex flex-col">
+                        {isVerified &&
+                        subItem?.id?.toLowerCase() === "verification" ? (
+                          <span className="!text-green-400">verified</span>
+                        ) : (
+                          <>
+                            <span>{subItem.span}</span>
+                            {!isVerified &&
+                              subItem?.id?.toLowerCase() === "withdraw" && (
+                                <span className="text-xs text-red-400">
+                                  Need verification
+                                </span>
+                              )}
+                          </>
+                        )}
+                      </div>
+                    </Link>
                   ))}
               </div>
             </motion.div>

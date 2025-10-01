@@ -63,8 +63,6 @@ export default function Logout({ isOpen, onClose, onLogout }: LogoutProps) {
           ""
         );
         removeUserData();
-
-        toast.success("Logout successful");
         onLogout();
         router.push("/login");
       } else {
