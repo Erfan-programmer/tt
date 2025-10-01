@@ -40,83 +40,88 @@ export const AccountActivationDatas: AccountActivationDatasType = {
         Investing in financial markets always involves risk and may result in partial or total loss of your capital. Please only invest funds that you can afford to lose without affecting your financial or personal well-being. By accepting this agreement, you acknowledge the risks involved and take full responsibility for your investment, maintaining a long-term and informed perspective with Titan Investments.
         📜 Investment Terms and Conditions
         1. Profit and Loss Awareness <br /> By accepting this agreement, you acknowledge that financial market activity may result in profit or loss, and agree to remain patient and understanding during loss periods.
-        2. Automated Trading Systems <br/> Your capital will be entrusted to Titan's fully automated trading systems for a period of one year under the “Investor” contract.
-        <ul style=list-style-type: disc">
+        2. Automated Trading Systems <br/> Your capital will be entrusted to Titan's fully automated trading systems for a period of two years under the “Investor” contract.
+        <ul style="list-style-type: disc">
         <li>Capital cannot be withdrawn during this period.</li>
         <li>Early withdrawal will be considered a unilateral termination of the agreement by you.</li>
         <li>A 10% penalty on the original capital will be applied.</li>
         <li>All previously withdrawn profits will be deducted from your principal, and the remaining balance returned.</li>
-        </ul>3. Profit Withdrawal Profit withdrawal is only permitted between the 1st and 5th of each calendar month.
+        </ul>
+        3. Profit Withdrawal <br/> Profit withdrawal is only permitted between the 1st and 5th of each calendar month.
         <ul>
         <li>80% of profit goes to the investor</li>
         <li>20% is retained by the company</li>
         </ul>
-        4. No Bonus, Shield, or Coverage Plans <br/> The 2-year plan does not include Titan Bonus, Titan Shield, or Coverage Plans.
-        5. No Annual Sales Rewards <br/> Investors in the 2-year plan do not qualify for annual sales prizes even if they engage in network marketing. Only referral bonuses and commissions apply.
+        4. Bonus, Shield, and Coverage Plans Included <br/> The 2-year plan includes Titan Bonus, Titan Shield, and Coverage Plans.
+        5. Annual Sales Rewards and Marketing Eligibility <br/> Investors in the 2-year plan are eligible for annual sales prizes, commissions, and referral bonuses if participating in the marketing network.
         6. No Fixed Profit Guarantee <br/> Titan Investments makes no commitment to fixed returns in case of unforeseen global events such as economic crises, pandemics, wars, or other force majeure situations.
         7. Capital Protection Priority <br/> In case of a 30% loss across total invested capital, all trading operations will be halted and 70% of remaining funds will be returned to investors.
         8. Account Type Is Non-Changeable <br/> Switching from the “Investor” account to other types (Marketer or Contract-Free) is not allowed.
         9. Activation Deadline <br/> You have 30 days from registration to activate your account by making a deposit. Failure to do so will result in permanent deletion of your registration data.
         `,
+
     3: (userName: string) =>
       ` Dear ${userName}, Thank you for choosing Titan Investments for your financial journey. Before proceeding with your investment and activating your account, please read the following terms and risk disclosures carefully. You may only proceed with your deposit and investment if you fully agree to these terms.
-        ⚠️ Risk Disclosure
-        Investing in financial markets always involves risk and may result in partial or total loss of your capital. Please only invest funds that you can afford to lose without affecting your financial or personal well-being. By accepting this agreement, you acknowledge the risks involved and take full responsibility for your investment, maintaining a long-term and informed perspective with Titan Investments.
-        📜 Investment Terms and Conditions
-        1. Profit and Loss Awareness <br /> By accepting this agreement, you acknowledge that financial market activity may result in profit or loss, and agree to remain patient and understanding during loss periods.
-        2. Automated Trading Systems <br/> Your capital will be entrusted to Titan's fully automated trading systems for a period of one year under the “Investor” contract.
-        <ul style=list-style-type: disc">
-        <li>Capital cannot be withdrawn during this period.
-        </li>
-        <li>Early withdrawal will be considered a unilateral termination of the agreement by you.</li>
-        <li>A 10% penalty on the original capital will be applied.</li>
-        <li>All previously withdrawn profits will be deducted from your principal, and the remaining balance returned.</li>
-        </ul>
-        3. Profit Withdrawal Profit withdrawal is only permitted between the 1st and 5th of each calendar month.
-        <ul>
-        <li>85% of profit goes to the investor</li>
-        <li>15% is retained by the company</li>
-        </ul>
-        4. No Bonus, Shield, or Coverage Plans <br/> The 4-year plan does not include Titan Bonus, Titan Shield, or Coverage Plans.
-        5. No Annual Sales Rewards <br/> Investors in the 4-year plan do not qualify for annual sales prizes even if they engage in network marketing. Only referral bonuses and commissions apply.
-        6. No Fixed Profit Guarantee <br/> Titan Investments makes no commitment to fixed returns in case of unforeseen global events such as economic crises, pandemics, wars, or other force majeure situations.
-        7. Capital Protection Priority <br/> In case of a 30% loss across total invested capital, all trading operations will be halted and 70% of remaining funds will be returned to investors.
-        8. Account Type Is Non-Changeable <br/> Switching from the “Investor” account to other types (Marketer or Contract-Free) is not allowed.
-        9. Activation Deadline <br/> You have 30 days from registration to activate your account by making a deposit. Failure to do so will result in permanent deletion of your registration data.
-        `,
+    ⚠️ Risk Disclosure
+    Investing in financial markets always involves risk and may result in partial or total loss of your capital. Please only invest funds that you can afford to lose without affecting your financial or personal well-being. By accepting this agreement, you acknowledge the risks involved and take full responsibility for your investment, maintaining a long-term and informed perspective with Titan Investments.
+    📜 Investment Terms and Conditions
+    1. Profit and Loss Awareness <br /> By accepting this agreement, you acknowledge that financial market activity may result in profit or loss, and agree to remain patient and understanding during loss periods.
+    2. Automated Trading Systems <br/> Your capital will be entrusted to Titan's fully automated trading systems for a period of four years under the “Investor” contract.
+    <ul style="list-style-type: disc">
+      <li>Capital cannot be withdrawn during this period.</li>
+      <li>Early withdrawal will be considered a unilateral termination of the agreement by you.</li>
+      <li>A 10% penalty on the original capital will be applied.</li>
+      <li>All previously withdrawn profits will be deducted from your principal, and the remaining balance returned.</li>
+    </ul>
+    3. Profit Withdrawal <br/> Profit withdrawal is only permitted between the 1st and 5th of each calendar month.
+    <ul>
+      <li>85% of profit goes to the investor</li>
+      <li>15% is retained by the company</li>
+    </ul>
+    4. Full Access to Bonuses and Protection Plans <br/> The 4-year plan includes Titan Bonus, Titan Shield, and Coverage Plans.
+    5. Annual Sales Rewards and Marketing Eligibility <br/> Investors in the 4-year plan are fully eligible for annual sales prizes, commissions, and referral bonuses through the marketing network.
+    6. No Fixed Profit Guarantee <br/> Titan Investments makes no commitment to fixed returns in case of unforeseen global events such as economic crises, pandemics, wars, or other force majeure situations.
+    7. Capital Protection Priority <br/> In case of a 30% loss across total invested capital, all trading operations will be halted and 70% of remaining funds will be returned to investors.
+    8. Account Type Is Non-Changeable <br/> Switching from the “Investor” account to other types (Marketer or Contract-Free) is not allowed.
+    9. Activation Deadline <br/> You have 30 days from registration to activate your account by making a deposit. Failure to do so will result in permanent deletion of your registration data.
+`,
   },
   contract_free: {
     1: (userName: string) => {
       return `Dear ${userName}, Thank you for choosing Titan Investments and opting for a Contract-Free account. Before engaging in any financial activity, please carefully read the terms and risk disclosures below. You may only proceed if you fully accept all conditions.
-    ⚠️ Risk Disclosure
+    ⚠️ Risk Disclosure <br/>
     Participating in financial markets, especially through independent and contract-free options, involves high risk and may result in full or partial capital loss. Only invest what you can afford to lose without impacting your lifestyle or financial obligations. By accepting this agreement, you acknowledge the risks and take full personal responsibility for your investment.
     📜 Terms and Conditions
-    1. Account Nature <br/> The Contract-Free account offers flexibility without long-term commitments or locked capital, but does not include benefits tied to standard investment contracts.
-    2. Profit Sharing <br/> Profit withdrawal is only allowed between the 1st and 5th of each month.
+    1. Account Nature <br/> 
+    The Contract-Free account offers flexibility without long-term commitments or locked capital, but does not include benefits tied to standard investment contracts.
+    2. Profit Sharing <br/> 
+    Profit withdrawal is only allowed between the 1st and 5th of each month.
     <ul>
-     <li>50% of profit goes to the investor</li>
-     <li>50% is retained by the company</li>
+      <li>50% of profit goes to the investor</li>
+      <li>50% is retained by the company</li>
     </ul>
-    3.No Bonuses or Protection Plans <br/>
+    3. No Bonuses or Protection Plans <br/>
     Contract-Free users do not qualify for:
     <ul>
-    <li>Titan Bonus
-    </li>
-    <li>Titan Shield</li>
-    <li>Coverage Plans</li>
+      <li>Titan Bonus</li>
+      <li>Titan Shield</li>
+      <li>Coverage Plans</li>
     </ul>
-    4.Referral and Commission Rules:
+    4. Referral and Commission Rules <br/>
     <ul>
-    <li>No referral bonus is granted for bringing in new users.</li>
-    <li>Only direct commissions from referred users’ activity are earned.</li>
-    <li>Annual sales rewards are not available in this account type.</li>
+      <li>No referral bonus is granted for bringing in new users.</li>
+      <li>Only direct commissions from referred users’ activity are earned.</li>
+      <li>Annual sales rewards are not available in this account type.</li>
     </ul>
-    5. No Fixed Profit Guarantee <br/>
-    Titan Investments does not guarantee fixed income and cannot be held accountable for market disruptions caused by global events beyond its control.<br/>
-    6. Account Type Is Non-Changeable <br/> After activation, you cannot switch from the Contract-Free account to other types (Investor or Marketer).<br/>
-    7. Capital Protection Priority <br/> If the company suffers a 30% total capital loss, all trading operations will cease and 70% of remaining funds will be refunded to investors.
-    8. Activation Deadline <br/> Users must activate their account by depositing within 30 days of registration. Failure to do so will result in permanent deletion of registration data.
-`;
+    5. No Fixed Profit Guarantee <br/> 
+    Titan Investments does not guarantee fixed income and cannot be held accountable for market disruptions caused by global events beyond its control.
+    6. Account Type Is Non-Changeable <br/> 
+    After activation, you cannot switch from the Contract-Free account to other types (Investor or Marketer).
+    7. Capital Protection Priority <br/> 
+    If the company suffers a 30% total capital loss, all trading operations will cease and 70% of remaining funds will be refunded to investors.
+    8. Activation Deadline <br/> 
+    Users must activate their account by depositing within 30 days of registration. Failure to do so will result in permanent deletion of registration data.
+    `;
     },
   },
   marketer: {

@@ -111,7 +111,7 @@ export default function TeamCommissionDetailsContentStatement({
                     {statement.investor_count}
                   </td>
                   <td className="py-4 text-center px-4">
-                    {parseFloat(String(statement.percentage)).toFixed(2)}
+                    {parseFloat(String(statement.percentage)).toFixed(0)}
                   </td>
                   <td
                     className={`py-4  text-center px-4 ${
