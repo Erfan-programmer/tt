@@ -6,6 +6,7 @@ import { apiRequest } from "@/libs/api";
 import { loadUserData } from "../../EncryptData/SavedEncryptData";
 import Image from "next/image";
 import ReferralTreeSkeleton from "@/skeletons/User-Panel/dashboard/ReferralTreeSkeleton";
+import { useHeader } from "@/contextApi/HeaderContext";
 
 export interface ReferralType {
   children?: ReferralType[];
@@ -13,6 +14,7 @@ export interface ReferralType {
   id: string;
   rank: string;
   rank_icon: string;
+
   status: "pending" | "closed" | "active";
   tid: string;
 }
@@ -22,6 +24,7 @@ const ReferralNode: React.FC<{
   level?: number;
   selectedTID: string | null;
   highlightedTID: string | null;
+  isLastChild: boolean;
   expandedNodes: Set<string>;
   toggleExpand: (tid: string) => void;
   onSelect: (referral: ReferralType) => void;
@@ -33,107 +36,123 @@ const ReferralNode: React.FC<{
   expandedNodes,
   toggleExpand,
   onSelect,
+  isLastChild,
 }) => {
   const nodeRef = useRef<HTMLDivElement>(null);
   const isHighlighted = highlightedTID === referral.tid;
   const isExpanded = expandedNodes.has(referral.tid);
-
+  const { headerData } = useHeader();
   useEffect(() => {
     if (isHighlighted && nodeRef.current) {
       nodeRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
     }
   }, [isHighlighted]);
   return (
-    <div className="relative" ref={nodeRef}>
-      <div className="flex items-center">
-        {isExpanded && referral.children && (
+    <>
+      <div className="relative box-tree" ref={nodeRef}>
+        <div className="flex items-center">
+          {!isLastChild && (
+            <>
+              {isExpanded && (
+                <div
+                  className="absolute left-[14.5px] w-[2px] border-l-[2px] border-dashed border-gray-500 dark:border-white/20"
+                  style={{ top: "0px", height: "100%" }}
+                />
+              )}
+            </>
+          )}
+
+          {referral.children && referral.children.length > 0 && (
+            <>
+              {referral.tid !== `TID-${headerData?.t_id}` && (
+                <div className="w-14 rotate-90 absolute -left-[13px] top-0 border-t-[2px] border-dashed border-gray-500 dark:border-white/20" />
+              )}
+
+              <button
+                onClick={() => toggleExpand(referral.tid)}
+                className="absolute left-[2px] w-6 h-6 rounded-full bg-[#275edf] dark:bg-white flex items-center justify-center transition-transform duration-300 z-20"
+              >
+                <span className="text-white dark:text-[#0f163a] text-lg font-bold leading-none flex items-center justify-center">
+                  {isExpanded ? "-" : <FaPlay className="text-[.9rem]" />}
+                </span>
+              </button>
+            </>
+          )}
+
+          <div className="w-8 relative h-[2px] border-t-[2px] border-dashed border-gray-500 dark:border-white/20 ml-[1rem]"></div>
+          {referral.children?.length === 0 && (
+            <div className="w-14 rotate-90 absolute -left-[.8rem] bottom-12 border-t-[2px] border-dashed border-gray-500 dark:border-white/20" />
+          )}
+
           <div
-            className="absolute left-[14px] w-[2px] border-l-[2px] border-dashed border-[var(--main-background)] dark:border-white/30"
-            style={{ top: "42px", height: "calc(100% - 42px)" }}
-          />
-        )}
-
-        {referral.children && referral.children.length > 0 && (
-          <button
-            onClick={() => toggleExpand(referral.tid)}
-            className="absolute left-[2px] w-6 h-6 rounded-full bg-[#275edf] dark:bg-white flex items-center justify-center transition-transform duration-300 z-20"
-          >
-            <span className="text-white dark:text-[#0f163a] text-lg font-bold leading-none flex items-center justify-center">
-              {isExpanded ? "-" : <FaPlay className="text-[.9rem]" />}
-            </span>
-          </button>
-        )}
-
-        <div className="w-8 relative h-[2px] border-t-[2px] border-dashed border-[var(--main-background)] dark:border-white/30 ml-3"></div>
-        {referral.children?.length === 0 && (
-          <div className="w-14 rotate-90 absolute -left-4 bottom-12 border-t-[2px] border-dashed border-[var(--main-background)] dark:border-white/30" />
-        )}
-
-        <div
-          onClick={() => onSelect(referral)}
-          className={`flex ${
-            selectedTID === referral.tid
-              ? "bg-[#ddd] dark:bg-[#223060]"
-              : "bg-[#f0f0f059] dark:bg-[#22306076]"
-          } items-center gap-2 rounded-lg h-[42px] px-6 relative z-100 cursor-pointer transition-colors
+            onClick={() => onSelect(referral)}
+            className={`flex ${
+              selectedTID === referral.tid
+                ? "bg-[#ddd] dark:bg-[#223060]"
+                : "bg-[#F3F5F9] dark:bg-[#151D3F]"
+            } items-center gap-2 rounded-lg h-[42px] px-6 relative z-100 cursor-pointer transition-colors
             ${
               referral.status === "pending"
                 ? "border border-[var(--normal)]"
                 : referral.status === "closed"
                 ? "border border-[var(--loss)]"
+                : referral.status === "active"
+                ? "border border-[var(--profit)]"
                 : "border border-none"
             }
             `}
-        >
-          <div className="w-12 h-12 rounded-full overflow-auto">
-            <Image
-              width={300}
-              height={300}
-              src={`${process.env.NEXT_PUBLIC_API_URL_STORAGE}/${referral.rank_icon}`}
-              alt={referral.tid}
-              className="w-full h-full object-cover"
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                target.src = "/titan-logo.svg";
-              }}
-            />
-          </div>
-          <span
-            className={`text-[var(--main-background)] dark:text-white text-sm font-medium min-w-[120px] px-2 py-1 rounded ${
-              isHighlighted ? "bg-yellow-500" : ""
-            }`}
           >
-            {referral.tid}
-          </span>
-        </div>
-      </div>
-
-      <AnimatePresence>
-        {isExpanded && referral.children && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.2 }}
-            className="mt-4 space-y-4"
-            style={{ marginLeft: "3rem" }}
-          >
-            {referral.children.map((subReferral) => (
-              <ReferralNode
-                key={subReferral.tid}
-                referral={subReferral}
-                level={level + 1}
-                selectedTID={selectedTID}
-                highlightedTID={highlightedTID}
-                expandedNodes={expandedNodes}
-                toggleExpand={toggleExpand}
-                onSelect={onSelect}
+            <div className="w-12 h-12 rounded-full overflow-auto">
+              <Image
+                width={300}
+                height={300}
+                src={`${process.env.NEXT_PUBLIC_API_URL_STORAGE}/${referral.rank_icon}`}
+                alt={referral.tid}
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.src = "/titan-logo.svg";
+                }}
               />
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+            </div>
+            <span
+              className={`text-[var(--main-background)] dark:text-white text-sm font-medium min-w-[120px] px-2 py-1 rounded ${
+                isHighlighted ? "bg-yellow-500" : ""
+              }`}
+            >
+              {referral.tid}
+            </span>
+          </div>
+        </div>
+
+        <AnimatePresence>
+          {isExpanded && referral.children && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.2 }}
+              className="mt-4 space-y-4"
+              style={{ marginLeft: "3rem" }}
+            >
+              {referral.children.map((subReferral, index, array) => (
+                <ReferralNode
+                  key={subReferral.tid}
+                  referral={subReferral}
+                  level={level + 1}
+                  selectedTID={selectedTID}
+                  highlightedTID={highlightedTID}
+                  expandedNodes={expandedNodes}
+                  toggleExpand={toggleExpand}
+                  isLastChild={index === array.length - 1}
+                  onSelect={onSelect}
+                />
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </>
   );
 };
 
@@ -313,24 +332,26 @@ export default function TeamTreeStructureContent({
           <span className="text-[var(--main-background)] dark:text-white text-sm">
             You
           </span>
-          <div className="w-8 h-[2rem] border-l-[2px] border-dashed border-[var(--main-background)] dark:border-white/30 ml-[.85rem]" />
         </div>
 
-        <div className="space-y-6 ml-[2rem]">
-          {referrals.map((referral: ReferralType) => (
-            <ReferralNode
-              key={referral.tid}
-              referral={referral}
-              selectedTID={selectedTID}
-              highlightedTID={highlightedTID}
-              expandedNodes={expandedNodes}
-              toggleExpand={toggleExpand}
-              onSelect={(referral) => {
-                setSelectedTID(referral.tid);
-                onReferralSelect(referral);
-              }}
-            />
-          ))}
+        <div className="space-y-6 ml-[2rem] mt-[2rem]">
+          {referrals.map(
+            (referral: ReferralType, index: number, array: any) => (
+              <ReferralNode
+                key={referral.tid}
+                referral={referral}
+                selectedTID={selectedTID}
+                highlightedTID={highlightedTID}
+                expandedNodes={expandedNodes}
+                toggleExpand={toggleExpand}
+                isLastChild={index === array.length - 1}
+                onSelect={(referral) => {
+                  setSelectedTID(referral.tid);
+                  onReferralSelect(referral);
+                }}
+              />
+            )
+          )}
         </div>
       </div>
     </div>
