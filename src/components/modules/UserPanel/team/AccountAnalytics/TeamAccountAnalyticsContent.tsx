@@ -76,7 +76,7 @@ export default function TeamAccountAnalyticsContent({
             width={200}
             height={200}
             src={`${process.env.NEXT_PUBLIC_API_URL_STORAGE}/${main_stats?.rank_icon}`}
-            className="w-[3rem] sm:w-[5rem] h-[3rem] sm:h-[5rem] rounded-full"
+            className="w-[5rem] h-[5rem] sm:w-[5rem] sm:h-[5rem] rounded-full scale-[1.4]"
             alt=""
           />
           <p className="text-[var(--main-background)] dark:text-white text-sm sm:text-base">

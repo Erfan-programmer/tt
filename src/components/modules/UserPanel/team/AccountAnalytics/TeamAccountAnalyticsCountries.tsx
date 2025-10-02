@@ -76,7 +76,7 @@ export default function TeamAccountAnalyticsCountries({
             className="bg-[#f9f9fe] dark:bg-[#0F163A] rounded-lg px-4 sm:px-[2rem] py-3 border-standard mt-4"
           >
             <div className="flex justify-between items-center text-[var(--main-background)] dark:text-white">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center flex-wrap gap-2">
                 <div className="flex w-20 h-20 items-center gap-3 rounded-full overflow-hidden">
                   <Flag
                     code={country.country_flag}
