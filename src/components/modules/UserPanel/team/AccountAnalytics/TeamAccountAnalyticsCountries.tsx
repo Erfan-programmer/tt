@@ -45,7 +45,7 @@ function TeamAccountAnalyticsCountriesSkeleton() {
     </div>
   );
 }
- const formattedPrice = (price: number) => {
+const formattedPrice = (price: number) => {
   if (price >= 1_000_000_000) {
     return (price / 1_000_000_000).toFixed(1).replace(/\.0$/, "") + "B";
   } else if (price >= 1_000_000) {
@@ -76,23 +76,27 @@ export default function TeamAccountAnalyticsCountries({
             className="bg-[#f9f9fe] dark:bg-[#0F163A] rounded-lg px-4 sm:px-[2rem] py-3 border-standard mt-4"
           >
             <div className="flex justify-between items-center text-[var(--main-background)] dark:text-white">
-              <div className="flex w-20 h-20 items-center gap-3 rounded-full overflow-hidden">
-                <Flag
-                  code={country.country_flag}
-                  className="w-full h-full rounded-sm object-cover"
-                />
-                <p>{country.country_name}</p>
+              <div className="flex items-center gap-2">
+                <div className="flex w-20 h-20 items-center gap-3 rounded-full overflow-hidden">
+                  <Flag
+                    code={country.country_flag}
+                    className="w-full h-full rounded-sm object-cover"
+                  />
+                </div>
+                <p className="text-[var(--main-background)] dark:text-white">
+                  {country.country_name}
+                </p>
               </div>
               <p>$ {formattedPrice(country.total_sales)}</p>
             </div>
             <div className="flex justify-between items-center gap-4 mt-3">
-              <div className="w-full rounded-xl bg-white overflow-hidden h-[.8rem] p-[1px] relative">
+              <div className="w-full rounded-xl bg-[#d0d0d0] dark:bg-white overflow-hidden h-[.8rem] relative">
                 <div
-                  className={`bg-[#1a68ff] rounded-xl p-[2px] h-full flex items-center justify-center min-w-fit`}
+                  className={`bg-[#1a68ff] rounded-r-xl p-[2px] h-full flex items-center justify-center min-w-fit`}
                   style={{ width: `${country.percentage}%` }}
                 ></div>
               </div>
-              <p className="text-[var(--main-background)] dark:text-[#D9D9D9]">
+              <p className="text-[var(--main-background)] dark:text-[#dddddd81]">
                 {country.percentage}%
               </p>
             </div>
