@@ -106,9 +106,7 @@ export const AccountActivationDatas: AccountActivationDatasType = {
       <li>Titan Bonus</li>
       <li>Titan Shield</li>
       <li>Coverage Plans</li>
-    </ul>
-    4. Referral and Commission Rules <br/>
-    <ul>
+    </ul>4. Referral and Commission Rules<ul>
       <li>No referral bonus is granted for bringing in new users.</li>
       <li>Only direct commissions from referred users’ activity are earned.</li>
       <li>Annual sales rewards are not available in this account type.</li>
@@ -141,27 +139,18 @@ export const AccountActivationDatas: AccountActivationDatasType = {
       <ul>
       <li>The Marketer account is valid for a fixed period of 2 years.</li>
       <li>During this period, the account type cannot be changed to Investor or Contract-Free.</li>
-      </ul>
-      Commissions & Profit Sharing
-      <ul>
+      </ul>Commissions & Profit Sharing<ul>
        <li>Marketers earn commissions from their direct and indirect referrals.</li>
        <li>Withdrawal of commissions follows the ratio: 70% to the Marketer, 30% retained by the company.</li>
        <li>Additional rewards and bonuses may be granted through team building and attracting new investors.</li>
-      </ul>
-      Non-Refundable Start-Up Fee
-      <ul>
+      </ul>Non-Refundable Start-Up Fee<ul>
       <li>The registration/start-up fee is a one-time cost and cannot be refunded under any circumstances.</li>
-      </ul>
-      Marketing Rules & Compliance
-      <ul>
+      </ul>Marketing Rules & Compliance<ul>
       <li>Marketers must strictly adhere to Titan Investments’ official guidelines.</li>
       <li>It is strictly forbidden to make false promises, misrepresent returns, or pressure potential investors.</li>
       <li><span style="color:#ff6060"}>In case of proven misconduct, the Marketer account will be permanently terminated and the individual will not be allowed to re-register under Titan Investments in the future.</span></li>
-      </ul>
-      Possible Limitations
-      <ul>
-      <li>Some features and privileges may be more limited compared to Investor accounts.</li>
-      </ul>
+      </ul>Possible Limitations<ul>
+      <li>Some features and privileges may be more limited compared to Investor accounts.</li></ul>
       Growth Opportunity
       By respecting the company’s framework and working consistently, Marketers have the chance to achieve financial success, enjoy commissions and rewards, and work towards financial freedom with the support of Titan Investments.
       Activation Deadline

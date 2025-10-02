@@ -5,7 +5,7 @@ import { toast, ToastContainer } from "react-toastify";
 import CustomInput from "@/components/Ui/inputs/CustomInput";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store";
-import { resetTriggerSubmit } from "@/store/PaymentSlice";
+import { resetTriggerSubmit, setLoading } from "@/store/PaymentSlice";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
 import CryptoSelector from "@/components/Ui/inputs/CryptoSelector";
@@ -38,12 +38,16 @@ export default function DirectPayment({
   const { user } = useAuth();
   const router = useRouter();
 
+  const planType = user?.plan?.type?.toLowerCase();
+  const minInvestment = String(user?.plan?.min_investment ?? "");
+  const isMarketer = planType === "marketer";
+  const finalDepositValue = isMarketer ? minInvestment : deposit;
+
   const depositSchema = z
     .string()
     .regex(/^\d+$/, { message: "Amount must be a number" })
     .transform((val) => Number(val))
     .superRefine((val, ctx) => {
-      const planType = user?.plan?.type?.toLowerCase();
       const minInv = Number(user?.plan?.min_investment ?? 0);
 
       if (planType === "contract_free" || planType === "investor") {
@@ -67,6 +71,10 @@ export default function DirectPayment({
 
   const validateDeposit = useCallback(
     (value: string) => {
+      if (isMarketer) {
+        setErrors((prev) => ({ ...prev, deposit: "" }));
+        return true;
+      }
       const result = depositSchema.safeParse(value);
       if (!result.success) {
         setErrors((prev) => ({
@@ -78,7 +86,7 @@ export default function DirectPayment({
       setErrors((prev) => ({ ...prev, deposit: "" }));
       return true;
     },
-    [depositSchema]
+    [depositSchema, isMarketer]
   );
 
   const debouncedValidateDeposit = useMemo(
@@ -87,7 +95,7 @@ export default function DirectPayment({
   );
 
   const handleDepositChange = (value: string) => {
-    if (/^\d*$/.test(value)) {
+    if (!isMarketer && /^\d*$/.test(value)) {
       setDeposit(value);
       debouncedValidateDeposit(value);
     }
@@ -100,19 +108,22 @@ export default function DirectPayment({
   const { setPayment } = usePayment();
 
   const isValid =
-    deposit.trim() !== "" &&
+    finalDepositValue.trim() !== "" &&
     crypto !== "" &&
     (!errors.deposit || errors.deposit === "");
 
   const submitForm = useCallback(async () => {
     const token = loadUserData()?.access_token;
     try {
+      dispatch(setLoading(true));
       const res = await apiRequest<any>(
         `${BASE_URL}/v1/client/createContract`,
         "POST",
         {
           payment_method: "direct_payment",
-          amount: deposit,
+          amount: isMarketer
+            ? Number(minInvestment)
+            : Number(finalDepositValue),
           currency: cryptoKey,
         },
         {
@@ -122,25 +133,38 @@ export default function DirectPayment({
 
       if (res.success) {
         toast.success(res.message || "");
+        dispatch(setLoading(false));
         setTimeout(() => {
           setAccountActivation("PAYMENT");
           setPayment(res.data.data);
           router.push(`/dashboard/payment`);
         }, 1000);
       }
+      else {
+
+        toast.error(res.message || "");
+      }
+      dispatch(setLoading(false));
     } catch (err: any) {
       toast.error(err?.error?.message || "Error submitting request");
+      dispatch(setLoading(false));
     }
-  }, [deposit, cryptoKey, router, setAccountActivation, setPayment]);
+  }, [
+    finalDepositValue,
+    cryptoKey,
+    router,
+    setAccountActivation,
+    setPayment,
+    isMarketer,
+    minInvestment,
+  ]);
 
   useEffect(() => {
     if (triggerSubmit) {
       if (isValid) {
         submitForm();
       } else {
-        toast.error(
-          "Please enter a valid amount (multiple of 1,000) and select a cryptocurrency."
-        );
+        toast.error("Please enter a valid amount and select a cryptocurrency.");
       }
       dispatch(resetTriggerSubmit());
     }
@@ -157,20 +181,16 @@ export default function DirectPayment({
       <ToastContainer
         closeButton={({ closeToast }) => (
           <button onClick={closeToast}>
-            <FaTimes className="text-white" />
+              <FaTimes className="text-white" />
           </button>
         )}
       />
       <div className="border-standard bg-[#f9f9fe] dark:bg-[#0f163a] rounded-[1em] mt-3 p-5 py-[2rem] space-y-4">
         <CustomInput
           className="w-full"
-          readOnly={user?.plan?.type?.toLowerCase() === "marketer"}
+          readOnly={isMarketer}
           label="Deposit Amount"
-          value={
-            user?.plan?.type?.toLowerCase() === "marketer"
-              ? String(user?.plan?.min_investment ?? "")
-              : deposit
-          }
+          value={isMarketer ? minInvestment : deposit}
           min={Number(user?.plan?.min_investment ?? 0)}
           onChange={handleDepositChange}
           onBlur={handleDepositBlur}
@@ -183,8 +203,7 @@ export default function DirectPayment({
           hasError={touched.deposit && !!errors.deposit}
           errorMessage={touched.deposit ? errors.deposit : ""}
         />
-
-        <div className="mb-[5rem]">
+        <div className="mb-[2rem]">
           <CryptoSelector
             className="w-full mb-8"
             label="Select a cryptocurrency"

@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store";
 import { IoMdClose } from "react-icons/io";
 import { z } from "zod";
-import { resetTriggerSubmit } from "@/store/PaymentSlice";
+import { resetTriggerSubmit, setLoading } from "@/store/PaymentSlice";
 import TitanNotification from "@/components/modules/UserPanel/TitanNotification/TitanNotification";
 import CustomInput from "@/components/Ui/inputs/CustomInput";
 import { useHeader } from "@/contextApi/HeaderContext";
@@ -41,12 +41,17 @@ export default function TwalletPayment({
   const { refetch, headerData } = useHeader();
   const router = useRouter();
   const { user } = useAuth();
+
+  const planType = user?.plan?.type?.toLowerCase();
+  const minInvestment = String(user?.plan?.min_investment ?? "");
+  const isMarketer = planType === "marketer";
+  const finalDepositValue = isMarketer ? minInvestment : deposit;
+
   const depositSchema = z
     .string()
     .regex(/^\d+$/, { message: "Amount must be a number" })
     .transform((val) => Number(val))
     .superRefine((val, ctx) => {
-      const planType = user?.plan?.type?.toLowerCase();
       const minInv = Number(user?.plan?.min_investment ?? 0);
 
       if (planType === "contract_free" || planType === "investor") {
@@ -70,6 +75,10 @@ export default function TwalletPayment({
 
   const validateDeposit = useCallback(
     (value: string) => {
+      if (isMarketer) {
+        setErrors((prev) => ({ ...prev, deposit: "" }));
+        return true;
+      }
       const result = depositSchema.safeParse(value);
       if (!result.success) {
         setErrors((prev) => ({
@@ -81,7 +90,7 @@ export default function TwalletPayment({
       setErrors((prev) => ({ ...prev, deposit: "" }));
       return true;
     },
-    [depositSchema]
+    [depositSchema, isMarketer]
   );
 
   const validateTwoFaCode = useCallback((value: string) => {
@@ -93,7 +102,7 @@ export default function TwalletPayment({
   }, []);
 
   const handleDepositChange = (value: string) => {
-    if (/^\d*$/.test(value)) {
+    if (!isMarketer && /^\d*$/.test(value)) {
       setDeposit(value);
       if (touched.deposit) validateDeposit(value);
     }
@@ -102,24 +111,25 @@ export default function TwalletPayment({
   const handleTwoFaChange = (value: string) => {
     setTwoFaCode(value);
     validateTwoFaCode(value);
+    setTouched((prev) => ({ ...prev, twofaCode: true }));
   };
-
   const handleBlur = (field: string) => {
     setTouched((prev) => ({ ...prev, [field]: true }));
-    if (field === "twofaCode") validateTwoFaCode(twofaCode);
     if (field === "deposit") validateDeposit(deposit);
   };
 
   const isValid =
-    deposit.trim() !== "" &&
+    finalDepositValue.trim() !== "" &&
     twofaCode.length === 6 &&
     (!errors.twofaCode || errors.twofaCode === "") &&
     (!errors.deposit || errors.deposit === "");
 
   const submitForm = useCallback(async () => {
     try {
+      dispatch(setLoading(true));
+
       const body = {
-        amount: Number(deposit),
+        amount: isMarketer ? Number(minInvestment) : Number(deposit),
         payment_method: "wallet",
       };
 
@@ -132,24 +142,25 @@ export default function TwalletPayment({
 
       if (!res.success) {
         toast.error(res.message || "Error submitting request");
+        dispatch(setLoading(false));
         return;
       }
 
+      dispatch(setLoading(false));
       setShowSuccessNotif(true);
       setDeposit("");
       setTwoFaCode("");
-
       const pay_id = res.data?.pay_id;
       setTimeout(() => {
         refetch();
         if (pay_id) router.push(`/payment/${pay_id}`);
       }, 1500);
-
       toast.success("Contract created successfully!");
     } catch (err: any) {
+      dispatch(setLoading(false));
       toast.error(err?.message || "Unexpected error");
     }
-  }, [deposit, router, refetch]);
+  }, [deposit, router, refetch, isMarketer, minInvestment]);
 
   useEffect(() => {
     if (triggerSubmit) {
@@ -181,11 +192,9 @@ export default function TwalletPayment({
             Your Account is Fully Activated 🎉
           </div>
           <div className="text-sm mt-2 text-white">
-            Your investment process is complete, and your account is now{" "}
-            <b>fully active</b>.
-            <br />
-            Go to Your <b>Dashboard</b> to start managing your investments and
-            track your progress.
+            Your investment process is complete, and your account is now
+            <b>fully active</b>.<br /> Go to Your <b>Dashboard</b> to start
+            managing your investments and             track your progress.
           </div>
         </TitanNotification>
       )}
@@ -193,13 +202,13 @@ export default function TwalletPayment({
         <ToastContainer
           closeButton={({ closeToast }) => (
             <button onClick={closeToast}>
-              <FaTimes className="text-white" />
+                            <FaTimes className="text-white" />
             </button>
           )}
         />
         <div className="add-user-action-desc">
           <span className="text-sm text-[var(--main-background)] dark:text-white">
-            Your T-Wallet Balance: $
+                        Your T-Wallet Balance: $
             {Number(headerData?.t_wallet) > 0
               ? Number(headerData?.t_wallet)
               : 0}
@@ -208,13 +217,9 @@ export default function TwalletPayment({
         <div className="border-standard bg-[#f9f9fe] dark:bg-[#0f163a] rounded-[1em] mt-3 p-5 py-[2rem] space-y-4">
           <CustomInput
             className="w-full"
-            readOnly={user?.plan?.type?.toLowerCase() === "marketer"}
+            readOnly={isMarketer}
             label="Deposit Amount"
-            value={
-              user?.plan?.type?.toLowerCase() === "marketer"
-                ? String(user?.plan?.min_investment ?? "")
-                : deposit
-            }
+            value={isMarketer ? minInvestment : deposit}
             min={Number(user?.plan?.min_investment ?? 0)}
             onChange={handleDepositChange}
             onBlur={() => handleBlur("deposit")}
@@ -227,7 +232,6 @@ export default function TwalletPayment({
             hasError={touched.deposit && !!errors.deposit}
             errorMessage={touched.deposit ? errors.deposit : ""}
           />
-
           <CustomInput
             className="w-full"
             readOnly={false}

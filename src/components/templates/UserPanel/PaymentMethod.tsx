@@ -1,12 +1,14 @@
-"use client"
-import  { useState } from "react";
-import { useDispatch } from "react-redux";
+"use client";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import PaymentMethodTabs from "./PaymentMethodTab";
 import { setTriggerSubmit } from "@/store/PaymentSlice";
+import { RootState } from "@/store";
 
 export default function PaymentMethod() {
   const [isValid, setIsValid] = useState(false);
   const dispatch = useDispatch();
+  const isLoading = useSelector((state: RootState) => state.payment.isLoading);
 
   const handleSubmit = () => {
     dispatch(setTriggerSubmit());
@@ -25,11 +27,13 @@ export default function PaymentMethod() {
       </div>
       <div className="flex justify-center sm:justify-end mt-8">
         <button
-          className="titan-btn text-white !px-12 py-3 rounded-lg disabled:opacity-40 disabled:cursor-not-allowed transition text-lg"
+          className={`titan-btn ${
+            isLoading ? "!bg-gray-400" : ""
+          } text-white !px-12 py-3 rounded-lg disabled:opacity-40 disabled:cursor-not-allowed transition text-lg`}
           onClick={handleSubmit}
-          disabled={!isValid}
+          disabled={!isValid || isLoading}
         >
-          Submit
+          {isLoading ? "Loading..." : "Submit"}
         </button>
       </div>
     </>

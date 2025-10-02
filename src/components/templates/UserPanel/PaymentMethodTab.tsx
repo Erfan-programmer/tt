@@ -1,4 +1,4 @@
-"sue client"
+"use client";
 import * as React from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -23,7 +23,9 @@ function CustomTabPanel(props: TabPanelProps) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && <Box sx={{ p: 3, minHeight: 200 }}>{children}</Box>}
+           {" "}
+      {value === index && <Box sx={{ p: 3, minHeight: 200 }}>{children}</Box>} 
+       {" "}
     </div>
   );
 }
@@ -40,7 +42,7 @@ export default function PaymentMethodTabs({
 }: {
   onCurrentTabValidityChange?: (isValid: boolean) => void;
 }) {
-  const [value, setValue] = React.useState(0); 
+  const [value, setValue] = React.useState(0);
   const [twalletValid, setTwalletValid] = React.useState(false);
   const [directValid, setDirectValid] = React.useState(false);
 
@@ -110,12 +112,11 @@ export default function PaymentMethodTabs({
           />
         </Tabs>
       </Box>
-
       <CustomTabPanel value={value} index={0}>
-        <TwalletPayment onValidityChange={setTwalletValid} />
+      <TwalletPayment onValidityChange={setTwalletValid} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <DirectPayment onValidityChange={setDirectValid} />
+      <DirectPayment onValidityChange={setDirectValid} />
       </CustomTabPanel>
     </Box>
   );

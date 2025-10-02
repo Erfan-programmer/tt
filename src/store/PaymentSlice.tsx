@@ -1,14 +1,15 @@
-"use client"
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface PaymentState {
   triggerSubmit: boolean;
-  permissions: any[]; 
+  permissions: any[];
+  isLoading: boolean;
 }
 
 const initialState: PaymentState = {
   triggerSubmit: false,
   permissions: [],
+  isLoading: false,
 };
 
 const paymentSlice = createSlice({
@@ -24,8 +25,11 @@ const paymentSlice = createSlice({
     setPermissions(state, action: PayloadAction<any[]>) {
       state.permissions = action.payload;
     },
+    setLoading(state, action: PayloadAction<boolean>) {
+      state.isLoading = action.payload;
+    },
   },
 });
 
-export const { setTriggerSubmit, resetTriggerSubmit, setPermissions } = paymentSlice.actions;
+export const { setTriggerSubmit, resetTriggerSubmit, setPermissions, setLoading } = paymentSlice.actions;
 export default paymentSlice.reducer;
