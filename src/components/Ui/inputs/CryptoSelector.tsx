@@ -42,7 +42,8 @@ export default function CryptoSelector({
   const [cryptoList, setCryptoList] = useState<CryptoOption[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
+  const [selectedImageOption, setSelectedImageOption] = useState("");
+  console.log("selectedImageOption =>", selectedImageOption);
   useEffect(() => {
     const fetchCryptoList = async () => {
       try {
@@ -54,12 +55,14 @@ export default function CryptoSelector({
           undefined,
           { Authorization: `Bearer ${token}` }
         );
-        const data: CryptoOption[] = (res?.data?.data || []).map((item: any) => ({
-          id: String(item.id),
-          title: item.title,
-          symbol: item.symbol,
-          icon_path: item.icon_path,
-        }));
+        const data: CryptoOption[] = (res?.data?.data || []).map(
+          (item: any) => ({
+            id: String(item.id),
+            title: item.title,
+            symbol: item.symbol,
+            icon_path: item.icon_path,
+          })
+        );
         setCryptoList(data);
       } catch (err: any) {
         setError(err?.message || "Failed to load cryptocurrencies");
@@ -72,7 +75,10 @@ export default function CryptoSelector({
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
@@ -85,22 +91,33 @@ export default function CryptoSelector({
       const firstOption = cryptoList[0];
       onChange(firstOption.symbol);
       if (onKeyChange) onKeyChange(firstOption.symbol);
+      setSelectedImageOption(firstOption.icon_path);
     }
   }, [cryptoList, value, onChange, onKeyChange]);
 
   const filteredOptions = cryptoList?.filter((option) => {
     const searchTermLower = searchTerm.toLowerCase();
-    return option.title?.toLowerCase().includes(searchTermLower) || option.symbol?.toLowerCase().includes(searchTermLower);
+    return (
+      option.title?.toLowerCase().includes(searchTermLower) ||
+      option.symbol?.toLowerCase().includes(searchTermLower)
+    );
   });
 
   const selectedOption = cryptoList.find((option) => option.symbol === value);
   const displayLabel = selectedOption?.title || "Select Crypto";
 
   return (
-    <div className={`custom-input-form relative ${className}`} ref={dropdownRef}>
+    <div
+      className={`custom-input-form relative ${className}`}
+      ref={dropdownRef}
+    >
       <label className="sponsor-label flex justify-start items-start gap-2 mb-2 !text-md">
-        {showStar && required && <FaStar className="text-[#FF6060] w-3 h-3 mt-2" />}
-        <span className="text-[var(--main-background)] dark:text-white text-md">{label}</span>
+        {showStar && required && (
+          <FaStar className="text-[#FF6060] w-3 h-3 mt-2" />
+        )}
+        <span className="text-[var(--main-background)] dark:text-white text-md">
+          {label}
+        </span>
       </label>
 
       {loading ? (
@@ -114,10 +131,24 @@ export default function CryptoSelector({
             onClick={() => setIsOpen(!isOpen)}
           >
             <div className="flex items-center gap-2 flex-1">
-              <span className="text-[var(--main-background)] dark:text-white">{displayLabel}</span>
+              {selectedImageOption && (
+                <Image
+                  width={24}
+                  height={24}
+                  alt={displayLabel}
+                  src={`${process.env.NEXT_PUBLIC_API_URL_STORAGE}/${selectedImageOption}`}
+                  className="rounded-full"
+                />
+              )}
+              <span className="text-[var(--main-background)] dark:text-white">
+                {displayLabel}
+              </span>
             </div>
+
             <IoIosArrowDown
-              className={`w-6 h-6 text-[var(--main-background)] dark:text-white transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
+              className={`w-6 h-6 text-[var(--main-background)] dark:text-white transition-transform duration-300 ${
+                isOpen ? "rotate-180" : ""
+              }`}
             />
           </div>
 
@@ -158,19 +189,24 @@ export default function CryptoSelector({
                           setIsOpen(false);
                         }}
                       >
-                        <span className="text-[var(--main-background)] dark:text-white">USDT</span>
+                        <span className="text-[var(--main-background)] dark:text-white">
+                          USDT
+                        </span>
                       </div>
                     ) : (
                       filteredOptions.map((option) => (
                         <div
                           key={option.id}
                           className={`px-4 py-2 cursor-pointer hover:bg-[#f9f9fe] dark:hover:bg-[#192879] transition-colors flex items-center gap-3 ${
-                            selectedOption?.id === option.id ? "bg-[#f9f9fe] dark:bg-[#192879]" : ""
+                            selectedOption?.id === option.id
+                              ? "bg-[#f9f9fe] dark:bg-[#192879]"
+                              : ""
                           }`}
                           onClick={(e) => {
                             e.stopPropagation();
-                            onChange(option.symbol); 
+                            onChange(option.symbol);
                             if (onKeyChange) onKeyChange(option.symbol);
+                            setSelectedImageOption(option.icon_path);
                             setSearchTerm("");
                             setIsOpen(false);
                           }}
@@ -182,7 +218,9 @@ export default function CryptoSelector({
                               alt={option.title}
                               src={`${process.env.NEXT_PUBLIC_API_URL_STORAGE}/${option.icon_path}`}
                             />
-                            <span className="text-[var(--main-background)] dark:text-white">{option.title}</span>
+                            <span className="text-[var(--main-background)] dark:text-white">
+                              {option.title}
+                            </span>
                           </div>
                         </div>
                       ))

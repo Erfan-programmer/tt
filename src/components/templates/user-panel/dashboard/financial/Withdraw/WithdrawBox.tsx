@@ -112,17 +112,15 @@ export default function WithdrawBox({
 
   const options: optionType[] = useMemo(
     () => [
-      { label: "ROI", amount: Number(twalletInfo?.roi) },
-      { label: "Referral", amount: Number(twalletInfo?.referral) },
-      { label: "Commission", amount: Number(twalletInfo?.commission) },
+      { label: "ROI", amount: Number(twalletInfo?.roi) || 0 }, // اصلاح: افزودن || 0
+      { label: "Referral", amount: Number(twalletInfo?.referral) || 0 }, // اصلاح: افزودن || 0
+      { label: "Commission", amount: Number(twalletInfo?.commission) || 0 }, // اصلاح: افزودن || 0
     ],
     [twalletInfo]
   );
 
   const totalAll = useMemo(() => {
-    return options
-      .map((x) => Number(x.amount) || 0)
-      .reduce((acc, cur) => acc + cur, 0);
+    return options.map((x) => x.amount).reduce((acc, cur) => acc + cur, 0);
   }, [options]);
 
   const singleSelectedOption =
@@ -162,7 +160,7 @@ export default function WithdrawBox({
       totalAfterFees += amount;
     });
 
-    const newAmount = totalAfterFees.toString();
+    const newAmount = totalAfterFees.toFixed(2); // اصلاح: استفاده از toFixed(2)
     const currentAmount = getValues("amount");
     if (newAmount !== currentAmount) setValue("amount", newAmount);
 
@@ -267,15 +265,15 @@ export default function WithdrawBox({
 
   return (
     <div className="withdraw-container border-standard rounded-xl py-4 bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] mt-4">
-      <div className="withdraw-header">
-        <div className="flex items-center gap-1.5 sm:gap-2  mb-2">
+      <div className="withdraw-header px-4">
+        <div className="flex items-center gap-1.5 sm:gap-2 mb-2">
           <svg
             width="24"
             height="24"
             viewBox="0 0 31 28"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            className=" stroke-[var(--dark-colorark:stroke-white"
+            className="stroke-[var(--main-background)] dark:stroke-white"
           >
             <path
               d="M17.1111 23.7513L24.8444 23.75C26.6491 23.75 27.5514 23.75 28.2406 23.3958C28.8469 23.0842 29.3399 22.587 29.6488 21.9755C30 21.2803 30 20.3702 30 18.55V6.2C30 4.37983 30 3.46974 29.6488 2.77453C29.3399 2.163 28.8469 1.66582 28.2406 1.35423C27.5514 1 26.6491 1 24.8444 1H6.15556C4.35094 1 3.44863 1 2.75936 1.35423C2.15306 1.66582 1.66013 2.163 1.3512 2.77453C1 3.46974 1 4.37983 1 6.2V17.25M1 7.5H28.3889M10.6667 23.7513L1 23.75M10.6667 23.7513L7.44444 20.5M10.6667 23.7513L7.44444 27"
@@ -287,7 +285,6 @@ export default function WithdrawBox({
             Withdraw Profits
           </p>
         </div>
-
         <div className="flex items-center flex-wrap gap-2 sm:gap-2.5 md:gap-3 px-4 my-4">
           {options.map((option, index) => (
             <motion.div
@@ -306,7 +303,7 @@ export default function WithdrawBox({
                 <span className="text-[var(--dark-c--dark-color-[#D9D9D9] text-[.8rem] sm:text-sm md:text-base">
                   {option.label}:
                 </span>
-                {option.amount != 0 ? (
+                {Number(option.amount) > 0 ? (
                   <>
                     <span
                       className={`text-[var(--dark-color)] ${
@@ -315,11 +312,11 @@ export default function WithdrawBox({
                           : ""
                       } dark:text-white`}
                     >
-                      $ {option.amount}
+                      $ {Number(option.amount).toFixed(2)}
                     </span>
                     {option.label.toLocaleLowerCase() !== "referral" && (
                       <span className="text-[var(--gold)] !text-lg">
-                        ${" "}
+                         ${" "}
                         {(
                           Number(option.amount) *
                           (1 - (Number(system_percent) || 0) / 100)
@@ -346,7 +343,7 @@ export default function WithdrawBox({
                     selectedOptions.includes(option.label)
                       ? "bg-[#275edf] border-[#275edf]"
                       : "bg-white"
-                  } w-4 h-4 sm:w-5 sm:h-5 md:w-7 md:h-7 border-2 rounded-full  flex items-center justify-center relative`}
+                  } w-4 h-4 sm:w-5 sm:h-5 md:w-7 md:h-7 border-2 rounded-full flex items-center justify-center relative`}
                 >
                   {selectedOptions.includes(option.label) && (
                     <svg
@@ -375,11 +372,11 @@ export default function WithdrawBox({
           >
             <div className="flex items-center flex-wrap gap-1 sm:gap-1.5 md:gap-2">
               <span className="text-[var(--dark-color)] d--dark-color9] text-[.8rem] sm:text-sm md:text-base">
-                Total
+                Total{" "}
               </span>
             </div>
             <p className="text-[var(--dark-color)] dark:--dark-color[.8rem] sm:text-sm md:text-base">
-              $ {totalAll}
+              $ {totalAll.toFixed(2)}
             </p>
           </motion.div>
         </div>
@@ -389,7 +386,7 @@ export default function WithdrawBox({
           </span>
         </div>
       </div>
-      <div className="w-full h-[1px] bg-standard my-3"></div>
+       <div className="w-full h-[1px] bg-standard my-1"></div>   
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="px-[2rem]">
           <Controller
@@ -399,7 +396,7 @@ export default function WithdrawBox({
               <CustomInput
                 readOnly={!isAmountEditable}
                 label={`Amount&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-[var(--gold)] text-sm">(After Fees)</span>`}
-                value={field.value ? field.value : field.value.toString()}
+                value={field.value}
                 onChange={(val) => {
                   field.onChange(val);
                   handleAmountChange(val);
@@ -409,7 +406,9 @@ export default function WithdrawBox({
                 type="number"
                 placeholder={
                   isAmountEditable
-                    ? `Enter a value up to ${singleSelectedOption?.amount}`
+                    ? `Enter a value up to ${Number(
+                        singleSelectedOption?.amount
+                      ).toFixed(2)}`
                     : "Calculated automatically"
                 }
                 validateLatinOnly={true}

@@ -141,7 +141,6 @@ export default function DirectPayment({
         }, 1000);
       }
       else {
-
         toast.error(res.message || "");
       }
       dispatch(setLoading(false));
