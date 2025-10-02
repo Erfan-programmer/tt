@@ -1,4 +1,5 @@
 import { formatToTwoDecimals } from "@/components/modules/FormatToDecimal";
+import { formatNumber } from "@/components/templates/user-panel/dashboard/UserAccountCondition";
 import Image from "next/image";
 
 interface InfoProps {
@@ -106,7 +107,13 @@ export default function TeamAccountAnalyticsContent({
           </div>
           <div className="bg-[#f9f9fe] dark:bg-[#2E3239] rounded-xl px-3 sm:px-[2rem] py-2 flex justify-between items-center mb-1">
             <p>Total Annual Sales</p>
-            <p>{formatToTwoDecimals(main_stats?.total_annual_sales) ?? "-"}</p>
+            <p>
+              {main_stats?.total_annual_sales === 0 ||
+              main_stats?.total_annual_sales === undefined ||
+              main_stats?.total_annual_sales === null
+                ? "0.00"
+                : formatNumber(main_stats.total_annual_sales)}
+            </p>
           </div>
           <div className="bg-white dark:bg-[#3B3F45] rounded-xl px-3 sm:px-[2rem] py-2 flex justify-between items-center mb-1">
             <p>Next Rank</p>

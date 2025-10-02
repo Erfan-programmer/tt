@@ -91,6 +91,28 @@ function IncomeTrend({ change, variant = "desktop" }: IncomeTrendProps) {
   );
 }
 
+  export const formatNumber = (num: number | undefined): string => {
+    if (num === undefined || num === null) {
+      return "0";
+    }
+
+    const absNum = Math.abs(num);
+
+    if (absNum >= 1.0e9) {
+      return (num / 1.0e9).toFixed(1) + "B";
+    }
+
+    if (absNum >= 1.0e6) {
+      return (num / 1.0e6).toFixed(1) + "M";
+    }
+
+    if (absNum >= 1.0e3) {
+      return (num / 1.0e3).toFixed(1) + "K";
+    }
+
+    return num.toString();
+  };
+
 export default function UserAccountCondition() {
   const { user } = useAuth();
   const { headerData } = useHeader();
@@ -144,7 +166,7 @@ export default function UserAccountCondition() {
           },
           {
             id: 2,
-            title: `$ ${dashboardData?.total_annual_sales}`,
+            title: `$ ${formatNumber(dashboardData?.total_annual_sales)}`,
             subTitle: "Total Annual Sales",
           },
           {
@@ -160,7 +182,7 @@ export default function UserAccountCondition() {
           },
           {
             id: 6,
-            title: `$ ${dashboardData?.total_referral}`,
+            title: `$ ${formatNumber(dashboardData?.total_referral)}`,
             subTitle: "Referral",
           },
         ];
@@ -235,6 +257,8 @@ export default function UserAccountCondition() {
 
   const visibleItems = getVisibleItems();
 
+
+
   return (
     <>
       <div className="user-account-condition-wrapper bg-gradient-to-b from-[#ECECED] to-[#fff]  dark:from-[#233389CC] dark:to-[#090D23] sm:from-[#ECECED] sm:to-[#ECECED] sm:bg-[#ECECED] sm:dark:from-[#0d092b] sm:dark:to-[#0d092b] shadow-[0_0_50px_rgba(0,74,218,0.3)_inset_0_0_30px_rgba(0,74,218,0.4)] overflow-hidden px-4 py-3  border-l-2 border-l-white sm:border-2 sm:border-[#585966] sm:border-l-none sm:min-h-[30vh] rounded-xl relative ">
@@ -249,8 +273,10 @@ export default function UserAccountCondition() {
         <div className="hidden md:flex justify-between items-start w-full">
           <div className="user-account-condition-price w-[30%] lg:border-r-2 border-[var(--main-background)] dark:lg:border-white ">
             <div className="price-title flex gap-4 items-center text-[var(--main-background)] dark:text-white">
-              <span>
-                $ {parseFloat(String(dashboardData?.total_income))?.toFixed(2)}
+              <span className="text-[var(--main-background)] dark:text-white text-[4rem] font-bold">
+                {dashboardData?.total_income && dashboardData.total_income !== 0
+                  ? `$${formatNumber(dashboardData.total_income)}`
+                  : `$0.00`}
               </span>
             </div>
             <div className="user-account-condition-income flex justify-start gap-2 items-center">
@@ -326,7 +352,11 @@ export default function UserAccountCondition() {
                   $
                 </span>
                 <span className="text-[var(--main-background)] dark:text-white text-[4rem] font-bold">
-                  {dashboardData?.total_income}
+                  {dashboardData?.total_income === 0 ||
+                  dashboardData?.total_income === undefined ||
+                  dashboardData?.total_income === null
+                    ? "0"
+                    : formatNumber(dashboardData?.total_income)}
                 </span>
               </div>
               <div className="flex items-center gap-2 mt-2 w-fit">
@@ -337,9 +367,11 @@ export default function UserAccountCondition() {
                 />
               </div>
             </div>
-              <div className="verified-label absolute top-1 right-2 bg-[#0c286b] rounded-lg flex items-center gap-2 text-[#00CB08]">
-                <span className="text-[.8rem]">{headerData?.verified ? "Verified" : "Not Verified" }</span>
-              </div>
+            <div className="verified-label absolute top-1 right-2 bg-[#0c286b] rounded-lg flex items-center gap-2 text-[#00CB08]">
+              <span className="text-[.8rem]">
+                {headerData?.verified ? "Verified" : "Not Verified"}
+              </span>
+            </div>
           </div>
 
           <div
@@ -397,28 +429,33 @@ export default function UserAccountCondition() {
           </div>
         </div>
       </div>
-   <div className="grid grid-cols-1 sm:grid-cols-2 sm:hidden gap-4 mt-8 auto-rows-auto">
-  <div className="bg-gradient-to-b to-[#d9d9d9] text-center dark:to-[#090d23] from-[#fff] dark:from-[#275edf] border border-[#1E3A8A] rounded-xl px-4 py-3 flex flex-col items-center justify-center">
-    <div className="text-[var(--main-background)] dark:text-white text-lg sm:text-2xl font-bold">
-      <span>$ {Number(dashboardData?.total_annual_sales)?.toFixed(0)}</span>
-    </div>
-    <div className="flex items-center gap-2 justify-center mt-1">
-      <FaCableCar className="text-[#8E92BC]" />
-      <span className="text-[#8E92BC] text-sm sm:text-base">Annual Sales</span>
-    </div>
-  </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 sm:hidden gap-4 mt-8 auto-rows-auto">
+        <div className="bg-gradient-to-b to-[#d9d9d9] text-center dark:to-[#090d23] from-[#fff] dark:from-[#275edf] border border-[#1E3A8A] rounded-xl px-4 py-3 flex flex-col items-center justify-center">
+          <div className="text-[var(--main-background)] dark:text-white text-lg sm:text-2xl font-bold">
+            <span>
+              $ {formatNumber(dashboardData?.total_annual_sales)}
+            </span>
+          </div>
+          <div className="flex items-center gap-2 justify-center mt-1">
+            <FaCableCar className="text-[#8E92BC]" />
+            <span className="text-[#8E92BC] text-sm sm:text-base">
+              Annual Sales
+            </span>
+          </div>
+        </div>
 
-  <div className="bg-gradient-to-b to-[#d9d9d9] text-center dark:to-[#090d23] from-[#fff] dark:from-[#275edf] border border-[#1E3A8A] rounded-xl px-4 py-3 flex flex-col items-center justify-center">
-    <div className="text-[var(--main-background)] dark:text-white text-lg sm:text-2xl font-bold">
-      $ {dashboardData?.next_rank_needed}
-    </div>
-    <div className="flex items-center gap-2 justify-center mt-1">
-      <IoTrendingUpOutline className="text-[#8E92BC]" />
-      <span className="text-[#8E92BC] text-sm sm:text-base">To Rank Up</span>
-    </div>
-  </div>
-</div>
-
+        <div className="bg-gradient-to-b to-[#d9d9d9] text-center dark:to-[#090d23] from-[#fff] dark:from-[#275edf] border border-[#1E3A8A] rounded-xl px-4 py-3 flex flex-col items-center justify-center">
+          <div className="text-[var(--main-background)] dark:text-white text-lg sm:text-2xl font-bold">
+            $ {dashboardData?.next_rank_needed}
+          </div>
+          <div className="flex items-center gap-2 justify-center mt-1">
+            <IoTrendingUpOutline className="text-[#8E92BC]" />
+            <span className="text-[#8E92BC] text-sm sm:text-base">
+              To Rank Up
+            </span>
+          </div>
+        </div>
+      </div>
     </>
   );
 }

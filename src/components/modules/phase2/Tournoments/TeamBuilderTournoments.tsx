@@ -18,11 +18,12 @@ type TournamentStatus =
   | "expired"
   | "not_eligible";
 
-interface TournamentActiveDetails {
+ interface TournamentActiveDetails {
   starts_at: string;
   ends_at: string;
   current_sales_volume: number;
   progress_percentage: number;
+  badges?: AchievementType[]; 
   milestones: {
     name: string;
     icon_path: string;
@@ -66,41 +67,49 @@ export default function TeamBuilderTournoments({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
 
-
-const fetchStatus = useCallback(async () => {
-  const token = loadUserData()?.access_token;
-  if (!token) {
-    setLoading(false);
-    return;
-  }
-
-  try {
-    const res = await apiRequest<TournamentStatusResponse>(
-      `${process.env.NEXT_PUBLIC_API_URL}/v1/client/contracts/tournamentStatus`,
-      "GET",
-      undefined,
-      {
-        Authorization: `Bearer ${token}`,
-      }
-    );
-
-    if (res.status === 200 && res.data) {
-      setStatus(res.data.data.status);
-
-      if (res.data.data.status === "completed" && res.data.data.badges) {
-        setAchievements(res.data.data.badges);
-      }
-
-      if (res.data.data.details) {
-        setTournamentDetails(res.data.data.details);
-      }
+ const fetchStatus = useCallback(async () => {
+    const token = loadUserData()?.access_token;
+    if (!token) {
+      setLoading(false);
+      return;
     }
-  } catch (error) {
-    console.error("Failed to fetch tournament status:", error);
-  } finally {
-    setLoading(false);
-  }
-}, [setAchievements, setTournamentDetails, setStatus, setLoading]);
+
+    try {
+      const res = await apiRequest<TournamentStatusResponse>(
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/client/contracts/tournamentStatus`,
+        "GET",
+        undefined,
+        {
+          Authorization: `Bearer ${token}`,
+        }
+      );
+
+      if (res.status === 200 && res.data) {
+        const { status, details, badges: topLevelBadges } = res.data.data;
+
+        setStatus(status);
+
+        if (details) {
+          setTournamentDetails(details);
+        }
+
+        let finalAchievements: AchievementType[] | undefined = topLevelBadges;
+
+        if (status === "active" && details && "badges" in details && details.badges) {
+            finalAchievements = details.badges;
+        }
+
+
+        if (finalAchievements && finalAchievements.length > 0) {
+          setAchievements(finalAchievements);
+        }
+      }
+    } catch (error) {
+      console.error("Failed to fetch tournament status:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, [setAchievements]);
 
   useEffect(() => {
     fetchStatus();

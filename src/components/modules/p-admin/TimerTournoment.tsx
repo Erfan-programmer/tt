@@ -77,7 +77,7 @@ const AnimatedNumber = ({
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: -70, opacity: 0 }}
           transition={{ duration: 0.4 }}
-          className="absolute inset-0 flex justify-center items-center text-[1.4rem] lg:text-4xl md:text-5xl font-bold mb-2"
+          className="absolute inset-0 flex justify-center items-center text-[1.4rem] md:text-[1.7rem] xl:text-4xl md:text-5xl font-bold mb-2"
         >
           {number}
         </motion.div>

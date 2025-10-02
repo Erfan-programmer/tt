@@ -1,16 +1,21 @@
 "use client";
 
+import { formatNumber } from "@/components/templates/user-panel/dashboard/UserAccountCondition";
 import React from "react";
 
 interface ProgressBarProps {
-    start_value: number;
-    current_value: number;
-    end_value: number;
+  start_value: number;
+  current_value: number;
+  end_value: number;
 }
 
-const ProgressBar = ({ start_value, end_value , current_value }: ProgressBarProps) => {
-    const total = end_value - start_value
-  const percent = total > 0 ? ((current_value / total) * 100) : 20;
+const ProgressBar = ({
+  start_value,
+  end_value,
+  current_value,
+}: ProgressBarProps) => {
+  const total = end_value - start_value;
+  const percent = total > 0 ? (current_value / total) * 100 : 20;
 
   return (
     <div className="w-full h-8 sm:h-12 bg-[#ddd] dark:bg-[#D9D9D9] rounded-md overflow-hidden flex flex-row-reverse p-[3px] border border-black relative">
@@ -78,14 +83,18 @@ export default function TeamRankProgessionBarContent({
             <p className="text-[.8rem] sm:text-sm mt-2">
               Total Annual Sales:{" "}
               <span className="text-[var(--main-background)] dark:text-white font-semibold">
-                $ {currentRank.total_annual_sales}
+                {currentRank?.total_annual_sales &&
+                currentRank.total_annual_sales !== 0
+                  ? `$${formatNumber(currentRank.total_annual_sales)}`
+                  : `$0.00`}
               </span>
             </p>
           </div>
         </div>
         <div className="relative mt-2">
           <p className="text-[var(--main-background)] dark:text-white/50 text-[10px] sm:text-[.8rem] mb-2">
-            ({currentRank.time_remaining_until_reset.toFixed(0)} Day/s) Time remaining until reset.
+            ({currentRank.time_remaining_until_reset.toFixed(0)} Day/s) Time
+            remaining until reset.
           </p>
           <div className="w-full">
             <ProgressBar
