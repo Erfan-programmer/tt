@@ -29,13 +29,13 @@ const statusColors: Record<string, string> = {
   pending: "bg-[#ffcc00] text-black",
 };
 
-const ITEMS_PER_PAGE = 6;
 
 export default function DepositHistoryList({ value = "all", onChange }: { value?: string; onChange?: (val: string) => void }) {
   const [selectedStatus, setSelectedStatus] = useState(value);
   const [page, setPage] = useState(1);
   const [transactions, setTransactions] = useState<PaymentTransaction[]>([]);
-  const [total, setTotal] = useState(0);
+  const [total, setTotal] = useState(1);
+  const [per_page, set_perPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -48,7 +48,7 @@ export default function DepositHistoryList({ value = "all", onChange }: { value?
         const queryParams = new URLSearchParams();
         if (selectedStatus && selectedStatus !== "all") queryParams.append("filter", selectedStatus);
         queryParams.append("page", page.toString());
-        queryParams.append("per_page", ITEMS_PER_PAGE.toString());
+        queryParams.append("per_page", per_page.toString());
 
         const response = await apiRequest<PaymentListResponse>(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/client/wallet/depositList?${queryParams.toString()}`,
@@ -60,6 +60,7 @@ export default function DepositHistoryList({ value = "all", onChange }: { value?
         if (response.success) {
           setTransactions(response.data.data);
           setTotal(response.data.meta.total);
+          set_perPage(response.data.meta.per_page);
         } else {
           setError(response.message || "Failed to load deposit list");
         }
@@ -73,7 +74,7 @@ export default function DepositHistoryList({ value = "all", onChange }: { value?
     fetchDeposits();
   }, [page, selectedStatus]);
 
-  const pageCount = Math.ceil(total / ITEMS_PER_PAGE);
+  const pageCount = Math.ceil(total / per_page);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);

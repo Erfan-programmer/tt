@@ -15,7 +15,7 @@
 }
 
 .pagination-container .MuiPaginationItem-root:hover {
-  background-color: var(--hover-color);
+  background-color: var(--main-background);
   border-color: #004ada;
 }
 

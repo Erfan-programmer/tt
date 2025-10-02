@@ -148,7 +148,6 @@ interface WithdrawResponse {
 
 export default function WithdrawTransaction() {
   const [page, setPage] = useState(1);
-  const itemsPerPage = 10;
   const [withdrawRefresh, setWithdrawRefresh] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -173,6 +172,11 @@ export default function WithdrawTransaction() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [withdrawDetail, setWithdrawDetail] = useState<any | null>(null);
+  // Remove per_page state
+  const [total, setTotal] = useState<number>(1);
+  const [per_page, setPage_page] = useState<number>(1);
+  // Keep itemsPerPage defined at the top
+  const itemsPerPage = 10;
 
   const fetchWithdrawList = useCallback(
     async (page: number = 1, itemsPerPage: number = 10) => {
@@ -195,6 +199,8 @@ export default function WithdrawTransaction() {
         if (res.success) {
           setData(res.data);
           setTransactions(res.data?.data);
+          setTotal(res.data.meta.total);
+          setPage_page(res.data.meta.per_page);
         } else {
           throw new Error(res.message || "Failed to fetch withdraw list");
         }
@@ -236,16 +242,15 @@ export default function WithdrawTransaction() {
   // call when page or withdrawRefresh changes
 
   const safeData = data ?? { total: 0, per_page: itemsPerPage, withdraw: [] };
-  const total = safeData?.total || 0;
-  const perPage = safeData?.per_page || itemsPerPage;
+  console.log("total =>", safeData);
   const withdrawInfo = data?.withdraw;
   const canWithdraw = withdrawDetail?.can_withdrawal;
   const whitelistMessage = withdrawInfo?.withdraw_whitelist;
   useEffect(() => {
-    fetchWithdrawList(page, perPage);
+    fetchWithdrawList(page, itemsPerPage);
     fetchWithdrawDetail();
-  }, [page, withdrawRefresh, fetchWithdrawList, fetchWithdrawDetail, perPage]);
-
+  }, [page, withdrawRefresh, fetchWithdrawList, fetchWithdrawDetail]);
+  console.log("page");
   const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
   };
@@ -341,13 +346,13 @@ export default function WithdrawTransaction() {
   //     permissionArray = permissions.data.body;
   //   }
   const statusColors: Record<string, string> = {
-  pending: "text-yellow-500",
-  completed: "text-green-500",
-  processed: "text-[#00FF90]",
-  approved: "text-green-500",
-  canceled: "text-red-500",
-  rejected: "text-red-400",
-};
+    pending: "text-yellow-500",
+    completed: "text-green-500",
+    processed: "text-[#00FF90]",
+    approved: "text-green-500",
+    canceled: "text-red-500",
+    rejected: "text-red-400",
+  };
 
   return (
     <div className="my-10">
@@ -638,6 +643,15 @@ export default function WithdrawTransaction() {
                       {selectedTransaction?.external_address}
                     </span>
                   </div>
+
+                  <div>
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                      TXID:
+                    </span>
+                    <p className="text-gray-700 dark:text-gray-300 border-[2px] border-standard rounded-lg px-2 py-1">
+                      {selectedTransaction.transaction_hash}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -859,7 +873,7 @@ export default function WithdrawTransaction() {
 
           <div className="flex justify-center mt-6">
             <Pagination
-              count={Math.ceil(total / perPage)}
+              count={Math.ceil(total / per_page)}
               page={page}
               onChange={handlePageChange}
             />
