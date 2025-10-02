@@ -87,9 +87,12 @@ export default function TeamReferalDetailsContentStatement({
   const statements = list.map((item) => ({
     date: new Date(item.date).toLocaleDateString(),
     tid: item.description.match(/#\d+/)?.[0] || "-",
-    invest_amount: item.investment_amount || "-",
+    invest_amount: item.investment_amount,
     income: item.income,
   }));
+
+
+  console.log("statemen =>" , statements)
 
   return (
     <div className="team-refferal-detail border-standard px-[2rem] py-[1.5rem] bg-shadow-custom mt-[1rem] bg-[#f4f7fd] dark:bg-[var(--sidebar-bg)] rounded-lg text-[var(--main-background)] dark:text-white">
@@ -132,7 +135,7 @@ export default function TeamReferalDetailsContentStatement({
                     <td className="py-4 text-center px-4">{statement.date}</td>
                     <td className="py-4 text-center px-4">{statement.tid}</td>
                     <td className="py-4 text-center px-4">
-                      {statement.invest_amount ? (
+                      {statement.invest_amount !== null ? (
                         <>$ {formatToTwoDecimals(statement.invest_amount)}</>
                       ) : (
                         <span>Tournament Bonus</span>
