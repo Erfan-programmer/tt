@@ -33,7 +33,7 @@ export default function AdminWithdrawList({ transactions, refetch }: Props) {
   const [selectedTransaction, setSelectedTransaction] =
     useState<Transaction | null>(null);
   const [modalType, setModalType] = useState<
-    "approve" | "reject" | "complete" | null
+    "approve" | "reject" | null
   >(null);
   const [inputValue, setInputValue] = useState("");
 
@@ -80,26 +80,7 @@ const handleReject = async () => {
   }
 };
 
-const handleComplete = async () => {
-  if (!selectedTransaction?.id) return;
-  try {
-    const response = await apiRequest(
-      `${process.env.NEXT_PUBLIC_API_URL}/v1/admin/withdrawals/${selectedTransaction.id}/complete`,
-      "POST",
-      { transaction_hash: inputValue }, 
-      { Authorization: `Bearer ${loadEncryptedData()?.token}` }
-    );
-    if (response.success) {
-      toast.success(response.message || "Withdraw completed!");
-      resetModal();
-      refetch();
-    } else {
-      toast.error(response.message);
-    }
-  } catch (err: any) {
-    toast.error("Error completing withdraw: " + err.message);
-  }
-};
+ 
 
 
   const resetModal = () => {
@@ -169,15 +150,6 @@ const handleComplete = async () => {
           >
             <FaTimes className="text-white" />
           </button>
-          <button
-            className="p-1 rounded bg-blue-600 hover:bg-blue-500 text-white transition"
-            onClick={() => {
-              setSelectedTransaction(row);
-              setModalType("complete");
-            }}
-          >
-            Complete
-          </button>
         </div>
       ),
     },
@@ -206,7 +178,7 @@ const handleComplete = async () => {
             >
               <h2 className="text-xl font-bold mb-4">Transaction Details</h2>
 
-              {(modalType === "approve" || modalType === "complete") && (
+              {(modalType === "approve") && (
                 <>
                   <label className="block mt-4 mb-2">Transaction Hash:</label>
                   <input
@@ -219,7 +191,7 @@ const handleComplete = async () => {
                   <button
                     className="bg-green-600 hover:bg-green-500 px-4 py-2 rounded mr-2 transition"
                     onClick={
-                      modalType === "approve" ? handleApprove : handleComplete
+                      handleApprove 
                     }
                   >
                     Confirm
